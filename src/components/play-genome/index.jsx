@@ -18,10 +18,10 @@ export function PlayGenome () {
   //const oscGC = new Tone.Oscillator().toMaster()
   const oscGC = new Tone.PolySynth(1, Tone.Synth, {oscillator: {type: "sine"}}).toMaster()
 
-  var distortion = new Tone.Distortion(1.0)
+  var distortion = new Tone.Distortion(0.1)
   var tremolo = new Tone.Tremolo().start()
-  const oscGCDIST = new Tone.PolySynth(1, Tone.Synth, {oscillator: {type: "sawtooth"}}).chain(distortion, Tone.Master)
-  const oscGCTREM = new Tone.PolySynth(1, Tone.Synth, {oscillator: {type: "sawtooth"}}).chain(tremolo, Tone.Master)
+  const oscGCDIST = new Tone.PolySynth(1, Tone.Synth, {oscillator: {type: "sine"}}).chain(distortion, Tone.Master)
+  const oscGCTREM = new Tone.PolySynth(1, Tone.Synth, {oscillator: {type: "sine"}}).chain(tremolo, Tone.Master)
 
   const monosynth = new Tone.MembraneSynth({
     "pitchDecay" : 0.01,
@@ -31,11 +31,12 @@ export function PlayGenome () {
     },
     "envelope" : {
       "attack" : 0.001,
-      "decay" : 0.2,
+      "decay" : 0.1,
       "sustain" : 0
     }
   }).toMaster()
   //monosynth.volume.value = -20
+  const monosynth2 = new Tone.PolySynth(1, Tone.Synth, {oscillator: {type: "sine"}}).toMaster()
 
   const synth0 = new Tone.PolySynth(1, Tone.Synth, {oscillator: {type: "triangle"}}).toMaster()
   const synth1 = new Tone.PolySynth(1, Tone.Synth, {oscillator: {type: "square"}}).toMaster()
@@ -52,7 +53,8 @@ export function PlayGenome () {
   function playBase () {
     const base = genome[index]
     /*console.log(base);*/
-    monosynth.triggerAttackRelease(MAPS.BASE_MAP[base], '2n')
+    if(base === 'A') {monosynth2.triggerAttackRelease(MAPS.BASE_MAP[base], '8n')}
+    else monosynth.triggerAttackRelease(MAPS.BASE_MAP[base], '4n')
   }
 
   function playTwoBase () {
@@ -78,15 +80,23 @@ export function PlayGenome () {
 
   let Array10bpGCratio = MAPS.calcMotif_GC(genome.substring(index, index + 10), 0, 10);
   function base10GC () {
-    //console.log(Array10bpGCratio)
-    //change to oscillate wildly
-    oscGC.triggerAttackRelease(880*Array10bpGCratio[1], '4n');
+    let note = 'C1'
+    if(index % 10 === 0){
+      if(Array10bpGCratio[1] <= 0.25) note = 'C2'
+      else if(Array10bpGCratio[1] <= 0.5) note = 'C3'
+      else if(Array10bpGCratio[1] <= 0.75) note = 'C4'
+      else if(Array10bpGCratio[1] <= 1.0) note = 'C5'
+    }
+    console.log(note)
+    //change to oscillate wildly was numerical and a little disonant
+    //oscGC.triggerAttackRelease(880*Array10bpGCratio[1], '4n');
+    oscGC.triggerAttackRelease(note, '1n');
   }
   //base10GC()
 
   let Array100bpGCratio = MAPS.calcMotif_GC(genome.substring(index, index + 100), 0, 100);
   function base100GC () {
-    if(index % 50 === 0) oscGCDIST.triggerAttackRelease(880*Array100bpGCratio[1], '2n');
+    if(index % 50 === 0) oscGCDIST.triggerAttackRelease(880*Array100bpGCratio[1], '1m');
   }
 
   //if start/stop in each frame do this
@@ -109,7 +119,6 @@ export function PlayGenome () {
   if (frame012 === 0 ) codonF1 = colorCodon();
   if (frame012 === 1 ) codonF2 = colorCodon();
   if (frame012 === 2 ) codonF3 = colorCodon();
-
 
   const play = () => Tone.Transport.start()
   const stop = () => Tone.Transport.stop()

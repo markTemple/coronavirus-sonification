@@ -18,7 +18,7 @@ export function Home () {
     return seq.replace(/./g, (char) => COMPLEMENTARY_MAP[char])
   }
 
-  const genSubComp = makeComplementary(genomeSub);
+//  const genSubComp = makeComplementary(genomeSub);
   const indexChar = genome.substr(index, +1);
   //console.log(indexChar);
 
@@ -36,13 +36,13 @@ moveDot();
 
   useEffect(getGenome, [])
 
+//don't show comp for viral RNA just show plus strand <p>{dotfill + genSubComp}</p>
   return (
     <>
       <h1>Auto-Matic Cyto-Matic Gene-o-Matic Tone-o-Matic for the people</h1>
       <Button onClick={getGenome}>Load Genome</Button>
       <p>........................................{indexChar}........................................</p>
       <p>{dotfill + genomeSub}</p>
-      <p>{dotfill + genSubComp}</p>
       <p>{index}</p>
       <Input onChange={actions.set} validator={(value) => Number.isInteger(Number(value))} />
       <br />
