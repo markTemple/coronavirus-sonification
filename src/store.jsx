@@ -29,6 +29,15 @@ export function StoreProvider ({ children }) {
         if (index <= 0) return { ...state, index: genome.length - 1 }
         else return { ...state, index }
       }
+      case 'set-index': {
+        const genome = state.genome
+        const index = Number(action.payload)
+
+        if (!Number.isInteger(index)) return state
+        if (index <= 0) return { ...state, index: genome.length - 1 }
+        if (index >= genome.length)  return { ...state, index: 0 }
+        return { ...state, index }
+      }
       default:
         return state
     }

@@ -1,27 +1,27 @@
-const locus = 'MN908947.3'
-const size = 29903
-const units = 'bp'
-const type = 'ss-RNA'
-const strcture = 'linear'
-const definition = 'DEFINITIONSevere acute respiratory syndrome coronavirus 2 isolate Wuhan-Hu-1,complete genome.'
-const source = 'Severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2)'
-const organism = ['Viruses', 'Riboviria', 'Nidovirales', 'Cornidovirineae', 'Coronaviridae', 'Orthocoronavirinae', 'Betacoronavirus', 'Sarbecovirus']
-const authors = 'Wu,F., Zhao,S., Yu,B., Chen,Y.M., Wang,W., Song,Z.G., Hu,Y., Tao,Z.W., Tian,J.H., Pei,Y.Y., Yuan,M.L., Zhang,Y.L., Dai,F.H., Liu,Y., Wang,Q.M., Zheng,J.J., Xu,L., Holmes,E.C. and Zhang,Y.Z.'
-const title = 'A new coronavirus associated with human respiratory disease in China'
-const journal = 'Nature 579 (7798), 265-269 (2020)'
-const pubmed = 32015508
-const submitted = '05-JAN-2020'
-const institution = 'Shanghai Public Health Clinical Center & School of Public Health, Fudan University, Shanghai, China'
-const assembly_Method = 'Megahit v. V1.1.3'
-const sequencing_technology = 'Illumina'
-const mol_type = 'genomic RNA'
-const isolate = 'Wuhan-Hu-1'
-const host = 'Homo sapiens'
-const db_xref = 'taxon:2697049'
-const country = 'China'
-const collection_date = 'Dec-2019'
+export const locus = 'MN908947.3'
+export const size = 29903
+export const units = 'bp'
+export const type = 'ss-RNA'
+export const strcture = 'linear'
+export const definition = 'DEFINITIONSevere acute respiratory syndrome coronavirus 2 isolate Wuhan-Hu-1,complete genome.'
+export const source = 'Severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2)'
+export const organism = ['Viruses', 'Riboviria', 'Nidovirales', 'Cornidovirineae', 'Coronaviridae', 'Orthocoronavirinae', 'Betacoronavirus', 'Sarbecovirus']
+export const authors = 'Wu,F., Zhao,S., Yu,B., Chen,Y.M., Wang,W., Song,Z.G., Hu,Y., Tao,Z.W., Tian,J.H., Pei,Y.Y., Yuan,M.L., Zhang,Y.L., Dai,F.H., Liu,Y., Wang,Q.M., Zheng,J.J., Xu,L., Holmes,E.C. and Zhang,Y.Z.'
+export const title = 'A new coronavirus associated with human respiratory disease in China'
+export const journal = 'Nature 579 (7798), 265-269 (2020)'
+export const pubmed = 32015508
+export const submitted = '05-JAN-2020'
+export const institution = 'Shanghai Public Health Clinical Center & School of Public Health, Fudan University, Shanghai, China'
+export const assembly_Method = 'Megahit v. V1.1.3'
+export const sequencing_technology = 'Illumina'
+export const mol_type = 'genomic RNA'
+export const isolate = 'Wuhan-Hu-1'
+export const host = 'Homo sapiens'
+export const db_xref = 'taxon:2697049'
+export const country = 'China'
+export const collection_date = 'Dec-2019'
 
-const geneBank_json = [
+export const geneBank_json = [
   {
   start: 1,
   end: 265,

@@ -37,7 +37,8 @@ export function useIndex () {
 
   const actions = {
     increment: () => dispatch('increment-index'),
-    decrement: () => dispatch('decrement-index')
+    decrement: () => dispatch('decrement-index'),
+    set: (value) => dispatch('set-index', value)
   }
 
   return [state.index, actions]

@@ -2,10 +2,11 @@ import React, { useEffect } from 'react'
 import { useIndex, useGenome, useMarkstamp } from '../hooks'
 
 import { Button } from '../components/button'
+import { Input } from '../components/input'
 import { PlayGenome } from '../components/play-genome'
 
 //  import single array?
-import { COMPLEMENTARY_MAP} from '../utilities/maps'
+import { COMPLEMENTARY_MAP } from '../utilities/maps'
 
 export function Home () {
   const [index, actions] = useIndex()
@@ -43,6 +44,8 @@ moveDot();
       <p>{dotfill + genomeSub}</p>
       <p>{dotfill + genSubComp}</p>
       <p>{index}</p>
+      <Input onChange={actions.set} validator={(value) => Number.isInteger(Number(value))} />
+      <br />
       <Button onClick={actions.increment}>Increment</Button>
       <Button onClick={actions.decrement}>Decrement</Button><hr></hr>
       <PlayGenome />

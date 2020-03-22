@@ -86,7 +86,7 @@ export function PlayGenome () {
 
   let Array100bpGCratio = MAPS.calcMotif_GC(genome.substring(index, index + 100), 0, 100);
   function base100GC () {
-    if(index % 10 === 0) oscGCDIST.triggerAttackRelease(880*Array100bpGCratio[1], '2n');
+    if(index % 50 === 0) oscGCDIST.triggerAttackRelease(880*Array100bpGCratio[1], '2n');
   }
 
   //if start/stop in each frame do this
@@ -126,11 +126,25 @@ export function PlayGenome () {
       direction.current
         ? actions.decrement()
         : actions.increment()
-    }, '32n')
+    }, '8n')
     return () => {
       Tone.Transport.cancel()
     }
   }, [])
+
+  function Feature (feature, i) {
+    return (
+      <>
+        <br />
+        <Button
+          key={i}
+          onClick = {() => actions.set(feature.start)}
+        >
+          {feature.gene}
+        </Button>
+      </>
+    )
+  }
 
   return (
     <>
@@ -149,6 +163,7 @@ export function PlayGenome () {
       <Button onClick={base10GC}>Each 10bp GC ratio</Button>
       <Button onClick={base100GC}>Play 100 GCcontent</Button>
       <Button onClick={playTwoBase}>Play diNucleotide</Button>
+      {MAPS.geneBank_json.map(Feature)}
     </>
   )
 }
