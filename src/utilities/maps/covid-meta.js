@@ -33,14 +33,14 @@ export const geneBank_json = [
   start: 266,
   end: 13468,
   gene: 'orf1a',
-  product: 'orf1a polyprotein (ab fragment 1)',
+  product: 'polyprotein (ab fragment 1)',
   protein_id: 'QHD43415.1'
   },
   {
   start: 13468,
   end: 21555,
   gene: 'orf1b',
-  product: 'orf1b polyprotein (ab fragment 2, -1 ribosomal frameshift)',
+  product: 'polyprotein (ab fragment 2, -1 ribosomal frameshift)',
   protein_id: 'QHD43415.1'
   },
   {
@@ -54,7 +54,7 @@ export const geneBank_json = [
   start: 25393,
   end: 26220,
   gene: 'ORF3a',
-  product: 'ORF3a protein',
+  product: 'protein',
   protein_id: 'QHD43417.1'
   },
   {
@@ -75,21 +75,21 @@ export const geneBank_json = [
   start: 27202,
   end: 27387,
   gene: 'ORF6',
-  product: 'ORF6 protein',
+  product: 'protein',
   protein_id: 'QHD43420.1'
   },
   {
   start: 27394,
   end: 27759,
   gene: 'ORF7a',
-  product: 'ORF7a protein',
+  product: 'protein',
   protein_id: 'QHD43421.1'
   },
   {
   start: 27894,
   end: 28259,
   gene: 'ORF8',
-  product: 'ORF8 protein',
+  product: 'protein',
   protein_id: 'QHD43422.1'
   },
   {
@@ -103,7 +103,7 @@ export const geneBank_json = [
   start: 29558,
   end: 29674,
   gene: 'ORF10',
-  product: 'ORF10 protein',
+  product: 'protein',
   protein_id: 'QHI42199.1'
   },
   {

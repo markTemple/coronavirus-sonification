@@ -138,10 +138,10 @@ export function PlayGenome () {
         <br />
         <Button
           key={i}
-          onClick = {() => actions.set(feature.start)}
+          onClick = {() => actions.set(feature.start-1)}
         >
           {feature.gene}
-        </Button>
+        </Button> {feature.product}
       </>
     )
   }
@@ -162,7 +162,7 @@ export function PlayGenome () {
       <Button onClick={playCodon}>Play Codon</Button>
       <Button onClick={base10GC}>Each 10bp GC ratio</Button>
       <Button onClick={base100GC}>Play 100 GCcontent</Button>
-      <Button onClick={playTwoBase}>Play diNucleotide</Button>
+      <Button onClick={playTwoBase}>Play diNucleotide</Button><hr></hr>
       {MAPS.geneBank_json.map(Feature)}
     </>
   )
