@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useReducer } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Tone from 'tone';
 import { Song, Track, Instrument } from 'reactronica';
 import { useIndex, useGenome } from '../../hooks';
@@ -11,17 +11,10 @@ import './style.css';
 const counter = MAPS.frameCount();
 //console.log(counter());
 
-// const reducer = (state, action) => {
-//   switch(action.type) {
-
-//   }
-// }
-
 export function PlayGenome() {
   const [genome, getGenome] = useGenome();
   const [index, actions] = useIndex();
   const direction = useRef(false);
-  // const { synthNotes } = useReducer(reducer);
 
   //const oscGC = new Tone.Oscillator().toMaster()
   /*
