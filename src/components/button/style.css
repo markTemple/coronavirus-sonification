@@ -1,0 +1,20 @@
+button {
+  padding: 5px;
+  border-width: 0px;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(0.21, 0.8, 0.45, 1);
+}
+
+button:hover {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.38);
+}
+
+button:active {
+  background-color: black;
+  color: white;
+}
+
+button:focus {
+  outline: none;
+}
