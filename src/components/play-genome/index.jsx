@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Fragment } from 'react';
 import Tone from 'tone';
 import { Song, Track, Instrument } from 'reactronica';
 import { useIndex, useGenome } from '../../hooks';
@@ -57,12 +57,19 @@ export function PlayGenome() {
   const synths = [synth0, synth1, synth2];
   */
 
-  const [isSynthEnabled, setIsSynthEnabled] = useState([false, false, false]);
-  function setSynthStatus(index, value) {
-    const updated = [...isSynthEnabled];
-    updated[index] = value;
-    setIsSynthEnabled(updated);
+  // const [isSynthEnabled, setIsSynthEnabled] = useState([false, false, false]);
+
+  // function setSynthStatus(index, value) {
+  //   const updated = [...isSynthEnabled];
+  //   updated[index] = value;
+  //   setIsSynthEnabled(updated);
+  // }
+  const isSynthEnabled = useRef([false, false, false])
+  function setSynthStatus (index, value) {
+    isSynthEnabled.current[index] = value
   }
+//console.log(isSynthEnabled.current)
+//setSynthStatus(2, false);
 
   // function playBase() {
   //   const base = genome[index];
@@ -72,19 +79,19 @@ export function PlayGenome() {
 
   function getBaseNotes() {
     const base = genome[index];
-
     return [{ name: MAPS.BASE_MAP[base], duration: '2n' }];
   }
-
   const baseNotes = getBaseNotes();
   // console.log(baseNotes);
 
   function playTwoBase() {
     const twoBase = genome.substring(index, index + 2);
+    return [{ name: MAPS.TWOBASE_MAP[twoBase], duration: '2n' }];
     /*console.log(base);*/
     // if (index % 2 === 0)
     //   oscGCTREM.triggerAttackRelease(MAPS.TWOBASE_MAP[twoBase], '8n');
   }
+  const twobaseNotes = playTwoBase();
 
   // function playCodon() {
   //   const codon = genome.substring(index, index + 3);
@@ -93,7 +100,7 @@ export function PlayGenome() {
   //     setSynthStatus(frame012, false);
   //   }
   //   if (codon === 'ATG') {
-  //     setSynthStatus(frame012, true);
+  //     setSynthStatus(frame012, false);
   //   }
   //   //add conditional to play first ATG change to add effect to only ATG?
   //   if (isSynthEnabled[frame012] || codon === 'ATG') {
@@ -106,56 +113,74 @@ export function PlayGenome() {
     const frame012 = index % 3;
 
     if (codon === 'TGA' || codon === 'TAG' || codon === 'TAA') {
+      //console.log('stop')
+      setSynthStatus(frame012, false);
     }
-
     if (codon === 'ATG') {
+      //console.log('start')
+      setSynthStatus(frame012, true);
     }
-
     return [
       {
         name: MAPS.CODON_MAP[codon],
         duration: '16n',
         frame012,
+        isSynthEnabled: isSynthEnabled.current[frame012]
       },
     ];
   }
-
   const codonNotes = getCodonNotes();
+
+  // const codonF1Notes = codonNotes.filter(note => note.frame012 === 0 && note.isSynthEnabled);
+  // const codonF2Notes = codonNotes.filter(note => note.frame012 === 1 && note.isSynthEnabled);
+  // const codonF3Notes = codonNotes.filter(note => note.frame012 === 2 && note.isSynthEnabled);
   const codonF1Notes = codonNotes.filter(note => note.frame012 === 0);
   const codonF2Notes = codonNotes.filter(note => note.frame012 === 1);
   const codonF3Notes = codonNotes.filter(note => note.frame012 === 2);
-  console.log(codonF1Notes);
 
   let Array10bpGCratio = MAPS.calcMotif_GC(
     genome.substring(index, index + 10),
     0,
     10
   );
-  function base10GC() {
-    //console.log(Array10bpGCratio)
-    //change to oscillate wildly
-    // oscGC.triggerAttackRelease(880 * Array10bpGCratio[1], '4n');
-  }
-  //base10GC()
 
-  let Array100bpGCratio = MAPS.calcMotif_GC(
-    genome.substring(index, index + 100),
-    0,
-    100
-  );
-  function base100GC() {
-    // if (index % 50 === 0)
-    //   oscGCDIST.triggerAttackRelease(880 * Array100bpGCratio[1], '2n');
-  }
+  // function base10GC() {
+  //   //console.log(Array10bpGCratio)
+  //   //change to oscillate wildly
+  //   // mapp Array10bpGCratio[1] to note replace C5
+  //   //if(Array10bpGCratio <= 0.5) noooo = 'C5'
+  //   //if(Array10bpGCratio > 0.5) noooo = 'C6'
+  //   //return [{ name: 'C5', duration: '2n' }];
+  //   return []
+  // }
+  //const tenGCnote = base10GC();
+//console.log(tenGCnote[0].name)
+
+  // let Array100bpGCratio = MAPS.calcMotif_GC(
+  //   genome.substring(index, index + 100),
+  //   0,
+  //   100
+  // );
+  // const noooo = ''
+  // function base100GC() {
+  //   // if (index % 50 === 0)
+  //   //   oscGCDIST.triggerAttackRelease(880 * Array100bpGCratio[1], '2n');
+  //       // mapp Array100bpGCratio[1] to note replace C6
+  //       if(Array10bpGCratio <= 0.5) noooo = 'C5'
+  //       if(Array10bpGCratio > 0.5) noooo = 'C6'
+  //       //return [{ name: 'C6', duration: '2n' }];
+  //       return []
+  // }
+  //const tentensGCnote = base100GC();
 
   //if start/stop in each frame do this
   const codon = genome.substring(index, index + 3);
   const frame012 = index % 3;
 
   function colorCodon() {
-    if (isSynthEnabled[frame012] === true) {
+    if (isSynthEnabled.current[frame012] === true) {
       return <span className="start"> {codon}</span>;
-    } else if (isSynthEnabled[frame012] === false) {
+    } else if (isSynthEnabled.current[frame012] === false) {
       return <span className="stop"> {codon}</span>;
     } else {
       return codon;
@@ -174,59 +199,64 @@ export function PlayGenome() {
 
   // useEffect(playBase, [index]);
   // useEffect(playCodon, [index]);
-  useEffect(base10GC, [index]);
-  useEffect(base100GC, [index]);
-  useEffect(playTwoBase, [index]);
+  //useEffect(base10GC, [index]);
+  //useEffect(base100GC, [index]);
+ // useEffect(playTwoBase, [index]);
 
   // console.log(index);
 
   useEffect(() => {
     Tone.Transport.scheduleRepeat(() => {
       direction.current ? actions.decrement() : actions.increment();
-    }, '32n');
+    }, '16n');
     return () => {
       Tone.Transport.cancel();
     };
   }, []);
 
-  function Feature(feature, i) {
-    return (
-      <>
-        <br />
-        <Button key={i} onClick={() => actions.set(feature.start - 1)}>
-          {feature.gene}
-        </Button>{' '}
-        {feature.product}
-      </>
-    );
-  }
+  //recent change
+  // function Feature(feature, i) {
+  //   return (
+  //     <Fragment key={i}>
+  //       <br />
+  //       <Button onClick={() => actions.set(feature.start - 1)}>
+  //         {feature.gene}
+  //       </Button>{' '}
+  //       {feature.product}
+  //     </Fragment>
+  //   );
+  // }
 
   return (
     <>
-      <p>Track 1 base {genome[index]}</p>
-      <p>Track 2 codonF1{codonF1}</p>
-      <p>Track 3 codonF2{codonF2}</p>
-      <p>Track 4 codonF3{codonF3}</p>
-      <p>Track 5 GC Content 10 base {Array10bpGCratio[1]}</p>
-      <p>Track 6 GC Content 100 base {Array100bpGCratio[1]}</p>
-      <p>Track 7 playTwoBase {genome.substring(index, index + 2)}</p>
+      <p> 1 base {genome[index]}</p>
+      <p> 2 playTwoBase {genome.substring(index, index + 2)}</p>
+
+      <p> 3a codonF1{codonF1}</p>
+      <p> 3b codonF2{codonF2}</p>
+      <p> 3c codonF3{codonF3}</p>
+
+      {/* <p> 4 GC Content 10 base {tenGCnote[0].name}</p>
+      <p> 5 GC Content 100 base {tentensGCnote[0].name}</p> */}
       <Button onClick={play}>Play</Button>
       <Button onClick={stop}>Stop</Button>
       <Button onClick={reverse}>Reverse</Button>
-      <hr></hr>
       {/* <Button onClick={playBase}>Play Base</Button> */}
       {/* <Button onClick={playCodon}>Play Codon</Button> */}
-      <Button onClick={base10GC}>Each 10bp GC ratio</Button>
-      <Button onClick={base100GC}>Play 100 GCcontent</Button>
-      <Button onClick={playTwoBase}>Play diNucleotide</Button>
+      {/* <Button onClick={base10GC}>Each 10bp GC ratio</Button> */}
+      {/* <Button onClick={base100GC}>Play 100 GCcontent</Button> */}
+      {/* <Button onClick={playTwoBase}>Play diNucleotide</Button> */}
       <hr></hr>
-      {MAPS.geneBank_json.map(Feature)}
-
+      {/* {MAPS.geneBank_json.map(Feature)} */}
+//Add sound descriptions in arrays and make boleans to effect things
       <Song>
         <Track>
           <Instrument type={'synth'} notes={baseNotes} />
         </Track>
         <Track>
+          <Instrument type={'synth'} notes={twobaseNotes} />
+        </Track>
+        <Track >
           <Instrument type={'synth'} notes={codonF1Notes} />
         </Track>
         <Track>
@@ -235,6 +265,12 @@ export function PlayGenome() {
         <Track>
           <Instrument type={'synth'} notes={codonF3Notes} />
         </Track>
+        {/* <Track>
+          <Instrument type={'synth'} notes={tenGCnote} />
+        </Track>
+        <Track>
+          <Instrument type={'synth'} notes={tentensGCnote} />
+        </Track> */}
       </Song>
     </>
   );
