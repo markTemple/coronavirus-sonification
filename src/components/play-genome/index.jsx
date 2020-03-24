@@ -86,7 +86,7 @@ export function PlayGenome() {
 
   function playTwoBase() {
     const twoBase = genome.substring(index, index + 2);
-    return [{ name: MAPS.TWOBASE_MAP[twoBase], duration: '2n' }];
+    return [{ name: MAPS.TWOBASE_MAP[twoBase], duration: '3n' }];
     /*console.log(base);*/
     // if (index % 2 === 0)
     //   oscGCTREM.triggerAttackRelease(MAPS.TWOBASE_MAP[twoBase], '8n');
@@ -111,6 +111,7 @@ export function PlayGenome() {
   function getCodonNotes() {
     const codon = genome.substring(index, index + 3);
     const frame012 = index % 3;
+    const playcount = 0;
 
     if (codon === 'TGA' || codon === 'TAG' || codon === 'TAA') {
       //console.log('stop')
@@ -123,7 +124,7 @@ export function PlayGenome() {
     return [
       {
         name: MAPS.CODON_MAP[codon],
-        duration: '16n',
+        duration: '8n',
         frame012: frame012,
         isSynthEnabled: isSynthEnabled.current[frame012]
       },
@@ -131,12 +132,12 @@ export function PlayGenome() {
   }
   const codonNotes = getCodonNotes();
 
-  // const codonF1Notes = codonNotes.filter(note => note.frame012 === 0 && note.isSynthEnabled);
-  // const codonF2Notes = codonNotes.filter(note => note.frame012 === 1 && note.isSynthEnabled);
-  // const codonF3Notes = codonNotes.filter(note => note.frame012 === 2 && note.isSynthEnabled);
-  const codonF1Notes = codonNotes.filter(note => note.frame012 === 0);
-  const codonF2Notes = codonNotes.filter(note => note.frame012 === 1);
-  const codonF3Notes = codonNotes.filter(note => note.frame012 === 2);
+const codonF1Notes = codonNotes.filter(note => note.frame012 === 0 && note.isSynthEnabled);
+const codonF2Notes = codonNotes.filter(note => note.frame012 === 1 && note.isSynthEnabled);
+const codonF3Notes = codonNotes.filter(note => note.frame012 === 2 && note.isSynthEnabled);
+  // const codonF1Notes = codonNotes.filter(note => note.frame012 === 0);
+  // const codonF2Notes = codonNotes.filter(note => note.frame012 === 1);
+  // const codonF3Notes = codonNotes.filter(note => note.frame012 === 2);
 
   let Array10bpGCratio = MAPS.calcMotif_GC(
     genome.substring(index, index + 10),
@@ -208,7 +209,7 @@ export function PlayGenome() {
   useEffect(() => {
     Tone.Transport.scheduleRepeat(() => {
       direction.current ? actions.decrement() : actions.increment();
-    }, '32n');
+    }, '16n');
     return () => {
       Tone.Transport.cancel();
     };

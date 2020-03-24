@@ -8,29 +8,29 @@ export const COMPLEMENTARY_MAP = {
 }
 
 export const BASE_MAP = {
-  G: 'C5',
-  A: 'E1',
-  T: 'G1',
-  C: 'B2'
+  G: 'C2',
+  A: 'E2',
+  T: 'G2',
+  C: 'B4'
 }
 
 export const TWOBASE_MAP = {
-  TG: 'C3',
-  TA: 'E3',
-  TT: 'G3',
-  TC: 'B3',
-  CG: 'C4',
-  CA: 'E4',
-  CT: 'G4',
-  CC: 'B4',
-  GG: 'C5',
-  GA: 'E5',
-  GT: 'G5',
-  GC: 'B5',
-  AG: 'C6',
-  AA: 'E6',
-  AT: 'G6',
-  AC: 'B6'
+  TG: 'C1',
+  TA: 'E1',
+  TT: 'G1',
+  TC: 'B2',
+  CG: 'C2',
+  CA: 'E2',
+  CT: 'G2',
+  CC: 'B3',
+  GG: 'C3',
+  GA: 'E3',
+  GT: 'G3',
+  GC: 'B4',
+  AG: 'C4',
+  AA: 'E4',
+  AT: 'G4',
+  AC: 'B5'
 }
 
 export const CODON_MAP = {
