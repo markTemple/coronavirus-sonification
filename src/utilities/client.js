@@ -2,7 +2,11 @@ import { Client } from '@hapi/nes/lib/client'
 import { useEffect, createContext, useState } from 'react'
 import { useStore } from '../store';
 
-export const client = new Client('ws://localhost:3000');
+const url = new URL(window.location.origin)
+url.protocol = 'ws'
+url.port = '3000'
+
+export const client = new Client(url.href);
 
 export function useServer () {
   const [isSuccessful, setSuccess] = useState(null)

@@ -3,8 +3,9 @@ export const size = 29903
 export const units = 'bp'
 export const type = 'ss-RNA'
 export const strcture = 'linear'
-export const definition = 'DEFINITIONSevere acute respiratory syndrome coronavirus 2 isolate Wuhan-Hu-1,complete genome.'
-export const source = 'Severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2)'
+export const definition = 'Severe acute respiratory syndrome coronavirus 2 isolate Wuhan-Hu-1,complete genome.'
+// export const source = 'Severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2)'
+export const source = 'Single stranded RNA plus (+) sequence of Coronavirus COVID-19'
 export const organism = ['Viruses', 'Riboviria', 'Nidovirales', 'Cornidovirineae', 'Coronaviridae', 'Orthocoronavirinae', 'Betacoronavirus', 'Sarbecovirus']
 export const authors = 'Wu,F., Zhao,S., Yu,B., Chen,Y.M., Wang,W., Song,Z.G., Hu,Y., Tao,Z.W., Tian,J.H., Pei,Y.Y., Yuan,M.L., Zhang,Y.L., Dai,F.H., Liu,Y., Wang,Q.M., Zheng,J.J., Xu,L., Holmes,E.C. and Zhang,Y.Z.'
 export const title = 'A new coronavirus associated with human respiratory disease in China'
@@ -44,11 +45,25 @@ export const geneBank_json = [
   protein_id: 'QHD43415.1'
   },
   {
+    start: 21556,
+    end: 21562,
+    gene: 'UTR',
+    product: 'untranslated',
+    protein_id: 'no protein'
+  },
+  {
   start: 21563,
   end: 25384,
   gene: 'Spike structural protein (S)',
   product: 'surface glycoprotein',
   protein_id: 'QHD43416.1'
+  },
+  {
+    start: 25385,
+    end: 25392,
+    gene: 'UTR',
+    product: 'untranslated',
+    protein_id: 'no protein'
   },
   {
   start: 25393,
@@ -58,11 +73,25 @@ export const geneBank_json = [
   protein_id: 'QHD43417.1'
   },
   {
+    start: 26221,
+    end: 26244,
+    gene: 'UTR',
+    product: 'untranslated',
+    protein_id: 'no protein'
+  },
+  {
   start: 26245,
   end: 26472,
   gene: 'Envelope structural protein (E)',
   product: 'envelope protein',
   protein_id: 'QHD43418.1'
+  },
+  {
+    start: 26473,
+    end: 26522,
+    gene: 'UTR',
+    product: 'untranslated',
+    protein_id: 'no protein'
   },
   {
   start: 26523,
@@ -72,11 +101,25 @@ export const geneBank_json = [
   protein_id: 'QHD43419.1'
   },
   {
+    start: 27192,
+    end: 27201,
+    gene: 'UTR',
+    product: 'untranslated',
+    protein_id: 'no protein'
+  },
+  {
   start: 27202,
   end: 27387,
   gene: 'ORF6',
   product: 'protein',
   protein_id: 'QHD43420.1'
+  },
+  {
+    start: 27388,
+    end: 27393,
+    gene: 'UTR',
+    product: 'untranslated',
+    protein_id: 'no protein'
   },
   {
   start: 27394,
@@ -86,11 +129,25 @@ export const geneBank_json = [
   protein_id: 'QHD43421.1'
   },
   {
+    start: 27760,
+    end: 27893,
+    gene: 'UTR',
+    product: 'untranslated',
+    protein_id: 'no protein'
+  },
+  {
   start: 27894,
   end: 28259,
   gene: 'ORF8',
   product: 'protein',
   protein_id: 'QHD43422.1'
+  },
+  {
+    start: 28260,
+    end: 28273,
+    gene: 'UTR',
+    product: 'untranslated',
+    protein_id: 'no protein'
   },
   {
   start: 28274,
@@ -100,11 +157,25 @@ export const geneBank_json = [
   protein_id: 'QHD43423.2'
   },
   {
+    start: 29534,
+    end: 29557,
+    gene: 'UTR',
+    product: 'untranslated',
+    protein_id: 'no protein'
+  },
+  {
   start: 29558,
   end: 29674,
   gene: 'ORF10',
   product: 'protein',
   protein_id: 'QHI42199.1'
+  },
+  {
+    start: 29675,
+    end: 29674,
+    gene: 'UTR',
+    product: 'untranslated',
+    protein_id: 'no protein'
   },
   {
   start: 29675,

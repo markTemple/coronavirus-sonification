@@ -8,17 +8,13 @@ export const COMPLEMENTARY_MAP = {
 }
 
 export const BASE_MAP = {
-  G: 'C1',
+  G: 'C5',
   A: 'E1',
   T: 'G1',
   C: 'B2'
 }
 
 export const TWOBASE_MAP = {
-  AG: 'C2',
-  AA: 'E2',
-  AT: 'G2',
-  AC: 'B2',
   TG: 'C3',
   TA: 'E3',
   TT: 'G3',
@@ -30,7 +26,11 @@ export const TWOBASE_MAP = {
   GG: 'C5',
   GA: 'E5',
   GT: 'G5',
-  GC: 'B5'
+  GC: 'B5',
+  AG: 'C6',
+  AA: 'E6',
+  AT: 'G6',
+  AC: 'B6'
 }
 
 export const CODON_MAP = {

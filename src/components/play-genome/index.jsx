@@ -105,8 +105,8 @@ export function PlayGenome() {
   //   //add conditional to play first ATG change to add effect to only ATG?
   //   if (isSynthEnabled[frame012] || codon === 'ATG') {
   //     // synths[frame012].triggerAttackRelease(MAPS.CODON_MAP[codon], '16n');
-  //   }
-  // }
+
+  //     setSynthStatus(frame012, false);
 
   function getCodonNotes() {
     const codon = genome.substring(index, index + 3);
@@ -124,7 +124,7 @@ export function PlayGenome() {
       {
         name: MAPS.CODON_MAP[codon],
         duration: '16n',
-        frame012,
+        frame012: frame012,
         isSynthEnabled: isSynthEnabled.current[frame012]
       },
     ];
@@ -208,24 +208,23 @@ export function PlayGenome() {
   useEffect(() => {
     Tone.Transport.scheduleRepeat(() => {
       direction.current ? actions.decrement() : actions.increment();
-    }, '16n');
+    }, '32n');
     return () => {
       Tone.Transport.cancel();
     };
   }, []);
 
-  //recent change
-  // function Feature(feature, i) {
-  //   return (
-  //     <Fragment key={i}>
-  //       <br />
-  //       <Button onClick={() => actions.set(feature.start - 1)}>
-  //         {feature.gene}
-  //       </Button>{' '}
-  //       {feature.product}
-  //     </Fragment>
-  //   );
-  // }
+  function Feature(feature, i) {
+    return (
+      <Fragment key={i}>
+        <br />
+        <Button onClick={() => actions.set(feature.start - 1)}>
+          {feature.gene}
+        </Button>{' '}
+        {feature.product}
+      </Fragment>
+    );
+  }
 
   return (
     <>
@@ -242,13 +241,13 @@ export function PlayGenome() {
       <Button onClick={stop}>Stop</Button>
       <Button onClick={reverse}>Reverse</Button>
       {/* <Button onClick={playBase}>Play Base</Button> */}
-      {/* <Button onClick={playCodon}>Play Codon</Button> */}
-      {/* <Button onClick={base10GC}>Each 10bp GC ratio</Button> */}
-      {/* <Button onClick={base100GC}>Play 100 GCcontent</Button> */}
-      {/* <Button onClick={playTwoBase}>Play diNucleotide</Button> */}
+      {/* <Button onClick={playCodon}>Play Codon</Button>
+      <Button onClick={base10GC}>Each 10bp GC ratio</Button>
+      <Button onClick={base100GC}>Play 100 GCcontent</Button>
+      <Button onClick={playTwoBase}>Play diNucleotide</Button>*/}
       <hr></hr>
-      {/* {MAPS.geneBank_json.map(Feature)} */}
-//Add sound descriptions in arrays and make boleans to effect things
+      {MAPS.geneBank_json.map(Feature)}
+
       <Song>
         <Track>
           <Instrument type={'synth'} notes={baseNotes} />
