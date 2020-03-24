@@ -25,6 +25,6 @@ export function calcMotif_GC (seq, baseStart, baseFinish) {
   let motif = getMotif(seq, baseStart, baseFinish);
   let ratio = GCratio(motif);
   //divide gc by lenght of get  //return number
-  return [motif, ratio];
+  return [{motif: motif, ratio: ratio}];
 }
 

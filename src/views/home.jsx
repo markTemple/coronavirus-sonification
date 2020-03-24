@@ -61,7 +61,8 @@ moveDot();
       <Input onChange={actions.set} validator={(value) => Number.isInteger(Number(value))} />
       <br />
       <Button onClick={actions.increment}>Increment</Button>
-      <Button onClick={actions.decrement}>Decrement</Button><hr></hr>
+      <Button onClick={actions.decrement}>Decrement</Button>
+      <hr></hr>
       <PlayGenome />
     </>
   )

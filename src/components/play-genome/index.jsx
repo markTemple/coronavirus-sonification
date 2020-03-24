@@ -145,34 +145,34 @@ const codonF3Notes = codonNotes.filter(note => note.frame012 === 2 && note.isSyn
     10
   );
 
-  // function base10GC() {
-  //   //console.log(Array10bpGCratio)
-  //   //change to oscillate wildly
-  //   // mapp Array10bpGCratio[1] to note replace C5
-  //   //if(Array10bpGCratio <= 0.5) noooo = 'C5'
-  //   //if(Array10bpGCratio > 0.5) noooo = 'C6'
-  //   //return [{ name: 'C5', duration: '2n' }];
-  //   return []
-  // }
-  //const tenGCnote = base10GC();
-//console.log(tenGCnote[0].name)
+  let noooo = 'C1'
+  function base10GC() {
+    //console.log(Array10bpGCratio[0].ratio)
+    //change to oscillate wildly
+    // mapp Array10bpGCratio[1] to note replace C5
+    if(Array10bpGCratio[0].ratio <= 0.5) noooo = 'C3'
+    if(Array10bpGCratio[0].ratio > 0.5) noooo = 'C4'
+    return [{ name: noooo, duration: '2n' }];
+  }
+  const tenGCnote = base10GC();
+  //console.log(tenGCnote[0].name)
 
-  // let Array100bpGCratio = MAPS.calcMotif_GC(
-  //   genome.substring(index, index + 100),
-  //   0,
-  //   100
-  // );
-  // const noooo = ''
-  // function base100GC() {
-  //   // if (index % 50 === 0)
-  //   //   oscGCDIST.triggerAttackRelease(880 * Array100bpGCratio[1], '2n');
-  //       // mapp Array100bpGCratio[1] to note replace C6
-  //       if(Array10bpGCratio <= 0.5) noooo = 'C5'
-  //       if(Array10bpGCratio > 0.5) noooo = 'C6'
-  //       //return [{ name: 'C6', duration: '2n' }];
-  //       return []
-  // }
-  //const tentensGCnote = base100GC();
+  let Array100bpGCratio = MAPS.calcMotif_GC(
+    genome.substring(index, index + 100),
+    0,
+    100
+  );
+  let noooo100 = ''
+  function base100GC() {
+    // if (index % 50 === 0)
+    //   oscGCDIST.triggerAttackRelease(880 * Array100bpGCratio[1], '2n');
+        // mapp Array100bpGCratio[1] to note replace C6
+        if(Array100bpGCratio[0].ratio <= 0.5) noooo100 = 'C5'
+        if(Array100bpGCratio[0].ratio > 0.5) noooo100 = 'C6'
+        return [{ name: noooo100, duration: '2n' }];
+  }
+  const tentensGCnote = base100GC();
+  //console.log('10x10 = ',tentensGCnote[0].name)
 
   //if start/stop in each frame do this
   const codon = genome.substring(index, index + 3);
@@ -218,17 +218,18 @@ const codonF3Notes = codonNotes.filter(note => note.frame012 === 2 && note.isSyn
   function Feature(feature, i) {
     return (
       <Fragment key={i}>
-        <br />
         <Button onClick={() => actions.set(feature.start - 1)}>
-          {feature.gene}
-        </Button>{' '}
-        {feature.product}
+        {/* {feature.gene} */}
+        <p style={{ whiteSpace:'pre' }}>   </p></Button>{' '}
+        {/* {feature.product} */}
       </Fragment>
     );
   }
 
   return (
     <>
+      {MAPS.geneBank_json.map(Feature)}
+
       <p> 1 base {genome[index]}</p>
       <p> 2 playTwoBase {genome.substring(index, index + 2)}</p>
 
@@ -236,8 +237,9 @@ const codonF3Notes = codonNotes.filter(note => note.frame012 === 2 && note.isSyn
       <p> 3b codonF2{codonF2}</p>
       <p> 3c codonF3{codonF3}</p>
 
-      {/* <p> 4 GC Content 10 base {tenGCnote[0].name}</p>
-      <p> 5 GC Content 100 base {tentensGCnote[0].name}</p> */}
+      <p> 4 GC Content 10 base {tenGCnote[0].name}</p>
+      <p> 5 GC Content 100 base {tentensGCnote[0].name}</p>
+
       <Button onClick={play}>Play</Button>
       <Button onClick={stop}>Stop</Button>
       <Button onClick={reverse}>Reverse</Button>
@@ -246,8 +248,6 @@ const codonF3Notes = codonNotes.filter(note => note.frame012 === 2 && note.isSyn
       <Button onClick={base10GC}>Each 10bp GC ratio</Button>
       <Button onClick={base100GC}>Play 100 GCcontent</Button>
       <Button onClick={playTwoBase}>Play diNucleotide</Button>*/}
-      <hr></hr>
-      {MAPS.geneBank_json.map(Feature)}
 
       <Song>
         <Track>
@@ -265,12 +265,12 @@ const codonF3Notes = codonNotes.filter(note => note.frame012 === 2 && note.isSyn
         <Track>
           <Instrument type={'synth'} notes={codonF3Notes} />
         </Track>
-        {/* <Track>
+       <Track>
           <Instrument type={'synth'} notes={tenGCnote} />
         </Track>
-        <Track>
+         <Track>
           <Instrument type={'synth'} notes={tentensGCnote} />
-        </Track> */}
+        </Track>
       </Song>
     </>
   );
