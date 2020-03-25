@@ -34,7 +34,7 @@ export function StoreProvider ({ children }) {
         const index = Number(action.payload)
 
         if (!Number.isInteger(index)) return state
-        if (index <= 0) return { ...state, index: genome.length - 1 }
+        if (index < 0) return { ...state, index: genome.length - 1 }
         if (index >= genome.length)  return { ...state, index: 0 }
         return { ...state, index }
       }

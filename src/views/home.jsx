@@ -49,7 +49,7 @@ moveDot();
 
   return (
     <>
-      <h1>{MAPS.source}</h1>
+      <h2>{MAPS.source}</h2>
       {/* <Button onClick={getGenome}>Load Genome</Button> */}
       <p style={{ whiteSpace:'pre' }}>                                        {index+1}</p>
       <p>........................................{indexChar}........................................</p>

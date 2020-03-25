@@ -28,161 +28,184 @@ export const geneBank_json = [
   end: 265,
   gene: "5'UTR",
   product: 'untranslated',
-  protein_id: 'no protein'
+  protein_id: 'no protein',
+  button_label: "5`U"
   },
   {
   start: 266,
   end: 13468,
   gene: 'orf1a',
   product: 'polyprotein (ab fragment 1)',
-  protein_id: 'QHD43415.1'
+  protein_id: 'QHD43415.1',
+  button_label: "ab1"
   },
   {
   start: 13468,
   end: 21555,
   gene: 'orf1b',
   product: 'polyprotein (ab fragment 2, -1 ribosomal frameshift)',
-  protein_id: 'QHD43415.1'
+  protein_id: 'QHD43415.1',
+  button_label: "ab2"
   },
   {
     start: 21556,
     end: 21562,
     gene: 'UTR',
     product: 'untranslated',
-    protein_id: 'no protein'
+    protein_id: 'no protein',
+    button_label: "UTR"
   },
   {
   start: 21563,
   end: 25384,
   gene: 'Spike structural protein (S)',
   product: 'surface glycoprotein',
-  protein_id: 'QHD43416.1'
+  protein_id: 'QHD43416.1',
+  button_label: " S "
   },
   {
     start: 25385,
     end: 25392,
     gene: 'UTR',
     product: 'untranslated',
-    protein_id: 'no protein'
+    protein_id: 'no protein',
+    button_label: "UTR"
   },
   {
   start: 25393,
   end: 26220,
   gene: 'ORF3a',
   product: 'protein',
-  protein_id: 'QHD43417.1'
+  protein_id: 'QHD43417.1',
+  button_label: "ORF"
   },
   {
     start: 26221,
     end: 26244,
     gene: 'UTR',
     product: 'untranslated',
-    protein_id: 'no protein'
+    protein_id: 'no protein',
+    button_label: "UTR"
   },
   {
   start: 26245,
   end: 26472,
   gene: 'Envelope structural protein (E)',
   product: 'envelope protein',
-  protein_id: 'QHD43418.1'
+  protein_id: 'QHD43418.1',
+  button_label: " E "
   },
   {
     start: 26473,
     end: 26522,
     gene: 'UTR',
     product: 'untranslated',
-    protein_id: 'no protein'
+    protein_id: 'no protein',
+    button_label: "UTR"
   },
   {
   start: 26523,
   end: 27191,
   gene: 'Membrane structural protein (M)',
   product: 'membrane glycoprotein',
-  protein_id: 'QHD43419.1'
+  protein_id: 'QHD43419.1',
+  button_label: " M "
   },
   {
     start: 27192,
     end: 27201,
     gene: 'UTR',
     product: 'untranslated',
-    protein_id: 'no protein'
+    protein_id: 'no protein',
+    button_label: "UTR"
   },
   {
   start: 27202,
   end: 27387,
   gene: 'ORF6',
   product: 'protein',
-  protein_id: 'QHD43420.1'
+  protein_id: 'QHD43420.1',
+  button_label: "ORF"
   },
   {
     start: 27388,
     end: 27393,
     gene: 'UTR',
     product: 'untranslated',
-    protein_id: 'no protein'
+    protein_id: 'no protein',
+    button_label: "UTR"
   },
   {
   start: 27394,
   end: 27759,
   gene: 'ORF7a',
   product: 'protein',
-  protein_id: 'QHD43421.1'
+  protein_id: 'QHD43421.1',
+  button_label: "ORF"
   },
   {
     start: 27760,
     end: 27893,
     gene: 'UTR',
     product: 'untranslated',
-    protein_id: 'no protein'
+    protein_id: 'no protein',
+    button_label: "UTR"
   },
   {
   start: 27894,
   end: 28259,
   gene: 'ORF8',
   product: 'protein',
-  protein_id: 'QHD43422.1'
+  protein_id: 'QHD43422.1',
+  button_label: "ORF"
   },
   {
     start: 28260,
     end: 28273,
     gene: 'UTR',
     product: 'untranslated',
-    protein_id: 'no protein'
+    protein_id: 'no protein',
+    button_label: "UTR"
   },
   {
   start: 28274,
   end: 29533,
   gene: 'Nucleocapsid structural protein (N)',
   product: 'nucleocapsid phosphoprotein',
-  protein_id: 'QHD43423.2'
+  protein_id: 'QHD43423.2',
+  button_label: " N "
   },
   {
     start: 29534,
     end: 29557,
     gene: 'UTR',
     product: 'untranslated',
-    protein_id: 'no protein'
+    protein_id: 'no protein',
+    button_label: "UTR"
   },
   {
   start: 29558,
   end: 29674,
   gene: 'ORF10',
   product: 'protein',
-  protein_id: 'QHI42199.1'
+  protein_id: 'QHI42199.1',
+  button_label: "ORF"
   },
   {
     start: 29675,
     end: 29674,
     gene: 'UTR',
     product: 'untranslated',
-    protein_id: 'no protein'
+    protein_id: 'no protein',
+    button_label: "UTR"
   },
   {
   start: 29675,
   end: 29903,
   gene: "3'UTR",
   product: 'untranslated',
-  protein_id: 'no protein'
+  protein_id: 'no protein',
+  button_label: "3`U"
   }
 ]
 
