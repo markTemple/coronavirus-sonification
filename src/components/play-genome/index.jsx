@@ -4,6 +4,7 @@ import { Song, Track, Instrument } from 'reactronica';
 import { useIndex, useGenome } from '../../hooks';
 import * as MAPS from '../../utilities/maps';
 import { Button } from '../button';
+import { SlidingStringWindow } from '../sliding-string-window'
 
 import './style.css';
 
@@ -15,6 +16,8 @@ export function PlayGenome() {
   const [genome, getGenome] = useGenome();
   const [index, actions] = useIndex();
   const direction = useRef(false);
+
+//console.log(genome)
 
   const isSynthEnabled = useRef([false, false, false])
   function setSynthStatus (index, value) {
@@ -28,16 +31,15 @@ export function PlayGenome() {
   const baseNotes = getBaseNotes();
   // console.log(baseNotes);
 
-  //0 is initial which is currentGATCcount
+  // 0 is initial which is currentGATCcount
   const GATCcount = useRef(0)
+  const GTACbase = baseNotes[0].motif
+  if (GTACbase === 'C' || GTACbase === 'G') GATCcount.current++;
+  if (GTACbase === 'A' || GTACbase === 'T') GATCcount.current--;
 
-  function GATCcounter(base) {
-    //console.log(base)
-    if ( (base == 'C') || (base == 'G') ) GATCcount.current += 1
-    if ( (base == 'A') || (base == 'T') ) GATCcount.current -= 1
-    return GATCcount.current
-  }
-GATCcounter(baseNotes[0].motif)
+  //
+  const AAstring = useRef('')
+
 
   function playTwoBase() {
     const twoBase = genome.substring(index, index + 2);
@@ -60,53 +62,62 @@ GATCcounter(baseNotes[0].motif)
       //console.log('start')
       setSynthStatus(frame012, true);
     }
+
+    //do not add stuff to this array make another keep seperate from KC code
     return [
       {
-        name: MAPS.CODON_MAP[codon],
+        name: MAPS.CODON_MAP2[codon]?.Note,
         duration: '8n',
         frame012: frame012,
-        isSynthEnabled: isSynthEnabled.current[frame012]
+        isSynthEnabled: isSynthEnabled.current[frame012],
+        motif: MAPS.CODON_MAP2[codon]?.AA,
       },
     ];
   }
+
   const codonNotes = getCodonNotes();
 
-const codonF1Notes = codonNotes.filter(note => note.frame012 === 0 && note.isSynthEnabled);
-const codonF2Notes = codonNotes.filter(note => note.frame012 === 1 && note.isSynthEnabled);
-const codonF3Notes = codonNotes.filter(note => note.frame012 === 2 && note.isSynthEnabled);
+  const codonF1Notes = codonNotes.filter(note => note.frame012 === 0 && note.isSynthEnabled);
+  const codonF2Notes = codonNotes.filter(note => note.frame012 === 1 && note.isSynthEnabled);
+  const codonF3Notes = codonNotes.filter(note => note.frame012 === 2 && note.isSynthEnabled);
 
-  let Array10bpGCratio = MAPS.calcMotif_GC(
+  // const AAF1 = codonNotes.filter(note => note.frame012 === 0);
+  // console.log(AAF1[0]?.motif)
+
+  function ratioToNote(ratio) {
+    let note = 'C1'
+    if(ratio.ratio < 0.25) note = 'C2'
+    else if(ratio.ratio < 0.5) note = 'C3'
+    else if(ratio.ratio < 0.75) note = 'C4'
+    else if(ratio.ratio <= 1.0) note = 'C5'
+    return [{ name: note, duration: '4n', motif: ratio.motif, ratio: ratio.ratio}];
+  }
+
+let Array10bpGCratio = MAPS.calcMotif_GC(
     genome.substring(index, index + 10),
     0,
     10
   );
-
-  let noooo = 'C1'
-  function base10GC() {
-    //console.log(Array10bpGCratio[0].ratio)
-    //change to oscillate wildly
-    if(Array10bpGCratio[0].ratio <= 0.5) noooo = 'C3'
-    if(Array10bpGCratio[0].ratio > 0.5) noooo = 'C4'
-    return [{ name: noooo, duration: '8n' }];
-  }
-  const tenGCnote = base10GC();
-  //console.log(tenGCnote[0].name)
+  const tenGCnote = ratioToNote(Array10bpGCratio[0]);
 
   let Array100bpGCratio = MAPS.calcMotif_GC(
     genome.substring(index, index + 100),
     0,
     100
   );
-  let noooo100 = ''
-  function base100GC() {
-    // if (index % 50 === 0)
-    //   oscGCDIST.triggerAttackRelease(880 * Array100bpGCratio[1], '2n');
-        // mapp Array100bpGCratio[1] to note replace C6
-        if(Array100bpGCratio[0].ratio <= 0.5) noooo100 = 'C5'
-        if(Array100bpGCratio[0].ratio > 0.5) noooo100 = 'C6'
-        return [{ name: noooo100, duration: '16n' }];
-  }
-  const tentensGCnote = base100GC();
+  const tentensGCnote = ratioToNote(Array100bpGCratio[0]);
+  console.log(tentensGCnote)
+
+  // let noooo100 = ''
+  // function base100GC() {
+  //   // if (index % 50 === 0)
+  //   //   oscGCDIST.triggerAttackRelease(880 * Array100bpGCratio[1], '2n');
+  //       // mapp Array100bpGCratio[1] to note replace C6
+  //       if(Array100bpGCratio[0].ratio <= 0.5) noooo100 = 'C5'
+  //       if(Array100bpGCratio[0].ratio > 0.5) noooo100 = 'C6'
+  //       return [{ name: noooo100, duration: '16n' }];
+  // }
+
   //console.log('10x10 = ',tentensGCnote[0].name)
 
   //if start/stop in each frame do this
@@ -143,29 +154,57 @@ const codonF3Notes = codonNotes.filter(note => note.frame012 === 2 && note.isSyn
   }, []);
 
   function Feature(feature, i) {
+    const style = {}
+    //add moer things to call here as const's
+    if ( (index+1 >= feature.start) && ((index < feature.end))) {
+      style.backgroundColor = 'red'
+    }
+    // include a reset GC count on click
     return (
-      <Fragment key={i}>
-        <Button onClick={() => actions.set(feature.start - 1)}>
-        {/* {feature.gene} */}
-        <p style={{ whiteSpace:'pre' }}>{feature.button_label}</p></Button>{' '}
-        {/* {feature.product} */}
-      </Fragment>
+    <Fragment key={i}>
+      <Button
+        onClick={() => {
+          actions.set(feature.start - 1)
+          setSynthStatus(0, false)
+          setSynthStatus(1, false)
+          setSynthStatus(2, false)
+        }}
+        style={style}
+      >
+      {/* there is no actual whitespace in button} */}
+      <p style={{ whiteSpace:'pre' }}>{feature.button_label}</p></Button>{' '}
+      {/* {feature.product} */}
+    </Fragment>
     );
-  }
+}
 
-  return (
+return (
     <>
-      {MAPS.geneBank_json.map(Feature)}
-
+      <SlidingStringWindow
+        initial='                                           '
+        insert=' '
+        replace={codonF1Notes[0]?.motif}
+      /><hr></hr>
+      <SlidingStringWindow
+        initial='                                           '
+        insert=' '
+        replace={codonF2Notes[0]?.motif}
+        /><hr></hr>
+        <SlidingStringWindow
+        initial='                                           '
+        insert=' '
+        replace={codonF3Notes[0]?.motif}
+        /><hr></hr>
+        {MAPS.geneBank_json.map(Feature)}
       <p> 1 base {genome[index]} {GATCcount.current} </p>
       <p> 2 playTwoBase {twobaseNotes[0].name}</p>
 
-      <p> 3a codonF1{codonF1}</p>
-      <p> 3b codonF2{codonF2}</p>
-      <p> 3c codonF3{codonF3}</p>
+      <p> 3a codonF1 {codonF1} {codonF1Notes[0]?.motif} </p>
+      <p> 3b codonF2 {codonF2} {codonF2Notes[0]?.motif} </p>
+      <p> 3c codonF3 {codonF3} {codonF3Notes[0]?.motif} </p>
 
-      <p> 4 GC Content 10 base {tenGCnote[0].name}</p>
-      <p> 5 GC Content 100 base {tentensGCnote[0].name}</p>
+      <p> 4 GC Content 10 base {tenGCnote[0].ratio} {tenGCnote[0].name} {/*tenGCnote[0].motif*/}</p>
+      <p> 5 GC Content 100 base {tentensGCnote[0].ratio} {tentensGCnote[0].name} {/*tentensGCnote[0].motif*/}</p>
 
       <Button onClick={play}>Play</Button>
       <Button onClick={stop}>Stop</Button>

@@ -192,14 +192,6 @@ export const geneBank_json = [
   button_label: "ORF"
   },
   {
-    start: 29675,
-    end: 29674,
-    gene: 'UTR',
-    product: 'untranslated',
-    protein_id: 'no protein',
-    button_label: "UTR"
-  },
-  {
   start: 29675,
   end: 29903,
   gene: "3'UTR",
