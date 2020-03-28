@@ -38,7 +38,7 @@ export function PlayGenome() {
   if (GTACbase === 'A' || GTACbase === 'T') GATCcount.current--;
 
   //
-  const AAstring = useRef('')
+  //const AAstring = useRef('')
 
 
   function playTwoBase() {
@@ -52,7 +52,6 @@ export function PlayGenome() {
   function getCodonNotes() {
     const codon = genome.substring(index, index + 3);
     const frame012 = index % 3;
-    const playcount = 0;
 
     if (codon === 'TGA' || codon === 'TAG' || codon === 'TAA') {
       //console.log('stop')
@@ -74,15 +73,28 @@ export function PlayGenome() {
       },
     ];
   }
-
   const codonNotes = getCodonNotes();
 
   const codonF1Notes = codonNotes.filter(note => note.frame012 === 0 && note.isSynthEnabled);
   const codonF2Notes = codonNotes.filter(note => note.frame012 === 1 && note.isSynthEnabled);
   const codonF3Notes = codonNotes.filter(note => note.frame012 === 2 && note.isSynthEnabled);
 
-  // const AAF1 = codonNotes.filter(note => note.frame012 === 0);
-  // console.log(AAF1[0]?.motif)
+console.log(codonF2Notes[0]?.isSynthEnabled)
+
+  const AA_Count1 = useRef(0)
+  const is_AA1 = codonF1Notes[0]?.isSynthEnabled
+  if (is_AA1 === true) AA_Count1.current++;
+  if (is_AA1 === false) AA_Count1.current = 0;
+
+  const AA_Count2 = useRef(0)
+  const is_AA2 = codonF2Notes[0]?.isSynthEnabled
+  if (is_AA2 === true) AA_Count2.current++;
+  if (is_AA2 === false) AA_Count2.current = 0;
+
+  const AA_Count3 = useRef(0)
+  const is_AA3 = codonF3Notes[0]?.isSynthEnabled
+  if (is_AA3 === true) AA_Count3.current++;
+  if (is_AA3 === false) AA_Count3.current = 0;
 
   function ratioToNote(ratio) {
     let note = 'C1'
@@ -106,19 +118,7 @@ let Array10bpGCratio = MAPS.calcMotif_GC(
     100
   );
   const tentensGCnote = ratioToNote(Array100bpGCratio[0]);
-  console.log(tentensGCnote)
-
-  // let noooo100 = ''
-  // function base100GC() {
-  //   // if (index % 50 === 0)
-  //   //   oscGCDIST.triggerAttackRelease(880 * Array100bpGCratio[1], '2n');
-  //       // mapp Array100bpGCratio[1] to note replace C6
-  //       if(Array100bpGCratio[0].ratio <= 0.5) noooo100 = 'C5'
-  //       if(Array100bpGCratio[0].ratio > 0.5) noooo100 = 'C6'
-  //       return [{ name: noooo100, duration: '16n' }];
-  // }
-
-  //console.log('10x10 = ',tentensGCnote[0].name)
+  // console.log(tentensGCnote)
 
   //if start/stop in each frame do this
   const codon = genome.substring(index, index + 3);
@@ -199,9 +199,9 @@ return (
       <p> 1 base {genome[index]} {GATCcount.current} </p>
       <p> 2 playTwoBase {twobaseNotes[0].name}</p>
 
-      <p> 3a codonF1 {codonF1} {codonF1Notes[0]?.motif} </p>
-      <p> 3b codonF2 {codonF2} {codonF2Notes[0]?.motif} </p>
-      <p> 3c codonF3 {codonF3} {codonF3Notes[0]?.motif} </p>
+      <p> 3a codonF1 {AA_Count1.current} {codonF1} {codonF1Notes[0]?.motif} </p>
+      <p> 3b codonF2 {AA_Count2.current} {codonF2} {codonF2Notes[0]?.motif} </p>
+      <p> 3c codonF3 {AA_Count3.current} {codonF3} {codonF3Notes[0]?.motif} </p>
 
       <p> 4 GC Content 10 base {tenGCnote[0].ratio} {tenGCnote[0].name} {/*tenGCnote[0].motif*/}</p>
       <p> 5 GC Content 100 base {tentensGCnote[0].ratio} {tentensGCnote[0].name} {/*tentensGCnote[0].motif*/}</p>
