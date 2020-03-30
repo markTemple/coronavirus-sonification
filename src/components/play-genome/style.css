@@ -2,11 +2,11 @@ p {
   font-family: "Lucida Console", Monaco, monospace;
 }
 
-.start {
+.green {
   color: green;
 }
 
-.stop {
+.red {
   color: red;
 }
 

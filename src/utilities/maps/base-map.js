@@ -11,7 +11,7 @@ export const BASE_MAP = {
   G: 'C2',
   A: 'E2',
   T: 'G2',
-  C: 'B4'
+  C: 'C3'
 }
 
 export const TWOBASE_MAP = {

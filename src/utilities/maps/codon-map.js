@@ -1,8 +1,8 @@
-export function frameCount() {
+export function countUp(numb) {
   let i = 0;
   function Up() {
     i ++;
-    if(i === 3) {i = 0;}
+    if(i === numb) {i = 0;}
     return i;
   }
   return Up;

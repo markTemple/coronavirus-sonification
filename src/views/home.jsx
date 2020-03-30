@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react'
 import { useIndex, useGenome, useMarkstamp } from '../hooks'
-
 import { Button } from '../components/button'
 import { Input } from '../components/input'
 import { PlayGenome } from '../components/play-genome'
@@ -43,20 +42,23 @@ export function Home () {
   return (
     <>
       <h2>{MAPS.source}</h2>
-            {/* <Button onClick={getGenome}>Load Genome</Button> */}
-      <p style={{ whiteSpace:'pre' }}>                                        {index+1}</p>
-      <p style={{ whiteSpace:'pre' }}>                                        {indexChar}</p>
-      {/* <p>{dotSliced} </p> */}
-      <p>{dotfill40 + genomeSub}</p>
-      {/* <p>{dotfill40 + genSubComp}</p> */}
-      <p> {rnaFeature.gene} extends {rnaFeature.start} from to {rnaFeature.end}  bp</p>
-      <p> {rnaFeature.product} {rnaFeature.protein_id}</p>
-      <Input onChange={actions.set} validator={(value) => Number.isInteger(Number(value))} />
-      <br />
+      <hr></hr>
+
+      <p style={{ whiteSpace:'pre' }}>         5`                                      {indexChar}                                      3`</p>
+      <p>RNA Seq |{dotfill40 + genomeSub}</p>
+
+      <PlayGenome />
+
+      <p> {rnaFeature.gene} extends from {rnaFeature.start} to {rnaFeature.end}  bp</p>
+      <p> {rnaFeature.product} {rnaFeature.protein_id}</p>      <p style={{ whiteSpace:'pre' }}>                             Ribosomal Playhead {index+1}</p>
+      <hr></hr>
+
       <Button onClick={actions.increment}>Increment</Button>
       <Button onClick={actions.decrement}>Decrement</Button>
-      <hr></hr>
-      <PlayGenome />
+
+      {/* <Button onClick={getGenome}>Load Genome</Button> */}
+      {/* <Input onChange={actions.set} validator={(value) => Number.isInteger(Number(value))} />
+      <br /> */}
     </>
   )
 }

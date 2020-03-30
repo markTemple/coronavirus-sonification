@@ -19,14 +19,16 @@ export function StoreProvider ({ children }) {
         const genome = state.genome
         const index = state.index + 1
 
-        if (index >= genome.length)  return { ...state, index: 0 }
+        // if (index >= genome.length) return { ...state, index: 0 }
+        if (index >= genome.length) return state
         else return { ...state, index }
       }
       case 'decrement-index': {
         const genome = state.genome
         const index = state.index - 1
 
-        if (index <= 0) return { ...state, index: genome.length - 1 }
+        // if (index <= 0) return { ...state, index: genome.length - 1 }
+        if (index <= 0) return state
         else return { ...state, index }
       }
       case 'set-index': {
@@ -35,7 +37,7 @@ export function StoreProvider ({ children }) {
 
         if (!Number.isInteger(index)) return state
         if (index < 0) return { ...state, index: genome.length - 1 }
-        if (index >= genome.length)  return { ...state, index: 0 }
+        if (index >= genome.length) return { ...state, index: 0 }
         return { ...state, index }
       }
       default:

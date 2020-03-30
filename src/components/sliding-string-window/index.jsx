@@ -8,7 +8,7 @@ SlidingStringWindow.propTypes = {
   reset: PropTypes.bool,
 }
 
-export function SlidingStringWindow ({ initial, insert, replace, reset = false }) {
+export function SlidingStringWindow ({ initial, insert, replace, reset = false, frame }) {
   const string = useRef(initial);
 
   const length = string.current.length
@@ -29,7 +29,7 @@ export function SlidingStringWindow ({ initial, insert, replace, reset = false }
 
   return (
     <p style={{ whiteSpace: 'pre' }}>
-      {string.current}
+      Frame {frame} {string.current}
     </p>
   )
 }

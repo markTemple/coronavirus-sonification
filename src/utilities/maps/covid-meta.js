@@ -29,7 +29,8 @@ export const geneBank_json = [
   gene: "5'UTR",
   product: 'untranslated',
   protein_id: 'no protein',
-  button_label: "5`U"
+  button_label: "5`U",
+  type: 'u'
   },
   {
   start: 266,
@@ -37,7 +38,8 @@ export const geneBank_json = [
   gene: 'orf1a',
   product: 'polyprotein (ab fragment 1)',
   protein_id: 'QHD43415.1',
-  button_label: "ab1"
+  button_label: "ab1",
+  type: 'p'
   },
   {
   start: 13468,
@@ -45,15 +47,17 @@ export const geneBank_json = [
   gene: 'orf1b',
   product: 'polyprotein (ab fragment 2, -1 ribosomal frameshift)',
   protein_id: 'QHD43415.1',
-  button_label: "ab2"
+  button_label: "ab2",
+  type: 'p'
   },
   {
-    start: 21556,
-    end: 21562,
-    gene: 'UTR',
-    product: 'untranslated',
-    protein_id: 'no protein',
-    button_label: "UTR"
+  start: 21556,
+  end: 21562,
+  gene: 'UTR',
+  product: 'untranslated',
+  protein_id: 'no protein',
+  button_label: "UTR",
+  type: 'u'
   },
   {
   start: 21563,
@@ -61,15 +65,17 @@ export const geneBank_json = [
   gene: 'Spike structural protein (S)',
   product: 'surface glycoprotein',
   protein_id: 'QHD43416.1',
-  button_label: " S "
+  button_label: " S ",
+  type: 'p'
   },
   {
-    start: 25385,
-    end: 25392,
-    gene: 'UTR',
-    product: 'untranslated',
-    protein_id: 'no protein',
-    button_label: "UTR"
+  start: 25385,
+  end: 25392,
+  gene: 'UTR',
+  product: 'untranslated',
+  protein_id: 'no protein',
+  button_label: "UTR",
+  type: 'u'
   },
   {
   start: 25393,
@@ -77,15 +83,17 @@ export const geneBank_json = [
   gene: 'ORF3a',
   product: 'protein',
   protein_id: 'QHD43417.1',
-  button_label: "ORF"
+  button_label: "ORF",
+  type: 'p'
   },
   {
-    start: 26221,
-    end: 26244,
-    gene: 'UTR',
-    product: 'untranslated',
-    protein_id: 'no protein',
-    button_label: "UTR"
+  start: 26221,
+  end: 26244,
+  gene: 'UTR',
+  product: 'untranslated',
+  protein_id: 'no protein',
+  button_label: "UTR",
+  type: 'u'
   },
   {
   start: 26245,
@@ -93,15 +101,17 @@ export const geneBank_json = [
   gene: 'Envelope structural protein (E)',
   product: 'envelope protein',
   protein_id: 'QHD43418.1',
-  button_label: " E "
+  button_label: " E ",
+  type: 'p'
   },
   {
-    start: 26473,
-    end: 26522,
-    gene: 'UTR',
-    product: 'untranslated',
-    protein_id: 'no protein',
-    button_label: "UTR"
+  start: 26473,
+  end: 26522,
+  gene: 'UTR',
+  product: 'untranslated',
+  protein_id: 'no protein',
+  button_label: "UTR",
+  type: 'u'
   },
   {
   start: 26523,
@@ -109,15 +119,17 @@ export const geneBank_json = [
   gene: 'Membrane structural protein (M)',
   product: 'membrane glycoprotein',
   protein_id: 'QHD43419.1',
-  button_label: " M "
+  button_label: " M ",
+  type: 'p'
   },
   {
-    start: 27192,
-    end: 27201,
-    gene: 'UTR',
-    product: 'untranslated',
-    protein_id: 'no protein',
-    button_label: "UTR"
+  start: 27192,
+  end: 27201,
+  gene: 'UTR',
+  product: 'untranslated',
+  protein_id: 'no protein',
+  button_label: "UTR",
+  type: 'u'
   },
   {
   start: 27202,
@@ -125,15 +137,17 @@ export const geneBank_json = [
   gene: 'ORF6',
   product: 'protein',
   protein_id: 'QHD43420.1',
-  button_label: "ORF"
+  button_label: "ORF",
+  type: 'p'
   },
   {
-    start: 27388,
-    end: 27393,
-    gene: 'UTR',
-    product: 'untranslated',
-    protein_id: 'no protein',
-    button_label: "UTR"
+  start: 27388,
+  end: 27393,
+  gene: 'UTR',
+  product: 'untranslated',
+  protein_id: 'no protein',
+  button_label: "UTR",
+  type: 'u'
   },
   {
   start: 27394,
@@ -141,15 +155,17 @@ export const geneBank_json = [
   gene: 'ORF7a',
   product: 'protein',
   protein_id: 'QHD43421.1',
-  button_label: "ORF"
+  button_label: "ORF",
+  type: 'p'
   },
   {
-    start: 27760,
-    end: 27893,
-    gene: 'UTR',
-    product: 'untranslated',
-    protein_id: 'no protein',
-    button_label: "UTR"
+  start: 27760,
+  end: 27893,
+  gene: 'UTR',
+  product: 'untranslated',
+  protein_id: 'no protein',
+  button_label: "UTR",
+  type: 'u'
   },
   {
   start: 27894,
@@ -157,15 +173,17 @@ export const geneBank_json = [
   gene: 'ORF8',
   product: 'protein',
   protein_id: 'QHD43422.1',
-  button_label: "ORF"
+  button_label: "ORF",
+  type: 'p'
   },
   {
-    start: 28260,
-    end: 28273,
-    gene: 'UTR',
-    product: 'untranslated',
-    protein_id: 'no protein',
-    button_label: "UTR"
+  start: 28260,
+  end: 28273,
+  gene: 'UTR',
+  product: 'untranslated',
+  protein_id: 'no protein',
+  button_label: "UTR",
+  type: 'u'
   },
   {
   start: 28274,
@@ -173,15 +191,17 @@ export const geneBank_json = [
   gene: 'Nucleocapsid structural protein (N)',
   product: 'nucleocapsid phosphoprotein',
   protein_id: 'QHD43423.2',
-  button_label: " N "
+  button_label: " N ",
+  type: 'p'
   },
   {
-    start: 29534,
-    end: 29557,
-    gene: 'UTR',
-    product: 'untranslated',
-    protein_id: 'no protein',
-    button_label: "UTR"
+  start: 29534,
+  end: 29557,
+  gene: 'UTR',
+  product: 'untranslated',
+  protein_id: 'no protein',
+  button_label: "UTR",
+  type: 'u'
   },
   {
   start: 29558,
@@ -189,7 +209,8 @@ export const geneBank_json = [
   gene: 'ORF10',
   product: 'protein',
   protein_id: 'QHI42199.1',
-  button_label: "ORF"
+  button_label: "ORF",
+  type: 'p'
   },
   {
   start: 29675,
@@ -197,8 +218,9 @@ export const geneBank_json = [
   gene: "3'UTR",
   product: 'untranslated',
   protein_id: 'no protein',
-  button_label: "3`U"
-  }
+  button_label: "3`U",
+  type: 'u'
+  },
 ]
 
 
