@@ -30,17 +30,17 @@ span.frame3 {
 }
 
 span.backF1 {
-  padding: 4px;
+  margin: 4px;
   background-color: #5da793;
 }
 
 span.backF2 {
-  padding: 4px;
+  margin: 4px;
   background-color: #ecaa38;
 }
 
 span.backF3 {
-  padding: 4px;
+  margin: 4px;
   background-color: #a3b96c;
 }
 
@@ -131,4 +131,8 @@ div {
   font-family: "Lucida Console", Monaco, monospace;
   width:100%;
 
+}
+
+.pre {
+  white-space: pre;
 }

@@ -233,6 +233,17 @@ if ( (index+1 >= feature.start) && (index <= feature.end) ) {
   }
 }
 
+  const slidingWindowOneReplace = {
+    content: codonF1Notes[0]?.motif,
+    props: {
+      id: '',
+      className: '',
+      style: {
+        backgroundColor: `rgba(0, 0, 0, ${Math.random()})`
+      }
+    }
+  }
+
 return (
   <>
     <h2>{MAPS.source}</h2>
@@ -258,8 +269,7 @@ return (
       <SlidingStringWindow
         initial='                                           '
         insert=' '
-        replace={{ content: codonF1Notes[0]?.motif, props: { style: { backgroundColor: `rgba(0, 0, 0, ${Math.random()})` } } }}
-        style={{ backgroundColor: 'red' }}
+        replace={slidingWindowOneReplace}
       />
       <br />
 
@@ -286,7 +296,7 @@ return (
       <Button onClick={actions.increment}>Increment</Button>
       <Button onClick={actions.decrement}>Decrement</Button><hr></hr>
 
-      <p> Current ORF length = {AA_Count1.current} Codon <span className="backF1">{codonF1} {codonF1Notes[0]?.motif}</span></p>
+      <p> Current ORF length = <span className='pre'>{String(AA_Count1.current).padStart(3, ' ')}</span> Codon <span className="backF1">{codonF1} {codonF1Notes[0]?.motif}</span></p>
       <p> Current ORF length = {AA_Count2.current} Codon <span className="backF2">{codonF2} {codonF2Notes[0]?.motif}</span></p>
       <p> Current ORF length = {AA_Count3.current} Codon <span className="backF3">{codonF3} {codonF3Notes[0]?.motif}</span></p>
 
@@ -313,7 +323,7 @@ return (
         <Track volume={-8} pan={-0.3} >
           <Instrument type={'synth'} notes={baseNotes} />
         </Track>
-        {/* <Track volume={-8} pan={0.3} >
+        <Track volume={-8} pan={0.3} >
           <Instrument type={'synth'} notes={twobaseNotes} />
           <Effect type="feedbackDelay" wet={0.2} />
         </Track>
@@ -340,7 +350,7 @@ return (
           <Effect type="feedbackDelay" wet={0.2} /> </Track>
         <Track volume={-3} pan={0.5} >
           <Instrument type={'amSynth'} notes={metaNote} />
-        <Effect type="feedbackDelay" wet={0.5} /> </Track> */}
+        <Effect type="feedbackDelay" wet={0.5} /> </Track>
       </Song>
     </>
   );
