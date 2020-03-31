@@ -235,11 +235,6 @@ if ( (index+1 >= feature.start) && (index <= feature.end) ) {
 
 return (
   <>
-
-{/* <div class="res-circle">
-<div class="circle-txt">Ala</div>
-</div> */}
-
     <h2>{MAPS.source}</h2>
     <p> {rnaFeature.gene} extends from {rnaFeature.start} to {rnaFeature.end}  bp</p>
     <hr></hr>
@@ -259,24 +254,30 @@ return (
       </span>
     <p style={{ whiteSpace:'pre' }}>                             Ribosomal Playhead {index+1}</p>
 
-    <SlidingStringWindow
+      <span>Frame 1 |</span>
+      <SlidingStringWindow
         initial='                                           '
         insert=' '
-        replace={codonF1Notes[0]?.motif}
-        frame = '1|'
+        replace={{ content: codonF1Notes[0]?.motif, props: { style: { backgroundColor: `rgba(0, 0, 0, ${Math.random()})` } } }}
+        style={{ backgroundColor: 'red' }}
       />
+      <br />
+
+      <span>Frame 2 |</span>
       <SlidingStringWindow
         initial='                                           '
         insert=' '
         replace={codonF2Notes[0]?.motif}
-        frame = '2|'
       />
+      <br />
+
+      <span>Frame 3 |</span>
       <SlidingStringWindow
         initial='                                           '
         insert=' '
         replace={codonF3Notes[0]?.motif}
-        frame = '3|'
       />
+
       <p>RNA Seq|<span className="rna" > {dotfill40 + genomeSub}</span></p>
       <p style={{ whiteSpace:'pre' }}>        5`                                       <span className="antiC">{antiCodon}</span>                                    3`</p>
 
@@ -312,7 +313,7 @@ return (
         <Track volume={-8} pan={-0.3} >
           <Instrument type={'synth'} notes={baseNotes} />
         </Track>
-        <Track volume={-8} pan={0.3} >
+        {/* <Track volume={-8} pan={0.3} >
           <Instrument type={'synth'} notes={twobaseNotes} />
           <Effect type="feedbackDelay" wet={0.2} />
         </Track>
@@ -339,7 +340,7 @@ return (
           <Effect type="feedbackDelay" wet={0.2} /> </Track>
         <Track volume={-3} pan={0.5} >
           <Instrument type={'amSynth'} notes={metaNote} />
-        <Effect type="feedbackDelay" wet={0.5} /> </Track>
+        <Effect type="feedbackDelay" wet={0.5} /> </Track> */}
       </Song>
     </>
   );
