@@ -123,36 +123,37 @@ export function PlayGenome() {
   const frame012 = index % 3;
 
   let metaNote = []
-  if(index === 266 -5) metaNote = [{ name: 'B7', duration: '4n'}]
-  if(index === 266 -4) metaNote = [{ name: 'G6', duration: '4n'}]
-  if(index === 266 -3) metaNote = [{ name: 'E6', duration: '4n'}]
-  if(index === 266 -2) metaNote = [{ name: 'C6', duration: '4n'}]
+  if(index === 266 -6) metaNote = [{ name: 'B7', duration: '4n'}]
+  if(index === 266 -5) metaNote = [{ name: 'G6', duration: '4n'}]
+  if(index === 266 -4) metaNote = [{ name: 'E6', duration: '4n'}]
+  if(index === 266 -3) metaNote = [{ name: 'C6', duration: '4n'}]
 
-  if(index === 21563 -5) metaNote = [{ name: 'B7', duration: '4n'}]
-  if(index === 21563 -4) metaNote = [{ name: 'G6', duration: '4n'}]
-  if(index === 21563 -3) metaNote = [{ name: 'E6', duration: '4n'}]
-  if(index === 21563 -2) metaNote = [{ name: 'C6', duration: '4n'}]
+  if(index === 21563 -6) metaNote = [{ name: 'B7', duration: '4n'}]
+  if(index === 21563 -5) metaNote = [{ name: 'G6', duration: '4n'}]
+  if(index === 21563 -4) metaNote = [{ name: 'E6', duration: '4n'}]
+  if(index === 21563 -3) metaNote = [{ name: 'C6', duration: '4n'}]
 
-  if(index === 26245 -5) metaNote = [{ name: 'B7', duration: '4n'}]
-  if(index === 26245 -4) metaNote = [{ name: 'G6', duration: '4n'}]
-  if(index === 26245 -3) metaNote = [{ name: 'E6', duration: '4n'}]
-  if(index === 26245 -2) metaNote = [{ name: 'C6', duration: '4n'}]
+  if(index === 26245 -6) metaNote = [{ name: 'B7', duration: '4n'}]
+  if(index === 26245 -5) metaNote = [{ name: 'G6', duration: '4n'}]
+  if(index === 26245 -4) metaNote = [{ name: 'E6', duration: '4n'}]
+  if(index === 26245 -3) metaNote = [{ name: 'C6', duration: '4n'}]
 
-  if(index === 26523 -5) metaNote = [{ name: 'B7', duration: '4n'}]
-  if(index === 26523 -4) metaNote = [{ name: 'G6', duration: '4n'}]
-  if(index === 26523 -3) metaNote = [{ name: 'E6', duration: '4n'}]
-  if(index === 26523 -2) metaNote = [{ name: 'C6', duration: '4n'}]
+  if(index === 26523 -6) metaNote = [{ name: 'B7', duration: '4n'}]
+  if(index === 26523 -5) metaNote = [{ name: 'G6', duration: '4n'}]
+  if(index === 26523 -4) metaNote = [{ name: 'E6', duration: '4n'}]
+  if(index === 26523 -3) metaNote = [{ name: 'C6', duration: '4n'}]
 
-  if(index === 28274 -5) metaNote = [{ name: 'B7', duration: '4n'}]
-  if(index === 28274 -4) metaNote = [{ name: 'G6', duration: '4n'}]
-  if(index === 28274 -3) metaNote = [{ name: 'E6', duration: '4n'}]
-  if(index === 28274 -2) metaNote = [{ name: 'C6', duration: '4n'}]
+  if(index === 28274 -6) metaNote = [{ name: 'B7', duration: '4n'}]
+  if(index === 28274 -5) metaNote = [{ name: 'G6', duration: '4n'}]
+  if(index === 28274 -4) metaNote = [{ name: 'E6', duration: '4n'}]
+  if(index === 28274 -3) metaNote = [{ name: 'C6', duration: '4n'}]
 
+  //ugly color but not cause of colored blanl spave
   function colorCodon() {
     if (isSynthEnabled.current[frame012] === true) {
-      return <span className="green"> {codon}</span>;
+      return <span className="red">{codon}</span>;
     } else if (isSynthEnabled.current[frame012] === false) {
-      return <span className="red"> {codon}</span>;
+      return <span className="green">{codon}</span>;
     } else {
       return codon;
     }
@@ -181,7 +182,8 @@ export function PlayGenome() {
     const style = {}
     //add moer things to call here as const's
     if ( (index+1 >= feature.start) && ((index < feature.end))) {
-      style.backgroundColor = 'red'
+      style.backgroundColor = '#f08b2c'
+
     }
     // include a reset GC count on click
     return (
@@ -204,47 +206,107 @@ export function PlayGenome() {
     );
 }
 
+const genomeSub = genome.substring(index-40, index+41)
+function makeComplementary (seq) {
+  return seq.replace(/./g, (char) => MAPS.ANTICODON_MAP[char])
+}
+const indexChar = genome.substr(index, +3);
+const antiCodon = makeComplementary(indexChar);
+
+//console.log(antiCodon);
+
+let dotfill40 = '........................................';
+function moveDot () {
+  if (index <= 40) {
+    dotfill40 = dotfill40.slice(index);
+  }else{
+    dotfill40 = '';
+  }
+}
+moveDot();
+
+let rnaFeature = 'default';
+for(var feature of MAPS.geneBank_json){
+if ( (index+1 >= feature.start) && (index <= feature.end) ) {
+    rnaFeature = feature
+    //buttonIndex.current = MAPS.geneBank_json.indexOf(feature)
+  }
+}
+
 return (
-    <>
-      <SlidingStringWindow
+  <>
+
+{/* <div class="res-circle">
+<div class="circle-txt">Ala</div>
+</div> */}
+
+    <h2>{MAPS.source}</h2>
+    <p> {rnaFeature.gene} extends from {rnaFeature.start} to {rnaFeature.end}  bp</p>
+    <hr></hr>
+      <span className="res-circle">
+        <span className="circle-txt"> {codonF1Notes[0]?.motif}
+        </span>
+      </span>
+
+      <span className="res-circle">
+        <span className="circle-txt">{codonF2Notes[0]?.motif}
+        </span>
+      </span>
+
+      <span className="res-circle">
+        <span className="circle-txt">{codonF3Notes[0]?.motif}
+        </span>
+      </span>
+    <p style={{ whiteSpace:'pre' }}>                             Ribosomal Playhead {index+1}</p>
+
+    <SlidingStringWindow
         initial='                                           '
         insert=' '
         replace={codonF1Notes[0]?.motif}
         frame = '1|'
       />
-      <p> Current ORF length = {AA_Count1.current} Codon = {codonF1} {codonF1Notes[0]?.motif} </p><hr></hr>
-
       <SlidingStringWindow
         initial='                                           '
         insert=' '
         replace={codonF2Notes[0]?.motif}
         frame = '2|'
-        />
-      <p> Current ORF length = {AA_Count2.current} Codon = {codonF2} {codonF2Notes[0]?.motif} </p><hr></hr>
-
+      />
       <SlidingStringWindow
         initial='                                           '
         insert=' '
         replace={codonF3Notes[0]?.motif}
         frame = '3|'
       />
-      <p> Current ORF length = {AA_Count3.current} Codon = {codonF3} {codonF3Notes[0]?.motif} </p><hr></hr>
+      <p>RNA Seq|<span className="rna" > {dotfill40 + genomeSub}</span></p>
+      <p style={{ whiteSpace:'pre' }}>        5`                                       <span className="antiC">{antiCodon}</span>                                    3`</p>
+
+      <Button onClick={play}>Play</Button>
+      <Button onClick={stop}>Stop</Button>
+      <Button onClick={actions.increment}>Increment</Button>
+      <Button onClick={actions.decrement}>Decrement</Button><hr></hr>
+
+      <p> Current ORF length = {AA_Count1.current} Codon <span className="backF1">{codonF1} {codonF1Notes[0]?.motif}</span></p>
+      <p> Current ORF length = {AA_Count2.current} Codon <span className="backF2">{codonF2} {codonF2Notes[0]?.motif}</span></p>
+      <p> Current ORF length = {AA_Count3.current} Codon <span className="backF3">{codonF3} {codonF3Notes[0]?.motif}</span></p>
 
       {MAPS.geneBank_json.map(Feature)}
+
+
       <p> Nucleotide at Playhead {genome[index]} {GATCcount.current} {baseNotes[0].name}</p>
       <p> Di-Nucleotide at Playhead {twobaseNotes[0].motif} {twobaseNotes[0].name} </p>
 
       <p> GC Content over 10 base {tenGCnote[0].ratio} {tenGCnote[0].name} {/*tenGCnote[0].motif*/}</p>
       <p> GC Content over 100 base {tentensGCnote[0].ratio} {tentensGCnote[0].name} {/*tentensGCnote[0].motif*/}</p>
 
-      <Button onClick={play}>Play</Button>
-      <Button onClick={stop}>Stop</Button>
+
       {/* <Button onClick={reverse}>Reverse</Button>
       <Button onClick={playBase}>Play Base</Button> */}
       {/* <Button onClick={playCodon}>Play Codon</Button>
       <Button onClick={base10GC}>Each 10bp GC ratio</Button>
       <Button onClick={base100GC}>Play 100 GCcontent</Button>
       <Button onClick={playTwoBase}>Play diNucleotide</Button>*/}
+      {/* <p> {rnaFeature.product} {rnaFeature.protein_id}</p> */}
+      <hr></hr>
 
       <Song>
         <Track volume={-8} pan={-0.3} >

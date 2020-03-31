@@ -7,6 +7,13 @@ export const COMPLEMENTARY_MAP = {
   C:'G'
 }
 
+export const ANTICODON_MAP = {
+  G:'C',
+  A:'U',
+  T:'A',
+  C:'G'
+}
+
 export const BASE_MAP = {
   G: 'C2',
   A: 'E2',
