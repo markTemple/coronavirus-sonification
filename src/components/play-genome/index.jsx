@@ -233,28 +233,44 @@ if ( (index+1 >= feature.start) && (index <= feature.end) ) {
   }
 }
 
-  const slidingWindowOneReplace = {
-    content: codonF1Notes[0]?.motif,
-    props: {
-      id: '',
-      className: '',
-      style: {
-        backgroundColor: `rgba(0, 0, 0, ${Math.random()})`
-      }
-    }
+// const SW1_PropStyle = {
+//   content: codonF1Notes[0]?.motif,
+//   props: {
+//     id: '',
+//     className: 'frame1',
+//     style: {
+//       backgroundColor: '#ebc844'
+//     }
+//   }
+// }
+
+const SW1_PropStyle = {
+  content: codonF1Notes[0]?.motif,
+  props: {
+    className: 'frame1',
   }
+}
+const SW2_PropStyle = {
+  content: codonF2Notes[0]?.motif,
+  props: {
+    className: 'frame2',
+  }
+}
+const SW3_PropStyle = {
+  content: codonF3Notes[0]?.motif,
+  props: {
+    className: 'frame3',
+  }
+}
 
 return (
   <>
     <h2>{MAPS.source}</h2>
     <p> {rnaFeature.gene} extends from {rnaFeature.start} to {rnaFeature.end}  bp</p>
     <hr></hr>
-      <span className="res-circle">
-        <span className="circle-txt"> {codonF1Notes[0]?.motif}
-        </span>
-      </span>
 
-      <span className="res-circle">
+
+      {/* <span className="res-circle">
         <span className="circle-txt">{codonF2Notes[0]?.motif}
         </span>
       </span>
@@ -262,43 +278,43 @@ return (
       <span className="res-circle">
         <span className="circle-txt">{codonF3Notes[0]?.motif}
         </span>
-      </span>
+      </span> */}
     <p style={{ whiteSpace:'pre' }}>                             Ribosomal Playhead {index+1}</p>
 
-      <span>Frame 1 |</span>
-      <SlidingStringWindow
-        initial='                                           '
+        <span>F1 <span className='pre'>{String(AA_Count1.current).padStart(4, '0')}</span> |</span>
+        <SlidingStringWindow
+        initial='                                             '
         insert=' '
-        replace={slidingWindowOneReplace}
+        replace={SW1_PropStyle}
+        />
+    <br />
+
+    <span>F2 <span className='pre'>{String(AA_Count2.current).padStart(4, '0')}</span> |</span>
+      <SlidingStringWindow
+        initial='                                             '
+        insert=' '
+        replace={SW2_PropStyle}
       />
       <br />
 
-      <span>Frame 2 |</span>
+      <span>F3 <span className='pre'>{String(AA_Count3.current).padStart(4, '0')}</span> |</span>
       <SlidingStringWindow
-        initial='                                           '
+        initial='                                             '
         insert=' '
-        replace={codonF2Notes[0]?.motif}
-      />
-      <br />
-
-      <span>Frame 3 |</span>
-      <SlidingStringWindow
-        initial='                                           '
-        insert=' '
-        replace={codonF3Notes[0]?.motif}
+        replace={SW3_PropStyle}
       />
 
-      <p>RNA Seq|<span className="rna" > {dotfill40 + genomeSub}</span></p>
-      <p style={{ whiteSpace:'pre' }}>        5`                                       <span className="antiC">{antiCodon}</span>                                    3`</p>
+      <p>RNA Seq |<span className="rna" > {dotfill40 + genomeSub}</span></p>
+      <p style={{ whiteSpace:'pre' }}>         5`                                       <span className="antiC">{antiCodon}</span>                                    3`</p>
 
       <Button onClick={play}>Play</Button>
       <Button onClick={stop}>Stop</Button>
       <Button onClick={actions.increment}>Increment</Button>
       <Button onClick={actions.decrement}>Decrement</Button><hr></hr>
 
-      <p> Current ORF length = <span className='pre'>{String(AA_Count1.current).padStart(3, ' ')}</span> Codon <span className="backF1">{codonF1} {codonF1Notes[0]?.motif}</span></p>
-      <p> Current ORF length = {AA_Count2.current} Codon <span className="backF2">{codonF2} {codonF2Notes[0]?.motif}</span></p>
-      <p> Current ORF length = {AA_Count3.current} Codon <span className="backF3">{codonF3} {codonF3Notes[0]?.motif}</span></p>
+      <p> Current ORF length = <span className='pre'>{String(AA_Count1.current).padStart(4, '0')}</span> Codon <span className="backF1">{codonF1}</span> {codonF1Notes[0]?.motif}</p>
+      <p> Current ORF length = <span className='pre'>{String(AA_Count2.current).padStart(4, '0')}</span> Codon <span className="backF2">{codonF2}</span> {codonF2Notes[0]?.motif}</p>
+      <p> Current ORF length = <span className='pre'>{String(AA_Count3.current).padStart(4, '0')}</span> Codon <span className="backF3">{codonF3}</span> {codonF3Notes[0]?.motif}</p>
 
       {MAPS.geneBank_json.map(Feature)}
 
@@ -351,6 +367,7 @@ return (
         <Track volume={-3} pan={0.5} >
           <Instrument type={'amSynth'} notes={metaNote} />
         <Effect type="feedbackDelay" wet={0.5} /> </Track>
+        {/* do something as orf length reaches every 50th AA residue */}
       </Song>
     </>
   );

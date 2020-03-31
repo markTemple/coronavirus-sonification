@@ -103,8 +103,8 @@ h2 {
 
 .res-circle {
   float:left;
-  width: 4%;
-  width: 4%;
+  width: 30%;
+  width: 30%;
   border-radius: 50%;
   line-height: 0;
   background: #f16c21;
@@ -126,13 +126,25 @@ h2 {
   font-size: 1em;
 }
 
-div {
+  div {
   float:left;
   font-family: "Lucida Console", Monaco, monospace;
-  width:100%;
-
+  /* width:100%; */
 }
 
 .pre {
   white-space: pre;
 }
+
+#wrapper{
+  overflow:auto;
+}
+
+#c1{
+ float:left;
+}
+
+#c2{
+  float:right;
+}
+
