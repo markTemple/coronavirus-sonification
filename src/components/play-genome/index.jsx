@@ -7,6 +7,7 @@ import { Button } from '../button';
 import { SlidingStringWindow } from '../sliding-string-window'
 
 import './style.css';
+import { GenomeDisplay } from '../genome-display';
 
 export function PlayGenome() {
   const [genome, getGenome] = useGenome();
@@ -14,7 +15,7 @@ export function PlayGenome() {
   const direction = useRef(false);
 
   const isSynthEnabled = useRef([false, false, false])
-  function setSynthStatus (index, value) {
+  function setSynthStatus(index, value) {
     isSynthEnabled.current[index] = value
   }
 
@@ -33,8 +34,9 @@ export function PlayGenome() {
   function playTwoBase() {
     const twoBase = genome.substring(index, index + 2);
     /*console.log(base);*/
-    if (index % 2 === 0) {return [{ name: MAPS.TWOBASE_MAP[twoBase], duration: '2n', motif: twoBase }];
-  } else { return  [{ name: '', duration: '', motif: '' }]; }
+    if (index % 2 === 0) {
+      return [{ name: MAPS.TWOBASE_MAP[twoBase], duration: '2n', motif: twoBase }];
+    } else { return [{ name: '', duration: '', motif: '' }]; }
   }
   const twobaseNotes = playTwoBase();
 
@@ -99,20 +101,20 @@ export function PlayGenome() {
 
   function ratioToNote(ratio, modulus) {
     let note = 'C1'
-    if(ratio.ratio < 0.25) note = 'C2'
-    else if(ratio.ratio < 0.5) note = 'C3'
-    else if(ratio.ratio < 0.75) note = 'C4'
-    else if(ratio.ratio <= 1.0) note = 'C5'
-    if(index % modulus) return [{ name: note, duration: '1m', motif: ratio.motif, ratio: ratio.ratio}];
-    else return [{ name: '', duration: '', motif: ratio.motif, ratio: ratio.ratio}];
+    if (ratio.ratio < 0.25) note = 'C2'
+    else if (ratio.ratio < 0.5) note = 'C3'
+    else if (ratio.ratio < 0.75) note = 'C4'
+    else if (ratio.ratio <= 1.0) note = 'C5'
+    if (index % modulus) return [{ name: note, duration: '1m', motif: ratio.motif, ratio: ratio.ratio }];
+    else return [{ name: '', duration: '', motif: ratio.motif, ratio: ratio.ratio }];
   }
 
   let Array10bpGCratio =
-  MAPS.calcMotif_GC(genome.substring(index, index + 10), 0, 10 );
+    MAPS.calcMotif_GC(genome.substring(index, index + 10), 0, 10);
   const tenGCnote = ratioToNote(Array10bpGCratio[0], 4);
 
   let Array100bpGCratio =
-  MAPS.calcMotif_GC(genome.substring(index, index + 100), 0, 100 );
+    MAPS.calcMotif_GC(genome.substring(index, index + 100), 0, 100);
   const tentensGCnote = ratioToNote(Array100bpGCratio[0], 10);
   // console.log(tentensGCnote)
 
@@ -121,37 +123,37 @@ export function PlayGenome() {
   const frame012 = index % 3;
 
   let metaNote = []
-  if(index === 266 -6) metaNote = [{ name: 'B7', duration: '4n'}]
-  if(index === 266 -5) metaNote = [{ name: 'G6', duration: '4n'}]
-  if(index === 266 -4) metaNote = [{ name: 'E6', duration: '4n'}]
-  if(index === 266 -3) metaNote = [{ name: 'C6', duration: '4n'}]
+  if (index === 266 - 6) metaNote = [{ name: 'B7', duration: '4n' }]
+  if (index === 266 - 5) metaNote = [{ name: 'G6', duration: '4n' }]
+  if (index === 266 - 4) metaNote = [{ name: 'E6', duration: '4n' }]
+  if (index === 266 - 3) metaNote = [{ name: 'C6', duration: '4n' }]
 
-  if(index === 21563 -6) metaNote = [{ name: 'B7', duration: '4n'}]
-  if(index === 21563 -5) metaNote = [{ name: 'G6', duration: '4n'}]
-  if(index === 21563 -4) metaNote = [{ name: 'E6', duration: '4n'}]
-  if(index === 21563 -3) metaNote = [{ name: 'C6', duration: '4n'}]
+  if (index === 21563 - 6) metaNote = [{ name: 'B7', duration: '4n' }]
+  if (index === 21563 - 5) metaNote = [{ name: 'G6', duration: '4n' }]
+  if (index === 21563 - 4) metaNote = [{ name: 'E6', duration: '4n' }]
+  if (index === 21563 - 3) metaNote = [{ name: 'C6', duration: '4n' }]
 
-  if(index === 26245 -6) metaNote = [{ name: 'B7', duration: '4n'}]
-  if(index === 26245 -5) metaNote = [{ name: 'G6', duration: '4n'}]
-  if(index === 26245 -4) metaNote = [{ name: 'E6', duration: '4n'}]
-  if(index === 26245 -3) metaNote = [{ name: 'C6', duration: '4n'}]
+  if (index === 26245 - 6) metaNote = [{ name: 'B7', duration: '4n' }]
+  if (index === 26245 - 5) metaNote = [{ name: 'G6', duration: '4n' }]
+  if (index === 26245 - 4) metaNote = [{ name: 'E6', duration: '4n' }]
+  if (index === 26245 - 3) metaNote = [{ name: 'C6', duration: '4n' }]
 
-  if(index === 26523 -6) metaNote = [{ name: 'B7', duration: '4n'}]
-  if(index === 26523 -5) metaNote = [{ name: 'G6', duration: '4n'}]
-  if(index === 26523 -4) metaNote = [{ name: 'E6', duration: '4n'}]
-  if(index === 26523 -3) metaNote = [{ name: 'C6', duration: '4n'}]
+  if (index === 26523 - 6) metaNote = [{ name: 'B7', duration: '4n' }]
+  if (index === 26523 - 5) metaNote = [{ name: 'G6', duration: '4n' }]
+  if (index === 26523 - 4) metaNote = [{ name: 'E6', duration: '4n' }]
+  if (index === 26523 - 3) metaNote = [{ name: 'C6', duration: '4n' }]
 
-  if(index === 28274 -6) metaNote = [{ name: 'B7', duration: '4n'}]
-  if(index === 28274 -5) metaNote = [{ name: 'G6', duration: '4n'}]
-  if(index === 28274 -4) metaNote = [{ name: 'E6', duration: '4n'}]
-  if(index === 28274 -3) metaNote = [{ name: 'C6', duration: '4n'}]
+  if (index === 28274 - 6) metaNote = [{ name: 'B7', duration: '4n' }]
+  if (index === 28274 - 5) metaNote = [{ name: 'G6', duration: '4n' }]
+  if (index === 28274 - 4) metaNote = [{ name: 'E6', duration: '4n' }]
+  if (index === 28274 - 3) metaNote = [{ name: 'C6', duration: '4n' }]
 
   //ugly color but not cause of colored blanl spave
   function colorCodon() {
     if (isSynthEnabled.current[frame012] === true) {
-      return <span className="red">{codon}</span>;
+      return <span className='stop'>{codon}</span>;
     } else if (isSynthEnabled.current[frame012] === false) {
-      return <span className="green">{codon}</span>;
+      return <span className='start'>{codon}</span>;
     } else {
       return codon;
     }
@@ -180,199 +182,187 @@ export function PlayGenome() {
   function Feature(feature, i) {
     const style = {}
     //add moer things to call here as const's
-    if ( (index+1 >= feature.start) && ((index < feature.end))) {
+    if ((index + 1 >= feature.start) && ((index < feature.end))) {
       style.backgroundColor = '#f08b2c'
 
     }
     // include a reset GC count on click
     return (
-    <Fragment key={i}>
-      <Button
-        onClick={() => {
-          actions.set(feature.start - 1)
-          setSynthStatus(0, false)
-          setSynthStatus(1, false)
-          setSynthStatus(2, false)
-          GATCcount.current = 0
-        }}
-        style={style}
-      >
-      {/* there is no actual whitespace in button} */}
-      <p style={{ whiteSpace:'pre' }}>{feature.button_label}</p>
-      </Button>{' '}
-      {/* {feature.product} */}
-    </Fragment>
+      <Fragment key={i}>
+        <Button
+          onClick={() => {
+            actions.set(feature.start - 1)
+            setSynthStatus(0, false)
+            setSynthStatus(1, false)
+            setSynthStatus(2, false)
+            GATCcount.current = 0
+          }}
+          style={style}
+        >
+          {/* there is no actual whitespace in button} */}
+          <p style={{ whiteSpace: 'pre' }}>{feature.button_label}</p>
+        </Button>{' '}
+        {/* {feature.product} */}
+      </Fragment>
     );
-}
-
-const genomeSub = genome.substring(index-40, index+41)
-function makeComplementary (seq) {
-  return seq.replace(/./g, (char) => MAPS.ANTICODON_MAP[char])
-}
-const indexChar = genome.substr(index, +3);
-const antiCodon = makeComplementary(indexChar);
-
-let dotfill40 = '........................................';
-function moveDot () {
-  if (index <= 40) {
-    dotfill40 = dotfill40.slice(index);
-  }else{
-    dotfill40 = '';
   }
-}
-moveDot();
 
-let rnaFeature = 'default';
-for(var feature of MAPS.geneBank_json){
-if ( (index+1 >= feature.start) && (index <= feature.end) ) {
-    rnaFeature = feature
-    //buttonIndex.current = MAPS.geneBank_json.indexOf(feature)
+  const genomeSub = genome.substring(index - 40, index + 41)
+  function makeComplementary(seq) {
+    return seq.replace(/./g, (char) => MAPS.ANTICODON_MAP[char])
   }
-}
+  const indexChar = genome.substr(index, +3);
+  const antiCodon = makeComplementary(indexChar);
 
-// const SW1_PropStyle = {
-//   content: codonF1Notes[0]?.motif,
-//   props: {
-//     id: '',
-//     className: 'frame1',
-//     style: {
-//       backgroundColor: '#ebc844'
-//     }
-//   }
-// }
-
-const SW1_PropStyle = {
-  content: codonF1Notes[0]?.motif,
-  props: {
-    className: 'frame1 circle',
+  let dotfill40 = '........................................';
+  function moveDot() {
+    if (index <= 40) {
+      dotfill40 = dotfill40.slice(index);
+    } else {
+      dotfill40 = '';
+    }
   }
-}
-const SW2_PropStyle = {
-  content: codonF2Notes[0]?.motif,
-  props: {
-    className: 'frame2 circle',
+  moveDot();
+
+  let rnaFeature = 'default';
+  for (var feature of MAPS.geneBank_json) {
+    if ((index + 1 >= feature.start) && (index <= feature.end)) {
+      rnaFeature = feature
+      //buttonIndex.current = MAPS.geneBank_json.indexOf(feature)
+    }
   }
-}
 
-const SW3_PropStyle = {
-  content: codonF3Notes[0]?.motif,
-  props: {
-    className: 'frame3 circle',
+  // const SW1_PropStyle = {
+  //   content: codonF1Notes[0]?.motif,
+  //   props: {
+  //     id: '',
+  //     className: 'frame1',
+  //     style: {
+  //       backgroundColor: '#ebc844'
+  //     }
+  //   }
+  // }
+
+  const SW1_PropStyle = {
+    content: codonF1Notes[0]?.motif,
+    props: {
+      className: 'frame1 circle',
+    }
   }
-}
+  const SW2_PropStyle = {
+    content: codonF2Notes[0]?.motif,
+    props: {
+      className: 'frame2 circle',
+    }
+  }
 
-return (
-  <>
-  <h2>{MAPS.source}</h2>
-    <p> {rnaFeature.gene} extends from {rnaFeature.start} to {rnaFeature.end}  bp</p>
-  <hr></hr>
-  <p style={{ whiteSpace:'pre' }}>Sonification of RNA translation to produce an amino acid chain
-  </p>
-  <br></br>
-  <div>
-    <span>Frame1
-      <span className='pre'>
-        <span className="six"> {String(AA_Count1.current).padStart(4, '0')}
+  const SW3_PropStyle = {
+    content: codonF3Notes[0]?.motif,
+    props: {
+      className: 'frame3 circle',
+    }
+  }
+
+  return (
+    <>
+      <h2>{MAPS.source}</h2>
+      <p>{rnaFeature.gene} extends from {rnaFeature.start} to {rnaFeature.end} bp</p>
+      <hr />
+      <p style={{ whiteSpace: 'pre' }}>Sonification of RNA translation to produce an amino acid chain</p>
+      <br />
+      <div>
+        <span>
+          Frame1
+          <span className='pre'>
+            <span className='six'> {String(AA_Count1.current).padStart(4, '0')}</span>
+          </span>|
         </span>
-      </span>|
-    </span>
-  <SlidingStringWindow
-    initial='                                             '
-    insert=' '
-    replace={SW1_PropStyle}
-  />
-  </div>
+        <SlidingStringWindow
+          initial='                                           '
+          insert=' '
+          replace={SW1_PropStyle}
+        />
+      </div>
 
-<div>
-<span>Frame2
-  <span className='pre'>
-        <span className="six"> {String(AA_Count2.current).padStart(4, '0')}
+      <div>
+        <span>
+          Frame2
+          <span className='pre'>
+            <span className='six'> {String(AA_Count2.current).padStart(4, '0')}</span>
+          </span>|
         </span>
-      </span>|
-    </span>
-    <SlidingStringWindow
-      initial='                                             '
-      insert=' '
-      replace={SW2_PropStyle}
-    />
-</div>
+        <SlidingStringWindow
+          initial='                                           '
+          insert=' '
+          replace={SW2_PropStyle}
+        />
+      </div>
 
-<div>
-<span>Frame3
-  <span className='pre'>
-        <span className="six"> {String(AA_Count3.current).padStart(4, '0')}
+      <div>
+        <span>
+          Frame3
+          <span className='pre'>
+            <span className='six'> {String(AA_Count3.current).padStart(4, '0')}</span>
+          </span>|
         </span>
-      </span>|
-  </span>
-  <SlidingStringWindow
-    initial='                                             '
-    insert=' '
-    replace={SW3_PropStyle}
-  />
-</div>
+        <SlidingStringWindow
+          initial='                                           '
+          insert=' '
+          replace={SW3_PropStyle}
+        />
+      </div>
 
-  <p style={
-    { whiteSpace:'pre' }
-    }>            5`                                       <span className="antiC">{antiCodon}
-  </span>                                    3`</p>
-
-  <div className="ribosomeSmall" coords="337, 300, 44" ></div>
-  <div className="ribosomeBig" coords="337, 300, 44" ></div>
-
-  <div><span className='thr'> RNA bp</span>
-      <span className='six'> {String(index+1).padStart(4, '0')}
-      </span>|
-
-    <span className="rna" > {dotfill40 + genomeSub}
-    </span>
-  </div>
-  <br></br>
-  <Button onClick={play}>Play</Button>
-  <Button onClick={stop}>Stop</Button>
-  <Button onClick={actions.increment}>Increment</Button>
-  <Button onClick={actions.decrement}>Decrement</Button>
-  <hr></hr>
-  <br></br>
-
-  {MAPS.geneBank_json.map(Feature)}
-
-  <div class="row">
-    <div class="column">
-      <p> Nucleotide at Playhead {genome[index]} {GATCcount.current} {baseNotes[0].name}
+      <p className='pre'>
+        <span>            5`                                      </span>
+        <span className='antiC'>{antiCodon}</span>
+        <span>                                    3`</span>
       </p>
-      <p> Di-Nucleotide at Playhead {twobaseNotes[0].motif} {twobaseNotes[0].name}
-      </p>
-      <p> GC Content over 10 base {tenGCnote[0].ratio} {tenGCnote[0].name} {/*tenGCnote[0].motif*/}
-      </p>
-      <p> GC Content over 100 base {tentensGCnote[0].ratio} {tentensGCnote[0].name} {/*tentensGCnote[0].motif*/}
-      </p>
-    </div>
-    <div class="column">
-      <p>
-      Frame 1 Codon to AA residue:
-        <span className="backF1">{codonF1}
-        </span>
-        <span className="circle2"> {codonF1Notes[0]?.motif}
-        </span>
 
-      </p>
-      <p>
-      Frame 2 Codon to AA residue:
-        <span className="backF2">{codonF2}
-        </span>
-        <span className="circle2"> {codonF2Notes[0]?.motif}
-        </span>
+      <div className='ribosomeSmall'></div>
+      <div className='ribosomeBig'></div>
+      <div className='playhead'></div>
 
-      </p>
-      <p>
-      Frame 3 Codon to AA residue:
-        <span className="backF3">{codonF3}
-        </span>
-        <span className="circle2"> {codonF3Notes[0]?.motif}
-        </span>
-      </p>
-    </div>
-  </div>
+      <div>
+        <span className='thr'> RNAbp</span>
+        <span className='six'> {String(index + 1).padStart(5, '0')}</span>|
+        <GenomeDisplay className='rna'>{dotfill40 + genomeSub}</GenomeDisplay>
+      </div>
+
+      <br />
+      <Button onClick={play}>Play</Button>
+      <Button onClick={stop}>Stop</Button>
+      <Button onClick={actions.increment}>Increment</Button>
+      <Button onClick={actions.decrement}>Decrement</Button>
+      <hr />
+      <br />
+
+      {MAPS.geneBank_json.map(Feature)}
+
+      <div className='row'>
+        <div className='column'>
+          <p> Nucleotide at Playhead {genome[index]} {GATCcount.current} {baseNotes[0].name}</p>
+          <p> Di-Nucleotide at Playhead {twobaseNotes[0].motif} {twobaseNotes[0].name}</p>
+          <p> GC Content over 10 base {tenGCnote[0].ratio} {tenGCnote[0].name} {/*tenGCnote[0].motif*/}</p>
+          <p> GC Content over 100 base {tentensGCnote[0].ratio} {tentensGCnote[0].name} {/*tentensGCnote[0].motif*/}</p>
+        </div>
+        <div className='column'>
+          <p>
+            Frame 1 Codon to AA residue:
+            <span className='backF1'>{codonF1}</span>
+            <span className='circle2 frame1'>{codonF1Notes[0]?.motif}</span>
+          </p>
+          <p>
+            Frame 2 Codon to AA residue:
+            <span className='backF2'>{codonF2}</span>
+            <span className='circle2 frame2'>{codonF2Notes[0]?.motif}</span>
+          </p>
+          <p>
+            Frame 3 Codon to AA residue:
+            <span className='backF3'>{codonF3}</span>
+            <span className='circle2 frame3'>{codonF3Notes[0]?.motif}</span>
+          </p>
+        </div>
+      </div>
 
       {/* <Button onClick={reverse}>Reverse</Button>
       <Button onClick={playBase}>Play Base</Button> */}
@@ -381,7 +371,7 @@ return (
       <Button onClick={base100GC}>Play 100 GCcontent</Button>
       <Button onClick={playTwoBase}>Play diNucleotide</Button>*/}
       {/* <p> {rnaFeature.product} {rnaFeature.protein_id}</p> */}
-  <hr></hr>
+      <hr />
 
       <Song>
         <Track volume={-8} pan={-0.3} >
@@ -389,32 +379,32 @@ return (
         </Track>
         <Track volume={-8} pan={0.3} >
           <Instrument type={'synth'} notes={twobaseNotes} />
-          <Effect type="feedbackDelay" wet={0.2} />
+          <Effect type='feedbackDelay' wet={0.2} />
         </Track>
         <Track volume={-3} pan={-0.8} >
-          <Instrument type={'synth'} oscillator={{type: 'triangle'}}
+          <Instrument type={'synth'} oscillator={{ type: 'triangle' }}
             notes={codonF1Notes} />
-          <Effect type="distortion" />
+          <Effect type='distortion' />
         </Track>
         <Track volume={-3} pan={0} >
-          <Instrument type={'synth'} oscillator={{type: 'triangle'}}
+          <Instrument type={'synth'} oscillator={{ type: 'triangle' }}
             notes={codonF2Notes} />
-          <Effect type="distortion" />
+          <Effect type='distortion' />
         </Track>
         <Track volume={-3} pan={0.8} >
-        <Instrument type={'synth'} oscillator={{type: 'triangle'}}
-          notes={codonF3Notes} />
-          <Effect type="distortion" />
+          <Instrument type={'synth'} oscillator={{ type: 'triangle' }}
+            notes={codonF3Notes} />
+          <Effect type='distortion' />
         </Track>
         <Track volume={-12} pan={-0.5} >
           <Instrument type={'amSynth'} notes={tenGCnote} />
-          <Effect type="feedbackDelay" wet={0.2} /> </Track>
+          <Effect type='feedbackDelay' wet={0.2} /> </Track>
         <Track volume={-12} pan={0.5} >
           <Instrument type={'amSynth'} notes={tentensGCnote} />
-          <Effect type="feedbackDelay" wet={0.2} /> </Track>
+          <Effect type='feedbackDelay' wet={0.2} /> </Track>
         <Track volume={-3} pan={0.5} >
           <Instrument type={'amSynth'} notes={metaNote} />
-        <Effect type="feedbackDelay" wet={0.5} /> </Track>
+          <Effect type='feedbackDelay' wet={0.5} /> </Track>
         {/* do something as orf length reaches every 50th AA residue */}
       </Song>
     </>

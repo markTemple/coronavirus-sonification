@@ -2,10 +2,18 @@
 import React, { useRef, useState } from 'react'
 import PropTypes, { string } from 'prop-types'
 
+const value = PropTypes.oneOfType([
+  PropTypes.string,
+  PropTypes.shape({
+    content: PropTypes.string,
+    props: PropTypes.object
+  })
+])
+
 SlidingStringWindow.propTypes = {
-  initial: PropTypes.string.isRequired,
-  insert: PropTypes.string,
-  replace: PropTypes.string,
+  initial: value,
+  insert: value,
+  replace: value,
   reset: PropTypes.bool,
 }
 

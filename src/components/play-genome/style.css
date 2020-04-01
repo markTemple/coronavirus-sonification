@@ -8,7 +8,7 @@ span.rna {
   background-color: #ebc844;
 }
 span.antiC {
-  padding: 4px;
+  padding: 4px 0px;
   color: #ebc844;
   background-color:#0c3d55;
 }
@@ -51,12 +51,13 @@ hr {
 h2 {
   color: #0e5b78;
 }
-.green {
-  color: green;
-}
+.stop {
+  color:  #0e5b78;
+  background-color:#a3b96c;}
 
-.red {
-  color: red;
+.start {
+  color: #f08b2c;
+  background-color: #117899;
 }
 .one{
   color: #1396ba;
@@ -106,9 +107,10 @@ h2 {
   background: #f16c21;
 }
 .circle2 {
-  padding: 6px 0px 6px 0px;
+  padding: 4px 0px 4px 0px;
   border-radius: 50%;
   background: #f16c21;
+  margin-left: 7px;
 }
 
   div {
@@ -142,7 +144,15 @@ h2 {
   height: 190px;
   opacity: 0.4;
   z-index: 1;
-
+}
+.playhead {
+  position: absolute;
+  top: 293px;
+  left: 504px;
+  border: 1px solid green;
+  width: 33px;
+  height: 60px;
+  opacity: 0.4;
 }
 
 .column {
