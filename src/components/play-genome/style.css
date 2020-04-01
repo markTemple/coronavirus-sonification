@@ -1,10 +1,9 @@
 span,
 p {
-  font-family: "Lucida Console", Monaco, monospace;
   color:  #0e5b78;
 }
 span.rna {
-  padding: 4px;
+  padding: 4px 0px;
   color: #0c3d55;
   background-color: #ebc844;
 }
@@ -30,17 +29,17 @@ span.frame3 {
 }
 
 span.backF1 {
-  margin: 4px;
+  padding: 3px;
   background-color: #5da793;
 }
 
 span.backF2 {
-  margin: 4px;
+  padding: 3px;
   background-color: #ecaa38;
 }
 
 span.backF3 {
-  margin: 4px;
+  padding: 3px;
   background-color: #a3b96c;
 }
 
@@ -101,50 +100,63 @@ h2 {
   background-color: #4CAF50;
 } */
 
-.res-circle {
-  float:left;
-  width: 30%;
-  width: 30%;
+.circle {
+  padding: 4px 0px 4px 0px;
   border-radius: 50%;
-  line-height: 0;
   background: #f16c21;
-  /* NECESSARY FOR TEXT */
-  position: relative;
 }
-.res-circle:after {
-  content: "";
-  display: block;
-  padding-bottom: 100%;
-}
-.circle-txt {
-  position: absolute;
-  bottom: 50%;
-  width: 100%;
-  text-align: center;
-  /* NOT IMPORTANT */
-  font-family: Monaco, monospace;
-  font-size: 1em;
+.circle2 {
+  padding: 6px 0px 6px 0px;
+  border-radius: 50%;
+  background: #f16c21;
 }
 
   div {
-  float:left;
-  font-family: "Lucida Console", Monaco, monospace;
-  /* width:100%; */
-}
+    font-family: "Lucida Console", Monaco, monospace;
+    width: 1000px;
+    padding: 4px 0px;
+  }
 
 .pre {
   white-space: pre;
 }
 
-#wrapper{
-  overflow:auto;
+.ribosomeSmall {
+  position: absolute;
+  top: 320px;
+  left: 430px;
+  background: #f16c21;
+  border-radius: 50%;
+  width: 200px;
+  height: 100px;
+  opacity: 0.5;
+  z-index: -1;
+}
+.ribosomeBig {
+  position: absolute;
+  top: 170px;
+  left: 380px;
+  background: #0e5b78;
+  border-radius: 50%;
+  width: 300px;
+  height: 190px;
+  opacity: 0.4;
+  z-index: 1;
+
 }
 
-#c1{
- float:left;
+.column {
+  float: left;
+  width: 50%;
 }
 
-#c2{
-  float:right;
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
+span:empty {
+  display: none;
+}

@@ -43,11 +43,9 @@ export function PlayGenome() {
     const frame012 = index % 3;
 
     if (codon === 'TGA' || codon === 'TAG' || codon === 'TAA') {
-      //console.log('stop')
       setSynthStatus(frame012, false);
     }
     if (codon === 'ATG') {
-      //console.log('start')
       setSynthStatus(frame012, true);
     }
 
@@ -165,6 +163,7 @@ export function PlayGenome() {
   if (frame012 === 1) codonF2 = colorCodon();
   if (frame012 === 2) codonF3 = colorCodon();
 
+
   const play = () => Tone.Transport.start();
   const stop = () => Tone.Transport.stop();
   const reverse = () => (direction.current = !direction.current);
@@ -213,8 +212,6 @@ function makeComplementary (seq) {
 const indexChar = genome.substr(index, +3);
 const antiCodon = makeComplementary(indexChar);
 
-//console.log(antiCodon);
-
 let dotfill40 = '........................................';
 function moveDot () {
   if (index <= 40) {
@@ -247,84 +244,135 @@ if ( (index+1 >= feature.start) && (index <= feature.end) ) {
 const SW1_PropStyle = {
   content: codonF1Notes[0]?.motif,
   props: {
-    className: 'frame1',
+    className: 'frame1 circle',
   }
 }
 const SW2_PropStyle = {
   content: codonF2Notes[0]?.motif,
   props: {
-    className: 'frame2',
+    className: 'frame2 circle',
   }
 }
+
 const SW3_PropStyle = {
   content: codonF3Notes[0]?.motif,
   props: {
-    className: 'frame3',
+    className: 'frame3 circle',
   }
 }
 
 return (
   <>
-    <h2>{MAPS.source}</h2>
+  <h2>{MAPS.source}</h2>
     <p> {rnaFeature.gene} extends from {rnaFeature.start} to {rnaFeature.end}  bp</p>
-    <hr></hr>
-
-
-      {/* <span className="res-circle">
-        <span className="circle-txt">{codonF2Notes[0]?.motif}
+  <hr></hr>
+  <p style={{ whiteSpace:'pre' }}>Sonification of RNA translation to produce an amino acid chain
+  </p>
+  <br></br>
+  <div>
+    <span>Frame1
+      <span className='pre'>
+        <span className="six"> {String(AA_Count1.current).padStart(4, '0')}
         </span>
-      </span>
+      </span>|
+    </span>
+  <SlidingStringWindow
+    initial='                                             '
+    insert=' '
+    replace={SW1_PropStyle}
+  />
+  </div>
 
-      <span className="res-circle">
-        <span className="circle-txt">{codonF3Notes[0]?.motif}
+<div>
+<span>Frame2
+  <span className='pre'>
+        <span className="six"> {String(AA_Count2.current).padStart(4, '0')}
         </span>
-      </span> */}
-    <p style={{ whiteSpace:'pre' }}>                             Ribosomal Playhead {index+1}</p>
+      </span>|
+    </span>
+    <SlidingStringWindow
+      initial='                                             '
+      insert=' '
+      replace={SW2_PropStyle}
+    />
+</div>
 
-        <span>F1 <span className='pre'>{String(AA_Count1.current).padStart(4, '0')}</span> |</span>
-        <SlidingStringWindow
-        initial='                                             '
-        insert=' '
-        replace={SW1_PropStyle}
-        />
-    <br />
+<div>
+<span>Frame3
+  <span className='pre'>
+        <span className="six"> {String(AA_Count3.current).padStart(4, '0')}
+        </span>
+      </span>|
+  </span>
+  <SlidingStringWindow
+    initial='                                             '
+    insert=' '
+    replace={SW3_PropStyle}
+  />
+</div>
 
-    <span>F2 <span className='pre'>{String(AA_Count2.current).padStart(4, '0')}</span> |</span>
-      <SlidingStringWindow
-        initial='                                             '
-        insert=' '
-        replace={SW2_PropStyle}
-      />
-      <br />
+  <p style={
+    { whiteSpace:'pre' }
+    }>            5`                                       <span className="antiC">{antiCodon}
+  </span>                                    3`</p>
 
-      <span>F3 <span className='pre'>{String(AA_Count3.current).padStart(4, '0')}</span> |</span>
-      <SlidingStringWindow
-        initial='                                             '
-        insert=' '
-        replace={SW3_PropStyle}
-      />
+  <div className="ribosomeSmall" coords="337, 300, 44" ></div>
+  <div className="ribosomeBig" coords="337, 300, 44" ></div>
 
-      <p>RNA Seq |<span className="rna" > {dotfill40 + genomeSub}</span></p>
-      <p style={{ whiteSpace:'pre' }}>         5`                                       <span className="antiC">{antiCodon}</span>                                    3`</p>
+  <div><span className='thr'> RNA bp</span>
+      <span className='six'> {String(index+1).padStart(4, '0')}
+      </span>|
 
-      <Button onClick={play}>Play</Button>
-      <Button onClick={stop}>Stop</Button>
-      <Button onClick={actions.increment}>Increment</Button>
-      <Button onClick={actions.decrement}>Decrement</Button><hr></hr>
+    <span className="rna" > {dotfill40 + genomeSub}
+    </span>
+  </div>
+  <br></br>
+  <Button onClick={play}>Play</Button>
+  <Button onClick={stop}>Stop</Button>
+  <Button onClick={actions.increment}>Increment</Button>
+  <Button onClick={actions.decrement}>Decrement</Button>
+  <hr></hr>
+  <br></br>
 
-      <p> Current ORF length = <span className='pre'>{String(AA_Count1.current).padStart(4, '0')}</span> Codon <span className="backF1">{codonF1}</span> {codonF1Notes[0]?.motif}</p>
-      <p> Current ORF length = <span className='pre'>{String(AA_Count2.current).padStart(4, '0')}</span> Codon <span className="backF2">{codonF2}</span> {codonF2Notes[0]?.motif}</p>
-      <p> Current ORF length = <span className='pre'>{String(AA_Count3.current).padStart(4, '0')}</span> Codon <span className="backF3">{codonF3}</span> {codonF3Notes[0]?.motif}</p>
+  {MAPS.geneBank_json.map(Feature)}
 
-      {MAPS.geneBank_json.map(Feature)}
+  <div class="row">
+    <div class="column">
+      <p> Nucleotide at Playhead {genome[index]} {GATCcount.current} {baseNotes[0].name}
+      </p>
+      <p> Di-Nucleotide at Playhead {twobaseNotes[0].motif} {twobaseNotes[0].name}
+      </p>
+      <p> GC Content over 10 base {tenGCnote[0].ratio} {tenGCnote[0].name} {/*tenGCnote[0].motif*/}
+      </p>
+      <p> GC Content over 100 base {tentensGCnote[0].ratio} {tentensGCnote[0].name} {/*tentensGCnote[0].motif*/}
+      </p>
+    </div>
+    <div class="column">
+      <p>
+      Frame 1 Codon to AA residue:
+        <span className="backF1">{codonF1}
+        </span>
+        <span className="circle2"> {codonF1Notes[0]?.motif}
+        </span>
 
+      </p>
+      <p>
+      Frame 2 Codon to AA residue:
+        <span className="backF2">{codonF2}
+        </span>
+        <span className="circle2"> {codonF2Notes[0]?.motif}
+        </span>
 
-      <p> Nucleotide at Playhead {genome[index]} {GATCcount.current} {baseNotes[0].name}</p>
-      <p> Di-Nucleotide at Playhead {twobaseNotes[0].motif} {twobaseNotes[0].name} </p>
-
-      <p> GC Content over 10 base {tenGCnote[0].ratio} {tenGCnote[0].name} {/*tenGCnote[0].motif*/}</p>
-      <p> GC Content over 100 base {tentensGCnote[0].ratio} {tentensGCnote[0].name} {/*tentensGCnote[0].motif*/}</p>
-
+      </p>
+      <p>
+      Frame 3 Codon to AA residue:
+        <span className="backF3">{codonF3}
+        </span>
+        <span className="circle2"> {codonF3Notes[0]?.motif}
+        </span>
+      </p>
+    </div>
+  </div>
 
       {/* <Button onClick={reverse}>Reverse</Button>
       <Button onClick={playBase}>Play Base</Button> */}
@@ -333,7 +381,7 @@ return (
       <Button onClick={base100GC}>Play 100 GCcontent</Button>
       <Button onClick={playTwoBase}>Play diNucleotide</Button>*/}
       {/* <p> {rnaFeature.product} {rnaFeature.protein_id}</p> */}
-      <hr></hr>
+  <hr></hr>
 
       <Song>
         <Track volume={-8} pan={-0.3} >
