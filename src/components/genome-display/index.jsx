@@ -96,26 +96,3 @@ export function GenomeDisplay ({ children: genome, ...props }) {
     </span>
   )
 }
-
-
-
-    // if (string.startsWith('TGA')) {
-    //   result.push(
-    //     <span className='stop'>TGA</span>
-    //   )
-    //   string = string.substring(4)
-    // }
-
-    // if (string.startsWith('TAG')) {
-    //   result.push(
-    //     <span className='stop'>TAG</span>
-    //   )
-    //   string = string.substring(4)
-    // }
-
-    // if (string.startsWith('TAA')) {
-    //   result.push(
-    //     <span className='stop'>TAA</span>
-    //   )
-    //   string = string.substring(4)
-    // }

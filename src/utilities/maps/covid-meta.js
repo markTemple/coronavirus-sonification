@@ -44,8 +44,8 @@ export const geneBank_json = [
   {
   start: 13468,
   end: 21555,
-  gene: 'orf1b',
-  product: 'polyprotein (ab fragment 2, -1 ribosomal frameshift)',
+  gene: 'orf1b, -1 ribosomal frameshift',
+  product: 'polyprotein (ab fragment 2)',
   protein_id: 'QHD43415.1',
   button_label: "ab2",
   type: 'p'

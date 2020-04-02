@@ -19,6 +19,13 @@ export function PlayGenome() {
     isSynthEnabled.current[index] = value
   }
 
+//-1frameshift hack
+//-1 AT 13468 THIS WORKS due to 123123 numbering
+let frameshift = ''
+if( (index >= 13466-1) && (index < 21555) ){
+  frameshift = index -2
+}
+
   function getBaseNotes() {
     const base = genome[index];
     return [{ name: MAPS.BASE_MAP[base], duration: '16n', motif: base }];
@@ -50,6 +57,10 @@ export function PlayGenome() {
     if (codon === 'ATG') {
       setSynthStatus(frame012, true);
     }
+    if(frameshift) {
+      isSynthEnabled.current[0] = true
+    }
+
 
     return {
       name: MAPS.CODON_MAP2[codon]?.Note,
@@ -122,33 +133,48 @@ export function PlayGenome() {
   const codon = genome.substring(index, index + 3);
   const frame012 = index % 3;
 
-  let metaNote = []
-  if (index === 266 - 6) metaNote = [{ name: 'B7', duration: '4n' }]
-  if (index === 266 - 5) metaNote = [{ name: 'G6', duration: '4n' }]
-  if (index === 266 - 4) metaNote = [{ name: 'E6', duration: '4n' }]
-  if (index === 266 - 3) metaNote = [{ name: 'C6', duration: '4n' }]
+  const FrameOfORF = MAPS.geneBank_json
+  .find(feature => index+1 === feature.start && feature.type === 'p')
 
-  if (index === 21563 - 6) metaNote = [{ name: 'B7', duration: '4n' }]
-  if (index === 21563 - 5) metaNote = [{ name: 'G6', duration: '4n' }]
-  if (index === 21563 - 4) metaNote = [{ name: 'E6', duration: '4n' }]
-  if (index === 21563 - 3) metaNote = [{ name: 'C6', duration: '4n' }]
+//console.log(FrameOfORF)
 
-  if (index === 26245 - 6) metaNote = [{ name: 'B7', duration: '4n' }]
-  if (index === 26245 - 5) metaNote = [{ name: 'G6', duration: '4n' }]
-  if (index === 26245 - 4) metaNote = [{ name: 'E6', duration: '4n' }]
-  if (index === 26245 - 3) metaNote = [{ name: 'C6', duration: '4n' }]
+  const notORF = MAPS.geneBank_json
+  .find(feature => index+1 === feature.start && feature.type === 'u')
+  //console.log(orf.current)
+  const orf1 = useRef('');
+  const orf2 = useRef('');
+  const orf3 = useRef('');
 
-  if (index === 26523 - 6) metaNote = [{ name: 'B7', duration: '4n' }]
-  if (index === 26523 - 5) metaNote = [{ name: 'G6', duration: '4n' }]
-  if (index === 26523 - 4) metaNote = [{ name: 'E6', duration: '4n' }]
-  if (index === 26523 - 3) metaNote = [{ name: 'C6', duration: '4n' }]
+  const orf = useRef('');
+  if(FrameOfORF) orf.current = frame012
+  if(notORF) {
+    orf.current = ''
+    orf1.current = ''
+    orf2.current = ''
+    orf3.current = ''
+  }
+  if(orf.current === 0 && FrameOfORF) orf1.current = '<-' + FrameOfORF.product
+  if(orf.current === 1 && FrameOfORF) orf2.current = '<-' + FrameOfORF.product
+  if(orf.current === 2 && FrameOfORF) orf3.current = '<-' + FrameOfORF.product
 
-  if (index === 28274 - 6) metaNote = [{ name: 'B7', duration: '4n' }]
-  if (index === 28274 - 5) metaNote = [{ name: 'G6', duration: '4n' }]
-  if (index === 28274 - 4) metaNote = [{ name: 'E6', duration: '4n' }]
-  if (index === 28274 - 3) metaNote = [{ name: 'C6', duration: '4n' }]
+  const upcomming = MAPS.geneBank_json
+    .find(feature => index > feature.start -10 && index < feature.start -1)
 
-  //ugly color but not cause of colored blanl spave
+  const metaP_begin = ['C5','E5','G5','B6','C6','E6','G6','B7'];
+  const metaP_end = ['B7','G6','E6','C6','B6','G5','E5','C5'];
+
+  const mNoteCount = useRef(0);
+  let metaNote = [];
+
+  function playMeta(noteArr) {
+    metaNote = [{name: noteArr[mNoteCount.current], duration: '4n'}]
+    mNoteCount.current++
+    if(mNoteCount.current === 7) mNoteCount.current = 0
+  }
+
+  if( (upcomming) && upcomming.type === 'p') playMeta(metaP_begin)
+  if( (upcomming) && upcomming.type === 'u') playMeta(metaP_end)
+
   function colorCodon() {
     if (isSynthEnabled.current[frame012] === true) {
       return <span className='stop'>{codon}</span>;
@@ -214,7 +240,7 @@ export function PlayGenome() {
   const indexChar = genome.substr(index, +3);
   const antiCodon = makeComplementary(indexChar);
 
-  let dotfill40 = '........................................';
+  let dotfill40 = `                                        `;
   function moveDot() {
     if (index <= 40) {
       dotfill40 = dotfill40.slice(index);
@@ -266,7 +292,7 @@ export function PlayGenome() {
   return (
     <>
       <h2>{MAPS.source}</h2>
-      <p>{rnaFeature.gene} extends from {rnaFeature.start} to {rnaFeature.end} bp</p>
+      <p>{rnaFeature.product} extends from {rnaFeature.start} to {rnaFeature.end} bp ({rnaFeature.end+1 - rnaFeature.start} bpin length)</p>
       <hr />
       <p style={{ whiteSpace: 'pre' }}>Sonification of RNA translation to produce an amino acid chain</p>
       <br />
@@ -282,6 +308,7 @@ export function PlayGenome() {
           insert=' '
           replace={SW1_PropStyle}
         />
+        <span>{orf1.current}</span>
       </div>
 
       <div>
@@ -296,6 +323,7 @@ export function PlayGenome() {
           insert=' '
           replace={SW2_PropStyle}
         />
+        <span>{orf2.current}</span>
       </div>
 
       <div>
@@ -310,30 +338,30 @@ export function PlayGenome() {
           insert=' '
           replace={SW3_PropStyle}
         />
+        <span>{orf3.current}</span>
       </div>
-
-      <p className='pre'>
-        <span>            5`                                      </span>
-        <span className='antiC'>{antiCodon}</span>
-        <span>                                    3`</span>
-      </p>
 
       <div className='ribosomeSmall'></div>
       <div className='ribosomeBig'></div>
       <div className='playhead'></div>
 
       <div>
-        <span className='thr'> RNAbp</span>
+      <p className='pre drop'>
+        <span>            5`                                      </span>
+        <span className='antiC'>{antiCodon}</span>
+        <span>                                    3`</span>
+      </p>
+      <span className='thr'> RNAbp</span>
         <span className='six'> {String(index + 1).padStart(5, '0')}</span>|
-        <GenomeDisplay className='rna'>{dotfill40 + genomeSub}</GenomeDisplay>
+        <GenomeDisplay className='rna pre'>{dotfill40 + genomeSub}</GenomeDisplay>
       </div>
-
       <br />
       <Button onClick={play}>Play</Button>
       <Button onClick={stop}>Stop</Button>
       <Button onClick={actions.increment}>Increment</Button>
       <Button onClick={actions.decrement}>Decrement</Button>
-      <hr />
+      <br />
+      <br />
       <br />
 
       {MAPS.geneBank_json.map(Feature)}
@@ -348,17 +376,17 @@ export function PlayGenome() {
         <div className='column'>
           <p>
             Frame 1 Codon to AA residue:
-            <span className='backF1'>{codonF1}</span>
+            <span className='frame1'>{codonF1}</span>
             <span className='circle2 frame1'>{codonF1Notes[0]?.motif}</span>
           </p>
           <p>
             Frame 2 Codon to AA residue:
-            <span className='backF2'>{codonF2}</span>
+            <span className='frame2'>{codonF2}</span>
             <span className='circle2 frame2'>{codonF2Notes[0]?.motif}</span>
           </p>
           <p>
             Frame 3 Codon to AA residue:
-            <span className='backF3'>{codonF3}</span>
+            <span className='frame3'>{codonF3}</span>
             <span className='circle2 frame3'>{codonF3Notes[0]?.motif}</span>
           </p>
         </div>

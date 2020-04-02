@@ -122,11 +122,14 @@ h2 {
 .pre {
   white-space: pre;
 }
+.drop {
+  margin-bottom: 6px;
+}
 
 .ribosomeSmall {
   position: absolute;
-  top: 320px;
-  left: 430px;
+  top: 310px;
+  left: 425px;
   background: #f16c21;
   border-radius: 50%;
   width: 200px;
@@ -137,7 +140,7 @@ h2 {
 .ribosomeBig {
   position: absolute;
   top: 170px;
-  left: 380px;
+  left: 370px;
   background: #0e5b78;
   border-radius: 50%;
   width: 300px;
@@ -147,11 +150,11 @@ h2 {
 }
 .playhead {
   position: absolute;
-  top: 293px;
-  left: 504px;
-  border: 1px solid green;
-  width: 33px;
-  height: 60px;
+  top: 195px;
+  left: 505px;
+  border: 1px solid #d94e1f;
+  width: 31px;
+  height: 150px;
   opacity: 0.4;
 }
 
@@ -169,4 +172,12 @@ h2 {
 
 span:empty {
   display: none;
+}
+
+.triangle-left {
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-right: 10px solid red;
+  border-bottom: 5px solid transparent;
 }
