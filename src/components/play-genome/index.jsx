@@ -153,9 +153,12 @@ if( (index >= 13466-1) && (index < 21555) ){
     orf2.current = ''
     orf3.current = ''
   }
-  if(orf.current === 0 && FrameOfORF) orf1.current = '<-' + FrameOfORF.product
-  if(orf.current === 1 && FrameOfORF) orf2.current = '<-' + FrameOfORF.product
-  if(orf.current === 2 && FrameOfORF) orf3.current = '<-' + FrameOfORF.product
+  if(orf.current === 0 && FrameOfORF) orf1.current = FrameOfORF.product
+  if(orf.current === 1 && FrameOfORF) orf2.current = FrameOfORF.product
+  if(orf.current === 2 && FrameOfORF) orf3.current = FrameOfORF.product
+
+// get values of jason array and hold onto
+// these values until index matches next entry of start
 
   const upcomming = MAPS.geneBank_json
     .find(feature => index > feature.start -10 && index < feature.start -1)
@@ -289,12 +292,39 @@ if( (index >= 13466-1) && (index < 21555) ){
     }
   }
 
+//sonification hacks
+
+const given_seconds = (rnaFeature.end+1 - rnaFeature.start)/6
+const dateObj = new Date(given_seconds * 1000);
+
+function convertBPtoTime(given_seconds) {
+
+  // let hours = dateObj.getUTCHours();
+  let minutes = dateObj.getUTCMinutes();
+  let seconds = dateObj.getSeconds();
+
+  // let timeString = hours.toString().padStart(2, '0')
+  //     + ':' + minutes.toString().padStart(2, '0')
+  //     + ':' + seconds.toString().padStart(2, '0');
+      let timeString = minutes.toString().padStart(2, '0')
+      + ':' + seconds.toString().padStart(2, '0');
+  return timeString;
+}
+convertBPtoTime()
+//console.log(convertBPtoTime())
+
   return (
     <>
       <h2>{MAPS.source}</h2>
-      <p>{rnaFeature.product} extends from {rnaFeature.start} to {rnaFeature.end} bp ({rnaFeature.end+1 - rnaFeature.start} bpin length)</p>
+      <p><span className='six'>{rnaFeature.gene}</span> extends from {rnaFeature.start} to {rnaFeature.end} bp
+        ({rnaFeature.end+1 - rnaFeature.start} bp in length)
+      </p>
+
       <hr />
-      <p style={{ whiteSpace: 'pre' }}>Sonification of RNA translation to produce an amino acid chain</p>
+      <p style={{ whiteSpace: 'pre' }}>Sonification of RNA translation to produce an amino acid chain. Audio time
+        <span className='six'> {convertBPtoTime()}
+        </span> (hh:mm:ss)
+      </p>
       <br />
       <div>
         <span>
@@ -308,7 +338,7 @@ if( (index >= 13466-1) && (index < 21555) ){
           insert=' '
           replace={SW1_PropStyle}
         />
-        <span>{orf1.current}</span>
+      <div className='triangle-left'></div><span className='six'>{orf1.current}</span>
       </div>
 
       <div>
@@ -323,7 +353,7 @@ if( (index >= 13466-1) && (index < 21555) ){
           insert=' '
           replace={SW2_PropStyle}
         />
-        <span>{orf2.current}</span>
+      <div className='triangle-left f2'></div><span className='six'>{orf2.current}</span>
       </div>
 
       <div>
@@ -338,7 +368,7 @@ if( (index >= 13466-1) && (index < 21555) ){
           insert=' '
           replace={SW3_PropStyle}
         />
-        <span>{orf3.current}</span>
+          <div className='triangle-left f3'></div><span className='six'>{orf3.current}</span>
       </div>
 
       <div className='ribosomeSmall'></div>
@@ -438,3 +468,4 @@ if( (index >= 13466-1) && (index < 21555) ){
     </>
   );
 }
+

@@ -113,11 +113,11 @@ h2 {
   margin-left: 7px;
 }
 
-  div {
-    font-family: "Lucida Console", Monaco, monospace;
-    width: 1000px;
-    padding: 4px 0px;
-  }
+div {
+  font-family: "Lucida Console", Monaco, monospace;
+  width: 1000px;
+  padding: 4px 0px;
+}
 
 .pre {
   white-space: pre;
@@ -175,9 +175,21 @@ span:empty {
 }
 
 .triangle-left {
+  position: absolute;
+  padding: 0px 0px;
+  top: 201px;
+  left: 550px;
   width: 0;
   height: 0;
-  border-top: 5px solid transparent;
-  border-right: 10px solid red;
-  border-bottom: 5px solid transparent;
+  border-top: 10px solid transparent;
+  border-right: 20px solid #c02e1d;
+  border-bottom: 10px solid transparent;
+}
+
+.triangle-left.f2 {
+  top: 231px;
+}
+
+.triangle-left.f3 {
+  top: 261px;
 }

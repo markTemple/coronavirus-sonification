@@ -1,10 +1,16 @@
 button {
+  font-family: "Lucida Console", Monaco, monospace;
   color: #0e5b78;
   padding: 5px;
-  border-width: 0px;
+  border-width: 2px;
   border-radius: 5px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.24);
   transition: all 0.3s cubic-bezier(0.21, 0.8, 0.45, 1);
+}
+
+/* Aidan how to apply style to Play button */
+button.play {
+  padding: 50px;
 }
 
 button:hover {

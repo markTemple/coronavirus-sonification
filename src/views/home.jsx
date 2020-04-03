@@ -22,15 +22,13 @@ export function Home () {
 
 
 
-      {/* <Button onClick={getGenome}>Load Genome</Button> */}
-      {/* <Input onChange={actions.set} validator={(value) => Number.isInteger(Number(value))} />
+      {/* <Button onClick={getGenome}>Load Genome</Button>
+      <Input onChange={actions.set} validator={(value) => Number.isInteger(Number(value))} />
       <br /> */}
     </>
   )
 }
-/*
-      <p>{markstamp}</p>
-      <Button onClick={getMarkstamp}>Load Markstamp</Button>
-*/
+  // <p>{markstamp}</p>
+  // <Button onClick={getMarkstamp}>Load Markstamp</Button>
 
 
