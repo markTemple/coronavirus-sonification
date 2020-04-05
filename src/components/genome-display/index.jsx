@@ -10,47 +10,47 @@ GenomeDisplay.propTypes = {
 export function GenomeDisplay ({ children: genome, ...props }) {
   let result = []
 
-  const regex = /(ATG)/g;
+  const regex = /(AUG)/g;
   const foundReg = genome.match(regex);
   //console.log(foundReg)
 
-  if (genome.includes('ATG')){
+  if (genome.includes('AUG')){
   //  console.log('found')
   }
 
-  const searchTerm = 'ATG';
+  const searchTerm = 'AUG';
   const indexOfFirst = genome.indexOf(searchTerm);
   //console.log(indexOfFirst)
 
   /*
-    Loop through the genome string and extract all ATG and replace with span.
+    Loop through the genome string and extract all AUG and replace with span.
   */
   let string = genome
   while (string.length) {
-    if (string.startsWith('ATG')) {
+    if (string.startsWith('AUG')) {
       result.push(
-        <span className='start'>ATG</span>
+        <span className='start'>AUG</span>
       )
       string = string.substring(3)
     }
 
-    if (string.startsWith('TGA')) {
+    if (string.startsWith('UGA')) {
       result.push(
-        <span className='stop'>TGA</span>
+        <span className='stop'>UGA</span>
       )
       string = string.substring(3)
     }
 
-    if (string.startsWith('TAG')) {
+    if (string.startsWith('UAG')) {
       result.push(
-        <span className='stop'>TAG</span>
+        <span className='stop'>UAG</span>
       )
       string = string.substring(3)
     }
 
-    if (string.startsWith('TAA')) {
+    if (string.startsWith('UAA')) {
       result.push(
-        <span className='stop'>TAA</span>
+        <span className='stop'>UAA</span>
       )
       string = string.substring(3)
     } else {
@@ -80,10 +80,10 @@ export function GenomeDisplay ({ children: genome, ...props }) {
 
   // for (var i = 0; i < genome.length; i++) {
   //   //console.log(genome.charAt(i));
-  //   if ((genome.slice(i, i+3)) === 'ATG') {
+  //   if ((genome.slice(i, i+3)) === 'AUG') {
   //     console.log(i)
-  //     console.log('found ATG')
-  //     newStr += `<p span={{ ClassName: 'green' }}>`+'ATG'+ '</span>'
+  //     console.log('found AUG')
+  //     newStr += `<p span={{ ClassName: 'green' }}>`+'AUG'+ '</span>'
   //     console.log(newStr)
   //   }else {
   //     newStr += genome.slice(i, i+3)

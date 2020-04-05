@@ -10,6 +10,10 @@ const value = PropTypes.oneOfType([
   })
 ])
 
+//insert; bit like push string and pop equal bit off other end
+//replace; chop of end in lenth to match new bit
+
+//(reset back to initial )
 SlidingStringWindow.propTypes = {
   initial: value,
   insert: value,

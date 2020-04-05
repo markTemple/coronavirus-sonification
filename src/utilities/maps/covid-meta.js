@@ -37,7 +37,6 @@ export const geneBank_json = [
   {
   start: 266,
   end: 13468,
-  end: 13468,
   gene: 'ORF1a',
   product: 'Polyprotein (ab fragment 1)',
   protein_id: 'QHD43415.1',
@@ -94,7 +93,7 @@ export const geneBank_json = [
   start: 25393,
   end: 26220,
   gene: 'ORF3a',
-  product: 'Protein',
+  product: 'Protein ORF3a',
   protein_id: 'QHD43417.1',
   button_label: "ORF",
   type: 'p',
@@ -160,7 +159,7 @@ export const geneBank_json = [
   start: 27202,
   end: 27387,
   gene: 'ORF6',
-  product: 'Protein',
+  product: 'Protein ORF6',
   protein_id: 'QHD43420.1',
   button_label: "ORF",
   type: 'p',
@@ -182,7 +181,7 @@ export const geneBank_json = [
   start: 27394,
   end: 27759,
   gene: 'ORF7a',
-  product: 'Protein',
+  product: 'Protein ORF7a',
   protein_id: 'QHD43421.1',
   button_label: "ORF",
   type: 'p',
@@ -204,7 +203,7 @@ export const geneBank_json = [
   start: 27894,
   end: 28259,
   gene: 'ORF8',
-  product: 'Protein',
+  product: 'Protein ORF8',
   protein_id: 'QHD43422.1',
   button_label: "ORF",
   type: 'p',
@@ -248,7 +247,7 @@ export const geneBank_json = [
   start: 29558,
   end: 29674,
   gene: 'ORF10',
-  product: 'protein',
+  product: 'protein ORF10',
   protein_id: 'QHI42199.1',
   button_label: "ORF",
   type: 'p',
@@ -267,3 +266,104 @@ export const geneBank_json = [
   trs_seq: 'nil',
   },
 ]
+
+export const natSup_json = [
+  {
+  name: 'nsp1',
+  nt_start: 266,
+  nt_end: 803,
+  aa_res: 180,
+  },
+  {
+  name: 'nsp2',
+  nt_start: 806,
+  nt_end: 2717,
+  aa_res: 638,
+  },
+  {
+  name: 'nsp3',
+  nt_start: 2720,
+  nt_end: 8552,
+  aa_res: 1945,
+  },
+  {
+  name: 'nsp4',
+  nt_start: 8555,
+  nt_end: 10052,
+  aa_res: 500,
+  },
+  {
+  name: 'nsp5',
+  nt_start: 10055,
+  nt_end: 10970,
+  aa_res: 306,
+  },
+  {
+  name: 'nsp6',
+  nt_start: 10973,
+  nt_end: 11840,
+  aa_res: 290,
+  },
+  {
+  name: 'nsp7',
+  nt_start: 11843,
+  nt_end: 12089,
+  aa_res: 83,
+  },
+  {
+  name: 'nsp8',
+  nt_start: 12092,
+  nt_end: 12683,
+  aa_res: 198,
+  },
+  {
+  name: 'nsp9',
+  nt_start: 12686,
+  nt_end: 13022,
+  aa_res: 113,
+  },
+  {
+  name: 'nsp10',
+  nt_start: 13025,
+  nt_end: 13439,
+  aa_res: 139,
+  },
+  {
+  name: 'nsp11',
+  nt_start: 13444,
+  nt_end: 13480,
+  aa_res: 13,
+  },
+  {
+  name: 'nsp12',
+  nt_start: 13444,
+  nt_end: 16234,
+  aa_res: 931,
+  },
+  {
+  name: 'nsp13',
+  nt_start: 16237,
+  nt_end: 18037,
+  aa_res: 601,
+  },
+  {
+  name: 'nsp14',
+  nt_start: 18040,
+  nt_end: 19618,
+  aa_res: 527,
+  },
+  {
+  name: 'nsp15',
+  nt_start: 19621,
+  nt_end: 20656,
+  aa_res: 346,
+  },
+  {
+  name: 'nsp16',
+  nt_start: 20659,
+  nt_end: 21550,
+  aa_res: 298,
+  }
+]
+
+

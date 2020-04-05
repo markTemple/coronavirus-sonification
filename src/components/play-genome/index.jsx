@@ -21,8 +21,10 @@ export function PlayGenome() {
 
 //-1frameshift hack
 //-1 AT 13468 THIS WORKS due to 123123 numbering
+//end 21550 to allow last stop codon to take effect then read
+// rest of genome in F3 normal without frameshift
 let frameshift = ''
-if( (index >= 13466-1) && (index < 21555) ){
+if( (index >= 13466-1) && (index < 21550) ){
   frameshift = index -2
 }
 
@@ -33,10 +35,10 @@ if( (index >= 13466-1) && (index < 21555) ){
   const baseNotes = getBaseNotes();
   // console.log(baseNotes);
 
-  const GATCcount = useRef(0)
-  const GTACbase = baseNotes[0].motif
-  if (GTACbase === 'C' || GTACbase === 'G') GATCcount.current++;
-  if (GTACbase === 'A' || GTACbase === 'T') GATCcount.current--;
+  const GAUCcount = useRef(0)
+  const GUACbase = baseNotes[0].motif
+  if (GUACbase === 'C' || GUACbase === 'G') GAUCcount.current++;
+  if (GUACbase === 'A' || GUACbase === 'U') GAUCcount.current--;
 
   function playTwoBase() {
     const twoBase = genome.substring(index, index + 2);
@@ -51,10 +53,10 @@ if( (index >= 13466-1) && (index < 21555) ){
     const codon = genome.substring(index, index + 3);
     const frame012 = index % 3;
 
-    if (codon === 'TGA' || codon === 'TAG' || codon === 'TAA') {
+    if (codon === 'UGA' || codon === 'UAG' || codon === 'UAA') {
       setSynthStatus(frame012, false);
     }
-    if (codon === 'ATG') {
+    if (codon === 'AUG') {
       setSynthStatus(frame012, true);
     }
     if(frameshift) {
@@ -133,36 +135,47 @@ if( (index >= 13466-1) && (index < 21555) ){
   const codon = genome.substring(index, index + 3);
   const frame012 = index % 3;
 
-  const FrameOfORF = MAPS.geneBank_json
-  .find(feature => index+1 === feature.start && feature.type === 'p')
 
-//console.log(FrameOfORF)
 
-  const notORF = MAPS.geneBank_json
-  .find(feature => index+1 === feature.start && feature.type === 'u')
-  //console.log(orf.current)
-  const orf1 = useRef('');
-  const orf2 = useRef('');
-  const orf3 = useRef('');
 
-  const orf = useRef('');
-  if(FrameOfORF) orf.current = frame012
-  if(notORF) {
-    orf.current = ''
-    orf1.current = ''
-    orf2.current = ''
-    orf3.current = ''
-  }
-  if(orf.current === 0 && FrameOfORF) orf1.current = FrameOfORF.product
-  if(orf.current === 1 && FrameOfORF) orf2.current = FrameOfORF.product
-  if(orf.current === 2 && FrameOfORF) orf3.current = FrameOfORF.product
 
+
+  const geneBankItem_atIndex = MAPS.geneBank_json
+  .find(feature => index+1 >= feature.start && index < feature.end)
+//
+
+//   const FrameOfORF = MAPS.geneBank_json
+//   .find(feature => index+1 === feature.start && feature.type === 'p')
+// //console.log(FrameOfORF)
+//   const notORF = MAPS.geneBank_json
+//   .find(feature => index+1 === feature.start && feature.type === 'u')
+//   //console.log(orf.current)
+  let orf1 = useRef('');
+  let orf2 = useRef('');
+  let orf3 = useRef('');
+
+//   const orf = useRef('');
+//   if(FrameOfORF) orf.current = frame012
+//   if(notORF) {
+//     orf.current = ''
+    // orf1.current = ''
+    // orf2.current = ''
+    // orf3.current = ''
+//   }
+//   if(orf.current === 0 && FrameOfORF) orf1.current = FrameOfORF.product
+//   if(orf.current === 1 && FrameOfORF) orf2.current = FrameOfORF.product
+//   if(orf.current === 2 && FrameOfORF) orf3.current = FrameOfORF.product
+if(geneBankItem_atIndex.type === 'p'){
+    if(frame012 === 0 && geneBankItem_atIndex.start %3 === 1) orf1.current = geneBankItem_atIndex.product
+    if(frame012 === 1 && geneBankItem_atIndex.start %3 === 2) orf2.current = geneBankItem_atIndex.product
+    if(frame012 === 2 && geneBankItem_atIndex.start %3 === 0) orf3.current = geneBankItem_atIndex.product
+}
 // get values of jason array and hold onto
 // these values until index matches next entry of start
-
+  // console.time('json')
   const upcomming = MAPS.geneBank_json
     .find(feature => index > feature.start -10 && index < feature.start -1)
-
+  // console.timeEnd('json')
   const metaP_begin = ['C5','E5','G5','B6','C6','E6','G6','B7'];
   const metaP_end = ['B7','G6','E6','C6','B6','G5','E5','C5'];
 
@@ -224,7 +237,10 @@ if( (index >= 13466-1) && (index < 21555) ){
             setSynthStatus(0, false)
             setSynthStatus(1, false)
             setSynthStatus(2, false)
-            GATCcount.current = 0
+            GAUCcount.current = 0
+            orf1.current = ''
+            orf2.current = ''
+            orf3.current = ''
           }}
           style={style}
         >
@@ -298,7 +314,6 @@ const given_seconds = (rnaFeature.end+1 - rnaFeature.start)/6
 const dateObj = new Date(given_seconds * 1000);
 
 function convertBPtoTime(given_seconds) {
-
   // let hours = dateObj.getUTCHours();
   let minutes = dateObj.getUTCMinutes();
   let seconds = dateObj.getSeconds();
@@ -310,7 +325,7 @@ function convertBPtoTime(given_seconds) {
       + ':' + seconds.toString().padStart(2, '0');
   return timeString;
 }
-convertBPtoTime()
+convertBPtoTime(given_seconds)
 //console.log(convertBPtoTime())
 
   return (
@@ -337,8 +352,12 @@ convertBPtoTime()
           initial='                                           '
           insert=' '
           replace={SW1_PropStyle}
-        />
-      <div className='triangle-left'></div><span className='six'>{orf1.current}</span>
+          />
+          {
+            orf1.current &&
+            <div className='triangle-left f1'></div>
+          }
+  <span className='six orf'>{orf1.current}</span>
       </div>
 
       <div>
@@ -352,8 +371,12 @@ convertBPtoTime()
           initial='                                           '
           insert=' '
           replace={SW2_PropStyle}
-        />
-      <div className='triangle-left f2'></div><span className='six'>{orf2.current}</span>
+          />
+          {
+            orf2.current &&
+            <div className='triangle-left f2'></div>
+          }
+  <span className='six orf'>{orf2.current}</span>
       </div>
 
       <div>
@@ -368,7 +391,11 @@ convertBPtoTime()
           insert=' '
           replace={SW3_PropStyle}
         />
-          <div className='triangle-left f3'></div><span className='six'>{orf3.current}</span>
+        {
+          orf3.current &&
+          <div className='triangle-left f3'></div>
+        }
+        <span className='six orf'>{orf3.current}</span>
       </div>
 
       <div className='ribosomeSmall'></div>
@@ -379,13 +406,14 @@ convertBPtoTime()
       <p className='pre drop'>
         <span>            5`                                      </span>
         <span className='antiC'>{antiCodon}</span>
-        <span>                                    3`</span>
+        <span>                                     3`</span>
       </p>
       <span className='thr'> RNAbp</span>
         <span className='six'> {String(index + 1).padStart(5, '0')}</span>|
         <GenomeDisplay className='rna pre'>{dotfill40 + genomeSub}</GenomeDisplay>
       </div>
       <br />
+
       <Button onClick={play}>Play</Button>
       <Button onClick={stop}>Stop</Button>
       <Button onClick={actions.increment}>Increment</Button>
@@ -398,7 +426,7 @@ convertBPtoTime()
 
       <div className='row'>
         <div className='column'>
-          <p> Nucleotide at Playhead {genome[index]} {GATCcount.current} {baseNotes[0].name}</p>
+          <p> Nucleotide at Playhead {genome[index]} {GAUCcount.current} {baseNotes[0].name}</p>
           <p> Di-Nucleotide at Playhead {twobaseNotes[0].motif} {twobaseNotes[0].name}</p>
           <p> GC Content over 10 base {tenGCnote[0].ratio} {tenGCnote[0].name} {/*tenGCnote[0].motif*/}</p>
           <p> GC Content over 100 base {tentensGCnote[0].ratio} {tentensGCnote[0].name} {/*tentensGCnote[0].motif*/}</p>

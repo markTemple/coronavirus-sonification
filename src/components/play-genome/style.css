@@ -7,6 +7,7 @@ span.rna {
   color: #0c3d55;
   background-color: #ebc844;
 }
+
 span.antiC {
   padding: 4px 0px;
   color: #ebc844;
@@ -178,7 +179,7 @@ span:empty {
   position: absolute;
   padding: 0px 0px;
   top: 201px;
-  left: 550px;
+  left: 580px;
   width: 0;
   height: 0;
   border-top: 10px solid transparent;
@@ -192,4 +193,8 @@ span:empty {
 
 .triangle-left.f3 {
   top: 261px;
+}
+
+.orf {
+  margin-left: 70px;
 }
