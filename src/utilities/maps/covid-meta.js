@@ -42,8 +42,8 @@ export const geneBank_json = [
   protein_id: 'QHD43415.1',
   button_label: "ab1",
   type: 'p',
-  trs_start: 'nil',
-  trs_seq: 'nil',
+  trs_start: null,
+  trs_seq: null,
   },
   {
   start: 13468,
@@ -64,8 +64,8 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
-  trs_start: 'nil',
-  trs_seq: 'nil',
+  trs_start: null,
+  trs_seq: null,
   },
   {
   start: 21563,
@@ -86,8 +86,8 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
-  trs_start: 'nil',
-  trs_seq: 'nil',
+  trs_start: null,
+  trs_seq: null,
   },
   {
   start: 25393,
@@ -97,8 +97,8 @@ export const geneBank_json = [
   protein_id: 'QHD43417.1',
   button_label: "ORF",
   type: 'p',
-  trs_start: 'nil',
-  trs_seq: 'nil',
+  trs_start: null,
+  trs_seq: null,
   },
   {
   start: 26221,
@@ -130,8 +130,8 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
-  trs_start: 'nil',
-  trs_seq: 'nil',
+  trs_start: null,
+  trs_seq: null,
   },
   {
   start: 26523,
@@ -152,8 +152,8 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
-  trs_start: 'nil',
-  trs_seq: 'nil',
+  trs_start: null,
+  trs_seq: null,
   },
   {
   start: 27202,
@@ -174,8 +174,8 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
-  trs_start: 'nil',
-  trs_seq: 'nil',
+  trs_start: null,
+  trs_seq: null,
   },
   {
   start: 27394,
@@ -185,8 +185,8 @@ export const geneBank_json = [
   protein_id: 'QHD43421.1',
   button_label: "ORF",
   type: 'p',
-  trs_start: 'nil',
-  trs_seq: 'nil',
+  trs_start: null,
+  trs_seq: null,
   },
   {
   start: 27760,
@@ -218,8 +218,8 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
-  trs_start: 'nil',
-  trs_seq: 'nil',
+  trs_start: null,
+  trs_seq: null,
   },
   {
   start: 28274,
@@ -240,8 +240,8 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
-  trs_start: 'nil',
-  trs_seq: 'nil',
+  trs_start: null,
+  trs_seq: null,
   },
   {
   start: 29558,
@@ -251,8 +251,8 @@ export const geneBank_json = [
   protein_id: 'QHI42199.1',
   button_label: "ORF",
   type: 'p',
-  trs_start: 'nil',
-  trs_seq: 'nil',
+  trs_start: null,
+  trs_seq: null,
   },
   {
   start: 29675,
@@ -262,12 +262,12 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "3`U",
   type: 'u',
-  trs_start: 'nil',
-  trs_seq: 'nil',
+  trs_start: null,
+  trs_seq: null,
   },
 ]
 
-export const natSup_json = [
+export const nspCleavageData_json = [
   {
   name: 'nsp1',
   nt_start: 266,

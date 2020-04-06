@@ -14,19 +14,24 @@ export function PlayGenome() {
   const [index, actions] = useIndex();
   const direction = useRef(false);
 
+  const [displayMode, setDisplayMode] = useState('translation')
+  const toggleDisplayMode = () =>
+    setDisplayMode(displayMode === 'translation' ? 'transcription' : 'translation')
+
   const isSynthEnabled = useRef([false, false, false])
   function setSynthStatus(index, value) {
     isSynthEnabled.current[index] = value
   }
 
+  let bpm = '90'
 //-1frameshift hack
 //-1 AT 13468 THIS WORKS due to 123123 numbering
 //end 21550 to allow last stop codon to take effect then read
 // rest of genome in F3 normal without frameshift
-let frameshift = ''
-if( (index >= 13466-1) && (index < 21550) ){
-  frameshift = index -2
-}
+  let frameshift = ''
+  if( (index >= 13466-1) && (index < 21550) ){
+    frameshift = index -2
+  }
 
   function getBaseNotes() {
     const base = genome[index];
@@ -62,8 +67,6 @@ if( (index >= 13466-1) && (index < 21550) ){
     if(frameshift) {
       isSynthEnabled.current[0] = true
     }
-
-
     return {
       name: MAPS.CODON_MAP2[codon]?.Note,
       duration: '8n',
@@ -135,61 +138,65 @@ if( (index >= 13466-1) && (index < 21550) ){
   const codon = genome.substring(index, index + 3);
   const frame012 = index % 3;
 
-
-
-
-
-
+  // get item from genebank
   const geneBankItem_atIndex = MAPS.geneBank_json
-  .find(feature => index+1 >= feature.start && index < feature.end)
-//
+    .find(feature => index + 1 >= feature.start && index < feature.end)
 
-//   const FrameOfORF = MAPS.geneBank_json
-//   .find(feature => index+1 === feature.start && feature.type === 'p')
-// //console.log(FrameOfORF)
-//   const notORF = MAPS.geneBank_json
-//   .find(feature => index+1 === feature.start && feature.type === 'u')
-//   //console.log(orf.current)
-  let orf1 = useRef('');
-  let orf2 = useRef('');
-  let orf3 = useRef('');
+  let orf1 = useRef(null);
+  let orf2 = useRef(null);
+  let orf3 = useRef(null);
 
-//   const orf = useRef('');
-//   if(FrameOfORF) orf.current = frame012
-//   if(notORF) {
-//     orf.current = ''
-    // orf1.current = ''
-    // orf2.current = ''
-    // orf3.current = ''
-//   }
-//   if(orf.current === 0 && FrameOfORF) orf1.current = FrameOfORF.product
-//   if(orf.current === 1 && FrameOfORF) orf2.current = FrameOfORF.product
-//   if(orf.current === 2 && FrameOfORF) orf3.current = FrameOfORF.product
-if(geneBankItem_atIndex.type === 'p'){
+  if(geneBankItem_atIndex.type === 'p'){
     if(frame012 === 0 && geneBankItem_atIndex.start %3 === 1) orf1.current = geneBankItem_atIndex.product
     if(frame012 === 1 && geneBankItem_atIndex.start %3 === 2) orf2.current = geneBankItem_atIndex.product
     if(frame012 === 2 && geneBankItem_atIndex.start %3 === 0) orf3.current = geneBankItem_atIndex.product
 }
-// get values of jason array and hold onto
-// these values until index matches next entry of start
-  // console.time('json')
-  const upcomming = MAPS.geneBank_json
-    .find(feature => index > feature.start -10 && index < feature.start -1)
-  // console.timeEnd('json')
-  const metaP_begin = ['C5','E5','G5','B6','C6','E6','G6','B7'];
-  const metaP_end = ['B7','G6','E6','C6','B6','G5','E5','C5'];
+if(geneBankItem_atIndex.type === 'u'){
+  orf1.current = null
+  orf2.current = null
+  orf3.current = null
+}
 
-  const mNoteCount = useRef(0);
+// TRS data was manually added to the GeneBank json file
+// these motif strings are made into array and played as individual notes
+function getTRSnotes(trsBase) {
+  return [{ name: MAPS.TRS_MAP[trsBase], duration: '16n'}];
+}
+
+let trs_seqArray = useRef(null)
+let TRSseq = null
+if (geneBankItem_atIndex.trs_start === index + 1) {
+  trs_seqArray.current = geneBankItem_atIndex.trs_seq.split('')
+  // TRSseq = geneBankItem_atIndex.trs_seq
+}
+if (geneBankItem_atIndex.trs_seq === null) trs_seqArray.current = null
+const trsBase = trs_seqArray.current?.shift()
+let getTRSnote = null
+if(trsBase) getTRSnote = getTRSnotes(trsBase);
+// cleavage sites in the 1ab polyprotein taken fron Nature supplementary data
+// a composed sequence of notes are used to sonify these
+// nsp data stored in natSup_json (Nature Supplementary data)
+
+const nspCleavageItem_atIndex = MAPS.nspCleavageData_json
+    .find(feature => index > feature.nt_start -10 && index < feature.nt_start -1)
+  const nspNotes = ['C5','E5','G5','B6','C5','E5','G5','B7'];
+  // const metaP_end = ['B7','G6','E6','C6','B6','G5','E5','C5'];
+
+  const mNoteCount = useRef(null);
   let metaNote = [];
 
   function playMeta(noteArr) {
-    metaNote = [{name: noteArr[mNoteCount.current], duration: '4n'}]
+    metaNote = [{name: noteArr[mNoteCount.current], duration: '2n'}]
     mNoteCount.current++
-    if(mNoteCount.current === 7) mNoteCount.current = 0
+    if(mNoteCount.current === noteArr.length) mNoteCount.current = null
   }
 
-  if( (upcomming) && upcomming.type === 'p') playMeta(metaP_begin)
-  if( (upcomming) && upcomming.type === 'u') playMeta(metaP_end)
+  let printNSPtxt = [null,null]
+  if(nspCleavageItem_atIndex) {
+    playMeta(nspNotes)
+    bpm = '30'
+    printNSPtxt = [nspCleavageItem_atIndex.name, nspCleavageItem_atIndex.aa_res]
+    }
 
   function colorCodon() {
     if (isSynthEnabled.current[frame012] === true) {
@@ -211,6 +218,7 @@ if(geneBankItem_atIndex.type === 'p'){
   const play = () => Tone.Transport.start();
   const stop = () => Tone.Transport.stop();
   const reverse = () => (direction.current = !direction.current);
+
 
   useEffect(() => {
     Tone.Transport.scheduleRepeat(() => {
@@ -328,7 +336,7 @@ function convertBPtoTime(given_seconds) {
 convertBPtoTime(given_seconds)
 //console.log(convertBPtoTime())
 
-  return (
+return (
     <>
       <h2>{MAPS.source}</h2>
       <p><span className='six'>{rnaFeature.gene}</span> extends from {rnaFeature.start} to {rnaFeature.end} bp
@@ -410,7 +418,7 @@ convertBPtoTime(given_seconds)
       </p>
       <span className='thr'> RNAbp</span>
         <span className='six'> {String(index + 1).padStart(5, '0')}</span>|
-        <GenomeDisplay className='rna pre'>{dotfill40 + genomeSub}</GenomeDisplay>
+        <GenomeDisplay className=' pre'>{dotfill40 + genomeSub}</GenomeDisplay>
       </div>
       <br />
 
@@ -447,11 +455,15 @@ convertBPtoTime(given_seconds)
             <span className='frame3'>{codonF3}</span>
             <span className='circle2 frame3'>{codonF3Notes[0]?.motif}</span>
           </p>
+          {
+          printNSPtxt[0] &&
+          <p>Polyprotein cleavage to {printNSPtxt[0]}, {printNSPtxt[1]} AA residues</p>
+          }
         </div>
       </div>
 
-      {/* <Button onClick={reverse}>Reverse</Button>
-      <Button onClick={playBase}>Play Base</Button> */}
+      <Button onClick={toggleDisplayMode}>Switch to replicase-transcriptase of genomic RNA</Button>
+      {/* <Button onClick={playBase}>Play Base</Button> */}
       {/* <Button onClick={playCodon}>Play Codon</Button>
       <Button onClick={base10GC}>Each 10bp GC ratio</Button>
       <Button onClick={base100GC}>Play 100 GCcontent</Button>
@@ -459,7 +471,7 @@ convertBPtoTime(given_seconds)
       {/* <p> {rnaFeature.product} {rnaFeature.protein_id}</p> */}
       <hr />
 
-      <Song>
+      <Song bpm={bpm}>
         <Track volume={-8} pan={-0.3} >
           <Instrument type={'synth'} notes={baseNotes} />
         </Track>
@@ -489,10 +501,14 @@ convertBPtoTime(given_seconds)
           <Instrument type={'amSynth'} notes={tentensGCnote} />
           <Effect type='feedbackDelay' wet={0.2} /> </Track>
         <Track volume={-3} pan={0.5} >
+          <Instrument type={'amSynth'} notes={getTRSnote} />
+          <Effect type='feedbackDelay' wet={0.5} /> </Track>
+        {/* do something as orf length reaches every 50th AA residue*/}
+        <Track volume={-3} pan={0.5} >
           <Instrument type={'amSynth'} notes={metaNote} />
           <Effect type='feedbackDelay' wet={0.5} /> </Track>
         {/* do something as orf length reaches every 50th AA residue */}
-      </Song>
+        </Song>
     </>
   );
 }

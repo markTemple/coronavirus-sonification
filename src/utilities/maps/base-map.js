@@ -21,6 +21,13 @@ export const BASE_MAP = {
   C: 'C3'
 }
 
+export const TRS_MAP = {
+  G: 'C5',
+  A: 'E5',
+  U: 'G5',
+  C: 'B6'
+}
+
 export const TWOBASE_MAP = {
   UG: 'C1',
   UA: 'E1',
