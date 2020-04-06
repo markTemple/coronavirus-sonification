@@ -9,6 +9,9 @@ span.rna {
 }
 
 span.antiC {
+  position: absolute;
+  left: 507px;
+  top: 310px;
   padding: 4px 0px;
   color: #ebc844;
   background-color:#0c3d55;
@@ -140,14 +143,26 @@ div {
 }
 .ribosomeBig {
   position: absolute;
-  top: 170px;
+  top: 190px;
   left: 370px;
   background: #0e5b78;
   border-radius: 50%;
   width: 300px;
-  height: 190px;
+  height: 170px;
   opacity: 0.4;
   z-index: 1;
+}
+
+.replicase {
+  position: absolute;
+  top: 230px;
+  left: 415px;
+  background: #5da793;
+  border-radius: 50%;
+  width: 200px;
+  height: 100px;
+  opacity: 0.7;
+  z-index: -1;
 }
 .playhead {
   position: absolute;

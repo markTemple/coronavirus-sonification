@@ -18,7 +18,18 @@ export function PlayGenome() {
   const toggleDisplayMode = () =>
     setDisplayMode(displayMode === 'translation' ? 'transcription' : 'translation')
 
-  const isSynthEnabled = useRef([false, false, false])
+// console.log('direction ', direction)
+// console.log('displayMode ', displayMode)
+
+if(displayMode === 'transcription') {
+  direction.current = true
+}
+if(displayMode === 'translation') {
+  direction.current = false
+}
+//console.log(direction.current)
+
+const isSynthEnabled = useRef([false, false, false])
   function setSynthStatus(index, value) {
     isSynthEnabled.current[index] = value
   }
@@ -260,14 +271,16 @@ const nspCleavageItem_atIndex = MAPS.nspCleavageData_json
     );
   }
 
-  const genomeSub = genome.substring(index - 40, index + 41)
   function makeComplementary(seq) {
     return seq.replace(/./g, (char) => MAPS.ANTICODON_MAP[char])
   }
-  const indexChar = genome.substr(index, +3);
-  const antiCodon = makeComplementary(indexChar);
+  const genomeSub = genome.substring(index - 40, index + 41)
+  const genomeSubComplement= makeComplementary(genome.substring(index, index + 41))
+  const indexChar3 = genome.substr(index, +3);
+  const antiCodon = makeComplementary(indexChar3);
 
   let dotfill40 = `                                        `;
+  let DNAfill40 = `                                        `;
   function moveDot() {
     if (index <= 40) {
       dotfill40 = dotfill40.slice(index);
@@ -316,8 +329,15 @@ const nspCleavageItem_atIndex = MAPS.nspCleavageData_json
     }
   }
 
-//sonification hacks
+  const SW_DNA_PropStyle = {
+    content: genome[index],
+    props: {
+      className: 'frame3',
+    }
+  }
 
+
+  //sonification hacks
 const given_seconds = (rnaFeature.end+1 - rnaFeature.start)/6
 const dateObj = new Date(given_seconds * 1000);
 
@@ -336,19 +356,26 @@ function convertBPtoTime(given_seconds) {
 convertBPtoTime(given_seconds)
 //console.log(convertBPtoTime())
 
+let subTitle = 'Sonification of translation of plus RNA strand to make proteins'
+if(displayMode === 'transcription') {
+  subTitle = 'Sonification of transcription of RNA to make the minus strand RNA'
+}
+
 return (
     <>
       <h2>{MAPS.source}</h2>
       <p><span className='six'>{rnaFeature.gene}</span> extends from {rnaFeature.start} to {rnaFeature.end} bp
         ({rnaFeature.end+1 - rnaFeature.start} bp in length)
       </p>
-
       <hr />
-      <p style={{ whiteSpace: 'pre' }}>Sonification of RNA translation to produce an amino acid chain. Audio time
+      <p style={{ whiteSpace: 'pre' }}>{subTitle} Audio time
         <span className='six'> {convertBPtoTime()}
         </span> (hh:mm:ss)
       </p>
       <br />
+
+{ direction.current ? '' :
+<div>
       <div>
         <span>
           Frame1
@@ -356,6 +383,7 @@ return (
             <span className='six'> {String(AA_Count1.current).padStart(4, '0')}</span>
           </span>|
         </span>
+
         <SlidingStringWindow
           initial='                                           '
           insert=' '
@@ -409,19 +437,30 @@ return (
       <div className='ribosomeSmall'></div>
       <div className='ribosomeBig'></div>
       <div className='playhead'></div>
+      <span className='antiC'>{antiCodon}</span>
 
+</div>
+}
       <div>
-      <p className='pre drop'>
+      <div>
+      <p className='pre'>
         <span>            5`                                      </span>
-        <span className='antiC'>{antiCodon}</span>
-        <span>                                     3`</span>
+        <span>                                        3`</span>
       </p>
-      <span className='thr'> RNAbp</span>
+      </div><span className='thr'> RNA +</span>
         <span className='six'> {String(index + 1).padStart(5, '0')}</span>|
         <GenomeDisplay className=' pre'>{dotfill40 + genomeSub}</GenomeDisplay>
       </div>
+{ direction.current &&
+        <div>
+        <div className='replicase'></div>
+          <span className='thr'> RNA -</span>
+            <span className='six'> {String( genome.length - (index + 1) ).padStart(5, '0')}</span>|
+            <GenomeDisplay className=' pre'>{DNAfill40 + genomeSubComplement}</GenomeDisplay>
+            <p className='pre'>            3`                                                                              5`</p>
+        </div>
+}
       <br />
-
       <Button onClick={play}>Play</Button>
       <Button onClick={stop}>Stop</Button>
       <Button onClick={actions.increment}>Increment</Button>
@@ -463,6 +502,9 @@ return (
       </div>
 
       <Button onClick={toggleDisplayMode}>Switch to replicase-transcriptase of genomic RNA</Button>
+
+      {direction.current === true }<span className='fiv'> {displayMode}</span>
+
       {/* <Button onClick={playBase}>Play Base</Button> */}
       {/* <Button onClick={playCodon}>Play Codon</Button>
       <Button onClick={base10GC}>Each 10bp GC ratio</Button>
