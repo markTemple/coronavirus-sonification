@@ -15,26 +15,39 @@ export function PlayGenome() {
   const direction = useRef(false);
 
   const [displayMode, setDisplayMode] = useState('translation')
-  const toggleDisplayMode = () =>
+  const toggleDisplayMode = () => {
     setDisplayMode(displayMode === 'translation' ? 'transcription' : 'translation')
+    actions.set(displayMode === 'transcription' ? 0 : 29902)
+  }
 
 // console.log('direction ', direction)
 // console.log('displayMode ', displayMode)
 
+let bpm = '90'
+let modeTitle = ''
+let transcription = false
+let translation = true
 if(displayMode === 'transcription') {
+  transcription = true
+  translation = false
+
   direction.current = true
-}
+  bpm = '120'
+  modeTitle = ` (-) replicase RNA strand synthesis 3'<- 5'`
+  }
 if(displayMode === 'translation') {
+  transcription = false
+  translation = true
   direction.current = false
-}
-//console.log(direction.current)
+  modeTitle = ` ribosomal polypeptide synthesis 5'->3'`
+  }
+//console.log(bpm)
 
 const isSynthEnabled = useRef([false, false, false])
   function setSynthStatus(index, value) {
     isSynthEnabled.current[index] = value
   }
 
-  let bpm = '90'
 //-1frameshift hack
 //-1 AT 13468 THIS WORKS due to 123123 numbering
 //end 21550 to allow last stop codon to take effect then read
@@ -46,10 +59,26 @@ const isSynthEnabled = useRef([false, false, false])
 
   function getBaseNotes() {
     const base = genome[index];
-    return [{ name: MAPS.BASE_MAP[base], duration: '16n', motif: base }];
+
+      return [{ name: MAPS.BASE_MAP[base], duration: '16n', motif: base }];
+
   }
   const baseNotes = getBaseNotes();
-  // console.log(baseNotes);
+
+  // trigger note on repeat base
+  let baseInc = useRef(1);
+  function getSameBaseNotes(baseInc) {
+    const base = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8']
+    return [{ name: base[baseInc.current], duration: '16n', motif: base }];
+  }
+  let sameBaseNotes = ''
+
+if( (genome[index] === genome[index- 1] ) && (genome[index] === genome[index- 2] ) ) {
+  sameBaseNotes = getSameBaseNotes(baseInc);
+  baseInc.current++
+  }
+
+if(baseInc.current === 7) baseInc.current = 0
 
   const GAUCcount = useRef(0)
   const GUACbase = baseNotes[0].motif
@@ -59,11 +88,12 @@ const isSynthEnabled = useRef([false, false, false])
   function playTwoBase() {
     const twoBase = genome.substring(index, index + 2);
     /*console.log(base);*/
-    if (index % 2 === 0) {
+    // if (index % 2 === 0) {
       return [{ name: MAPS.TWOBASE_MAP[twoBase], duration: '2n', motif: twoBase }];
-    } else { return [{ name: '', duration: '', motif: '' }]; }
+    // } else { return [{ name: '', duration: '', motif: '' }]; }
   }
   const twobaseNotes = playTwoBase();
+
 
   function getCodonNotes() {
     const codon = genome.substring(index, index + 3);
@@ -78,13 +108,26 @@ const isSynthEnabled = useRef([false, false, false])
     if(frameshift) {
       isSynthEnabled.current[0] = true
     }
-    return {
-      name: MAPS.CODON_MAP2[codon]?.Note,
-      duration: '8n',
-      frame012: frame012,
-      isSynthEnabled: isSynthEnabled.current[frame012],
-      motif: MAPS.CODON_MAP2[codon]?.AA,
-      codon: codon,
+
+    if(translation){ //play codons
+      return {
+        name: MAPS.CODON_MAP2[codon]?.Note,
+        duration: '8n',
+        frame012: frame012,
+        isSynthEnabled: isSynthEnabled.current[frame012],
+        motif: MAPS.CODON_MAP2[codon]?.AA,
+        codon: codon,
+      }
+    }
+    if(transcription){ //don't play codons
+      return {
+        name: '',
+        duration: '',
+        frame012: frame012,
+        isSynthEnabled: isSynthEnabled.current[frame012],
+        motif: MAPS.CODON_MAP2[codon]?.AA,
+        codon: codon,
+      }
     }
   }
 
@@ -129,11 +172,15 @@ const isSynthEnabled = useRef([false, false, false])
   function ratioToNote(ratio, modulus) {
     let note = 'C1'
     if (ratio.ratio < 0.25) note = 'C2'
-    else if (ratio.ratio < 0.5) note = 'C3'
-    else if (ratio.ratio < 0.75) note = 'C4'
-    else if (ratio.ratio <= 1.0) note = 'C5'
+    else if (ratio.ratio < 0.4) note = 'E2'
+    else if (ratio.ratio < 0.45) note = 'G2'
+    else if (ratio.ratio < 0.5) note = 'B3'
+    else if (ratio.ratio < 0.55) note = 'C4'
+    else if (ratio.ratio < 0.6) note = 'E4'
+    else if (ratio.ratio < 0.75) note = 'G5'
+    else if (ratio.ratio <= 1.0) note = 'B6'
     if (index % modulus) return [{ name: note, duration: '1m', motif: ratio.motif, ratio: ratio.ratio }];
-    else return [{ name: '', duration: '', motif: ratio.motif, ratio: ratio.ratio }];
+    else return [{ name: note, duration: '1m', motif: ratio.motif, ratio: ratio.ratio }];
   }
 
   let Array10bpGCratio =
@@ -170,20 +217,25 @@ if(geneBankItem_atIndex.type === 'u'){
 
 // TRS data was manually added to the GeneBank json file
 // these motif strings are made into array and played as individual notes
+// these are also now copied into own array later maybe use these instead
+// new in Trs_json
 function getTRSnotes(trsBase) {
-  return [{ name: MAPS.TRS_MAP[trsBase], duration: '16n'}];
+  if(transcription) return [{ name: MAPS.TRS_MAP[trsBase], duration: '16n'}];
+  if(translation) return [{ name: '', duration: ''}];
 }
 
 let trs_seqArray = useRef(null)
+let trs_seq_string = useRef(null)
 let TRSseq = null
 if (geneBankItem_atIndex.trs_start === index + 1) {
+  trs_seq_string.current = geneBankItem_atIndex.trs_seq
   trs_seqArray.current = geneBankItem_atIndex.trs_seq.split('')
-  // TRSseq = geneBankItem_atIndex.trs_seq
 }
 if (geneBankItem_atIndex.trs_seq === null) trs_seqArray.current = null
 const trsBase = trs_seqArray.current?.shift()
 let getTRSnote = null
 if(trsBase) getTRSnote = getTRSnotes(trsBase);
+if(trsBase) {} else trs_seq_string.current = null
 // cleavage sites in the 1ab polyprotein taken fron Nature supplementary data
 // a composed sequence of notes are used to sonify these
 // nsp data stored in natSup_json (Nature Supplementary data)
@@ -194,16 +246,16 @@ const nspCleavageItem_atIndex = MAPS.nspCleavageData_json
   // const metaP_end = ['B7','G6','E6','C6','B6','G5','E5','C5'];
 
   const mNoteCount = useRef(null);
-  let metaNote = [];
+  let nspNote = [];
 
   function playMeta(noteArr) {
-    metaNote = [{name: noteArr[mNoteCount.current], duration: '2n'}]
+    nspNote = [{name: noteArr[mNoteCount.current], duration: '2n'}]
     mNoteCount.current++
     if(mNoteCount.current === noteArr.length) mNoteCount.current = null
   }
 
   let printNSPtxt = [null,null]
-  if(nspCleavageItem_atIndex) {
+  if(nspCleavageItem_atIndex && nspCleavageItem_atIndex.nt_start != 266) {
     playMeta(nspNotes)
     bpm = '30'
     printNSPtxt = [nspCleavageItem_atIndex.name, nspCleavageItem_atIndex.aa_res]
@@ -271,6 +323,41 @@ const nspCleavageItem_atIndex = MAPS.nspCleavageData_json
     );
   }
 
+  function TRS_feature(feature, i) {
+    const style = {}
+    let seqlen = feature.trs_seq.length
+    //console.log(seq)
+    //add moer things to call here as const's
+ //   console.log(feature.trs_seq.length)
+
+    if (index + 1 <= feature.trans_start && index > feature.trans_start - seqlen) {
+      style.backgroundColor = '#1396ba'
+    }
+    // include a reset GC count on click
+    return (
+      <Fragment key={i}>
+        <Button
+          onClick={() => {
+            actions.set(feature.trs_start + feature.trs_seq.length -1)
+            setSynthStatus(0, false)
+            setSynthStatus(1, false)
+            setSynthStatus(2, false)
+            GAUCcount.current = 0
+            orf1.current = ''
+            orf2.current = ''
+            orf3.current = ''
+          }}
+          style={style}
+        >
+          {/* there is no actual whitespace in button} */}
+          <p style={{ whiteSpace: 'pre' }}>{feature.button_label}</p>
+        </Button>{' '}
+        {/* {feature.product} */}
+      </Fragment>
+    );
+  }
+
+
   function makeComplementary(seq) {
     return seq.replace(/./g, (char) => MAPS.ANTICODON_MAP[char])
   }
@@ -294,7 +381,6 @@ const nspCleavageItem_atIndex = MAPS.nspCleavageData_json
   for (var feature of MAPS.geneBank_json) {
     if ((index + 1 >= feature.start) && (index <= feature.end)) {
       rnaFeature = feature
-      //buttonIndex.current = MAPS.geneBank_json.indexOf(feature)
     }
   }
 
@@ -364,7 +450,8 @@ if(displayMode === 'transcription') {
 return (
     <>
       <h2>{MAPS.source}</h2>
-      <p><span className='six'>{rnaFeature.gene}</span> extends from {rnaFeature.start} to {rnaFeature.end} bp
+      <p><span className='six'>{rnaFeature.gene}</span>
+      extends from {rnaFeature.start} to {rnaFeature.end} bp
         ({rnaFeature.end+1 - rnaFeature.start} bp in length)
       </p>
       <hr />
@@ -454,6 +541,13 @@ return (
 { direction.current &&
         <div>
         <div className='replicase'></div>
+        <div className='replicase p1'></div>
+        <div className='replicase p2'></div>
+        <div className='replicase p3'></div>
+        <div className='replicase p4'></div>
+        <div className='replicase p5'></div>
+        <div className='replicase p6'></div>
+        <div className='replicase p7'></div>
           <span className='thr'> RNA -</span>
             <span className='six'> {String( genome.length - (index + 1) ).padStart(5, '0')}</span>|
             <GenomeDisplay className=' pre'>{DNAfill40 + genomeSubComplement}</GenomeDisplay>
@@ -465,26 +559,26 @@ return (
       <Button onClick={stop}>Stop</Button>
       <Button onClick={actions.increment}>Increment</Button>
       <Button onClick={actions.decrement}>Decrement</Button>
+      <Button onClick={toggleDisplayMode}>Switch Mode</Button>
+      {transcription}<span> {modeTitle}</span>
       <br />
       <br />
       <br />
 
-      {MAPS.geneBank_json.map(Feature)}
+      {translation && MAPS.geneBank_json.map(Feature)}
+      {transcription && MAPS.Trs_json.map(TRS_feature)}
 
       <div className='row'>
         <div className='column'>
-          <p> Nucleotide at Playhead {genome[index]} {GAUCcount.current} {baseNotes[0].name}</p>
-          <p> Di-Nucleotide at Playhead {twobaseNotes[0].motif} {twobaseNotes[0].name}</p>
+          <p> Nucleotide at Playhead: {genome[index]} {GAUCcount.current} {baseNotes[0].name}</p>
+          <p> Di-Nucleotide at Playhead: {twobaseNotes[0].motif} {twobaseNotes[0].name}</p>
+          <p> Codon at Playhead:{codon}</p>
+          <p> Amino Acid at Playhead: {codonNote.motif}</p>
           <p> GC Content over 10 base {tenGCnote[0].ratio} {tenGCnote[0].name} {/*tenGCnote[0].motif*/}</p>
           <p> GC Content over 100 base {tentensGCnote[0].ratio} {tentensGCnote[0].name} {/*tentensGCnote[0].motif*/}</p>
         </div>
         <div className='column'>
-          <p>
-            Frame 1 Codon to AA residue:
-            <span className='frame1'>{codonF1}</span>
-            <span className='circle2 frame1'>{codonF1Notes[0]?.motif}</span>
-          </p>
-          <p>
+          {/* <p>
             Frame 2 Codon to AA residue:
             <span className='frame2'>{codonF2}</span>
             <span className='circle2 frame2'>{codonF2Notes[0]?.motif}</span>
@@ -493,17 +587,17 @@ return (
             Frame 3 Codon to AA residue:
             <span className='frame3'>{codonF3}</span>
             <span className='circle2 frame3'>{codonF3Notes[0]?.motif}</span>
-          </p>
+          </p> */}
           {
           printNSPtxt[0] &&
           <p>Polyprotein cleavage to {printNSPtxt[0]}, {printNSPtxt[1]} AA residues</p>
           }
+          {
+          trs_seq_string.current &&
+          <p>Transcription Regulartory Sequence {geneBankItem_atIndex.trs_seq}</p>
+          }
         </div>
       </div>
-
-      <Button onClick={toggleDisplayMode}>Switch to replicase-transcriptase of genomic RNA</Button>
-
-      {direction.current === true }<span className='fiv'> {displayMode}</span>
 
       {/* <Button onClick={playBase}>Play Base</Button> */}
       {/* <Button onClick={playCodon}>Play Codon</Button>
@@ -513,10 +607,14 @@ return (
       {/* <p> {rnaFeature.product} {rnaFeature.protein_id}</p> */}
       <hr />
 
-      <Song bpm={bpm}>
-        <Track volume={-8} pan={-0.3} >
+      <Song bpm={bpm} >
+      <Track volume={-8} pan={-0.3} >
           <Instrument type={'synth'} notes={baseNotes} />
         </Track>
+        <Track volume={-8} pan={-0.3} >
+          <Instrument type={'synth'} notes={sameBaseNotes} />
+        </Track>
+
         <Track volume={-8} pan={0.3} >
           <Instrument type={'synth'} notes={twobaseNotes} />
           <Effect type='feedbackDelay' wet={0.2} />
@@ -536,18 +634,18 @@ return (
             notes={codonF3Notes} />
           <Effect type='distortion' />
         </Track>
-        <Track volume={-12} pan={-0.5} >
+        <Track volume={-8} pan={-0.9} >
           <Instrument type={'amSynth'} notes={tenGCnote} />
           <Effect type='feedbackDelay' wet={0.2} /> </Track>
-        <Track volume={-12} pan={0.5} >
+        <Track volume={-8} pan={0.9} >
           <Instrument type={'amSynth'} notes={tentensGCnote} />
           <Effect type='feedbackDelay' wet={0.2} /> </Track>
         <Track volume={-3} pan={0.5} >
           <Instrument type={'amSynth'} notes={getTRSnote} />
           <Effect type='feedbackDelay' wet={0.5} /> </Track>
-        {/* do something as orf length reaches every 50th AA residue*/}
+        {/* do something as orf length reaches every 50th AA residue */}
         <Track volume={-3} pan={0.5} >
-          <Instrument type={'amSynth'} notes={metaNote} />
+          <Instrument type={'amSynth'} notes={nspNote} />
           <Effect type='feedbackDelay' wet={0.5} /> </Track>
         {/* do something as orf length reaches every 50th AA residue */}
         </Song>

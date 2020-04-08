@@ -11,7 +11,7 @@ span.rna {
 span.antiC {
   position: absolute;
   left: 507px;
-  top: 310px;
+  top: 325px;
   padding: 4px 0px;
   color: #ebc844;
   background-color:#0c3d55;
@@ -45,6 +45,11 @@ span.backF2 {
 span.backF3 {
   padding: 3px;
   background-color: #a3b96c;
+}
+span.modeTitle {
+  margin-left: 600px;
+  padding: 3px;
+  background-color: #ecaa38;
 }
 
 hr {
@@ -126,29 +131,30 @@ div {
 .pre {
   white-space: pre;
 }
+
 .drop {
   margin-bottom: 6px;
 }
 
 .ribosomeSmall {
   position: absolute;
-  top: 310px;
+  top: 300px;
   left: 425px;
   background: #f16c21;
   border-radius: 50%;
   width: 200px;
-  height: 100px;
+  height: 80px;
   opacity: 0.5;
   z-index: -1;
 }
 .ribosomeBig {
   position: absolute;
-  top: 190px;
+  top: 180px;
   left: 370px;
   background: #0e5b78;
   border-radius: 50%;
   width: 300px;
-  height: 170px;
+  height: 160px;
   opacity: 0.4;
   z-index: 1;
 }
@@ -156,14 +162,79 @@ div {
 .replicase {
   position: absolute;
   top: 230px;
-  left: 415px;
+  left: 445px;
   background: #5da793;
   border-radius: 50%;
-  width: 200px;
+  width: 150px;
   height: 100px;
   opacity: 0.7;
-  z-index: -1;
+  z-index: -6;
 }
+
+.replicase.p1 {
+  top: 200px;
+  left: 405px;
+  background: #1396ba;
+  width: 80px;
+  height: 80px;
+  opacity: 0.7;
+  z-index: -2;
+
+}
+
+.replicase.p2 {
+  top: 260px;
+  left: 365px;
+  background: #117899;
+  width: 80px;
+  height: 100px;
+  opacity: 0.7;
+  z-index: -3;
+
+}
+.replicase.p3 {
+  top: 290px;
+  left: 400px;
+  background: #0e5b78;
+  width: 70px;
+  height: 50px;
+  opacity: 0.7;
+  z-index: -4;
+
+}
+
+.replicase.p4 {
+  top: 270px;
+  left: 475px;
+  background: #f16c21;
+  width: 50px;
+  height: 60px;
+  opacity: 0.6;
+  z-index: -5;
+
+}
+
+.replicase.p5 {
+  top: 260px;
+  left: 425px;
+  background: #d94e1f;
+  width: 80px;
+  height: 80px;
+  opacity: 0.7;
+  z-index: -6;
+
+}
+.replicase.p6 {
+  top: 200px;
+  left: 370px;
+  background: #d94e1f;
+  width: 70px;
+  height: 50px;
+  opacity: 0.7;
+  z-index: -7;
+
+}
+
 .playhead {
   position: absolute;
   top: 195px;
@@ -213,3 +284,4 @@ span:empty {
 .orf {
   margin-left: 70px;
 }
+

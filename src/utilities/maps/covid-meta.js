@@ -22,9 +22,79 @@ export const db_xref = 'taxon:2697049'
 export const country = 'China'
 export const collection_date = 'Dec-2019'
 
-export const geneBank_json = [
+export const Trs_json = [
   {
-  start: 1,
+    button_label: 'TRS 1',
+    trans_start: 78,
+    trs_start: 64,
+    trs_seq: 'CUCUAAACGAACUU',
+  },
+  {
+    button_label: 'TRS 2',
+    trans_start: 21564,
+    trs_start: 21550,
+    trs_seq: 'AACUAAACGAACAAUG',
+  },
+  {
+    button_label: 'TRS 3',
+    trans_start: 25396,
+    trs_start: 25379,
+    trs_seq: 'ACAUAAACGAACUUAUG',
+  },
+  {
+    button_label: 'TRS 4',
+    trans_start: 26248,
+    trs_start: 26231,
+    trs_seq: 'AUGAGUACGAACUUAUG',
+  },
+  {
+    button_label: 'TRS 5',
+    trans_start: 26481,
+    trs_start: 26467,
+    trs_seq: 'GUCUAAACGAACUA',
+  },
+  {
+    button_label: 'TRS 6',
+    trans_start: 27049,
+    trs_start: 27035,
+    trs_seq: 'UACAUCACGAACGC',
+  },
+  {
+    button_label: 'TRS 7',
+    trans_start: 27397,
+    trs_start: 27382,
+    trs_seq: 'GAUUAAACGAACAUG',
+  },
+  {
+    button_label: 'TRS 8',
+    trans_start: 27897,
+    trs_start: 27882,
+    trs_seq: 'GCCUAAACGAACAUG',
+  },
+  {
+    button_label: 'TRS 9',
+    trans_start: 28268,
+    trs_start: 28254,
+    trs_seq: 'AUCUAAACGAACAA'
+  },
+  {
+    button_label: 'TRS10',
+    trans_start: 29542,
+    trs_start: 29528,
+    trs_seq: 'GCCUAAACUCAUGC',
+  },
+  {
+    button_label: '3`END',
+    trans_start: 29903, //length minus AAA length
+    trs_start: 29900, //length minus AAA length
+    trs_seq: 'AAA',
+  },
+]
+
+
+
+export const geneBank_json = [
+  {start: 1,
   end: 265,
   gene: "5'UTR",
   product: 'Untranslated',
@@ -256,11 +326,22 @@ export const geneBank_json = [
   },
   {
   start: 29675,
-  end: 29903,
+  end: 29902,
   gene: "3'UTR",
   product: 'Untranslated',
   protein_id: 'No protein',
   button_label: "3`U",
+  type: 'u',
+  trs_start: null,
+  trs_seq: null,
+  },
+  {
+  start: 29903,
+  end: 29903,
+  gene: "3`end",
+  product: 'End of Sequence',
+  protein_id: 'End of Sequence',
+  button_label: "End",
   type: 'u',
   trs_start: null,
   trs_seq: null,
@@ -363,7 +444,7 @@ export const nspCleavageData_json = [
   nt_start: 20659,
   nt_end: 21550,
   aa_res: 298,
-  }
+  },
 ]
 
 
