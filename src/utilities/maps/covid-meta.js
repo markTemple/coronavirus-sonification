@@ -24,70 +24,133 @@ export const collection_date = 'Dec-2019'
 
 export const Trs_json = [
   {
-    button_label: 'TRS 1',
-    trans_start: 78,
-    trs_start: 64,
-    trs_seq: 'CUCUAAACGAACUU',
+  button_label: 'SEQ 1',
+  trs_3p: 63,
+  trs_5p: 1,
+  trs_seq: 'GATC',
   },
   {
-    button_label: 'TRS 2',
-    trans_start: 21564,
-    trs_start: 21550,
-    trs_seq: 'AACUAAACGAACAAUG',
+  button_label: 'TRS 1',
+  trs_3p: 78,
+  trs_5p: 64,
+  trs_seq: 'CUCUAAACGAACUU',
   },
   {
-    button_label: 'TRS 3',
-    trans_start: 25396,
-    trs_start: 25379,
-    trs_seq: 'ACAUAAACGAACUUAUG',
+  button_label: 'SEQ 2',
+  trs_3p: 21549,
+  trs_5p: 79,
+  trs_seq: 'GATC',
   },
   {
-    button_label: 'TRS 4',
-    trans_start: 26248,
-    trs_start: 26231,
-    trs_seq: 'AUGAGUACGAACUUAUG',
+  button_label: 'TRS 2',
+  trs_3p: 21564,
+  trs_5p: 21550,
+  trs_seq: 'AACUAAACGAACAAUG',
   },
   {
-    button_label: 'TRS 5',
-    trans_start: 26481,
-    trs_start: 26467,
-    trs_seq: 'GUCUAAACGAACUA',
+  button_label: 'SEQ 3',
+  trs_3p: 25378,
+  trs_5p: 21565,
+  trs_seq: 'GATC',
+  },  {
+  button_label: 'TRS 3',
+  trs_3p: 25396,
+  trs_5p: 25379,
+  trs_seq: 'ACAUAAACGAACUUAUG',
   },
   {
-    button_label: 'TRS 6',
-    trans_start: 27049,
-    trs_start: 27035,
-    trs_seq: 'UACAUCACGAACGC',
+  button_label: 'SEQ 4',
+  trs_3p: 26230,
+  trs_5p: 25397,
+  trs_seq: 'GATC',
   },
   {
-    button_label: 'TRS 7',
-    trans_start: 27397,
-    trs_start: 27382,
-    trs_seq: 'GAUUAAACGAACAUG',
+  button_label: 'TRS 4',
+  trs_3p: 26248,
+  trs_5p: 26231,
+  trs_seq: 'AUGAGUACGAACUUAUG',
   },
   {
-    button_label: 'TRS 8',
-    trans_start: 27897,
-    trs_start: 27882,
-    trs_seq: 'GCCUAAACGAACAUG',
+  button_label: 'SEQ 5',
+  trs_3p: 26466,
+  trs_5p: 26249,
+  trs_seq: 'GATC',
   },
   {
-    button_label: 'TRS 9',
-    trans_start: 28268,
-    trs_start: 28254,
-    trs_seq: 'AUCUAAACGAACAA'
+  button_label: 'TRS 5',
+  trs_3p: 26481,
+  trs_5p: 26467,
+  trs_seq: 'GUCUAAACGAACUA',
   },
   {
-    button_label: 'TRS10',
-    trans_start: 29542,
-    trs_start: 29528,
-    trs_seq: 'GCCUAAACUCAUGC',
+  button_label: 'SEQ 6',
+  trs_3p: 27034,
+  trs_5p: 26482,
+  trs_seq: 'GATC',
   },
   {
-    button_label: '3`END',
-    trans_start: 29903, //length minus AAA length
-    trs_start: 29900, //length minus AAA length
-    trs_seq: 'AAA',
+  button_label: 'TRS 6',
+  trs_3p: 27049,
+  trs_5p: 27035,
+  trs_seq: 'UACAUCACGAACGC',
+  },
+  {
+  button_label: 'SEQ 7',
+  trs_3p: 27381,
+  trs_5p: 27050,
+  trs_seq: 'GATC',
+  },  {
+  button_label: 'TRS 7',
+  trs_3p: 27397,
+  trs_5p: 27382,
+  trs_seq: 'GAUUAAACGAACAUG',
+  },
+  {
+  button_label: 'SEQ 8',
+  trs_3p: 27881,
+  trs_5p: 27398,
+  trs_seq: 'GATC',
+  },
+  {
+  button_label: 'TRS 8',
+  trs_3p: 27897,
+  trs_5p: 27882,
+  trs_seq: 'GCCUAAACGAACAUG',
+  },
+  {
+  button_label: 'SEQ 9',
+  trs_3p: 28253,
+  trs_5p: 27898,
+  trs_seq: 'GATC',
+  },
+  {
+  button_label: 'TRS 9',
+  trs_3p: 28268,
+  trs_5p: 28254,
+  trs_seq: 'AUCUAAACGAACAA'
+  },
+  {
+  button_label: 'SEQ10',
+  trs_3p: 29527,
+  trs_5p: 28269,
+  trs_seq: 'GATC',
+  },  {
+  button_label: 'TRS10',
+  trs_3p: 29542,
+  trs_5p: 29528,
+  trs_seq: 'GCCUAAACUCAUGC',
+  },
+  {
+  button_label: 'SEQ11',
+  trs_3p: 29899,
+  trs_5p: 29543,
+  trs_seq: 'GATC',
+  },
+  {
+  button_label: '3`END',
+  trs_3p: 29903, //length minus AAA length
+  trs_5p: 29900, //length minus AAA length
+  trs_seq: 'AAA',
   },
 ]
 
@@ -101,7 +164,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "5`U",
   type: 'u',
-  trs_start: 64,
+  trs_5p: 64,
   trs_seq: 'CUCUAAACGAACUU',
   },
   {
@@ -112,7 +175,7 @@ export const geneBank_json = [
   protein_id: 'QHD43415.1',
   button_label: "ab1",
   type: 'p',
-  trs_start: null,
+  trs_5p: null,
   trs_seq: null,
   },
   {
@@ -123,7 +186,7 @@ export const geneBank_json = [
   protein_id: 'QHD43415.1',
   button_label: "ab2",
   type: 'p',
-  trs_start: 21550,
+  trs_5p: 21550,
   trs_seq: 'AACUAAACGAACAAUG',
   },
   {
@@ -134,7 +197,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
-  trs_start: null,
+  trs_5p: null,
   trs_seq: null,
   },
   {
@@ -145,7 +208,7 @@ export const geneBank_json = [
   protein_id: 'QHD43416.1',
   button_label: " S ",
   type: 'p',
-  trs_start: 25379,
+  trs_5p: 25379,
   trs_seq: 'ACAUAAACGAACUUAUG',
  },
   {
@@ -156,7 +219,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
-  trs_start: null,
+  trs_5p: null,
   trs_seq: null,
   },
   {
@@ -167,7 +230,7 @@ export const geneBank_json = [
   protein_id: 'QHD43417.1',
   button_label: "ORF",
   type: 'p',
-  trs_start: null,
+  trs_5p: null,
   trs_seq: null,
   },
   {
@@ -178,7 +241,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
-  trs_start: 26231,
+  trs_5p: 26231,
   trs_seq: 'AUGAGUACGAACUUAUG',
   },
   {
@@ -189,7 +252,7 @@ export const geneBank_json = [
   protein_id: 'QHD43418.1',
   button_label: " E ",
   type: 'p',
-  trs_start: 26467,
+  trs_5p: 26467,
   trs_seq: 'GUCUAAACGAACUA',
   },
   {
@@ -200,7 +263,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
-  trs_start: null,
+  trs_5p: null,
   trs_seq: null,
   },
   {
@@ -211,7 +274,7 @@ export const geneBank_json = [
   protein_id: 'QHD43419.1',
   button_label: " M ",
   type: 'p',
-  trs_start: 27035,
+  trs_5p: 27035,
   trs_seq: 'UACAUCACGAACGC',
   },
   {
@@ -222,7 +285,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
-  trs_start: null,
+  trs_5p: null,
   trs_seq: null,
   },
   {
@@ -233,7 +296,7 @@ export const geneBank_json = [
   protein_id: 'QHD43420.1',
   button_label: "ORF",
   type: 'p',
-  trs_start: 27382,
+  trs_5p: 27382,
   trs_seq: 'GAUUAAACGAACAUG',
   },
   {
@@ -244,7 +307,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
-  trs_start: null,
+  trs_5p: null,
   trs_seq: null,
   },
   {
@@ -255,7 +318,7 @@ export const geneBank_json = [
   protein_id: 'QHD43421.1',
   button_label: "ORF",
   type: 'p',
-  trs_start: null,
+  trs_5p: null,
   trs_seq: null,
   },
   {
@@ -266,7 +329,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
-  trs_start: 27882,
+  trs_5p: 27882,
   trs_seq: 'GCCUAAACGAACAUG',
   },
   {
@@ -277,7 +340,7 @@ export const geneBank_json = [
   protein_id: 'QHD43422.1',
   button_label: "ORF",
   type: 'p',
-  trs_start: 28254,
+  trs_5p: 28254,
   trs_seq: 'AUCUAAACGAACAA',
   },
   {
@@ -288,7 +351,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
-  trs_start: null,
+  trs_5p: null,
   trs_seq: null,
   },
   {
@@ -299,7 +362,7 @@ export const geneBank_json = [
   protein_id: 'QHD43423.2',
   button_label: " N ",
   type: 'p',
-  trs_start: 29528,
+  trs_5p: 29528,
   trs_seq: 'GCCUAAACUCAUGC',
   },
   {
@@ -310,7 +373,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
-  trs_start: null,
+  trs_5p: null,
   trs_seq: null,
   },
   {
@@ -321,7 +384,7 @@ export const geneBank_json = [
   protein_id: 'QHI42199.1',
   button_label: "ORF",
   type: 'p',
-  trs_start: null,
+  trs_5p: null,
   trs_seq: null,
   },
   {
@@ -332,7 +395,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "3`U",
   type: 'u',
-  trs_start: null,
+  trs_5p: null,
   trs_seq: null,
   },
   {
@@ -343,7 +406,7 @@ export const geneBank_json = [
   protein_id: 'End of Sequence',
   button_label: "End",
   type: 'u',
-  trs_start: null,
+  trs_5p: null,
   trs_seq: null,
   },
 ]

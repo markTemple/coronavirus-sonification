@@ -227,11 +227,15 @@ function getTRSnotes(trsBase) {
 let trs_seqArray = useRef(null)
 let trs_seq_string = useRef(null)
 let TRSseq = null
-if (geneBankItem_atIndex.trs_start === index + 1) {
-  trs_seq_string.current = geneBankItem_atIndex.trs_seq
-  trs_seqArray.current = geneBankItem_atIndex.trs_seq.split('')
+
+const trsArrayItem_atIndex = MAPS.Trs_json
+.find(feature => index + 1 >= feature.trs_5p && index <= feature.trs_3p -1)
+
+if (trsArrayItem_atIndex.trs_3p === index + 1) {
+  trs_seq_string.current = trsArrayItem_atIndex.trs_seq
+  trs_seqArray.current = trsArrayItem_atIndex.trs_seq.split('')
 }
-if (geneBankItem_atIndex.trs_seq === null) trs_seqArray.current = null
+if (trsArrayItem_atIndex.trs_seq === null) trs_seqArray.current = null
 const trsBase = trs_seqArray.current?.shift()
 let getTRSnote = null
 if(trsBase) getTRSnote = getTRSnotes(trsBase);
@@ -330,7 +334,7 @@ const nspCleavageItem_atIndex = MAPS.nspCleavageData_json
     //add moer things to call here as const's
  //   console.log(feature.trs_seq.length)
 
-    if (index + 1 <= feature.trans_start && index > feature.trans_start - seqlen) {
+    if (index + 1 >= feature.trs_5p && index <= feature.trs_3p -1) {
       style.backgroundColor = '#1396ba'
     }
     // include a reset GC count on click
@@ -338,7 +342,7 @@ const nspCleavageItem_atIndex = MAPS.nspCleavageData_json
       <Fragment key={i}>
         <Button
           onClick={() => {
-            actions.set(feature.trs_start + feature.trs_seq.length -1)
+            actions.set(feature.trs_3p -1)
             setSynthStatus(0, false)
             setSynthStatus(1, false)
             setSynthStatus(2, false)
@@ -594,7 +598,7 @@ return (
           }
           {
           trs_seq_string.current &&
-          <p>Transcription Regulartory Sequence {geneBankItem_atIndex.trs_seq}</p>
+          <p>Transcription Regulartory Sequence {trsArrayItem_atIndex.trs_seq}</p>
           }
         </div>
       </div>
