@@ -17,7 +17,7 @@ export function PlayGenome() {
   const [displayMode, setDisplayMode] = useState('translation')
   const toggleDisplayMode = () => {
     setDisplayMode(displayMode === 'translation' ? 'transcription' : 'translation')
-    actions.set(displayMode === 'transcription' ? 0 : 29902)
+    // actions.set(displayMode === 'transcription' ? 0 : 29902)
   }
 
 // console.log('direction ', direction)
@@ -32,7 +32,7 @@ if(displayMode === 'transcription') {
   translation = false
 
   direction.current = true
-  bpm = '120'
+  bpm = '130'
   modeTitle = ` (-) replicase RNA strand synthesis 3'<- 5'`
   }
 if(displayMode === 'translation') {
@@ -59,9 +59,8 @@ const isSynthEnabled = useRef([false, false, false])
 
   function getBaseNotes() {
     const base = genome[index];
-
-      return [{ name: MAPS.BASE_MAP[base], duration: '16n', motif: base }];
-
+    if(translation) return [{ name: MAPS.BASE_MAP[base], duration: '8n', motif: base }];
+    else return[{ name: MAPS.BASE_MAP_2[base], duration: '32n', motif: base }];
   }
   const baseNotes = getBaseNotes();
 
@@ -69,8 +68,10 @@ const isSynthEnabled = useRef([false, false, false])
   let baseInc = useRef(1);
   function getSameBaseNotes(baseInc) {
     const base = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8']
-    return [{ name: base[baseInc.current], duration: '16n', motif: base }];
-  }
+    const base_2 = ['A1', 'Bb2', 'C3', 'Bb4', 'C5', 'Bb6', 'C7', 'Bb8']
+    if(translation) return [{ name: base[baseInc.current], duration: '8n', motif: base }];
+    else return [{ name: base_2[baseInc.current], duration: '16n', motif: base }];
+    }
   let sameBaseNotes = ''
 
 if( (genome[index] === genome[index- 1] ) && (genome[index] === genome[index- 2] ) ) {
@@ -111,11 +112,11 @@ if(baseInc.current === 7) baseInc.current = 0
 
     if(translation){ //play codons
       return {
-        name: MAPS.CODON_MAP2[codon]?.Note,
-        duration: '8n',
+        name: MAPS.CODON_MAP[codon]?.Note,
+        duration: '2n',
         frame012: frame012,
         isSynthEnabled: isSynthEnabled.current[frame012],
-        motif: MAPS.CODON_MAP2[codon]?.AA,
+        motif: MAPS.CODON_MAP[codon]?.AA,
         codon: codon,
       }
     }
@@ -125,7 +126,7 @@ if(baseInc.current === 7) baseInc.current = 0
         duration: '',
         frame012: frame012,
         isSynthEnabled: isSynthEnabled.current[frame012],
-        motif: MAPS.CODON_MAP2[codon]?.AA,
+        motif: MAPS.CODON_MAP[codon]?.AA,
         codon: codon,
       }
     }
@@ -167,20 +168,23 @@ if(baseInc.current === 7) baseInc.current = 0
       AA_Count3.current = 0
     }
   }
-  // console.log(codonF1Notes);
-
+  // C natural minor translation trl [0]
+// [0] C, D, Eb, F, G, Ab, Bb
+// A Phrygian transcription tsc [1]
+// [1] A Bb C D E F G
+//
   function ratioToNote(ratio, modulus) {
-    let note = 'C1'
-    if (ratio.ratio < 0.25) note = 'C2'
-    else if (ratio.ratio < 0.4) note = 'E2'
-    else if (ratio.ratio < 0.45) note = 'G2'
-    else if (ratio.ratio < 0.5) note = 'B3'
-    else if (ratio.ratio < 0.55) note = 'C4'
-    else if (ratio.ratio < 0.6) note = 'E4'
-    else if (ratio.ratio < 0.75) note = 'G5'
-    else if (ratio.ratio <= 1.0) note = 'B6'
-    if (index % modulus) return [{ name: note, duration: '1m', motif: ratio.motif, ratio: ratio.ratio }];
-    else return [{ name: note, duration: '1m', motif: ratio.motif, ratio: ratio.ratio }];
+    let note = {trl: 'C1', tsc: 'A1'}
+    if (ratio.ratio < 0.25) note = {trl: 'Eb2', tsc: 'F2'}
+    else if (ratio.ratio < 0.4) note = {trl: 'Ab2', tsc: 'G2'}
+    else if (ratio.ratio < 0.45) note = {trl: 'Bb2', tsc: 'A3'}
+    else if (ratio.ratio < 0.5) note = {trl: 'Eb3', tsc: 'Bb3'}
+    else if (ratio.ratio < 0.55) note = {trl: 'Ab3', tsc: 'A4'}
+    else if (ratio.ratio < 0.6) note = {trl: 'Bb3', tsc: 'Bb4'}
+    else if (ratio.ratio < 0.75) note = {trl: 'Eb4', tsc: 'C4'}
+    else if (ratio.ratio <= 1.0) note = {trl: 'Ab4', tsc: 'D4'}
+    if(translation) return [{ name: note.trl, duration: '1m', motif: ratio.motif, ratio: ratio.ratio }];
+    else return [{ name: note.tsc, duration: '2n', motif: ratio.motif, ratio: ratio.ratio }];
   }
 
   let Array10bpGCratio =
@@ -286,6 +290,13 @@ const nspCleavageItem_atIndex = MAPS.nspCleavageData_json
   const stop = () => Tone.Transport.stop();
   const reverse = () => (direction.current = !direction.current);
 
+  const play_transcription = () => {
+    Tone.Transport.start();
+  }
+
+  const play_translation = () => {
+    Tone.Transport.start();
+  }
 
   useEffect(() => {
     Tone.Transport.scheduleRepeat(() => {
@@ -295,6 +306,25 @@ const nspCleavageItem_atIndex = MAPS.nspCleavageData_json
       Tone.Transport.cancel();
     };
   }, []);
+
+
+  function buttonSTART(codon) {
+    const style = {}
+    if (codon === 'AUG') {
+      return <div>Start <span className='buttonEffect'>  </span></div>
+    }else{
+    return <div>Start </div>
+    }
+  }
+
+  function buttonSTOP(codon) {
+    const style = {}
+  if (codon === 'UGA' || codon === 'UAG' || codon === 'UAA' ) {
+    return <div>Stop <span className='buttonEffect'>  </span></div>
+  }else{
+  return <div>Stop </div>
+  }
+}
 
   function Feature(feature, i) {
     const style = {}
@@ -381,13 +411,6 @@ const nspCleavageItem_atIndex = MAPS.nspCleavageData_json
   }
   moveDot();
 
-  let rnaFeature = 'default';
-  for (var feature of MAPS.geneBank_json) {
-    if ((index + 1 >= feature.start) && (index <= feature.end)) {
-      rnaFeature = feature
-    }
-  }
-
   // const SW1_PropStyle = {
   //   content: codonF1Notes[0]?.motif,
   //   props: {
@@ -428,7 +451,7 @@ const nspCleavageItem_atIndex = MAPS.nspCleavageData_json
 
 
   //sonification hacks
-const given_seconds = (rnaFeature.end+1 - rnaFeature.start)/6
+const given_seconds = (geneBankItem_atIndex.end+1 - geneBankItem_atIndex.start)/6
 const dateObj = new Date(given_seconds * 1000);
 
 function convertBPtoTime(given_seconds) {
@@ -454,9 +477,9 @@ if(displayMode === 'transcription') {
 return (
     <>
       <h2>{MAPS.source}</h2>
-      <p><span className='six'>{rnaFeature.gene}</span>
-      extends from {rnaFeature.start} to {rnaFeature.end} bp
-        ({rnaFeature.end+1 - rnaFeature.start} bp in length)
+      <p><span className='six'>{geneBankItem_atIndex.gene} </span>
+      extends from {geneBankItem_atIndex.start} to {geneBankItem_atIndex.end} bp
+        ({geneBankItem_atIndex.end+1 - geneBankItem_atIndex.start} bp in length)
       </p>
       <hr />
       <p style={{ whiteSpace: 'pre' }}>{subTitle} Audio time
@@ -465,7 +488,7 @@ return (
       </p>
       <br />
 
-{ direction.current ? '' :
+{ transcription ? '' :
 <div>
       <div>
         <span>
@@ -559,16 +582,21 @@ return (
         </div>
 }
       <br />
-      <Button onClick={play}>Play</Button>
-      <Button onClick={stop}>Stop</Button>
-      <Button onClick={actions.increment}>Increment</Button>
-      <Button onClick={actions.decrement}>Decrement</Button>
-      <Button onClick={toggleDisplayMode}>Switch Mode</Button>
+
+ {/* aidan help with buttons? */}
+      {/* <Button onClick={play_transcription}><span className='pre'> Start Transcription </span></Button> */}
+      {/* <Button onClick={play_translation}><span className='pre'> Start Translation </span></Button> */}
+      <br />
+      <Button onClick={play}><span className='pre'> Play </span></Button>
+      <Button onClick={stop}><span className='pre'> Pause </span></Button>
+      <Button onClick={actions.increment}><span className='pre'> Increment </span></Button>
+      <Button onClick={actions.decrement}><span className='pre'> Decrement </span></Button>
       {transcription}<span> {modeTitle}</span>
       <br />
       <br />
+      <Button onClick={toggleDisplayMode}><span className='pre'> Switch Mode </span></Button>
       <br />
-
+      <br />
       {translation && MAPS.geneBank_json.map(Feature)}
       {transcription && MAPS.Trs_json.map(TRS_feature)}
 
@@ -576,22 +604,14 @@ return (
         <div className='column'>
           <p> Nucleotide at Playhead: {genome[index]} {GAUCcount.current} {baseNotes[0].name}</p>
           <p> Di-Nucleotide at Playhead: {twobaseNotes[0].motif} {twobaseNotes[0].name}</p>
-          <p> Codon at Playhead:{codon}</p>
+          <p> Codon at Playhead: {codon} {codonNote.name}</p>
           <p> Amino Acid at Playhead: {codonNote.motif}</p>
           <p> GC Content over 10 base {tenGCnote[0].ratio} {tenGCnote[0].name} {/*tenGCnote[0].motif*/}</p>
           <p> GC Content over 100 base {tentensGCnote[0].ratio} {tentensGCnote[0].name} {/*tentensGCnote[0].motif*/}</p>
         </div>
         <div className='column'>
-          {/* <p>
-            Frame 2 Codon to AA residue:
-            <span className='frame2'>{codonF2}</span>
-            <span className='circle2 frame2'>{codonF2Notes[0]?.motif}</span>
-          </p>
-          <p>
-            Frame 3 Codon to AA residue:
-            <span className='frame3'>{codonF3}</span>
-            <span className='circle2 frame3'>{codonF3Notes[0]?.motif}</span>
-          </p> */}
+        {buttonSTART(codon)}
+        {buttonSTOP(codon)}
           {
           printNSPtxt[0] &&
           <p>Polyprotein cleavage to {printNSPtxt[0]}, {printNSPtxt[1]} AA residues</p>
@@ -608,47 +628,47 @@ return (
       <Button onClick={base10GC}>Each 10bp GC ratio</Button>
       <Button onClick={base100GC}>Play 100 GCcontent</Button>
       <Button onClick={playTwoBase}>Play diNucleotide</Button>*/}
-      {/* <p> {rnaFeature.product} {rnaFeature.protein_id}</p> */}
+      {/* <p> {geneBankItem_atIndex.product} {geneBankItem_atIndex.protein_id}</p> */}
       <hr />
 
       <Song bpm={bpm} >
-      <Track volume={-8} pan={-0.3} >
+      <Track volume={-9} pan={-0.3} >
           <Instrument type={'synth'} notes={baseNotes} />
         </Track>
-        <Track volume={-8} pan={-0.3} >
+        <Track volume={-9} pan={-0.3} >
           <Instrument type={'synth'} notes={sameBaseNotes} />
         </Track>
 
-        <Track volume={-8} pan={0.3} >
+        <Track volume={-9} pan={0.3} >
           <Instrument type={'synth'} notes={twobaseNotes} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>
-        <Track volume={-3} pan={-0.8} >
+        <Track volume={-10} pan={-0.9} >
           <Instrument type={'synth'} oscillator={{ type: 'triangle' }}
             notes={codonF1Notes} />
           <Effect type='distortion' />
         </Track>
-        <Track volume={-3} pan={0} >
+        <Track volume={-12} pan={0} >
           <Instrument type={'synth'} oscillator={{ type: 'triangle' }}
             notes={codonF2Notes} />
           <Effect type='distortion' />
         </Track>
-        <Track volume={-3} pan={0.8} >
+        <Track volume={-10} pan={0.9} >
           <Instrument type={'synth'} oscillator={{ type: 'triangle' }}
             notes={codonF3Notes} />
           <Effect type='distortion' />
         </Track>
-        <Track volume={-8} pan={-0.9} >
+        <Track volume={-9} pan={-0.9} >
           <Instrument type={'amSynth'} notes={tenGCnote} />
-          <Effect type='feedbackDelay' wet={0.2} /> </Track>
-        <Track volume={-8} pan={0.9} >
+          <Effect type='feedbackDelay' wet={0.4} /> </Track>
+        <Track volume={-9} pan={0.9} >
           <Instrument type={'amSynth'} notes={tentensGCnote} />
-          <Effect type='feedbackDelay' wet={0.2} /> </Track>
-        <Track volume={-3} pan={0.5} >
+          <Effect type='feedbackDelay' wet={0.4} /> </Track>
+        <Track volume={-8} pan={0.5} >
           <Instrument type={'amSynth'} notes={getTRSnote} />
           <Effect type='feedbackDelay' wet={0.5} /> </Track>
         {/* do something as orf length reaches every 50th AA residue */}
-        <Track volume={-3} pan={0.5} >
+        <Track volume={-8} pan={0.5} >
           <Instrument type={'amSynth'} notes={nspNote} />
           <Effect type='feedbackDelay' wet={0.5} /> </Track>
         {/* do something as orf length reaches every 50th AA residue */}

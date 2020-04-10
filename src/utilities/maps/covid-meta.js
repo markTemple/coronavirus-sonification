@@ -24,107 +24,107 @@ export const collection_date = 'Dec-2019'
 
 export const Trs_json = [
   {
-  button_label: 'SEQ 1',
+  button_label: 'SEQ1',
   trs_3p: 63,
   trs_5p: 1,
-  trs_seq: 'GATC',
+  trs_seq: '',
   },
   {
-  button_label: 'TRS 1',
+  button_label: 'TRS1',
   trs_3p: 78,
   trs_5p: 64,
   trs_seq: 'CUCUAAACGAACUU',
   },
   {
-  button_label: 'SEQ 2',
+  button_label: 'SEQ2',
   trs_3p: 21549,
   trs_5p: 79,
-  trs_seq: 'GATC',
+  trs_seq: '',
   },
   {
-  button_label: 'TRS 2',
+  button_label: 'TRS2',
   trs_3p: 21564,
   trs_5p: 21550,
   trs_seq: 'AACUAAACGAACAAUG',
   },
   {
-  button_label: 'SEQ 3',
+  button_label: 'SEQ3',
   trs_3p: 25378,
   trs_5p: 21565,
-  trs_seq: 'GATC',
+  trs_seq: '',
   },  {
-  button_label: 'TRS 3',
+  button_label: 'TRS3',
   trs_3p: 25396,
   trs_5p: 25379,
   trs_seq: 'ACAUAAACGAACUUAUG',
   },
   {
-  button_label: 'SEQ 4',
+  button_label: 'SEQ4',
   trs_3p: 26230,
   trs_5p: 25397,
-  trs_seq: 'GATC',
+  trs_seq: '',
   },
   {
-  button_label: 'TRS 4',
+  button_label: 'TRS4',
   trs_3p: 26248,
   trs_5p: 26231,
   trs_seq: 'AUGAGUACGAACUUAUG',
   },
   {
-  button_label: 'SEQ 5',
+  button_label: 'SEQ5',
   trs_3p: 26466,
   trs_5p: 26249,
-  trs_seq: 'GATC',
+  trs_seq: '',
   },
   {
-  button_label: 'TRS 5',
+  button_label: 'TRS5',
   trs_3p: 26481,
   trs_5p: 26467,
   trs_seq: 'GUCUAAACGAACUA',
   },
   {
-  button_label: 'SEQ 6',
+  button_label: 'SEQ6',
   trs_3p: 27034,
   trs_5p: 26482,
-  trs_seq: 'GATC',
+  trs_seq: '',
   },
   {
-  button_label: 'TRS 6',
+  button_label: 'TRS6',
   trs_3p: 27049,
   trs_5p: 27035,
   trs_seq: 'UACAUCACGAACGC',
   },
   {
-  button_label: 'SEQ 7',
+  button_label: 'SEQ7',
   trs_3p: 27381,
   trs_5p: 27050,
-  trs_seq: 'GATC',
+  trs_seq: '',
   },  {
-  button_label: 'TRS 7',
+  button_label: 'TRS7',
   trs_3p: 27397,
   trs_5p: 27382,
   trs_seq: 'GAUUAAACGAACAUG',
   },
   {
-  button_label: 'SEQ 8',
+  button_label: 'SEQ8',
   trs_3p: 27881,
   trs_5p: 27398,
-  trs_seq: 'GATC',
+  trs_seq: '',
   },
   {
-  button_label: 'TRS 8',
+  button_label: 'TRS8',
   trs_3p: 27897,
   trs_5p: 27882,
   trs_seq: 'GCCUAAACGAACAUG',
   },
   {
-  button_label: 'SEQ 9',
+  button_label: 'SEQ9',
   trs_3p: 28253,
   trs_5p: 27898,
-  trs_seq: 'GATC',
+  trs_seq: '',
   },
   {
-  button_label: 'TRS 9',
+  button_label: 'TRS9',
   trs_3p: 28268,
   trs_5p: 28254,
   trs_seq: 'AUCUAAACGAACAA'
@@ -133,7 +133,7 @@ export const Trs_json = [
   button_label: 'SEQ10',
   trs_3p: 29527,
   trs_5p: 28269,
-  trs_seq: 'GATC',
+  trs_seq: '',
   },  {
   button_label: 'TRS10',
   trs_3p: 29542,
@@ -142,19 +142,17 @@ export const Trs_json = [
   },
   {
   button_label: 'SEQ11',
-  trs_3p: 29899,
+  trs_3p: 29902,
   trs_5p: 29543,
-  trs_seq: 'GATC',
+  trs_seq: '',
   },
   {
-  button_label: '3`END',
+  button_label: '3`end',
   trs_3p: 29903, //length minus AAA length
-  trs_5p: 29900, //length minus AAA length
-  trs_seq: 'AAA',
+  trs_5p: 29903, //length minus AAA length
+  trs_seq: '',
   },
 ]
-
-
 
 export const geneBank_json = [
   {start: 1,
@@ -404,7 +402,7 @@ export const geneBank_json = [
   gene: "3`end",
   product: 'End of Sequence',
   protein_id: 'End of Sequence',
-  button_label: "End",
+  button_label: "3`end",
   type: 'u',
   trs_5p: null,
   trs_seq: null,

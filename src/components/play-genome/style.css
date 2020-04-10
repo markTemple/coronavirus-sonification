@@ -115,6 +115,7 @@ h2 {
   border-radius: 50%;
   background: #f16c21;
 }
+
 .circle2 {
   padding: 4px 0px 4px 0px;
   border-radius: 50%;
@@ -239,9 +240,9 @@ div {
   position: absolute;
   top: 195px;
   left: 505px;
-  border: 1px solid #d94e1f;
-  width: 31px;
-  height: 150px;
+  border: 2px solid #f16c21;
+  width: 29px;
+  height: 172px;
   opacity: 0.4;
 }
 
@@ -285,3 +286,11 @@ span:empty {
   margin-left: 70px;
 }
 
+.buttonEffect {
+  background: #f16c21;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  z-index: -1;
+  white-space: pre;
+}

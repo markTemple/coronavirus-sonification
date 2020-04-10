@@ -9,19 +9,6 @@ GenomeDisplay.propTypes = {
 
 export function GenomeDisplay ({ children: genome, ...props }) {
   let result = []
-
-  // const regex = /(AUG)/g;
-  // const foundReg = genome.match(regex);
-  // //console.log(foundReg)
-
-  // if (genome.includes('AUG')){
-  // //  console.log('found')
-  // }
-
-  // const searchTerm = 'AUG';
-  // const indexOfFirst = genome.indexOf(searchTerm);
-  // //console.log(indexOfFirst)
-
   /*
     Loop through the genome string and extract all AUG and replace with span.
   */
