@@ -287,10 +287,13 @@ span:empty {
 }
 
 .buttonEffect {
-  background: #f16c21;
+  background: #c02e1d;
   border-radius: 50%;
   width: 20px;
   height: 20px;
   z-index: -1;
   white-space: pre;
+}
+.buttonEffect.start {
+  background: #a3b96c;
 }

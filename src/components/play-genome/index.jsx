@@ -23,23 +23,23 @@ export function PlayGenome() {
 // console.log('direction ', direction)
 // console.log('displayMode ', displayMode)
 
-let bpm = '90'
-let modeTitle = ''
+let bpm = null
 let transcription = false
 let translation = true
+let mode = ''
 if(displayMode === 'transcription') {
   transcription = true
   translation = false
-
   direction.current = true
-  bpm = '130'
-  modeTitle = ` (-) replicase RNA strand synthesis 3'<- 5'`
+  bpm = 130
+  mode = 'tsc'
   }
 if(displayMode === 'translation') {
   transcription = false
   translation = true
   direction.current = false
-  modeTitle = ` ribosomal polypeptide synthesis 5'->3'`
+  bpm = 90
+  mode = 'trl'
   }
 //console.log(bpm)
 
@@ -60,7 +60,7 @@ const isSynthEnabled = useRef([false, false, false])
   function getBaseNotes() {
     const base = genome[index];
     if(translation) return [{ name: MAPS.BASE_MAP[base], duration: '8n', motif: base }];
-    else return[{ name: MAPS.BASE_MAP_2[base], duration: '32n', motif: base }];
+    else return[{ name: MAPS.BASE_MAP_micro[base], duration: '32n', motif: base }];
   }
   const baseNotes = getBaseNotes();
 
@@ -69,8 +69,10 @@ const isSynthEnabled = useRef([false, false, false])
   function getSameBaseNotes(baseInc) {
     const base = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8']
     const base_2 = ['A1', 'Bb2', 'C3', 'Bb4', 'C5', 'Bb6', 'C7', 'Bb8']
+    const base_micro = [440.00, 452.89, 466.16, 479.82, 493.88, 508.36, 523.25, 538.58]
+
     if(translation) return [{ name: base[baseInc.current], duration: '8n', motif: base }];
-    else return [{ name: base_2[baseInc.current], duration: '16n', motif: base }];
+    else return [{ name: base_micro[baseInc.current], duration: '16n', motif: base }];
     }
   let sameBaseNotes = ''
 
@@ -90,7 +92,7 @@ if(baseInc.current === 7) baseInc.current = 0
     const twoBase = genome.substring(index, index + 2);
     /*console.log(base);*/
     // if (index % 2 === 0) {
-      return [{ name: MAPS.TWOBASE_MAP[twoBase], duration: '2n', motif: twoBase }];
+      return [{ name: MAPS.BASE_MAP_micro[twoBase], duration: '2n', motif: twoBase }];
     // } else { return [{ name: '', duration: '', motif: '' }]; }
   }
   const twobaseNotes = playTwoBase();
@@ -120,13 +122,22 @@ if(baseInc.current === 7) baseInc.current = 0
         codon: codon,
       }
     }
-    if(transcription){ //don't play codons
+    if(transcription === true && frame012 === 2){ //don't play codons
+      return {
+        name: MAPS.CODON_MAP_micro[codon]?.Note,
+        duration: '4n',
+        frame012: frame012,
+        isSynthEnabled: true,
+        motif: MAPS.CODON_MAP_micro[codon]?.AA,
+        codon: codon,
+      }
+    }else{
       return {
         name: '',
         duration: '',
         frame012: frame012,
-        isSynthEnabled: isSynthEnabled.current[frame012],
-        motif: MAPS.CODON_MAP[codon]?.AA,
+        isSynthEnabled: true,
+        motif: MAPS.CODON_MAP_micro[codon]?.AA,
         codon: codon,
       }
     }
@@ -175,14 +186,14 @@ if(baseInc.current === 7) baseInc.current = 0
 //
   function ratioToNote(ratio, modulus) {
     let note = {trl: 'C1', tsc: 'A1'}
-    if (ratio.ratio < 0.25) note = {trl: 'Eb2', tsc: 'F2'}
-    else if (ratio.ratio < 0.4) note = {trl: 'Ab2', tsc: 'G2'}
-    else if (ratio.ratio < 0.45) note = {trl: 'Bb2', tsc: 'A3'}
-    else if (ratio.ratio < 0.5) note = {trl: 'Eb3', tsc: 'Bb3'}
-    else if (ratio.ratio < 0.55) note = {trl: 'Ab3', tsc: 'A4'}
-    else if (ratio.ratio < 0.6) note = {trl: 'Bb3', tsc: 'Bb4'}
-    else if (ratio.ratio < 0.75) note = {trl: 'Eb4', tsc: 'C4'}
-    else if (ratio.ratio <= 1.0) note = {trl: 'Ab4', tsc: 'D4'}
+    if (ratio.ratio < 0.25) note = {trl: 'Eb2', tsc: 392.00}
+    else if (ratio.ratio < 0.4) note = {trl: 'Ab2', tsc: 403.48}
+    else if (ratio.ratio < 0.45) note = {trl: 'Bb2', tsc: 415.30}
+    else if (ratio.ratio < 0.5) note = {trl: 'Eb3', tsc: 427.47}
+    else if (ratio.ratio < 0.55) note = {trl: 'Ab3', tsc: 440.00}
+    else if (ratio.ratio < 0.6) note = {trl: 'Bb3', tsc: 452.89}
+    else if (ratio.ratio < 0.75) note = {trl: 'Eb4', tsc: 466.16}
+    else if (ratio.ratio <= 1.0) note = {trl: 'Ab4', tsc: 479.82}
     if(translation) return [{ name: note.trl, duration: '1m', motif: ratio.motif, ratio: ratio.ratio }];
     else return [{ name: note.tsc, duration: '2n', motif: ratio.motif, ratio: ratio.ratio }];
   }
@@ -235,6 +246,8 @@ let TRSseq = null
 const trsArrayItem_atIndex = MAPS.Trs_json
 .find(feature => index + 1 >= feature.trs_5p && index <= feature.trs_3p -1)
 
+// console.log(trsArrayItem_atIndex)
+
 if (trsArrayItem_atIndex.trs_3p === index + 1) {
   trs_seq_string.current = trsArrayItem_atIndex.trs_seq
   trs_seqArray.current = trsArrayItem_atIndex.trs_seq.split('')
@@ -248,26 +261,26 @@ if(trsBase) {} else trs_seq_string.current = null
 // a composed sequence of notes are used to sonify these
 // nsp data stored in natSup_json (Nature Supplementary data)
 
-const nspCleavageItem_atIndex = MAPS.nspCleavageData_json
-    .find(feature => index > feature.nt_start -10 && index < feature.nt_start -1)
-  const nspNotes = ['C5','E5','G5','B6','C5','E5','G5','B7'];
+  const nspCleavageItem_atIndex = MAPS.nspCleavageData_json
+    .find(feature => index + 1 >= feature.nt_start && index <= feature.nt_end)
+
+    const nspNotes = ['C5','Eb5','F5','G5','C6','Eb6','F6','F6'];
   // const metaP_end = ['B7','G6','E6','C6','B6','G5','E5','C5'];
-
   const mNoteCount = useRef(null);
-  let nspNote = [];
+  let nspNote = null;
 
-  function playMeta(noteArr) {
+  function playNSP(noteArr) {
     nspNote = [{name: noteArr[mNoteCount.current], duration: '2n'}]
     mNoteCount.current++
     if(mNoteCount.current === noteArr.length) mNoteCount.current = null
   }
 
-  let printNSPtxt = [null,null]
-  if(nspCleavageItem_atIndex && nspCleavageItem_atIndex.nt_start != 266) {
-    playMeta(nspNotes)
-    bpm = '30'
-    printNSPtxt = [nspCleavageItem_atIndex.name, nspCleavageItem_atIndex.aa_res]
+  // if(nspCleavageItem_atIndex && nspCleavageItem_atIndex.nt_start != 266) {
+  if(index+1 >= nspCleavageItem_atIndex.nt_end - 8 && translation) {
+    playNSP(nspNotes)
+   bpm = 30
     }
+
 
   function colorCodon() {
     if (isSynthEnabled.current[frame012] === true) {
@@ -311,7 +324,7 @@ const nspCleavageItem_atIndex = MAPS.nspCleavageData_json
   function buttonSTART(codon) {
     const style = {}
     if (codon === 'AUG') {
-      return <div>Start <span className='buttonEffect'>  </span></div>
+      return <div>Start <span className='buttonEffect start'>  </span></div>
     }else{
     return <div>Start </div>
     }
@@ -391,7 +404,6 @@ const nspCleavageItem_atIndex = MAPS.nspCleavageData_json
     );
   }
 
-
   function makeComplementary(seq) {
     return seq.replace(/./g, (char) => MAPS.ANTICODON_MAP[char])
   }
@@ -451,11 +463,12 @@ const nspCleavageItem_atIndex = MAPS.nspCleavageData_json
 
 
   //sonification hacks
-const given_seconds = (geneBankItem_atIndex.end+1 - geneBankItem_atIndex.start)/6
-const dateObj = new Date(given_seconds * 1000);
+const trl_time = (geneBankItem_atIndex.end+1 - geneBankItem_atIndex.start)/6
+const tsc_time = (trsArrayItem_atIndex.trs_3p+1 - trsArrayItem_atIndex.trs_5p)/9
 
 function convertBPtoTime(given_seconds) {
   // let hours = dateObj.getUTCHours();
+const dateObj = new Date(given_seconds * 1000);
   let minutes = dateObj.getUTCMinutes();
   let seconds = dateObj.getSeconds();
 
@@ -466,24 +479,50 @@ function convertBPtoTime(given_seconds) {
       + ':' + seconds.toString().padStart(2, '0');
   return timeString;
 }
-convertBPtoTime(given_seconds)
-//console.log(convertBPtoTime())
 
-let subTitle = 'Sonification of translation of plus RNA strand to make proteins'
-if(displayMode === 'transcription') {
-  subTitle = 'Sonification of transcription of RNA to make the minus strand RNA'
-}
+  // printNSPtxt[0] &&
+  // <p>Polyprotein cleavage to {printNSPtxt[0]}, {printNSPtxt[1]} AA residues</p>
+  // trs_seq_string.current &&
+  // <p>Transcription Regulartory Sequence {trsArrayItem_atIndex.trs_seq}</p>
 
-return (
+//const arrays with translation then transcription values
+let subHeadings = {
+  rnaRegion:
+    {trl: geneBankItem_atIndex.gene,
+    tsc: trsArrayItem_atIndex.button_label},
+  rnaBegin:
+    {trl: geneBankItem_atIndex.start,
+    tsc: trsArrayItem_atIndex.trs_5p},
+  rnaEnd:
+    {trl: geneBankItem_atIndex.end,
+    tsc: trsArrayItem_atIndex.trs_3p},
+  rnaLength:
+    {trl: geneBankItem_atIndex.end+1 - geneBankItem_atIndex.start,
+    tsc: trsArrayItem_atIndex.trs_3p+1 - trsArrayItem_atIndex.trs_5p},
+  sonifySub:
+    {trl: 'Sonification of translation of plus RNA strand to make proteins',
+    tsc: 'Sonification of transcription of RNA to make the minus strand RNA'},
+  sonifyTime:
+    {trl: convertBPtoTime(trl_time),
+    tsc: convertBPtoTime(tsc_time)},
+    modeTitle:
+    {trl: ` ribosomal polypeptide synthesis 5'->3'`,
+    tsc: ` (-) replicase RNA strand synthesis 3'<- 5'`},
+  printNSPorTRS:
+    {trl: 'NSP: ' + (nspCleavageItem_atIndex.nt_end - index) + ' ' + nspCleavageItem_atIndex.name,
+    tsc: 'Next TRS: ' + (index+1 -trsArrayItem_atIndex.trs_5p)+ ' ' + trsArrayItem_atIndex.trs_seq},
+  }
+
+  return (
     <>
       <h2>{MAPS.source}</h2>
-      <p><span className='six'>{geneBankItem_atIndex.gene} </span>
-      extends from {geneBankItem_atIndex.start} to {geneBankItem_atIndex.end} bp
-        ({geneBankItem_atIndex.end+1 - geneBankItem_atIndex.start} bp in length)
+      <p><span className='six'>{subHeadings.rnaRegion[mode]} </span>
+      extends from {subHeadings.rnaBegin[mode]} to {subHeadings.rnaEnd[mode]} bp
+        ({subHeadings.rnaLength[mode]} bp in length)
       </p>
       <hr />
-      <p style={{ whiteSpace: 'pre' }}>{subTitle} Audio time
-        <span className='six'> {convertBPtoTime()}
+      <p style={{ whiteSpace: 'pre' }}>{subHeadings.sonifySub[mode]} Audio time
+        <span className='six'> {subHeadings.sonifyTime[mode]}
         </span> (hh:mm:ss)
       </p>
       <br />
@@ -558,7 +597,7 @@ return (
       <div>
       <div>
       <p className='pre'>
-        <span>            5`                                      </span>
+        <span>Total 29903|5`                                      </span>
         <span>                                        3`</span>
       </p>
       </div><span className='thr'> RNA +</span>
@@ -591,7 +630,7 @@ return (
       <Button onClick={stop}><span className='pre'> Pause </span></Button>
       <Button onClick={actions.increment}><span className='pre'> Increment </span></Button>
       <Button onClick={actions.decrement}><span className='pre'> Decrement </span></Button>
-      {transcription}<span> {modeTitle}</span>
+      <span> {subHeadings.modeTitle[mode]}</span>
       <br />
       <br />
       <Button onClick={toggleDisplayMode}><span className='pre'> Switch Mode </span></Button>
@@ -606,39 +645,27 @@ return (
           <p> Di-Nucleotide at Playhead: {twobaseNotes[0].motif} {twobaseNotes[0].name}</p>
           <p> Codon at Playhead: {codon} {codonNote.name}</p>
           <p> Amino Acid at Playhead: {codonNote.motif}</p>
-          <p> GC Content over 10 base {tenGCnote[0].ratio} {tenGCnote[0].name} {/*tenGCnote[0].motif*/}</p>
-          <p> GC Content over 100 base {tentensGCnote[0].ratio} {tentensGCnote[0].name} {/*tentensGCnote[0].motif*/}</p>
+          <p> GC Content over 10 base: {tenGCnote[0].ratio} {tenGCnote[0].name} {/*tenGCnote[0].motif*/}</p>
+          <p> GC Content over 100 base: {tentensGCnote[0].ratio} {tentensGCnote[0].name} {/*tentensGCnote[0].motif*/}</p>
         </div>
         <div className='column'>
+        <p>
         {buttonSTART(codon)}
         {buttonSTOP(codon)}
-          {
-          printNSPtxt[0] &&
-          <p>Polyprotein cleavage to {printNSPtxt[0]}, {printNSPtxt[1]} AA residues</p>
-          }
-          {
-          trs_seq_string.current &&
-          <p>Transcription Regulartory Sequence {trsArrayItem_atIndex.trs_seq}</p>
-          }
+        <span>{subHeadings.printNSPorTRS[mode]}</span>
+
+        </p>
         </div>
       </div>
-
-      {/* <Button onClick={playBase}>Play Base</Button> */}
-      {/* <Button onClick={playCodon}>Play Codon</Button>
-      <Button onClick={base10GC}>Each 10bp GC ratio</Button>
-      <Button onClick={base100GC}>Play 100 GCcontent</Button>
-      <Button onClick={playTwoBase}>Play diNucleotide</Button>*/}
-      {/* <p> {geneBankItem_atIndex.product} {geneBankItem_atIndex.protein_id}</p> */}
       <hr />
 
       <Song bpm={bpm} >
-      <Track volume={-9} pan={-0.3} >
+      <Track volume={-6} pan={-0.3} >
           <Instrument type={'synth'} notes={baseNotes} />
         </Track>
         <Track volume={-9} pan={-0.3} >
           <Instrument type={'synth'} notes={sameBaseNotes} />
         </Track>
-
         <Track volume={-9} pan={0.3} >
           <Instrument type={'synth'} notes={twobaseNotes} />
           <Effect type='feedbackDelay' wet={0.2} />
@@ -664,7 +691,7 @@ return (
         <Track volume={-9} pan={0.9} >
           <Instrument type={'amSynth'} notes={tentensGCnote} />
           <Effect type='feedbackDelay' wet={0.4} /> </Track>
-        <Track volume={-8} pan={0.5} >
+        <Track volume={-2} pan={0.5} >
           <Instrument type={'amSynth'} notes={getTRSnote} />
           <Effect type='feedbackDelay' wet={0.5} /> </Track>
         {/* do something as orf length reaches every 50th AA residue */}

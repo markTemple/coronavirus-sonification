@@ -25,131 +25,125 @@ export const collection_date = 'Dec-2019'
 export const Trs_json = [
   {
   button_label: 'SEQ1',
-  trs_3p: 63,
   trs_5p: 1,
+  trs_3p: 63,
   trs_seq: '',
   },
   {
   button_label: 'TRS1',
-  trs_3p: 78,
   trs_5p: 64,
+  trs_3p: 78,
   trs_seq: 'CUCUAAACGAACUU',
   },
   {
   button_label: 'SEQ2',
-  trs_3p: 21549,
   trs_5p: 79,
+  trs_3p: 21549,
   trs_seq: '',
   },
   {
   button_label: 'TRS2',
-  trs_3p: 21564,
   trs_5p: 21550,
+  trs_3p: 21564,
   trs_seq: 'AACUAAACGAACAAUG',
   },
   {
   button_label: 'SEQ3',
-  trs_3p: 25378,
   trs_5p: 21565,
+  trs_3p: 25378,
   trs_seq: '',
   },  {
   button_label: 'TRS3',
-  trs_3p: 25396,
   trs_5p: 25379,
+  trs_3p: 25396,
   trs_seq: 'ACAUAAACGAACUUAUG',
   },
   {
   button_label: 'SEQ4',
-  trs_3p: 26230,
   trs_5p: 25397,
+  trs_3p: 26230,
   trs_seq: '',
   },
   {
   button_label: 'TRS4',
-  trs_3p: 26248,
   trs_5p: 26231,
+  trs_3p: 26248,
   trs_seq: 'AUGAGUACGAACUUAUG',
   },
   {
   button_label: 'SEQ5',
-  trs_3p: 26466,
   trs_5p: 26249,
+  trs_3p: 26466,
   trs_seq: '',
   },
   {
   button_label: 'TRS5',
-  trs_3p: 26481,
   trs_5p: 26467,
+  trs_3p: 26481,
   trs_seq: 'GUCUAAACGAACUA',
   },
   {
   button_label: 'SEQ6',
-  trs_3p: 27034,
   trs_5p: 26482,
+  trs_3p: 27034,
   trs_seq: '',
   },
   {
   button_label: 'TRS6',
-  trs_3p: 27049,
   trs_5p: 27035,
+  trs_3p: 27049,
   trs_seq: 'UACAUCACGAACGC',
   },
   {
   button_label: 'SEQ7',
-  trs_3p: 27381,
   trs_5p: 27050,
+  trs_3p: 27381,
   trs_seq: '',
   },  {
   button_label: 'TRS7',
-  trs_3p: 27397,
   trs_5p: 27382,
+  trs_3p: 27397,
   trs_seq: 'GAUUAAACGAACAUG',
   },
   {
   button_label: 'SEQ8',
-  trs_3p: 27881,
   trs_5p: 27398,
+  trs_3p: 27881,
   trs_seq: '',
   },
   {
   button_label: 'TRS8',
-  trs_3p: 27897,
   trs_5p: 27882,
+  trs_3p: 27897,
   trs_seq: 'GCCUAAACGAACAUG',
   },
   {
   button_label: 'SEQ9',
-  trs_3p: 28253,
   trs_5p: 27898,
+  trs_3p: 28253,
   trs_seq: '',
   },
   {
   button_label: 'TRS9',
-  trs_3p: 28268,
   trs_5p: 28254,
+  trs_3p: 28268,
   trs_seq: 'AUCUAAACGAACAA'
   },
   {
   button_label: 'SEQ10',
-  trs_3p: 29527,
   trs_5p: 28269,
+  trs_3p: 29527,
   trs_seq: '',
   },  {
   button_label: 'TRS10',
-  trs_3p: 29542,
   trs_5p: 29528,
+  trs_3p: 29542,
   trs_seq: 'GCCUAAACUCAUGC',
   },
   {
   button_label: 'SEQ11',
-  trs_3p: 29902,
   trs_5p: 29543,
-  trs_seq: '',
-  },
-  {
-  button_label: '3`end',
-  trs_3p: 29903, //length minus AAA length
-  trs_5p: 29903, //length minus AAA length
+  trs_3p: 29903,
   trs_seq: '',
   },
 ]
@@ -411,29 +405,59 @@ export const geneBank_json = [
 
 export const nspCleavageData_json = [
   {
+  name: 'seq',
+  nt_start: 1,
+  nt_end: 265,
+  aa_res: null,
+ },
+  {
   name: 'nsp1',
   nt_start: 266,
   nt_end: 803,
   aa_res: 180,
   },
   {
+  name: 'seq',
+  nt_start: 804,
+  nt_end: 805,
+  aa_res: null,
+ },
+ {
   name: 'nsp2',
   nt_start: 806,
   nt_end: 2717,
   aa_res: 638,
   },
   {
+  name: 'seq',
+  nt_start: 2718,
+  nt_end: 2719,
+  aa_res: null,
+ },
+  {
   name: 'nsp3',
   nt_start: 2720,
   nt_end: 8552,
   aa_res: 1945,
   },
-  {
+   {
+  name: 'seq',
+  nt_start: 8553,
+  nt_end: 8554,
+  aa_res: null,
+ },
+ {
   name: 'nsp4',
   nt_start: 8555,
   nt_end: 10052,
   aa_res: 500,
   },
+  {
+  name: 'seq',
+  nt_start: 10053,
+  nt_end: 10054,
+  aa_res: null,
+ },
   {
   name: 'nsp5',
   nt_start: 10055,
@@ -441,11 +465,23 @@ export const nspCleavageData_json = [
   aa_res: 306,
   },
   {
+  name: 'seq',
+  nt_start: 10971,
+  nt_end: 10972,
+  aa_res: null,
+ },
+  {
   name: 'nsp6',
   nt_start: 10973,
   nt_end: 11840,
   aa_res: 290,
   },
+  {
+  name: 'seq',
+  nt_start: 11841,
+  nt_end: 11842,
+  aa_res: null,
+ },
   {
   name: 'nsp7',
   nt_start: 11843,
@@ -453,11 +489,23 @@ export const nspCleavageData_json = [
   aa_res: 83,
   },
   {
+  name: 'seq',
+  nt_start: 12090,
+  nt_end: 12091,
+  aa_res: null,
+ },
+  {
   name: 'nsp8',
   nt_start: 12092,
   nt_end: 12683,
   aa_res: 198,
   },
+  {
+  name: 'seq',
+  nt_start: 12684,
+  nt_end: 12685,
+  aa_res: null,
+ },
   {
   name: 'nsp9',
   nt_start: 12686,
@@ -465,11 +513,23 @@ export const nspCleavageData_json = [
   aa_res: 113,
   },
   {
+  name: 'seq',
+  nt_start: 13023,
+  nt_end: 13024,
+  aa_res: null,
+ },
+  {
   name: 'nsp10',
   nt_start: 13025,
   nt_end: 13439,
   aa_res: 139,
   },
+  {
+  name: 'seq',
+  nt_start: 13440,
+  nt_end: 13443,
+  aa_res: null,
+ },
   {
   name: 'nsp11',
   nt_start: 13444,
@@ -483,11 +543,23 @@ export const nspCleavageData_json = [
   aa_res: 931,
   },
   {
+  name: 'seq',
+  nt_start: 16235,
+  nt_end: 16236,
+  aa_res: null,
+ },
+  {
   name: 'nsp13',
   nt_start: 16237,
   nt_end: 18037,
   aa_res: 601,
   },
+  {
+  name: 'seq',
+  nt_start: 18038,
+  nt_end: 18039,
+  aa_res: null,
+ },
   {
   name: 'nsp14',
   nt_start: 18040,
@@ -495,17 +567,35 @@ export const nspCleavageData_json = [
   aa_res: 527,
   },
   {
+  name: 'seq',
+  nt_start: 19619,
+  nt_end: 19620,
+  aa_res: null,
+ },
+  {
   name: 'nsp15',
   nt_start: 19621,
   nt_end: 20656,
   aa_res: 346,
   },
   {
+  name: 'seq',
+  nt_start: 20657,
+  nt_end: 20658,
+  aa_res: null,
+ },
+  {
   name: 'nsp16',
   nt_start: 20659,
   nt_end: 21550,
   aa_res: 298,
   },
+  {
+  name: 'seq',
+  nt_start: 21551,
+  nt_end: 29903,
+  aa_res: null,
+ },
 ]
 
 
