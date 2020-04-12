@@ -14,34 +14,21 @@ export function PlayGenome() {
   const [index, actions] = useIndex();
   const direction = useRef(false);
 
-  const [displayMode, setDisplayMode] = useState('translation')
-  const toggleDisplayMode = () => {
-    setDisplayMode(displayMode === 'translation' ? 'transcription' : 'translation')
-    // actions.set(displayMode === 'transcription' ? 0 : 29902)
+  const [mode, setmode] = useState('trl')
+  const togglemode = () => {
+    setmode(mode === 'trl' ? 'tsc' : 'trl')
+    // actions.set(mode === 'tsc' ? 0 : 29902)
   }
-
-// console.log('direction ', direction)
-// console.log('displayMode ', displayMode)
 
 let bpm = null
-let transcription = false
-let translation = true
-let mode = ''
-if(displayMode === 'transcription') {
-  transcription = true
-  translation = false
+if(mode === 'tsc') {
   direction.current = true
   bpm = 130
-  mode = 'tsc'
   }
-if(displayMode === 'translation') {
-  transcription = false
-  translation = true
+if(mode === 'trl') {
   direction.current = false
   bpm = 90
-  mode = 'trl'
   }
-//console.log(bpm)
 
 const isSynthEnabled = useRef([false, false, false])
   function setSynthStatus(index, value) {
@@ -59,7 +46,7 @@ const isSynthEnabled = useRef([false, false, false])
 
   function getBaseNotes() {
     const base = genome[index];
-    if(translation) return [{ name: MAPS.BASE_MAP[base], duration: '8n', motif: base }];
+    if(mode === 'trl') return [{ name: MAPS.BASE_MAP[base], duration: '8n', motif: base }];
     else return[{ name: MAPS.BASE_MAP_micro[base], duration: '32n', motif: base }];
   }
   const baseNotes = getBaseNotes();
@@ -71,7 +58,7 @@ const isSynthEnabled = useRef([false, false, false])
     const base_2 = ['A1', 'Bb2', 'C3', 'Bb4', 'C5', 'Bb6', 'C7', 'Bb8']
     const base_micro = [440.00, 452.89, 466.16, 479.82, 493.88, 508.36, 523.25, 538.58]
 
-    if(translation) return [{ name: base[baseInc.current], duration: '8n', motif: base }];
+    if(mode === 'trl') return [{ name: base[baseInc.current], duration: '8n', motif: base }];
     else return [{ name: base_micro[baseInc.current], duration: '16n', motif: base }];
     }
   let sameBaseNotes = ''
@@ -92,9 +79,9 @@ if(baseInc.current === 7) baseInc.current = 0
     const twoBase = genome.substring(index, index + 2);
     /*console.log(base);*/
     // if (index % 2 === 0) {
-      return [{ name: MAPS.BASE_MAP_micro[twoBase], duration: '2n', motif: twoBase }];
-    // } else { return [{ name: '', duration: '', motif: '' }]; }
-  }
+      if(mode === 'tsc') return [{ name: MAPS.TWOBASE_MAP_micro[twoBase], duration: '2n', motif: twoBase }];
+      if(mode === 'trl') return [{ name: MAPS.TWOBASE_MAP[twoBase], duration: '2n', motif: twoBase }];
+    }
   const twobaseNotes = playTwoBase();
 
 
@@ -112,7 +99,7 @@ if(baseInc.current === 7) baseInc.current = 0
       isSynthEnabled.current[0] = true
     }
 
-    if(translation){ //play codons
+    if(mode === 'trl'){ //play codons
       return {
         name: MAPS.CODON_MAP[codon]?.Note,
         duration: '2n',
@@ -122,7 +109,7 @@ if(baseInc.current === 7) baseInc.current = 0
         codon: codon,
       }
     }
-    if(transcription === true && frame012 === 2){ //don't play codons
+    if(mode === 'tsc'){ //don't play codons
       return {
         name: MAPS.CODON_MAP_micro[codon]?.Note,
         duration: '4n',
@@ -194,7 +181,7 @@ if(baseInc.current === 7) baseInc.current = 0
     else if (ratio.ratio < 0.6) note = {trl: 'Bb3', tsc: 452.89}
     else if (ratio.ratio < 0.75) note = {trl: 'Eb4', tsc: 466.16}
     else if (ratio.ratio <= 1.0) note = {trl: 'Ab4', tsc: 479.82}
-    if(translation) return [{ name: note.trl, duration: '1m', motif: ratio.motif, ratio: ratio.ratio }];
+    if(mode === 'trl') return [{ name: note.trl, duration: '1m', motif: ratio.motif, ratio: ratio.ratio }];
     else return [{ name: note.tsc, duration: '2n', motif: ratio.motif, ratio: ratio.ratio }];
   }
 
@@ -212,57 +199,58 @@ if(baseInc.current === 7) baseInc.current = 0
   const frame012 = index % 3;
 
   // get item from genebank
-  const geneBankItem_atIndex = MAPS.geneBank_json
+  const gb_Item = MAPS.geneBank_json
     .find(feature => index + 1 >= feature.start && index < feature.end)
 
   let orf1 = useRef(null);
   let orf2 = useRef(null);
   let orf3 = useRef(null);
 
-  if(geneBankItem_atIndex.type === 'p'){
-    if(frame012 === 0 && geneBankItem_atIndex.start %3 === 1) orf1.current = geneBankItem_atIndex.product
-    if(frame012 === 1 && geneBankItem_atIndex.start %3 === 2) orf2.current = geneBankItem_atIndex.product
-    if(frame012 === 2 && geneBankItem_atIndex.start %3 === 0) orf3.current = geneBankItem_atIndex.product
+  if(gb_Item.type === 'p'){
+    if(frame012 === 0 && gb_Item.start %3 === 1) orf1.current = gb_Item.product
+    if(frame012 === 1 && gb_Item.start %3 === 2) orf2.current = gb_Item.product
+    if(frame012 === 2 && gb_Item.start %3 === 0) orf3.current = gb_Item.product
 }
-if(geneBankItem_atIndex.type === 'u'){
+if(gb_Item.type === 'u'){
   orf1.current = null
   orf2.current = null
   orf3.current = null
 }
 
-// TRS data was manually added to the GeneBank json file
-// these motif strings are made into array and played as individual notes
-// these are also now copied into own array later maybe use these instead
-// new in Trs_json
-function getTRSnotes(trsBase) {
-  if(transcription) return [{ name: MAPS.TRS_MAP[trsBase], duration: '16n'}];
-  if(translation) return [{ name: '', duration: ''}];
-}
+
+
 
 let trs_seqArray = useRef(null)
-let trs_seq_string = useRef(null)
-let TRSseq = null
 
-const trsArrayItem_atIndex = MAPS.Trs_json
-.find(feature => index + 1 >= feature.trs_5p && index <= feature.trs_3p -1)
+const trs_Item = MAPS.trs_json
+.find(feature => index + 1 >= feature.start && index+1 <= feature.end)
 
-// console.log(trsArrayItem_atIndex)
-
-if (trsArrayItem_atIndex.trs_3p === index + 1) {
-  trs_seq_string.current = trsArrayItem_atIndex.trs_seq
-  trs_seqArray.current = trsArrayItem_atIndex.trs_seq.split('')
+//choose to play from either end depending on playhead direction
+if (trs_Item.start === index + 1 && mode === 'trl') {
+  trs_seqArray.current = trs_Item.trs_seq.split('')
 }
-if (trsArrayItem_atIndex.trs_seq === null) trs_seqArray.current = null
-const trsBase = trs_seqArray.current?.shift()
-let getTRSnote = null
-if(trsBase) getTRSnote = getTRSnotes(trsBase);
-if(trsBase) {} else trs_seq_string.current = null
-// cleavage sites in the 1ab polyprotein taken fron Nature supplementary data
-// a composed sequence of notes are used to sonify these
-// nsp data stored in natSup_json (Nature Supplementary data)
+if (trs_Item.end === index + 1 && mode ==='tsc') {
+  trs_seqArray.current = trs_Item.trs_seq.split('')
+}
 
-  const nspCleavageItem_atIndex = MAPS.nspCleavageData_json
-    .find(feature => index + 1 >= feature.nt_start && index <= feature.nt_end)
+if (trs_Item.trs_seq === null) trs_seqArray.current = null
+
+function getTRSnotes(trsBase) {
+  if(mode === 'tsc') return [{ name: MAPS.TRS_MAP_micro[trsBase], duration: '16n'}];
+  if(mode === 'trl') return [{ name: MAPS.TRS_MAP[trsBase], duration: '4n'}];
+}
+
+let getTRSnote = null
+if(trs_seqArray.current){
+  getTRSnote = getTRSnotes(trs_seqArray.current?.shift());
+}
+
+
+
+
+
+  const nsp_Item = MAPS.nsp_json
+    .find(feature => index + 1 >= feature.start && index <= feature.end)
 
     const nspNotes = ['C5','Eb5','F5','G5','C6','Eb6','F6','F6'];
   // const metaP_end = ['B7','G6','E6','C6','B6','G5','E5','C5'];
@@ -275,10 +263,9 @@ if(trsBase) {} else trs_seq_string.current = null
     if(mNoteCount.current === noteArr.length) mNoteCount.current = null
   }
 
-  // if(nspCleavageItem_atIndex && nspCleavageItem_atIndex.nt_start != 266) {
-  if(index+1 >= nspCleavageItem_atIndex.nt_end - 8 && translation) {
-    playNSP(nspNotes)
-   bpm = 30
+    if(index+1 >= nsp_Item.end - 8 && nsp_Item.start < 21551 ) {
+      playNSP(nspNotes)
+      bpm = 30
     }
 
 
@@ -377,7 +364,7 @@ if(trsBase) {} else trs_seq_string.current = null
     //add moer things to call here as const's
  //   console.log(feature.trs_seq.length)
 
-    if (index + 1 >= feature.trs_5p && index <= feature.trs_3p -1) {
+    if (index + 1 >= feature.start && index <= feature.end -1) {
       style.backgroundColor = '#1396ba'
     }
     // include a reset GC count on click
@@ -385,7 +372,7 @@ if(trsBase) {} else trs_seq_string.current = null
       <Fragment key={i}>
         <Button
           onClick={() => {
-            actions.set(feature.trs_3p -1)
+            actions.set(feature.end -1)
             setSynthStatus(0, false)
             setSynthStatus(1, false)
             setSynthStatus(2, false)
@@ -463,8 +450,8 @@ if(trsBase) {} else trs_seq_string.current = null
 
 
   //sonification hacks
-const trl_time = (geneBankItem_atIndex.end+1 - geneBankItem_atIndex.start)/6
-const tsc_time = (trsArrayItem_atIndex.trs_3p+1 - trsArrayItem_atIndex.trs_5p)/9
+const trl_time = (gb_Item.end+1 - gb_Item.start)/6
+const tsc_time = (trs_Item.end+1 - trs_Item.start)/9
 
 function convertBPtoTime(given_seconds) {
   // let hours = dateObj.getUTCHours();
@@ -480,25 +467,20 @@ const dateObj = new Date(given_seconds * 1000);
   return timeString;
 }
 
-  // printNSPtxt[0] &&
-  // <p>Polyprotein cleavage to {printNSPtxt[0]}, {printNSPtxt[1]} AA residues</p>
-  // trs_seq_string.current &&
-  // <p>Transcription Regulartory Sequence {trsArrayItem_atIndex.trs_seq}</p>
-
 //const arrays with translation then transcription values
 let subHeadings = {
   rnaRegion:
-    {trl: geneBankItem_atIndex.gene,
-    tsc: trsArrayItem_atIndex.button_label},
+    {trl: gb_Item.gene,
+    tsc: trs_Item.button_label},
   rnaBegin:
-    {trl: geneBankItem_atIndex.start,
-    tsc: trsArrayItem_atIndex.trs_5p},
+    {trl: gb_Item.start,
+    tsc: trs_Item.start},
   rnaEnd:
-    {trl: geneBankItem_atIndex.end,
-    tsc: trsArrayItem_atIndex.trs_3p},
+    {trl: gb_Item.end,
+    tsc: trs_Item.end},
   rnaLength:
-    {trl: geneBankItem_atIndex.end+1 - geneBankItem_atIndex.start,
-    tsc: trsArrayItem_atIndex.trs_3p+1 - trsArrayItem_atIndex.trs_5p},
+    {trl: gb_Item.end + 1 - gb_Item.start,
+    tsc: trs_Item.end + 1 - trs_Item.start},
   sonifySub:
     {trl: 'Sonification of translation of plus RNA strand to make proteins',
     tsc: 'Sonification of transcription of RNA to make the minus strand RNA'},
@@ -508,9 +490,12 @@ let subHeadings = {
     modeTitle:
     {trl: ` ribosomal polypeptide synthesis 5'->3'`,
     tsc: ` (-) replicase RNA strand synthesis 3'<- 5'`},
-  printNSPorTRS:
-    {trl: 'NSP: ' + (nspCleavageItem_atIndex.nt_end - index) + ' ' + nspCleavageItem_atIndex.name,
-    tsc: 'Next TRS: ' + (index+1 -trsArrayItem_atIndex.trs_5p)+ ' ' + trsArrayItem_atIndex.trs_seq},
+  printNSP:
+    {trl: (nsp_Item.end-1 - index+1),
+    tsc: (index+1 - nsp_Item.start+1)},
+  printTRS:
+    {trl: (trs_Item.end-1 - index+1) + ' ' + trs_Item.trs_seq,
+    tsc: (index+1 - trs_Item.start+1) + ' ' + trs_Item.trs_seq},
   }
 
   return (
@@ -527,7 +512,7 @@ let subHeadings = {
       </p>
       <br />
 
-{ transcription ? '' :
+{ mode === 'tsc' ? '' :
 <div>
       <div>
         <span>
@@ -622,9 +607,6 @@ let subHeadings = {
 }
       <br />
 
- {/* aidan help with buttons? */}
-      {/* <Button onClick={play_transcription}><span className='pre'> Start Transcription </span></Button> */}
-      {/* <Button onClick={play_translation}><span className='pre'> Start Translation </span></Button> */}
       <br />
       <Button onClick={play}><span className='pre'> Play </span></Button>
       <Button onClick={stop}><span className='pre'> Pause </span></Button>
@@ -633,11 +615,11 @@ let subHeadings = {
       <span> {subHeadings.modeTitle[mode]}</span>
       <br />
       <br />
-      <Button onClick={toggleDisplayMode}><span className='pre'> Switch Mode </span></Button>
+      <Button onClick={togglemode}><span className='pre'> Switch Mode </span></Button>
       <br />
       <br />
-      {translation && MAPS.geneBank_json.map(Feature)}
-      {transcription && MAPS.Trs_json.map(TRS_feature)}
+      {mode === 'trl' && MAPS.geneBank_json.map(Feature)}
+      {mode === 'tsc' && MAPS.trs_json.map(TRS_feature)}
 
       <div className='row'>
         <div className='column'>
@@ -652,7 +634,8 @@ let subHeadings = {
         <p>
         {buttonSTART(codon)}
         {buttonSTOP(codon)}
-        <span>{subHeadings.printNSPorTRS[mode]}</span>
+        <p>Region {nsp_Item.name}: <span className='six'> {subHeadings.printNSP[mode]}</span></p>
+        <p>Countdown till next TRS: <span className='six'> {subHeadings.printTRS[mode]}</span></p>
 
         </p>
         </div>
@@ -660,11 +643,11 @@ let subHeadings = {
       <hr />
 
       <Song bpm={bpm} >
-      <Track volume={-6} pan={-0.3} >
+      <Track volume={-9} pan={-0.3} >
           <Instrument type={'synth'} notes={baseNotes} />
         </Track>
         <Track volume={-9} pan={-0.3} >
-          <Instrument type={'synth'} notes={sameBaseNotes} />
+          <Instrument type={'amSynth'} notes={sameBaseNotes} />
         </Track>
         <Track volume={-9} pan={0.3} >
           <Instrument type={'synth'} notes={twobaseNotes} />
@@ -695,7 +678,7 @@ let subHeadings = {
           <Instrument type={'amSynth'} notes={getTRSnote} />
           <Effect type='feedbackDelay' wet={0.5} /> </Track>
         {/* do something as orf length reaches every 50th AA residue */}
-        <Track volume={-8} pan={0.5} >
+        <Track volume={-6} pan={0.5} >
           <Instrument type={'amSynth'} notes={nspNote} />
           <Effect type='feedbackDelay' wet={0.5} /> </Track>
         {/* do something as orf length reaches every 50th AA residue */}

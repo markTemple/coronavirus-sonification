@@ -33,21 +33,28 @@ export const BASE_MAP_2 = {
 }
 
 export const BASE_MAP_micro = {
-  A: 440.00,
-  U: 452.89,
-  G: 466.16,
-  C: 479.82,
-}
-
-// play in transcription only
-// 3rd 4th 5th 6th
-export const TRS_MAP = {
   A: 880.00,
   U: 905.79,
   G: 932.33,
   C: 959.65,
 }
-// C natural minor translation
+
+export const TRS_MAP = {
+  A: 'AB4',
+  U: 'Eb4',
+  G: 'Ab6',
+  C: 'Bb4',
+}
+
+// play in transcription only
+// 3rd 4th 5th 6th
+export const TRS_MAP_micro = {
+  A: 1046.50,
+  U: 1077.17,
+  G: 1108.73,
+  C: 1141.22,
+}
+
 //C, D, Eb, F, G, Ab, Bb
 // 1st 4th 5th 7th
 // AU low GC high pitch
