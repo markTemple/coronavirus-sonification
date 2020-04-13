@@ -1,15 +1,4 @@
-export function countUp(numb) {
-  let i = 0;
-  function Up() {
-    i ++;
-    if(i === numb) {i = 0;}
-    return i;
-  }
-  return Up;
-};
 
-//playground
-// require sequence string, motif Start baseStart and Motif Length baseFinish
 export function getMotif (seq, baseStart, baseFinish) {
   let motif = seq.substring(baseStart, baseFinish);
   return (motif);

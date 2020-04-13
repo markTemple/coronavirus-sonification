@@ -24,7 +24,7 @@ export const collection_date = 'Dec-2019'
 
 export const trs_json = [
   {
-  button_label: ' 5` ',
+  button_label: '5`',
   start: 1,
   end: 63,
   trs_seq: '',
@@ -36,7 +36,7 @@ export const trs_json = [
   trs_seq: 'CUCUAAACGAACUU',
   },
   {
-  button_label: ' 01 ',
+  button_label: '01',
   start: 79,
   end: 21549,
   trs_seq: '',
@@ -48,7 +48,7 @@ export const trs_json = [
   trs_seq: 'AACUAAACGAACAAUG',
   },
   {
-  button_label: ' 02 ',
+  button_label: '02',
   start: 21565,
   end: 25378,
   trs_seq: '',
@@ -59,7 +59,7 @@ export const trs_json = [
   trs_seq: 'ACAUAAACGAACUUAUG',
   },
   {
-  button_label: ' 03 ',
+  button_label: '03',
   start: 25397,
   end: 26230,
   trs_seq: '',
@@ -71,7 +71,7 @@ export const trs_json = [
   trs_seq: 'AUGAGUACGAACUUAUG',
   },
   {
-  button_label: ' 04 ',
+  button_label: '04',
   start: 26249,
   end: 26466,
   trs_seq: '',
@@ -83,7 +83,7 @@ export const trs_json = [
   trs_seq: 'GUCUAAACGAACUA',
   },
   {
-  button_label: ' 05 ',
+  button_label: '05',
   start: 26482,
   end: 27034,
   trs_seq: '',
@@ -95,7 +95,7 @@ export const trs_json = [
   trs_seq: 'UACAUCACGAACGC',
   },
   {
-  button_label: ' 06 ',
+  button_label: '06',
   start: 27050,
   end: 27381,
   trs_seq: '',
@@ -106,7 +106,7 @@ export const trs_json = [
   trs_seq: 'GAUUAAACGAACAUG',
   },
   {
-  button_label: ' 07 ',
+  button_label: '07',
   start: 27398,
   end: 27881,
   trs_seq: '',
@@ -118,7 +118,7 @@ export const trs_json = [
   trs_seq: 'GCCUAAACGAACAUG',
   },
   {
-  button_label: ' 08 ',
+  button_label: '08',
   start: 27898,
   end: 28253,
   trs_seq: '',
@@ -130,7 +130,7 @@ export const trs_json = [
   trs_seq: 'AUCUAAACGAACAA'
   },
   {
-  button_label: ' 09 ',
+  button_label: '09',
   start: 28269,
   end: 29527,
   trs_seq: '',
@@ -141,7 +141,7 @@ export const trs_json = [
   trs_seq: 'GCCUAAACUCAUGC',
   },
   {
-  button_label: ' 3` ',
+  button_label: '3`',
   start: 29543,
   end: 29903,
   trs_seq: '',
@@ -159,13 +159,24 @@ export const geneBank_json = [
   },
   {
   start: 266,
-  end: 13468,
+  // end: 13468, // does not matce stop in that frame
+  // stop at 13481 use 13467 for simplicityz
+  end: 13467,
   gene: 'ORF1a',
   product: 'Polyprotein (ab fragment 1)',
   protein_id: 'QHD43415.1',
   button_label: "ab1",
   type: 'p',
   },
+  // {
+  //   start: 13465, //added by me, 3 nt in frame with frag 2
+  //   end: 13467,
+  //   gene: 'frameshift',
+  //   product: 'frameshift',
+  //   protein_id: 'frameshift',
+  //   button_label: "fs",
+  //   type: 'p',
+  //   },
   {
   start: 13468,
   end: 21555,
@@ -371,7 +382,7 @@ export const nsp_json = [
   aa_res: 180,
   },
   {
-  name: 'seq',
+  name: '',
   start: 804,
   end: 805,
   aa_res: null,
@@ -383,7 +394,7 @@ export const nsp_json = [
   aa_res: 638,
   },
   {
-  name: 'seq',
+  name: '',
   start: 2718,
   end: 2719,
   aa_res: null,
@@ -395,7 +406,7 @@ export const nsp_json = [
   aa_res: 1945,
   },
    {
-  name: 'seq',
+  name: '',
   start: 8553,
   end: 8554,
   aa_res: null,
@@ -407,7 +418,7 @@ export const nsp_json = [
   aa_res: 500,
   },
   {
-  name: 'seq',
+  name: '',
   start: 10053,
   end: 10054,
   aa_res: null,
@@ -419,7 +430,7 @@ export const nsp_json = [
   aa_res: 306,
   },
   {
-  name: 'seq',
+  name: '',
   start: 10971,
   end: 10972,
   aa_res: null,
@@ -431,7 +442,7 @@ export const nsp_json = [
   aa_res: 290,
   },
   {
-  name: 'seq',
+  name: '',
   start: 11841,
   end: 11842,
   aa_res: null,
@@ -443,7 +454,7 @@ export const nsp_json = [
   aa_res: 83,
   },
   {
-  name: 'seq',
+  name: '',
   start: 12090,
   end: 12091,
   aa_res: null,
@@ -455,7 +466,7 @@ export const nsp_json = [
   aa_res: 198,
   },
   {
-  name: 'seq',
+  name: '',
   start: 12684,
   end: 12685,
   aa_res: null,
@@ -467,7 +478,7 @@ export const nsp_json = [
   aa_res: 113,
   },
   {
-  name: 'seq',
+  name: '',
   start: 13023,
   end: 13024,
   aa_res: null,
@@ -479,7 +490,7 @@ export const nsp_json = [
   aa_res: 139,
   },
   {
-  name: 'seq',
+  name: '',
   start: 13440,
   end: 13443,
   aa_res: null,
@@ -497,7 +508,7 @@ export const nsp_json = [
   aa_res: 931,
   },
   {
-  name: 'seq',
+  name: '',
   start: 16235,
   end: 16236,
   aa_res: null,
@@ -509,7 +520,7 @@ export const nsp_json = [
   aa_res: 601,
   },
   {
-  name: 'seq',
+  name: '',
   start: 18038,
   end: 18039,
   aa_res: null,
@@ -521,7 +532,7 @@ export const nsp_json = [
   aa_res: 527,
   },
   {
-  name: 'seq',
+  name: '',
   start: 19619,
   end: 19620,
   aa_res: null,
@@ -533,7 +544,7 @@ export const nsp_json = [
   aa_res: 346,
   },
   {
-  name: 'seq',
+  name: '',
   start: 20657,
   end: 20658,
   aa_res: null,
@@ -545,7 +556,7 @@ export const nsp_json = [
   aa_res: 298,
   },
   {
-  name: 'seq',
+  name: '',
   start: 21551,
   end: 29903,
   aa_res: null,

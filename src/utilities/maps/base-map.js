@@ -7,12 +7,6 @@ export const COMPLEMENUARY_MAP = {
   C:'G',
 }
 
-export const ANTICODON_MAP = {
-  G:'C',
-  A:'U',
-  U:'A',
-  C:'G',
-}
 // C natural minor translation
 //C, D, Eb, F, G, Ab, Bb
 // root
