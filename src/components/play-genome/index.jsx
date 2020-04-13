@@ -1,18 +1,23 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
 import Tone from 'tone';
 import { Song, Track, Instrument, Effect } from 'reactronica';
-import { useIndex, useGenome } from '../../hooks';
 import * as MAPS from '../../utilities/maps';
 import { Button } from '../button';
 import { SlidingStringWindow } from '../sliding-string-window'
-
-import './style.css';
 import { GenomeDisplay } from '../genome-display';
 
+import './style.css';
+import { useDispatch, useSelector } from '../../state/store';
+import { Controls } from '../controls';
+import { genome } from '../../genome'
+import { getPlayhead, setPlayhead } from '../../state/playhead';
+import { controlsReverse, getReversed, controlsSetDirection } from '../../state/controls';
+
 export function PlayGenome() {
-  const [genome, getGenome] = useGenome();
-  const [index, actions] = useIndex();
-  const direction = useRef(false);
+  const dispatch = useDispatch()
+  const index = useSelector(getPlayhead)
+
+  const isReversed = useSelector(getReversed)
 
   const [mode, setmode] = useState('trl')
   const togglemode = () => {
@@ -21,12 +26,13 @@ export function PlayGenome() {
   }
 
 let bpm = null
-if(mode === 'tsc') {
-  direction.current = true
+  if (mode === 'tsc') {
+    dispatch(controlsSetDirection(true))
   bpm = 130
   }
-if(mode === 'trl') {
-  direction.current = false
+
+  if (mode === 'trl') {
+    dispatch(controlsSetDirection(false))
   bpm = 90
   }
 
@@ -277,19 +283,6 @@ if(trs_seqArray.current){
   if (frame012 === 1) codonF2 = colorCodon();
   if (frame012 === 2) codonF3 = colorCodon();
 
-  const play = () => Tone.Transport.start();
-  const stop = () => Tone.Transport.stop();
-  const reverse = () => (direction.current = !direction.current);
-
-  useEffect(() => {
-    Tone.Transport.scheduleRepeat(() => {
-      direction.current ? actions.decrement() : actions.increment();
-    }, '16n');
-    return () => {
-      Tone.Transport.cancel();
-    };
-  }, []);
-
   function buttonSTART(codon) {
     const style = {}
     if (codon === 'AUG') {
@@ -320,7 +313,7 @@ if(trs_seqArray.current){
       <Fragment key={i}>
         <Button
           onClick={() => {
-            actions.set(feature.start - 1)
+            dispatch(setPlayhead(feature.start))
             setSynthStatus(0, false)
             setSynthStatus(1, false)
             setSynthStatus(2, false)
@@ -357,7 +350,7 @@ if(trs_seqArray.current){
       <Fragment key={i}>
         <Button
           onClick={() => {
-            actions.set(feature.end -1)
+            dispatch(setPlayhead(feature.end))
             setSynthStatus(0, false)
             setSynthStatus(1, false)
             setSynthStatus(2, false)
@@ -574,7 +567,7 @@ let subHeadings = {
         <span className='six'> {String(index + 1).padStart(5, '0')}</span>|
         <GenomeDisplay className=' pre'>{dotfill40 + genomeSub}</GenomeDisplay>
       </div>
-{ direction.current &&
+{ isReversed &&
         <div>
         <div className='replicase'></div>
         <div className='replicase p1'></div>
@@ -595,10 +588,7 @@ let subHeadings = {
       <br />
       <div className='absolute'>
       <hr />
-        <Button onClick={play}><span className='pre'> Play </span></Button>
-        <Button onClick={stop}><span className='pre'> Pause </span></Button>
-        <Button onClick={actions.increment}><span className='pre'> Increment </span></Button>
-        <Button onClick={actions.decrement}><span className='pre'> Decrement </span></Button>
+        <Controls />
         <br />
         <br />
         <Button onClick={togglemode}><span className='pre'> Switch Mode </span></Button>

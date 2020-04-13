@@ -2,12 +2,9 @@ import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { HashRouter, Switch, Route } from 'react-router-dom'
 
-import { Home } from './views/home'
-import { useServer } from './utilities/client'
 import { ErrorBoundary } from './components/error-boundary'
-import { StoreProvider } from './store'
-import { Genome } from './views/genome'
-import { useGenome } from './hooks'
+import { StoreProvider } from './state/store.js'
+import { Home } from './pages/home'
 
 /*
   Create a div element in the DOM with the ID: "application". This element will
@@ -17,33 +14,11 @@ const application = document.body.appendChild(document.createElement('div'))
 application.id = 'application'
 
 function Application () {
-  const isSuccessful = useServer()
-  const [genome, getGenome] = useGenome()
-
-  useEffect(() => {
-    if (isSuccessful) getGenome()
-  }, [isSuccessful])
-
-  if (isSuccessful === false) throw new Error('Failed to connect to server.')
-  if (isSuccessful === null) return (
-    <h1>Connecting to server...</h1>
-  )
-
-  if (!genome) {
-    return (
-      <h1>Loading Genome....</h1>
-    )
-  }
-
-
   return (
     <HashRouter hashType='noslash'>
       <Switch>
         <Route exact path='/'>
           <Home />
-        </Route>
-        <Route exact path='/genome'>
-          <Genome />
         </Route>
       </Switch>
     </HashRouter>
