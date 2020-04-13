@@ -10,13 +10,41 @@ span.rna {
 
 span.antiC {
   position: absolute;
-  left: 507px;
-  top: 325px;
+  left: 499px;
+  top: 321px;
   padding: 4px 0px;
   color: #ebc844;
   background-color:#0c3d55;
 }
 
+.playhead {
+  position: absolute;
+  top: 187px;
+  left: 497px;
+  border: 2px solid #f16c21;
+  width: 29px;
+  height: 172px;
+  opacity: 0.4;
+}
+.triangle-left {
+  position: absolute;
+  padding: 0px 0px;
+  top: 195px;
+  left: 570px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-right: 20px solid #c02e1d;
+  border-bottom: 10px solid transparent;
+}
+
+.triangle-left.f2 {
+  top: 225px;
+}
+
+.triangle-left.f3 {
+  top: 255px;
+}
 span.frame1 {
   color: #c02e1d;
   background-color:#ebc844;
@@ -127,6 +155,17 @@ div {
   font-family: "Lucida Console", Monaco, monospace;
   width: 1000px;
   padding: 4px 0px;
+  left: 50px;
+}
+
+div.relative {
+  position: relative;
+}
+
+div.absolute {
+  position: absolute;
+  top: 400px;
+  left: 0px;
 }
 
 .pre {
@@ -163,7 +202,7 @@ div {
 .replicase {
   position: absolute;
   top: 230px;
-  left: 445px;
+  left: 455px;
   background: #5da793;
   border-radius: 50%;
   width: 150px;
@@ -174,7 +213,7 @@ div {
 
 .replicase.p1 {
   top: 200px;
-  left: 405px;
+  left: 415px;
   background: #1396ba;
   width: 80px;
   height: 80px;
@@ -185,7 +224,7 @@ div {
 
 .replicase.p2 {
   top: 260px;
-  left: 365px;
+  left: 375px;
   background: #117899;
   width: 80px;
   height: 100px;
@@ -195,7 +234,7 @@ div {
 }
 .replicase.p3 {
   top: 290px;
-  left: 400px;
+  left: 410px;
   background: #0e5b78;
   width: 70px;
   height: 50px;
@@ -206,7 +245,7 @@ div {
 
 .replicase.p4 {
   top: 270px;
-  left: 475px;
+  left: 485px;
   background: #f16c21;
   width: 50px;
   height: 60px;
@@ -217,7 +256,7 @@ div {
 
 .replicase.p5 {
   top: 260px;
-  left: 425px;
+  left: 435px;
   background: #d94e1f;
   width: 80px;
   height: 80px;
@@ -227,23 +266,12 @@ div {
 }
 .replicase.p6 {
   top: 200px;
-  left: 370px;
+  left: 380px;
   background: #d94e1f;
   width: 70px;
   height: 50px;
   opacity: 0.7;
   z-index: -7;
-
-}
-
-.playhead {
-  position: absolute;
-  top: 195px;
-  left: 505px;
-  border: 2px solid #f16c21;
-  width: 29px;
-  height: 172px;
-  opacity: 0.4;
 }
 
 .column {
@@ -260,26 +288,6 @@ div {
 
 span:empty {
   display: none;
-}
-
-.triangle-left {
-  position: absolute;
-  padding: 0px 0px;
-  top: 201px;
-  left: 580px;
-  width: 0;
-  height: 0;
-  border-top: 10px solid transparent;
-  border-right: 20px solid #c02e1d;
-  border-bottom: 10px solid transparent;
-}
-
-.triangle-left.f2 {
-  top: 231px;
-}
-
-.triangle-left.f3 {
-  top: 261px;
 }
 
 .orf {

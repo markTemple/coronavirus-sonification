@@ -24,7 +24,7 @@ export const collection_date = 'Dec-2019'
 
 export const trs_json = [
   {
-  button_label: 'SEQ1',
+  button_label: ' 5` ',
   start: 1,
   end: 63,
   trs_seq: '',
@@ -36,7 +36,7 @@ export const trs_json = [
   trs_seq: 'CUCUAAACGAACUU',
   },
   {
-  button_label: 'SEQ2',
+  button_label: ' 01 ',
   start: 79,
   end: 21549,
   trs_seq: '',
@@ -48,7 +48,7 @@ export const trs_json = [
   trs_seq: 'AACUAAACGAACAAUG',
   },
   {
-  button_label: 'SEQ3',
+  button_label: ' 02 ',
   start: 21565,
   end: 25378,
   trs_seq: '',
@@ -59,7 +59,7 @@ export const trs_json = [
   trs_seq: 'ACAUAAACGAACUUAUG',
   },
   {
-  button_label: 'SEQ4',
+  button_label: ' 03 ',
   start: 25397,
   end: 26230,
   trs_seq: '',
@@ -71,7 +71,7 @@ export const trs_json = [
   trs_seq: 'AUGAGUACGAACUUAUG',
   },
   {
-  button_label: 'SEQ5',
+  button_label: ' 04 ',
   start: 26249,
   end: 26466,
   trs_seq: '',
@@ -83,7 +83,7 @@ export const trs_json = [
   trs_seq: 'GUCUAAACGAACUA',
   },
   {
-  button_label: 'SEQ6',
+  button_label: ' 05 ',
   start: 26482,
   end: 27034,
   trs_seq: '',
@@ -95,7 +95,7 @@ export const trs_json = [
   trs_seq: 'UACAUCACGAACGC',
   },
   {
-  button_label: 'SEQ7',
+  button_label: ' 06 ',
   start: 27050,
   end: 27381,
   trs_seq: '',
@@ -106,7 +106,7 @@ export const trs_json = [
   trs_seq: 'GAUUAAACGAACAUG',
   },
   {
-  button_label: 'SEQ8',
+  button_label: ' 07 ',
   start: 27398,
   end: 27881,
   trs_seq: '',
@@ -118,7 +118,7 @@ export const trs_json = [
   trs_seq: 'GCCUAAACGAACAUG',
   },
   {
-  button_label: 'SEQ9',
+  button_label: ' 08 ',
   start: 27898,
   end: 28253,
   trs_seq: '',
@@ -130,7 +130,7 @@ export const trs_json = [
   trs_seq: 'AUCUAAACGAACAA'
   },
   {
-  button_label: 'SEQ10',
+  button_label: ' 09 ',
   start: 28269,
   end: 29527,
   trs_seq: '',
@@ -141,7 +141,7 @@ export const trs_json = [
   trs_seq: 'GCCUAAACUCAUGC',
   },
   {
-  button_label: 'SEQ11',
+  button_label: ' 3` ',
   start: 29543,
   end: 29903,
   trs_seq: '',

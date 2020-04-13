@@ -15,12 +15,9 @@ export function Home () {
 
   return (
     <>
-
       <PlayGenome />
-
-{/* <Button onClick={getGenome}>Load Genome</Button> */}
-      <Input onChange={actions.set} validator={(value) => Number.isInteger(Number(value))} />
-      <br />
+      {/* <Button onClick={getGenome}>Load Genome</Button> */}
+      {/* <Input onChange={actions.set} validator={(value) => Number.isInteger(Number(value))} /> */}
     </>
   )
 }
