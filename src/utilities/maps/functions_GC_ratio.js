@@ -1,8 +1,8 @@
 
-export function getMotif (seq, baseStart, baseFinish) {
-  let motif = seq.substring(baseStart, baseFinish);
-  return (motif);
-}
+// export function getMotif (seq, baseStart, baseFinish) {
+//   let motif = seq.substring(baseStart, baseFinish);
+//   return (motif);
+// }
 
 export function GCratio (motif) {
   let GC = motif.match(/[GC]/g);
@@ -10,8 +10,7 @@ export function GCratio (motif) {
   else return (GC.length/motif.length);
 }
 
-export function calcMotif_GC (seq, baseStart, baseFinish) {
-  let motif = getMotif(seq, baseStart, baseFinish);
+export function calcMotif_GC (motif) {
   let ratio = GCratio(motif);
   ratio = ratio.toFixed(2);
   //divide gc by lenght of get  //return number

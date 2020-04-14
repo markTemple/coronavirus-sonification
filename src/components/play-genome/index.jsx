@@ -12,18 +12,31 @@ import { Controls } from '../controls';
 import { genome } from '../../genome'
 import { getPlayhead, setPlayhead } from '../../state/playhead';
 import { controlsReverse, getReversed, controlsSetDirection } from '../../state/controls';
+import {
+  getBase, getDinucleotide, getCodon,
+  getBases10, getBases100
+} from '../../utilities/motifs';
+
 
 export function PlayGenome() {
   const dispatch = useDispatch()
   const index = useSelector(getPlayhead)
-
   const isReversed = useSelector(getReversed)
+
+  // functions in motifs file
+  const base = getBase(index)
+  const twoBase = getDinucleotide(index)
+  const codon = getCodon(index)
+  const Bases10 = getBases10(index)
+  const Bases100 = getBases100(index)
+
 
   const [mode, setmode] = useState('trl')
   const togglemode = () => {
     setmode(mode === 'trl' ? 'tsc' : 'trl')
     // actions.set(mode === 'tsc' ? 0 : 29902)
   }
+  const frame012 = index % 3;
 
   let bpm = null
   if (mode === 'tsc') {
@@ -37,13 +50,6 @@ export function PlayGenome() {
   }
 
   const isSynthEnabled = useRef([false, false, false])
-  function setSynthStatus(frame, value) {
-    isSynthEnabled.current[frame] = value
-  }
-
-  //if start/stop in each frame do this
-  const codon = genome.substring(index, index + 3);
-  const frame012 = index % 3;
 
   // get item from genebank
   const gb_Item = MAPS.geneBank_json
@@ -63,25 +69,25 @@ export function PlayGenome() {
   }
 
   function getBaseNotes() {
-    const base = genome[index];
     if (mode === 'trl') return [{ name: MAPS.BASE_MAP[base], duration: '3n', motif: base }];
     else return [{ name: MAPS.BASE_MAP_micro[base], duration: '32n', motif: base }];
   }
   const baseNotes = getBaseNotes();
 
   // trigger note on repeat base
-  let baseInc = useRef(1);
+  let baseInc = useRef(0);
   function getSameBaseNotes(baseInc) {
-    const base = ['C5', 'Eb5', 'C6', 'Eb6']
+    const base = ['C5', 'Eb5', 'C6', 'Eb6', 'C5', 'Eb5', 'C6', 'Eb6', ]
     const base_2 = ['A1', 'Bb2', 'C3', 'Bb4', 'C5', 'Bb6', 'C7', 'Bb8']
     const base_micro = [440.00, 452.89, 466.16, 479.82, 493.88, 508.36, 523.25, 538.58]
 
     if (mode === 'trl') return [{ name: base[baseInc.current], duration: '8n', motif: base }];
     else return [{ name: base_micro[baseInc.current], duration: '16n', motif: base }];
   }
+
   let sameBaseNotes = ''
 
-  if ((genome[index] === genome[index - 1]) && (genome[index] === genome[index - 2])) {
+  if ( (base === getBase(index - 1) ) && ( base === getBase(index - 2) ) ){
     sameBaseNotes = getSameBaseNotes(baseInc);
     baseInc.current++
   }
@@ -89,18 +95,19 @@ export function PlayGenome() {
   if (baseInc.current === 7) baseInc.current = 0
 
   const GAUCcount = useRef(0)
-  if (baseNotes[0].motif === 'C' || baseNotes[0].motif === 'G') GAUCcount.current++;
-  if (baseNotes[0].motif === 'A' || baseNotes[0].motif === 'U') GAUCcount.current--;
+  if (base === 'C' || base === 'G') GAUCcount.current++;
+  if (base === 'A' || base === 'U') GAUCcount.current--;
 
   function playTwoBase() {
-    const twoBase = genome.substring(index, index + 2);
-    /*console.log(base);*/
     // if (index % 2 === 0) {
     if (mode === 'tsc') return [{ name: MAPS.TWOBASE_MAP_micro[twoBase], duration: '32n', motif: twoBase }];
     if (mode === 'trl') return [{ name: MAPS.TWOBASE_MAP[twoBase], duration: '32n', motif: twoBase }];
   }
   const twobaseNotes = playTwoBase();
 
+  function setSynthStatus(frame, value) {
+    isSynthEnabled.current[frame] = value
+  }
 
   function getCodonNotes() {
     if (codon === 'UGA' || codon === 'UAG' || codon === 'UAA') {
@@ -117,31 +124,23 @@ export function PlayGenome() {
       return {
         name: MAPS.CODON_MAP[codon]?.Note,
         duration: '7n',
-        // frame012: frame012,
-        // isSynthEnabled: isSynthEnabled.current[frame012],
         motif: MAPS.CODON_MAP[codon]?.AA,
-        // codon: codon,
       }
     }
     if (mode === 'tsc') { //don't play codons
       return {
         name: MAPS.CODON_MAP_micro[codon]?.Note,
         duration: '7n',
-        // frame012: frame012,
-        // isSynthEnabled: true,
         motif: MAPS.CODON_MAP_micro[codon]?.AA,
-        // codon: codon,
-      }
-    } else {
-      return {
-        name: '440',
-        duration: '4n',
-        // frame012: frame012,
-        // isSynthEnabled: true,
-        motif: MAPS.CODON_MAP_micro[codon]?.AA,
-        // codon: codon,
       }
     }
+    // else {
+    //   return {
+    //     name: 440,
+    //     duration: '4n',
+    //     motif: MAPS.CODON_MAP_micro[codon]?.AA,
+    //   }
+    // }
   }
 
   const codonF1Notes = [];
@@ -203,11 +202,11 @@ export function PlayGenome() {
   }
 
   let Array10bpGCratio =
-    MAPS.calcMotif_GC(genome.substring(index, index + 10), 0, 10);
+    MAPS.calcMotif_GC(Bases10);
   const tenGCnote = ratioToNote(Array10bpGCratio[0], 4);
 
   let Array100bpGCratio =
-    MAPS.calcMotif_GC(genome.substring(index, index + 100), 0, 100);
+    MAPS.calcMotif_GC(Bases100);
   const tentensGCnote = ratioToNote(Array100bpGCratio[0], 10);
   // console.log(tentensGCnote)
 
@@ -372,7 +371,6 @@ export function PlayGenome() {
     );
   }
 
-
   function NSP_feature(feature, i) {
     const style = {}
 
@@ -407,9 +405,10 @@ export function PlayGenome() {
     return seq.replace(/./g, (char) => MAPS.COMPLEMENUARY_MAP[char])
   }
   const genomeSub = genome.substring(index - 40, index + 41)
+
   const genomeSubComplement = makeComplementary(genome.substring(index, index + 41))
-  const indexChar3 = genome.substr(index, +3);
-  const antiCodon = makeComplementary(indexChar3);
+
+  const antiCodon = makeComplementary(codon);
 
   let dotfill40 = `                                        `;
   let DNAfill40 = `                                        `;
@@ -452,7 +451,7 @@ export function PlayGenome() {
     }
   }
   const SW_DNA_PropStyle = {
-    content: genome[index],
+    content: base,
     props: {
       className: 'frame3',
     }
@@ -621,6 +620,7 @@ export function PlayGenome() {
         </div>
         {isReversed &&
           <div>
+            <div className='playrev'></div>
             <div className='replicase'></div>
             <div className='replicase p1'></div>
             <div className='replicase p2'></div>
@@ -653,8 +653,8 @@ export function PlayGenome() {
 
           <div className='row'>
             <div className='column'>
-              <p> Nucleotide at Playhead: {genome[index]} {GAUCcount.current} {baseNotes[0].name}</p>
-              <p> Di-Nucleotide at Playhead: {twobaseNotes[0].motif} {twobaseNotes[0].name}</p>
+              <p> Nucleotide at Playhead: {base} {GAUCcount.current} {baseNotes[0].name}</p>
+              <p> Di-Nucleotide at Playhead: {twoBase} {twobaseNotes[0].name}</p>
               <p> Codon at Playhead: {codon} {codonNote.name}</p>
               <p> Amino Acid at Playhead: {codonNote.motif}</p>
               <p> GC Content over 10 base: {tenGCnote[0].ratio} {tenGCnote[0].name} {/*tenGCnote[0].motif*/}</p>

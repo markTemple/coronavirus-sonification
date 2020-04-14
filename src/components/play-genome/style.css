@@ -26,6 +26,7 @@ span.antiC {
   height: 172px;
   opacity: 0.4;
 }
+
 .triangle-left {
   position: absolute;
   padding: 0px 0px;
@@ -45,6 +46,19 @@ span.antiC {
 .triangle-left.f3 {
   top: 255px;
 }
+
+.playrev {
+  position: absolute;
+  top: 249px;
+  left: 497px;
+  border: 2px solid #c02e1d;
+  width: 10px;
+  height: 50px;
+  opacity: 0.4;
+  z-index: -1;
+
+}
+
 span.frame1 {
   color: #c02e1d;
   background-color:#ebc844;
