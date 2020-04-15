@@ -72,8 +72,8 @@ export function PlayGenome() {
   }
 
   function getBaseNotes() {
-    if (mode === 'trl') return [{ name: MAPS.BASE_MAP[base], duration: '3n', motif: base }];
-    else return [{ name: MAPS.BASE_MAP_micro[base], duration: '32n', motif: base }];
+    if (mode === 'trl') return [{ name: MAPS.BASE_MAP[base], duration: '3n'}];
+    else return [{ name: MAPS.BASE_MAP_2[base], duration: '32n'}];
   }
   const baseNotes = getBaseNotes();
 
@@ -84,8 +84,8 @@ export function PlayGenome() {
     const base_2 = ['A1', 'Bb2', 'C3', 'Bb4', 'C5', 'Bb6', 'C7', 'Bb8']
     const base_micro = [440.00, 452.89, 466.16, 479.82, 493.88, 508.36, 523.25, 538.58]
 
-    if (mode === 'trl') return [{ name: base[baseInc.current], duration: '8n', motif: base }];
-    else return [{ name: base_micro[baseInc.current], duration: '16n', motif: base }];
+    if (mode === 'trl') return [{ name: base[baseInc.current], duration: '8n'}];
+    else return [{ name: base_2[baseInc.current], duration: '16n'}];
   }
 
   let sameBaseNotes = ''
@@ -103,8 +103,8 @@ export function PlayGenome() {
 
   function playTwoBase() {
     // if (index % 2 === 0) {
-    if (mode === 'tsc') return [{ name: MAPS.TWOBASE_MAP_micro[twoBase], duration: '32n', motif: twoBase }];
-    if (mode === 'trl') return [{ name: MAPS.TWOBASE_MAP[twoBase], duration: '32n', motif: twoBase }];
+    if (mode === 'tsc') return [{ name: MAPS.TWOBASE_MAP_2[twoBase], duration: '32n'}];
+    if (mode === 'trl') return [{ name: MAPS.TWOBASE_MAP[twoBase], duration: '32n'}];
   }
   const twobaseNotes = playTwoBase();
 
@@ -134,14 +134,13 @@ function getCodonNotes() {
       return {
         name: MAPS.CODON_MAP[codon]?.Note,
         duration: '7n',
-        motif: MAPS.CODON_MAP[codon]?.AA,
+        motif: MAPS.CODON_MAP[codon]?.AA
       }
     }
     if (mode === 'tsc') { //don't play codons
       return {
-        name: MAPS.CODON_MAP_micro[codon]?.Note,
-        duration: '7n',
-        motif: MAPS.CODON_MAP_micro[codon]?.AA,
+        name: MAPS.CODON_MAP_2[codon]?.Note,
+        duration: '7n'
       }
     }
   }
@@ -186,29 +185,27 @@ function getCodonNotes() {
   // A Phrygian transcription tsc [1]
   // [1] A Bb C D E F G
   //
-  function ratioToNote(ratio, modulus) {
+  function ratioToNote(ratio) {
     let note = { trl: 'C1', tsc: 'A1' }
-    if (ratio.ratio < 0.25) note = { trl: 'Eb2', tsc: 392.00 }
-    else if (ratio.ratio < 0.4) note = { trl: 'Ab2', tsc: 403.48 }
-    else if (ratio.ratio < 0.45) note = { trl: 'Bb2', tsc: 415.30 }
-    else if (ratio.ratio < 0.5) note = { trl: 'Eb3', tsc: 427.47 }
-    else if (ratio.ratio < 0.55) note = { trl: 'Ab3', tsc: 440.00 }
-    else if (ratio.ratio < 0.6) note = { trl: 'Bb3', tsc: 452.89 }
-    else if (ratio.ratio < 0.75) note = { trl: 'Eb4', tsc: 466.16 }
-    else if (ratio.ratio <= 1.0) note = { trl: 'Ab4', tsc: 479.82 }
-    if (mode === 'trl') return [{ name: note.trl, duration: '1m', motif: ratio.motif, ratio: ratio.ratio }];
-    else return [{ name: note.tsc, duration: '2n', motif: ratio.motif, ratio: ratio.ratio }];
+    if (ratio.ratio < 0.25) note = { trl: 'Eb2', tsc: 'Bb3' }
+    else if (ratio.ratio < 0.4) note = { trl: 'Ab2', tsc: 'F3' }
+    else if (ratio.ratio < 0.45) note = { trl: 'Bb2', tsc: 'G3' }
+    else if (ratio.ratio < 0.5) note = { trl: 'Eb3', tsc: 'Bb4' }
+    else if (ratio.ratio < 0.55) note = { trl: 'Ab3', tsc: 'F4' }
+    else if (ratio.ratio < 0.6) note = { trl: 'Bb3', tsc: 'G4' }
+    else if (ratio.ratio < 0.75) note = { trl: 'Eb4', tsc: 'Bb5' }
+    else if (ratio.ratio <= 1.0) note = { trl: 'Ab4', tsc: 'F5' }
+    if (mode === 'trl') return [{ name: note.trl, duration: '1m'}];
+    else return [{ name: note.tsc, duration: '2n'}];
   }
 
   let Array10bpGCratio =
     MAPS.calcMotif_GC(Bases10);
-  const tenGCnote = ratioToNote(Array10bpGCratio[0], 4);
+  const tenGCnote = ratioToNote(Array10bpGCratio[0]);
 
   let Array100bpGCratio =
     MAPS.calcMotif_GC(Bases100);
-  const tentensGCnote = ratioToNote(Array100bpGCratio[0], 10);
-  // console.log(tentensGCnote)
-
+  const tentensGCnote = ratioToNote(Array100bpGCratio[0]);
 
   let orf1 = useRef(null);
   let orf2 = useRef(null);
@@ -228,7 +225,7 @@ function getCodonNotes() {
     // hack for frameshift to stop label of frag1
     if (index >= 13468 && index < 21550) orf3.current = ''
 
-
+// when playing audio remove label as enter UTR from orf
   if (gb_Item.type === 'u') {
     orf1.current = null
     orf2.current = null
@@ -248,8 +245,8 @@ function getCodonNotes() {
   if (trs_Item.trs_seq === null) trs_seqArray.current = null
 
   function getTRSnotes(trsBase) {
-    if (mode === 'tsc') return [{ name: MAPS.TRS_MAP_micro[trsBase], duration: '16n' }];
     if (mode === 'trl') return [{ name: MAPS.TRS_MAP[trsBase], duration: '4n' }];
+    if (mode === 'tsc') return [{ name: MAPS.TRS_MAP_2[trsBase], duration: '16n' }];
   }
 
   let getTRSnote = null
@@ -257,21 +254,29 @@ function getCodonNotes() {
     getTRSnote = getTRSnotes(trs_seqArray.current?.shift());
   }
 
-
-  const nspNotes = ['C5', 'Eb5', 'F5', 'G5', 'C6', 'Eb6', 'F6', 'F6'];
-  // const metaP_end = ['B7','G6','E6','C6','B6','G5','E5','C5'];
+//C, D, Eb, F, G, Ab, Bb
+// A Bb C D E F G
+const nspNotes = ['C5', 'Eb5', 'F5', 'G5', 'C6', 'Eb6', 'F6', 'F6'];
+const nspNotes_2 = ['A5', 'C5', 'D5', 'E5', 'A6', 'C6', 'D6', 'E6',];
   const mNoteCount = useRef(null);
   let nspNote = null;
 
   function playNSP(noteArr) {
-    nspNote = [{ name: noteArr[mNoteCount.current], duration: '2n' }]
+    if (mode === 'trl')nspNote = [{ name: noteArr[mNoteCount.current], duration: '2n' }]
     mNoteCount.current++
     if (mNoteCount.current === noteArr.length) mNoteCount.current = null
   }
-
-  if (index >= nsp_Item.end - 7 && nsp_Item.start < 21551) {
-    playNSP(nspNotes)
-    bpm = 45
+  if (mode === 'trl') {
+    if (index >= nsp_Item.end - 7 && nsp_Item.start < 21551) {
+      playNSP(nspNotes)
+      bpm = 45
+    }
+    }
+  if (mode === 'tsc') {
+          if (index <= nsp_Item.start + 7 && nsp_Item.start < 21551) {
+      playNSP(nspNotes_2)
+      bpm = 45
+    }
   }
 
   function colorCodon() {
@@ -631,8 +636,8 @@ function getCodonNotes() {
               <p> Di-Nucleotide at Playhead: {twoBase} {twobaseNotes[0].name}</p>
               <p> Codon at Playhead: {codon} </p>
                <p> Amino Acid at Playhead: {MAPS.CODON_MAP[codon]?.AA}</p>
-              <p> GC Content over 10 base: {tenGCnote[0].ratio} {tenGCnote[0].name} {/*tenGCnote[0].motif*/}</p>
-              <p> GC Content over 100 base: {tentensGCnote[0].ratio} {tentensGCnote[0].name} {/*tentensGCnote[0].motif*/}</p>
+              <p> GC Content over 10 base: {Array10bpGCratio[0].ratio} {tenGCnote[0].name} {/*tenGCnote[0].motif*/}</p>
+              <p> GC Content over 100 base: {Array100bpGCratio[0].ratio} {tentensGCnote[0].name} {/*tentensGCnote[0].motif*/}</p>
             </div>
             <div className='column'>
               <p>

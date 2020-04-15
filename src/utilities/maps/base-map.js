@@ -34,6 +34,15 @@ export const BASE_MAP_micro = {
 }
 
 export const TRS_MAP = {
+  A: 'C4',
+  U: 'G4',
+  G: 'C6',
+  C: 'Ab6',
+}
+
+// A Phrygian transcription
+// A Bb C D E F G
+export const TRS_MAP_2 = {
   A: 'AB4',
   U: 'Eb4',
   G: 'Ab6',
