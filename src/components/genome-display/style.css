@@ -1,9 +1,19 @@
 .stop {
-  color:  #0e5b78;
-  background-color:#a3b96c;}
+  position: relative;
+  background-color:#f29d6c;
+  z-index: -6;
+}
 
 .start {
-  color: #f08b2c;
-  background-color: #117899;
+  position: relative;
+  background-color: #a4bf5f;
+  z-index: -6;
+
+}
+
+.base {
+  position: relative;
+  background: rgba(178, 223, 227, 0.3);
+  z-index: -6;
 }
 

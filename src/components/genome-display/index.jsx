@@ -12,6 +12,7 @@ export function GenomeDisplay ({ children: genome, ...props }) {
   /*
     Loop through the genome string and extract all AUG and replace with span.
   */
+
   let string = genome
   while (string.length) {
     if (string.startsWith('AUG')) {
@@ -20,28 +21,31 @@ export function GenomeDisplay ({ children: genome, ...props }) {
       )
       string = string.substring(3)
     }
-
-    if (string.startsWith('UGA')) {
+    else if (string.startsWith('UGA')) {
       result.push(
         <span className='stop'>UGA</span>
       )
       string = string.substring(3)
     }
 
-    if (string.startsWith('UAG')) {
+    else if (string.startsWith('UAG')) {
       result.push(
         <span className='stop'>UAG</span>
       )
       string = string.substring(3)
     }
 
-    if (string.startsWith('UAA')) {
+    else if (string.startsWith('UAA')) {
       result.push(
         <span className='stop'>UAA</span>
       )
       string = string.substring(3)
-    } else {
-      result.push(string[0])
+    }
+
+    else {
+      result.push(
+        <span className='base'>{string[0]}</span>
+      )
       string = string.substring(1)
     }
   }
@@ -63,19 +67,6 @@ export function GenomeDisplay ({ children: genome, ...props }) {
 
     return result
   }, [])
-
-
-  // for (var i = 0; i < genome.length; i++) {
-  //   //console.log(genome.charAt(i));
-  //   if ((genome.slice(i, i+3)) === 'AUG') {
-  //     console.log(i)
-  //     console.log('found AUG')
-  //     newStr += `<p span={{ ClassName: 'green' }}>`+'AUG'+ '</span>'
-  //     console.log(newStr)
-  //   }else {
-  //     newStr += genome.slice(i, i+3)
-  //   }
-  // }
 
   return (
     <span {...props}>

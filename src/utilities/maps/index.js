@@ -1,3 +1,3 @@
 export * from './base-map'
-export * from './functions_GC_ratio'
+export * from './helper-functions'
 export * from './covid-meta'

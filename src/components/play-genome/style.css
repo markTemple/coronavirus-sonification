@@ -52,7 +52,7 @@ span.antiC {
   top: 249px;
   left: 497px;
   border: 2px solid #c02e1d;
-  width: 10px;
+  width: 11px;
   height: 50px;
   opacity: 0.4;
   z-index: -1;
@@ -102,14 +102,14 @@ hr {
 h2 {
   color: #0e5b78;
 }
-.stop {
+/* .stop {
   color:  #0e5b78;
   background-color:#a3b96c;}
 
 .start {
   color: #f08b2c;
   background-color: #117899;
-}
+} */
 .one{
   color: #1396ba;
 }
@@ -199,7 +199,7 @@ div.absolute {
   width: 200px;
   height: 80px;
   opacity: 0.5;
-  z-index: -1;
+  z-index: -10;
 }
 .ribosomeBig {
   position: absolute;
@@ -208,7 +208,7 @@ div.absolute {
   background: #0e5b78;
   border-radius: 50%;
   width: 300px;
-  height: 160px;
+  height: 180px;
   opacity: 0.4;
   z-index: 1;
 }
@@ -222,7 +222,7 @@ div.absolute {
   width: 150px;
   height: 100px;
   opacity: 0.7;
-  z-index: -6;
+  z-index: -9;
 }
 
 .replicase.p1 {
@@ -232,7 +232,7 @@ div.absolute {
   width: 80px;
   height: 80px;
   opacity: 0.7;
-  z-index: -2;
+  z-index: -1;
 
 }
 
@@ -259,7 +259,7 @@ div.absolute {
 
 .replicase.p4 {
   top: 270px;
-  left: 485px;
+  left: 385px;
   background: #f16c21;
   width: 50px;
   height: 60px;
@@ -270,12 +270,12 @@ div.absolute {
 
 .replicase.p5 {
   top: 260px;
-  left: 435px;
+  left: 415px;
   background: #d94e1f;
   width: 80px;
   height: 80px;
   opacity: 0.7;
-  z-index: -6;
+  z-index: -4;
 
 }
 .replicase.p6 {
@@ -309,7 +309,7 @@ span:empty {
 }
 
 .buttonEffect {
-  background: #c02e1d;
+  background: #f16c21;
   border-radius: 50%;
   width: 20px;
   height: 20px;
@@ -317,5 +317,5 @@ span:empty {
   white-space: pre;
 }
 .buttonEffect.start {
-  background: #a3b96c;
+  background: #9ebd50;
 }
