@@ -184,6 +184,7 @@ div.absolute {
 
 .pre {
   white-space: pre;
+
 }
 
 .drop {
@@ -308,6 +309,7 @@ span:empty {
   margin-left: 70px;
 }
 
+/* stop start indicators */
 .buttonEffect {
   background: #f16c21;
   border-radius: 50%;
@@ -318,4 +320,8 @@ span:empty {
 }
 .buttonEffect.start {
   background: #9ebd50;
+}
+
+.feature-button {
+  margin: 0px 2px 0px 2px;
 }

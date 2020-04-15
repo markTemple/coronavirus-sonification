@@ -16,12 +16,15 @@ import {
   getBase, getDinucleotide, getCodon,
   getBases10, getBases100
 } from '../../utilities/motifs';
+import { useSingleFramePrimitive } from '../../utilities/single-frame-primitive';
 
 
 export function PlayGenome() {
   const dispatch = useDispatch()
   const index = useSelector(getPlayhead)
   const isReversed = useSelector(getReversed)
+
+  const shouldReset = useSingleFramePrimitive(false)
 
   // functions in motifs file
   const base = getBase(index)
@@ -212,9 +215,15 @@ function getCodonNotes() {
   let orf3 = useRef(null);
 
   if (gb_Item.type === 'p') {
-    if (frame012 === 0 && gb_Item.start % 3 === 0) orf1.current = gb_Item.product + ' ' + nsp_Item.button_label
-    if (frame012 === 1 && gb_Item.start % 3 === 1) orf2.current = gb_Item.product + ' ' + nsp_Item.button_label
-    if (frame012 === 2 && gb_Item.start % 3 === 2) orf3.current = gb_Item.product + ' ' + nsp_Item.button_label
+    if (frame012 === 0 && gb_Item.start % 3 === 0) {
+      orf1.current = gb_Item.product + ' ' + nsp_Item.button_label
+    }
+    if (frame012 === 1 && gb_Item.start % 3 === 1) {
+      orf2.current = gb_Item.product + ' ' + nsp_Item.button_label
+    }
+    if (frame012 === 2 && gb_Item.start % 3 === 2) {
+      orf3.current = gb_Item.product + ' ' + nsp_Item.button_label
+    }
   }
     // hack for frameshift to stop label of frag1
     if (index >= 13468 && index < 21550) orf3.current = ''
@@ -324,12 +333,14 @@ function getCodonNotes() {
     return (
       <Fragment key={i}>
         <Button
+          className='feature-button'
           onClick={() => {
+            shouldReset.current = true
             dispatch(setPlayhead(feature.start))
             setSynthStatus(0, false)
             setSynthStatus(1, false)
             setSynthStatus(2, false)
-            GAUCcount.current = GAUCcount.current
+            GAUCcount.current = 0
             orf1.current = ''
             orf2.current = ''
             orf3.current = ''
@@ -341,7 +352,7 @@ function getCodonNotes() {
         >
           {/* there is no actual whitespace in button} */}
           <p style={{ whiteSpace: 'pre' }}>{feature.button_label}</p>
-        </Button>{' '}
+        </Button>
         {/* {feature.product} */}
       </Fragment>
     );
@@ -459,16 +470,23 @@ function getCodonNotes() {
       trl: ` ribosomal polypeptide synthesis 5'->3'`,
       tsc: ` (-) replicase RNA strand synthesis 3'<- 5'`
     },
+    printGeneB:
+    {
+      trl: (gb_Item.end - gb_Item.start) + ' ' + (gb_Item.end - index),
+      tsc: (gb_Item.end - gb_Item.start) + ' ' + (index - gb_Item.start)
+    },
     printNSP:
     {
-      trl: (nsp_Item.end - index),
-      tsc: (index - nsp_Item.start)
+      trl: (nsp_Item.end - nsp_Item.start) + ' ' + (nsp_Item.end - index),
+      tsc: (nsp_Item.end - nsp_Item.start) + ' ' + (index - nsp_Item.start)
     },
     printTRS:
     {
-      trl: (trs_Item.start - index) + ' ' + trs_Item.trs_seq,
-      tsc: (index - trs_Item.end) + ' ' + trs_Item.trs_seq
+      trl: (trs_Item.start - trs_Item.end) + ' ' + (trs_Item.start - index) + ' ' + (trs_Item.trs_seq),
+      tsc: (trs_Item.start - trs_Item.end) + ' ' + (index - trs_Item.end) + ' ' + (trs_Item.trs_seq)
     },
+
+
   }
 
   return (
@@ -498,6 +516,7 @@ function getCodonNotes() {
         </span>
 
               <SlidingStringWindow
+                reset={shouldReset.current}
                 initial='                                           '
                 insert=' '
                 replace={SW1_PropStyle}
@@ -517,6 +536,7 @@ function getCodonNotes() {
                 </span>|
         </span>
               <SlidingStringWindow
+                reset={shouldReset.current}
                 initial='                                           '
                 insert=' '
                 replace={SW2_PropStyle}
@@ -536,6 +556,7 @@ function getCodonNotes() {
                 </span>|
         </span>
               <SlidingStringWindow
+                reset={shouldReset.current}
                 initial='                                           '
                 insert=' '
                 replace={SW3_PropStyle}
@@ -562,7 +583,11 @@ function getCodonNotes() {
             </p>
           </div><span className='thr'> RNA +</span>
           <span className='six'> {String(index).padStart(5, '0')}</span>|
-        <GenomeDisplay className='pre'>{dotfill40 + genomeSub}</GenomeDisplay>
+        {
+          isReversed
+            ? <span className='pre'>{dotfill40 + genomeSub}</span>
+            : <GenomeDisplay className='pre'>{dotfill40 + genomeSub}</GenomeDisplay>
+        }
         </div>
         { mode === 'trl' ? '' :
           <div>
@@ -593,26 +618,28 @@ function getCodonNotes() {
           <span> {subHeadings.modeTitle[mode]}</span>
           <br />
           <br />
+          <span>Translation map of (+) RNA</span><br />
           {MAPS.geneBank_json.map(Feature)}<br /><br />
+          <span>Map of NSP cleavage sites in the ab1/2 Polyprotein</span><br />
           {MAPS.nsp_json.map(Feature)}<br /><br />
+          <span>Location of Transcription Regulatory Sequences</span><br />
           {MAPS.trs_json.map(Feature)}
 
           <div className='row'>
             <div className='column'>
-              <p> Nucleotide at Playhead: {base} {GAUCcount.current} {baseNotes[0].name}</p>
+              <p> Nucleotide at Playhead: {base} {baseNotes[0].name}</p>
               <p> Di-Nucleotide at Playhead: {twoBase} {twobaseNotes[0].name}</p>
-              {/* <p> Codon at Playhead: {codon} {codonNote.name}</p>
-              <p> Amino Acid at Playhead: {codonNote.motif}</p> */}
+              <p> Codon at Playhead: {codon} </p>
+               <p> Amino Acid at Playhead: {MAPS.CODON_MAP[codon]?.AA}</p>
               <p> GC Content over 10 base: {tenGCnote[0].ratio} {tenGCnote[0].name} {/*tenGCnote[0].motif*/}</p>
               <p> GC Content over 100 base: {tentensGCnote[0].ratio} {tentensGCnote[0].name} {/*tentensGCnote[0].motif*/}</p>
             </div>
             <div className='column'>
               <p>
-                {/* {buttonSTART()}
-                {buttonSTOP()} */}
-                <p>Region {nsp_Item.name}: <span className='six'> {subHeadings.printNSP[mode]}</span></p>
-                <p>Countdown till next TRS: <span className='six'> {subHeadings.printTRS[mode]}</span></p>
-
+                <p>Genomic RNA region <span className='six'> {gb_Item.button_label}:</span> {subHeadings.printGeneB[mode]}</p>
+                <p>NSP1 details <span className='six'> {nsp_Item.button_label}: </span> {subHeadings.printNSP[mode]}</p>
+                <p>TRS details <span className='six'> {trs_Item.button_label}: </span>  {subHeadings.printTRS[mode]}</p>
+                <p>GCAU score (GC=+1, AT=-1) {GAUCcount.current}</p>
               </p>
             </div>
           </div>
@@ -620,27 +647,27 @@ function getCodonNotes() {
       </div>
 
       <Song bpm={bpm} >
-        <Track volume={-8} pan={-0.3} >
+        <Track volume={-7} pan={-0.3} >
           <Instrument type={'synth'} notes={baseNotes} />
         </Track>
-        <Track volume={-8} pan={-0.3} >
+        <Track volume={-7} pan={-0.3} >
           <Instrument type={'synth'} notes={sameBaseNotes} />
         </Track>
-        <Track volume={-8} pan={0.3} >
+        <Track volume={-7} pan={0.3} >
           <Instrument type={'synth'} notes={twobaseNotes} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>
-        <Track volume={-4} pan={-0.9} >
+        <Track volume={-5} pan={-0.9} >
           <Instrument type={'fmSynth'} oscillator={{ type: 'sine' }}
             notes={codonF1Notes} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>
-        <Track volume={-4} pan={0} >
+        <Track volume={-5} pan={0} >
           <Instrument type={'fmSynth'} oscillator={{ type: 'square' }}
             notes={codonF2Notes} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>
-        <Track volume={-4} pan={0.9} >
+        <Track volume={-5} pan={0.9} >
           <Instrument type={'fmSynth'} oscillator={{ type: 'triangle' }}
             notes={codonF3Notes} />
           <Effect type='feedbackDelay' wet={0.2} />

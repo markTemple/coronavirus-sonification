@@ -1,6 +1,6 @@
 // @ts-check
 import React, { useRef, useState } from 'react'
-import PropTypes, { string } from 'prop-types'
+import PropTypes, { element } from 'prop-types'
 
 const value = PropTypes.oneOfType([
   PropTypes.string,
@@ -40,6 +40,11 @@ export function SlidingStringWindow ({ initial, insert, replace, reset = false }
   const elements = useRef([initial])
   const length = getLength(elements.current)
 
+  if (reset) {
+    elements.current.length = 0
+    elements.current.push(initial)
+  }
+
   if (insert.content) {
     let remainder = insert.content.length
 
@@ -76,10 +81,6 @@ export function SlidingStringWindow ({ initial, insert, replace, reset = false }
     }
 
     elements.current.push(replace)
-  }
-
-  if (reset) {
-    string.current = [initial]
   }
 
   return (

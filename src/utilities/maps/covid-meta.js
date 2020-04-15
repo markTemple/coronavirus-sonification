@@ -26,6 +26,12 @@ export const trs_json = [
   {
   button_label: '5`',
   end: 1,
+  start: 1,
+  trs_seq: '',
+  },
+  {
+  button_label: '-',
+  end: 2,
   start: 63,
   trs_seq: '',
   },
@@ -36,7 +42,7 @@ export const trs_json = [
   trs_seq: 'CUCUAAACGAACUU',
   },
   {
-  button_label: '01',
+  button_label: '-',
   end: 79,
   start: 21549,
   trs_seq: '',
@@ -48,7 +54,7 @@ export const trs_json = [
   trs_seq: 'AACUAAACGAACAAUG',
   },
   {
-  button_label: '02',
+  button_label: '-',
   end: 21565,
   start: 25378,
   trs_seq: '',
@@ -59,7 +65,7 @@ export const trs_json = [
   trs_seq: 'ACAUAAACGAACUUAUG',
   },
   {
-  button_label: '03',
+  button_label: '-',
   end: 25397,
   start: 26230,
   trs_seq: '',
@@ -71,7 +77,7 @@ export const trs_json = [
   trs_seq: 'AUGAGUACGAACUUAUG',
   },
   {
-  button_label: '04',
+  button_label: '-',
   end: 26249,
   start: 26466,
   trs_seq: '',
@@ -83,7 +89,7 @@ export const trs_json = [
   trs_seq: 'GUCUAAACGAACUA',
   },
   {
-  button_label: '05',
+  button_label: '-',
   end: 26482,
   start: 27034,
   trs_seq: '',
@@ -95,7 +101,7 @@ export const trs_json = [
   trs_seq: 'UACAUCACGAACGC',
   },
   {
-  button_label: '06',
+  button_label: '-',
   end: 27050,
   start: 27381,
   trs_seq: '',
@@ -106,7 +112,7 @@ export const trs_json = [
   trs_seq: 'GAUUAAACGAACAUG',
   },
   {
-  button_label: '07',
+  button_label: '-',
   end: 27398,
   start: 27881,
   trs_seq: '',
@@ -118,7 +124,7 @@ export const trs_json = [
   trs_seq: 'GCCUAAACGAACAUG',
   },
   {
-  button_label: '08',
+  button_label: '-',
   end: 27898,
   start: 28253,
   trs_seq: '',
@@ -130,7 +136,7 @@ export const trs_json = [
   trs_seq: 'AUCUAAACGAACAA'
   },
   {
-  button_label: '09',
+  button_label: '-',
   end: 28269,
   start: 29527,
   trs_seq: '',
@@ -141,8 +147,14 @@ export const trs_json = [
   trs_seq: 'GCCUAAACUCAUGC',
   },
   {
-  button_label: '3`',
+  button_label: '-',
   end: 29543,
+  start: 29902,
+  trs_seq: '',
+  },
+  {
+  button_label: '3`',
+  end: 29903,
   start: 29903,
   trs_seq: '',
   },
@@ -150,11 +162,19 @@ export const trs_json = [
 
 export const geneBank_json = [
   {start: 1,
-  end: 265,
-  gene: "5'UTR",
+  end: 1,
+  gene: "UTR",
   product: 'Untranslated',
   protein_id: 'No protein',
-  button_label: "5`U",
+  button_label: "5`",
+  type: 'u',
+  },
+  {start: 2,
+  end: 265,
+  gene: "UTR",
+  product: 'Untranslated',
+  protein_id: 'No protein',
+  button_label: "UTR",
   type: 'u',
   },
   {
@@ -370,11 +390,16 @@ export const geneBank_json = [
 
 export const nsp_json = [
   {
-  button_label: '',
+  button_label: '5`',
   start: 1,
+  end: 1,
+  aa_res: null,
+  },  {
+  button_label: '-',
+  start: 2,
   end: 265,
   aa_res: null,
- },
+  },
   {
   button_label: 'nsp1',
   start: 266,
@@ -382,7 +407,7 @@ export const nsp_json = [
   aa_res: 180,
   },
   {
-  button_label: '',
+  button_label: '-',
   start: 804,
   end: 805,
   aa_res: null,
@@ -394,7 +419,7 @@ export const nsp_json = [
   aa_res: 638,
   },
   {
-  button_label: '',
+  button_label: '-',
   start: 2718,
   end: 2719,
   aa_res: null,
@@ -406,7 +431,7 @@ export const nsp_json = [
   aa_res: 1945,
   },
    {
-  button_label: '',
+  button_label: '-',
   start: 8553,
   end: 8554,
   aa_res: null,
@@ -418,7 +443,7 @@ export const nsp_json = [
   aa_res: 500,
   },
   {
-  button_label: '',
+  button_label: '-',
   start: 10053,
   end: 10054,
   aa_res: null,
@@ -430,7 +455,7 @@ export const nsp_json = [
   aa_res: 306,
   },
   {
-  button_label: '',
+  button_label: '-',
   start: 10971,
   end: 10972,
   aa_res: null,
@@ -442,7 +467,7 @@ export const nsp_json = [
   aa_res: 290,
   },
   {
-  button_label: '',
+  button_label: '-',
   start: 11841,
   end: 11842,
   aa_res: null,
@@ -454,7 +479,7 @@ export const nsp_json = [
   aa_res: 83,
   },
   {
-  button_label: '',
+  button_label: '-',
   start: 12090,
   end: 12091,
   aa_res: null,
@@ -466,7 +491,7 @@ export const nsp_json = [
   aa_res: 198,
   },
   {
-  button_label: '',
+  button_label: '-',
   start: 12684,
   end: 12685,
   aa_res: null,
@@ -478,7 +503,7 @@ export const nsp_json = [
   aa_res: 113,
   },
   {
-  button_label: '',
+  button_label: '-',
   start: 13023,
   end: 13024,
   aa_res: null,
@@ -490,7 +515,7 @@ export const nsp_json = [
   aa_res: 139,
   },
   {
-  button_label: '',
+  button_label: '-',
   start: 13440,
   end: 13443,
   aa_res: null,
@@ -508,7 +533,7 @@ export const nsp_json = [
   aa_res: 931,
   },
   {
-  button_label: '',
+  button_label: '-',
   start: 16235,
   end: 16236,
   aa_res: null,
@@ -520,7 +545,7 @@ export const nsp_json = [
   aa_res: 601,
   },
   {
-  button_label: '',
+  button_label: '-',
   start: 18038,
   end: 18039,
   aa_res: null,
@@ -532,7 +557,7 @@ export const nsp_json = [
   aa_res: 527,
   },
   {
-  button_label: '',
+  button_label: '-',
   start: 19619,
   end: 19620,
   aa_res: null,
@@ -544,7 +569,7 @@ export const nsp_json = [
   aa_res: 346,
   },
   {
-  button_label: '',
+  button_label: '-',
   start: 20657,
   end: 20658,
   aa_res: null,
@@ -556,11 +581,17 @@ export const nsp_json = [
   aa_res: 298,
   },
   {
-  button_label: '',
-  start: 21551,
-  end: 29903,
-  aa_res: null,
- },
-]
+    button_label: '-',
+    start: 21551,
+    end: 29902,
+    aa_res: null,
+   },
+   {
+    button_label: '3`',
+    start: 29903,
+    end: 29903,
+    aa_res: null,
+   },
+  ]
 
 
