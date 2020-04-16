@@ -101,24 +101,6 @@ export const TWOBASE_MAP_2 = {
   GG: 'G4',
 }
 
-export const TWOBASE_MAP_micro = {
-  AA: 440.00/2,
-  UU: 452.89/2,
-  AU: 466.16/2,
-  UA: 479.82/2,
-  UG: 493.88/2,
-  CA: 508.36/2,
-  CU: 523.25/2,
-  AG: 538.58/2,
-  UC: 554.37/2,
-  GA: 570.61/2,
-  GU: 587.33/2,
-  AC: 604.54/2,
-  CG: 622.25/2,
-  GC: 640.49/2,
-  CC: 659.26/2,
-  GG: 678.57/2,
-}
 
 /*
 https://regexr.com/
