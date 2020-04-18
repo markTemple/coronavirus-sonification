@@ -18,21 +18,12 @@ import {
 } from '../../utilities/motifs';
 import { useSingleFramePrimitive } from '../../utilities/single-frame-primitive';
 
-
 export function PlayGenome() {
   const dispatch = useDispatch()
   const index = useSelector(getPlayhead)
   const isReversed = useSelector(getReversed)
 
   const shouldReset = useSingleFramePrimitive(false)
-
-  // functions in motifs file
-  const base = getBase(index)
-  const twoBase = getDinucleotide(index)
-  const codon = getCodon(index)
-  const Bases10 = getBases10(index)
-  const Bases100 = getBases100(index)
-
 
   const [mode, setmode] = useState('trl')
   const togglemode = () => {
@@ -42,14 +33,17 @@ export function PlayGenome() {
   const frame012 = index % 3;
 
   let bpm = null
+  let audioProps = null
   if (mode === 'tsc') {
     dispatch(controlsSetDirection(true))
-    bpm = 130
+    bpm = 60
+    audioProps = 'tscProps'
   }
 
   if (mode === 'trl') {
     dispatch(controlsSetDirection(false))
-    bpm = 90
+    bpm = 80
+    audioProps = 'trlProps'
   }
 
   const isSynthEnabled = useRef([false, false, false])
@@ -71,41 +65,45 @@ export function PlayGenome() {
     frameshift = index - 2
   }
 
+  const codon = getCodon(index)
+
+  const base = getBase(index)
+  const baseNumb = MAPS.BASE_MAP[base]
+  const baseMap = MAPS.makeIntervals(MAPS[audioProps].base).map(number => MAPS.keyboard[number])
+
   function getBaseNotes() {
-    if (mode === 'trl') return [{ name: MAPS.BASE_MAP[base], duration: '3n'}];
-    else return [{ name: MAPS.BASE_MAP_2[base], duration: '32n'}];
+    return [{name: baseMap[baseNumb], duration: MAPS[audioProps].base.dur}];
   }
   const baseNotes = getBaseNotes();
 
-  // trigger note on repeat base
-  let baseInc = useRef(0);
-  function getSameBaseNotes(baseInc) {
-    const base = ['C5', 'Eb5', 'C6', 'Eb6', 'C5', 'Eb5', 'C6', 'Eb6', ]
-    const base_2 = ['A1', 'Bb2', 'C3', 'Bb4', 'C5', 'Bb6', 'C7', 'Bb8']
-    const base_micro = [440.00, 452.89, 466.16, 479.82, 493.88, 508.36, 523.25, 538.58]
-
-    if (mode === 'trl') return [{ name: base[baseInc.current], duration: '8n'}];
-    else return [{ name: base_2[baseInc.current], duration: '16n'}];
-  }
-
   let sameBaseNotes = ''
 
-  if ( (base === getBase(index - 1) ) && ( base === getBase(index - 2) ) ){
-    sameBaseNotes = getSameBaseNotes(baseInc);
-    baseInc.current++
+  function getSameBaseNotes(repeatBasesNumb) {
+    const repeatBases = getBase(index)
+    // const repeatBasesNumb = MAPS.BASE_MAP[repeatBases]
+    const repeatBasesMap = MAPS.makeIntervals(MAPS[audioProps].repeatBases).map(number => MAPS.keyboard[number])
+    return [{name: repeatBasesMap[repeatBasesNumb], duration: MAPS[audioProps].repeatBases.dur}];
   }
+  const baseCnt = useRef(0)
 
-  if (baseInc.current === 7) baseInc.current = 0
+  if ( (base === getBase(index - 1) ) && ( base === getBase(index +1) ) ){
+    sameBaseNotes = getSameBaseNotes(baseCnt.current);
+    baseCnt.current++
+    if(baseCnt.current === 2)baseCnt.current = 0
+  }
 
   const GAUCcount = useRef(0)
   if (base === 'C' || base === 'G') GAUCcount.current++;
   if (base === 'A' || base === 'U') GAUCcount.current--;
 
+  const twoBase = getDinucleotide(index)
+  const twoBaseNumb = MAPS.TWOBASE_MAP[twoBase]
+  const twoBaseMap = MAPS.makeIntervals(MAPS[audioProps].twoBase).map(number => MAPS.keyboard[number])
+
   function playTwoBase() {
     // if (index % 2 === 0) {
-    if (mode === 'tsc') return [{ name: MAPS.TWOBASE_MAP_2[twoBase], duration: '32n'}];
-    if (mode === 'trl') return [{ name: MAPS.TWOBASE_MAP[twoBase], duration: '32n'}];
-  }
+      return [{name: twoBaseMap[twoBaseNumb], duration: MAPS[audioProps].twoBase.dur}];
+    }
   const twobaseNotes = playTwoBase();
 
   function setSynthStatus(frame, value) {
@@ -123,35 +121,29 @@ export function PlayGenome() {
 
   function setSynthByCodonType() {
     if(start() === true) setSynthStatus(frame012, true);
-    if (stop() === true) setSynthStatus(frame012, false);
+    if(stop() === true) setSynthStatus(frame012, false);
 
     if (frameshift) isSynthEnabled.current[1] = true
 }
-setSynthByCodonType()
+  setSynthByCodonType()
 
-function getCodonNotes() {
-    if (mode === 'trl') { //play codons
-      return {
-        name: MAPS.CODON_MAP[codon]?.Note,
-        duration: '7n',
-        motif: MAPS.CODON_MAP[codon]?.AA
-      }
-    }
-    if (mode === 'tsc') { //don't play codons
-      return {
-        name: MAPS.CODON_MAP_2[codon]?.Note,
-        duration: '7n'
-      }
-    }
+//start sliding window display AA residues on NSP start
+  function setSynthByNSPstart() {
+    setSynthStatus(frame012, true)
   }
+  if( nsp_Item.start === index && nsp_Item.SW_true === true ) setSynthByNSPstart()
+
+
+  const codonNumb = MAPS.CODON_MAP[codon]?.Note
+  const codonMap = MAPS.makeIntervals(MAPS[audioProps].codon).map(number => MAPS.keyboard[number])
+  function getCodonNotes() {
+    return {name: codonMap[codonNumb], duration: MAPS[audioProps].codon.dur, motif:MAPS.CODON_MAP[codon]?.AA}
+  }
+// console.log(codonMap)
 
   const codonF1Notes = [];
   const codonF2Notes = [];
   const codonF3Notes = [];
-
-  // const codonNote = getCodonNotes();
-
-// console.log(codonNote)
 
   const AA_Count1 = useRef(0)
   const AA_Count2 = useRef(0)
@@ -180,32 +172,22 @@ function getCodonNotes() {
       AA_Count3.current++
     }
   }
-  // C natural minor translation trl [0]
-  // [0] C, D, Eb, F, G, Ab, Bb
-  // A Phrygian transcription tsc [1]
-  // [1] A Bb C D E F G
-  //
-  function ratioToNote(ratio) {
-    let note = { trl: 'C1', tsc: 'A1' }
-    if (ratio.ratio < 0.25) note = { trl: 'Eb2', tsc: 'Bb3' }
-    else if (ratio.ratio < 0.4) note = { trl: 'Ab2', tsc: 'F3' }
-    else if (ratio.ratio < 0.45) note = { trl: 'Bb2', tsc: 'G3' }
-    else if (ratio.ratio < 0.5) note = { trl: 'Eb3', tsc: 'Bb4' }
-    else if (ratio.ratio < 0.55) note = { trl: 'Ab3', tsc: 'F4' }
-    else if (ratio.ratio < 0.6) note = { trl: 'Bb3', tsc: 'G4' }
-    else if (ratio.ratio < 0.75) note = { trl: 'Eb4', tsc: 'Bb5' }
-    else if (ratio.ratio <= 1.0) note = { trl: 'Ab4', tsc: 'F5' }
-    if (mode === 'trl') return [{ name: note.trl, duration: '1m'}];
-    else return [{ name: note.tsc, duration: '2n'}];
+
+  const GCnote10 = getBases10(index)
+  const GCnote10Numb = MAPS.newGCratio(GCnote10)
+  const GCnote10Map = MAPS.makeIntervals(MAPS[audioProps].GCnote).map(number => MAPS.keyboard[number])
+  function GCnote10Note() {
+    return [{name: GCnote10Map[GCnote10Numb], duration: MAPS[audioProps].GCnote.dur}];
   }
+  const tenGCnote = GCnote10Note();
 
-  let Array10bpGCratio =
-    MAPS.calcMotif_GC(Bases10);
-  const tenGCnote = ratioToNote(Array10bpGCratio[0]);
-
-  let Array100bpGCratio =
-    MAPS.calcMotif_GC(Bases100);
-  const tentensGCnote = ratioToNote(Array100bpGCratio[0]);
+  const GCnote100 = getBases100(index)
+  const GCnote100Numb = MAPS.newGCratio(GCnote100)
+  const GCnote100Map = MAPS.makeIntervals(MAPS[audioProps].GCnote).map(number => MAPS.keyboard[number])
+  function GCnote100Note() {
+    return [{name: GCnote100Map[GCnote100Numb], duration: MAPS[audioProps].GCnote.dur}];
+  }
+  const tentensGCnote = GCnote100Note();
 
   let orf1 = useRef(null);
   let orf2 = useRef(null);
@@ -234,49 +216,37 @@ function getCodonNotes() {
 
   let trs_seqArray = useRef(null)
 
-  //choose to play from either end depending on playhead direction
   if (trs_Item.end === index && mode === 'trl') {
     trs_seqArray.current = trs_Item.trs_seq.split('')
   }
   if (trs_Item.start === index && mode === 'tsc') {
     trs_seqArray.current = trs_Item.trs_seq.split('')
   }
+  // if (trs_Item.trs_seq === null) trs_seqArray.current = null
 
-  if (trs_Item.trs_seq === null) trs_seqArray.current = null
-
-  function getTRSnotes(trsBase) {
-    if (mode === 'trl') return [{ name: MAPS.TRS_MAP[trsBase], duration: '4n' }];
-    if (mode === 'tsc') return [{ name: MAPS.TRS_MAP_2[trsBase], duration: '16n' }];
+  function getTRSnotes() {
+    const trs = trs_seqArray.current?.shift()
+    const trsNumb = MAPS.BASE_MAP[trs]
+    const trsMap = MAPS.makeIntervals(MAPS[audioProps].trs).map(number => MAPS.keyboard[number])
+    return [{name: trsMap[trsNumb], duration: MAPS[audioProps].trs.dur}];
   }
 
   let getTRSnote = null
   if (trs_seqArray.current) {
-    getTRSnote = getTRSnotes(trs_seqArray.current?.shift());
+  getTRSnote = getTRSnotes()
   }
 
-//C, D, Eb, F, G, Ab, Bb
-// A Bb C D E F G
-const nspNotes = ['C5', 'Eb5', 'F5', 'G5', 'C6', 'Eb6', 'F6', 'F6'];
-const nspNotes_2 = ['A5', 'C5', 'D5', 'E5', 'A6', 'C6', 'D6', 'E6',];
-  const mNoteCount = useRef(null);
-  let nspNote = null;
-
-  function playNSP(noteArr) {
-    if (mode === 'trl')nspNote = [{ name: noteArr[mNoteCount.current], duration: '2n' }]
-    mNoteCount.current++
-    if (mNoteCount.current === noteArr.length) mNoteCount.current = null
+  function getNSPnotes() {
+    const nsp = getBase(index)
+    const nspNumb = MAPS.BASE_MAP[nsp]
+    const nspMap = MAPS.makeIntervals(MAPS[audioProps].nsp).map(number => MAPS.keyboard[number])
+    return [{name: nspMap[nspNumb], duration: MAPS[audioProps].nsp.dur}]
   }
-  if (mode === 'trl') {
-    if (index >= nsp_Item.end - 7 && nsp_Item.start < 21551) {
-      playNSP(nspNotes)
-      bpm = 45
-    }
-    }
-  if (mode === 'tsc') {
-          if (index <= nsp_Item.start + 7 && nsp_Item.start < 21551) {
-      playNSP(nspNotes_2)
-      bpm = 45
-    }
+
+  let nspNote = null
+  if(nsp_Item.cleavage === true) {
+    nspNote = getNSPnotes();
+    bpm = 30
   }
 
   function colorCodon() {
@@ -383,17 +353,6 @@ const nspNotes_2 = ['A5', 'C5', 'D5', 'E5', 'A6', 'C6', 'D6', 'E6',];
   }
   moveDot();
 
-  // const SW1_PropStyle = {
-  //   content: codonF1Notes[0]?.motif,
-  //   props: {
-  //     id: '',
-  //     className: 'frame1',
-  //     style: {
-  //       backgroundColor: '#ebc844'
-  //     }
-  //   }
-  // }
-
   const SW1_PropStyle = {
     content: codonF1Notes[0]?.motif,
     props: {
@@ -482,8 +441,8 @@ const nspNotes_2 = ['A5', 'C5', 'D5', 'E5', 'A6', 'C6', 'D6', 'E6',];
     },
     printNSP:
     {
-      trl: (nsp_Item.end - nsp_Item.start) + ' ' + (nsp_Item.end - index),
-      tsc: (nsp_Item.end - nsp_Item.start) + ' ' + (index - nsp_Item.start)
+      trl: (nsp_Item.end - nsp_Item.start) + ' bp ' + (nsp_Item.end - index),
+      tsc: (nsp_Item.end - nsp_Item.start) + ' bp ' + (index - nsp_Item.start)
     },
     printTRS:
     {
@@ -636,13 +595,13 @@ const nspNotes_2 = ['A5', 'C5', 'D5', 'E5', 'A6', 'C6', 'D6', 'E6',];
               <p> Di-Nucleotide at Playhead: {twoBase} {twobaseNotes[0].name}</p>
               <p> Codon at Playhead: {codon} </p>
                <p> Amino Acid at Playhead: {MAPS.CODON_MAP[codon]?.AA}</p>
-              <p> GC Content over 10 base: {Array10bpGCratio[0].ratio} {tenGCnote[0].name} {/*tenGCnote[0].motif*/}</p>
-              <p> GC Content over 100 base: {Array100bpGCratio[0].ratio} {tentensGCnote[0].name} {/*tentensGCnote[0].motif*/}</p>
+              <p> GC Content over 10 base: {GCnote10Numb} {tenGCnote[0].name} {/*tenGCnote[0].motif*/}</p>
+              <p> GC Content over 100 base: {GCnote100Numb} {tentensGCnote[0].name} {/*tentensGCnote[0].motif*/}</p>
             </div>
             <div className='column'>
               <p>
                 <p>Genomic RNA region <span className='six'> {gb_Item.button_label}:</span> {subHeadings.printGeneB[mode]}</p>
-                <p>NSP1 details <span className='six'> {nsp_Item.button_label}: </span> {subHeadings.printNSP[mode]}</p>
+                <p>{nsp_Item.button_label} details <span className='six'> {nsp_Item.aa_res}: </span> {subHeadings.printNSP[mode]}</p>
                 <p>TRS details <span className='six'> {trs_Item.button_label}: </span>  {subHeadings.printTRS[mode]}</p>
                 <p>GCAU score (GC=+1, AT=-1) {GAUCcount.current}</p>
               </p>
@@ -656,7 +615,8 @@ const nspNotes_2 = ['A5', 'C5', 'D5', 'E5', 'A6', 'C6', 'D6', 'E6',];
           <Instrument type={'synth'} notes={baseNotes} />
         </Track>
         <Track volume={-7} pan={-0.3} >
-          <Instrument type={'synth'} notes={sameBaseNotes} />
+          <Instrument type={'MembraneSynth'} notes={sameBaseNotes} />
+          <Effect type="feedbackDelay" wet={0.5} delayTime={0.2} feedback={0.5} />
         </Track>
         <Track volume={-7} pan={0.3} >
           <Instrument type={'synth'} notes={twobaseNotes} />
@@ -675,20 +635,20 @@ const nspNotes_2 = ['A5', 'C5', 'D5', 'E5', 'A6', 'C6', 'D6', 'E6',];
         <Track volume={-5} pan={0.9} >
           <Instrument type={'fmSynth'} oscillator={{ type: 'triangle' }}
             notes={codonF3Notes} />
-          <Effect type='feedbackDelay' wet={0.2} />
-        </Track>
         <Track volume={-4} pan={-0.6} >
           <Instrument type={'amSynth'} notes={tenGCnote} />
           <Effect type='feedbackDelay' wet={0.4} /> </Track>
         <Track volume={-4} pan={0.6} >
           <Instrument type={'amSynth'} notes={tentensGCnote} />
           <Effect type='feedbackDelay' wet={0.4} /> </Track>
+          <Effect type='feedbackDelay' wet={0.2} />
+        </Track>
         <Track volume={-1} pan={0.8} >
           <Instrument type={'amSynth'} notes={getTRSnote} />
           <Effect type='feedbackDelay' wet={0.5} /> </Track>
-        <Track volume={-4} pan={0.8} >
+        <Track volume={0} pan={0.8} >
           <Instrument type={'amSynth'} notes={nspNote} />
-          <Effect type='feedbackDelay' wet={0.5} /> </Track>
+          <Effect type='feedbackDelay' wet={0.8} /> </Track>
       </Song>
     </>
   );
