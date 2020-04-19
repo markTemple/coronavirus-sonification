@@ -1,8 +1,13 @@
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const { config: { title } } = require('./package.json')
+const path = require('path')
 
 module.exports = (env, { mode = 'production' }) => ({
   mode,
+  output: {
+    path: path.join(__dirname, 'docs'),
+    publicPath: '/coronavirus-sonification/'
+  },
   module: {
     rules: [
       {
