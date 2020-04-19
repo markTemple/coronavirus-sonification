@@ -34,7 +34,7 @@ export const Controls = () => {
 
   const play = () => dispatch(controlsStart())
   const pause = () => dispatch(controlsStop())
-  const reverse = () => dispatch(controlsReverse())
+  // const reverse = () => dispatch(controlsReverse())
   const increment = () => dispatch(incrementPlayhead())
   const decrement = () => dispatch(decrementPlayhead())
 
@@ -42,7 +42,7 @@ export const Controls = () => {
     <>
       <Button onClick={play}>Play</Button>
       <Button onClick={pause}>Pause</Button>
-      <Button onClick={reverse}>Reverse</Button>
+      {/* <Button onClick={reverse}>Reverse</Button> */}
       <Button onClick={increment}>Increment</Button>
       <Button onClick={decrement}>Decrement</Button>
     </>

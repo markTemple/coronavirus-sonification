@@ -34,16 +34,19 @@ export function PlayGenome() {
 
   let bpm = null
   let audioProps = null
+  let startEnd = null
   if (mode === 'tsc') {
     dispatch(controlsSetDirection(true))
     bpm = 60
     audioProps = 'tscProps'
+    startEnd = 'end'
   }
 
   if (mode === 'trl') {
     dispatch(controlsSetDirection(false))
     bpm = 80
     audioProps = 'trlProps'
+    startEnd = 'start'
   }
 
   const isSynthEnabled = useRef([false, false, false])
@@ -54,7 +57,7 @@ export function PlayGenome() {
   const nsp_Item = MAPS.nsp_json
     .find(feature => index >= feature.start && index <= feature.end)
   const trs_Item = MAPS.trs_json
-    .find(feature => index >= feature.end && index <= feature.start)
+    .find(feature => index >= feature.start && index <= feature.end)
 
   //-1frameshift hack
   //-1 AT 13468 THIS WORKS due to 123123 numbering
@@ -89,7 +92,7 @@ export function PlayGenome() {
   if ( (base === getBase(index - 1) ) && ( base === getBase(index +1) ) ){
     sameBaseNotes = getSameBaseNotes(baseCnt.current);
     baseCnt.current++
-    if(baseCnt.current === 2)baseCnt.current = 0
+    if(baseCnt.current === 3)baseCnt.current = 0
   }
 
   const GAUCcount = useRef(0)
@@ -216,10 +219,7 @@ export function PlayGenome() {
 
   let trs_seqArray = useRef(null)
 
-  if (trs_Item.end === index && mode === 'trl') {
-    trs_seqArray.current = trs_Item.trs_seq.split('')
-  }
-  if (trs_Item.start === index && mode === 'tsc') {
+  if (trs_Item.start === index && trs_Item.trs_seq) {
     trs_seqArray.current = trs_Item.trs_seq.split('')
   }
   // if (trs_Item.trs_seq === null) trs_seqArray.current = null
@@ -246,7 +246,7 @@ export function PlayGenome() {
   let nspNote = null
   if(nsp_Item.cleavage === true) {
     nspNote = getNSPnotes();
-    bpm = 30
+    bpm = 15
   }
 
   function colorCodon() {
@@ -311,7 +311,7 @@ export function PlayGenome() {
           className='feature-button'
           onClick={() => {
             shouldReset.current = true
-            dispatch(setPlayhead(feature.start))
+            dispatch(setPlayhead(feature[startEnd]))
             setSynthStatus(0, false)
             setSynthStatus(1, false)
             setSynthStatus(2, false)
@@ -436,8 +436,8 @@ export function PlayGenome() {
     },
     printGeneB:
     {
-      trl: (gb_Item.end - gb_Item.start) + ' ' + (gb_Item.end - index),
-      tsc: (gb_Item.end - gb_Item.start) + ' ' + (index - gb_Item.start)
+      trl:  (gb_Item.end - index)+ '/' +(gb_Item.end - gb_Item.start) ,
+      tsc:  (index - gb_Item.start)+ '/' + (gb_Item.end - gb_Item.start)
     },
     printNSP:
     {
@@ -539,7 +539,7 @@ export function PlayGenome() {
 
           </div>
         }
-        <div>
+        <div className='dna'>
           <div>
             <p className='pre'>
               <span>Total 29903|5`                                      </span>
@@ -582,29 +582,38 @@ export function PlayGenome() {
           <span> {subHeadings.modeTitle[mode]}</span>
           <br />
           <br />
-          <span>Translation map of (+) RNA</span><br />
-          {MAPS.geneBank_json.map(Feature)}<br /><br />
-          <span>Map of NSP cleavage sites in the ab1/2 Polyprotein</span><br />
-          {MAPS.nsp_json.map(Feature)}<br /><br />
-          <span>Location of Transcription Regulatory Sequences</span><br />
-          {MAPS.trs_json.map(Feature)}
-
+          <p>Translation map of (+) RNA</p>
+          {MAPS.geneBank_json.map(Feature)}<br />
+          <ul className='ul'>
+            <li>Genomic RNA region <span className='six'> {gb_Item.button_label}:</span> {subHeadings.printGeneB[mode]} bp</li>
+            </ul>
+          <p>Map of NSP cleavage sites in the ab1/2 Polyprotein</p>
+          {MAPS.nsp_json.map(Feature)}<br />
+          <ul className='ul'>
+             <li> <span className='six'> {nsp_Item.button_label} </span> details <span className='six'> {nsp_Item.aa_res}: </span> {subHeadings.printNSP[mode]}</li>
+             </ul>
+          <p>Location of Transcription Regulatory Sequences</p>
+          {MAPS.trs_json.map(Feature)}<br />
+          <ul className='ul'>
+             <li> TRS details <span className='six'> {trs_Item.button_label}: </span> {subHeadings.printTRS[mode]}</li>
+             </ul>
           <div className='row'>
-            <div className='column'>
-              <p> Nucleotide at Playhead: {base} {baseNotes[0].name}</p>
-              <p> Di-Nucleotide at Playhead: {twoBase} {twobaseNotes[0].name}</p>
-              <p> Codon at Playhead: {codon} </p>
-               <p> Amino Acid at Playhead: {MAPS.CODON_MAP[codon]?.AA}</p>
-              <p> GC Content over 10 base: {GCnote10Numb} {tenGCnote[0].name} {/*tenGCnote[0].motif*/}</p>
-              <p> GC Content over 100 base: {GCnote100Numb} {tentensGCnote[0].name} {/*tentensGCnote[0].motif*/}</p>
+            <div className='column txt'>
+              <p>Audio tracks derived from sonified (+) RNA </p>
+            <ul className='ul'>
+              <li> Nucleotide at Playhead: <span className='six'> {base} {baseNotes[0].name}</span></li>
+              <li> Di-Nucleotide at Playhead: <span className='six'> {twoBase} {twobaseNotes[0].name}</span></li>
+              <li> Codon <span className='six'> {codon}</span> and Amino Acid <span className='six'>{MAPS.CODON_MAP[codon]?.AA}</span> at Playhead: </li>
+              <li> GC Content over 10 base:<span className='six'> {GCnote10Numb/10} {tenGCnote[0].name} </span></li>
+              <li> GC Content over 100 base:<span className='six'> {GCnote100Numb/10} {tentensGCnote[0].name}</span></li>
+              <li>GCAU score (GC=+1, AT=-1) {GAUCcount.current}</li>
+            </ul>
             </div>
             <div className='column'>
-              <p>
-                <p>Genomic RNA region <span className='six'> {gb_Item.button_label}:</span> {subHeadings.printGeneB[mode]}</p>
-                <p>{nsp_Item.button_label} details <span className='six'> {nsp_Item.aa_res}: </span> {subHeadings.printNSP[mode]}</p>
-                <p>TRS details <span className='six'> {trs_Item.button_label}: </span>  {subHeadings.printTRS[mode]}</p>
-                <p>GCAU score (GC=+1, AT=-1) {GAUCcount.current}</p>
-              </p>
+              <p> {trs_Item.button_label} {trs_Item.text} </p>
+              <p> {gb_Item.button_label} {gb_Item.text} </p>
+              <p> {nsp_Item.button_label} {nsp_Item.text} </p>
+
             </div>
           </div>
         </div>
@@ -641,14 +650,13 @@ export function PlayGenome() {
         <Track volume={-4} pan={0.6} >
           <Instrument type={'amSynth'} notes={tentensGCnote} />
           <Effect type='feedbackDelay' wet={0.4} /> </Track>
-          <Effect type='feedbackDelay' wet={0.2} />
         </Track>
         <Track volume={-1} pan={0.8} >
           <Instrument type={'amSynth'} notes={getTRSnote} />
           <Effect type='feedbackDelay' wet={0.5} /> </Track>
         <Track volume={0} pan={0.8} >
           <Instrument type={'amSynth'} notes={nspNote} />
-          <Effect type='feedbackDelay' wet={0.8} /> </Track>
+          <Effect type='feedbackDelay' wet={0.6} /> </Track>
       </Song>
     </>
   );

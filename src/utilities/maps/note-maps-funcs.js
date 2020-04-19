@@ -89,83 +89,62 @@ export const trlProps = {
   },
 }
 
-// tsc phrigian          2  3  4  5  6  7  root
-export const phrygian = [1, 2, 2, 2, 1, 2, 2]
+// tsc     R 2  3  4  5  6  7  R
+// lydian = [2, 2, 2, 1, 2, 2, 1]
 
 export const tscProps = {
   base:{
     oct: 2,
-    scale: [12],//roots at octaves
+    scale: [2, 2, 2, 6],//roots at octaves
     range: 4,
     key: 'A',
     dur: '16n',
   },
   repeatBases:{
-    oct: 2,
-    scale: [1,11],// 1st and b2
+    oct: 4,
+    scale: [4, 6],// 1st and b2
     range: 8,
     key: 'A',
     dur: '4n',
   },
   twoBase:{
-    oct: 2,
-    scale: [5, 2, 3, 3],// 1st 4th 5th 7th
+    oct: 3,
+    scale: [0, 2, 2, 2, 6, 0, 6, 1, 4, 1, 0],// 1st 4th 5th 7th
     range: 16,
     key: 'A',
     dur: '8n',
   },
-  codon:{
+  codon:{ // change to 64 new track
     oct: 1,
-    // scale: [1, 7, 2, 2],// 1st, 2rd, 6th, and 7th?
-    scale: [1],//chromatic
+    scale: [2, 2, 2, 1, 2, 2, 1],//chromatic
     range: 21,
     key: 'A',
     dur: '2n',
   },
   GCnote:{
-    oct: 3,
-    scale: [1, 2, 7, 2],// 1st, 2nd, 3rd, and 7th?
+    oct: 4,
+    scale: [0, 4, 2, 1, 4, 1],//
     range: 10,
     key: 'A',
     dur: '1m',
   },
   trs:{
-    oct: 5,
-    scale: [3, 3, 1, 5],// 1st, 3rd, #4 and 5th?
+    oct: 6,
+    scale: [ -1, -2, -2, -1, -2, -2, -2],// 1st, 3rd, #4 and 5th?
     range: 8,
     key: 'A',
     dur: '16n',
   },
   nsp:{
     oct: 4,
-    scale: [0, 1, 0, 4, -1, -2, -2],//
+    scale: [0, 6, -2, 7, 1],//
     range: 8,
     key: 'A',
     dur: '2n',
   },
 }
-// do this once and access on each render cycle - don't remake
+// do this once and access on each render cycle - don't remake???
 
-
-// const twoBaseMap = makeIntervals(trlProps.twoBase).map(number => keyboard[number])
-// const myBase03 = 15
-// const noteArray03 = [{name: twoBaseMap[myBase03], duration: trlProps.twoBase.dur}]
-
-// const codonMap = makeIntervals(trlProps.codon).map(number => keyboard[number])
-// const myBase04 = 19
-// const noteArray04 = [{name: codonMap[myBase04], duration: trlProps.codon.dur}]
-
-// const GCnoteMap = makeIntervals(trlProps.GCnote).map(number => keyboard[number])
-// const myBase05 = 9
-// const noteArray05 = [{name: GCnoteMap[myBase05], duration: trlProps.GCnote.dur}]
-
-// const trsMAP = makeIntervals(trlProps.trs).map(number => keyboard[number])
-// const myBase06 = 2
-// const noteArray06 = [{name: trsMAP[myBase06], duration: trlProps.trs.dur}]
-
-// const nspMap = makeIntervals(trlProps.nsp).map(number => keyboard[number])
-// const myBase07 = 3
-// const noteArray07 = [{name: GCnoteMap[myBase07], duration: trlProps.nsp.dur}]
 
 
 

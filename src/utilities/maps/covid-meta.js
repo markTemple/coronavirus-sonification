@@ -5,7 +5,7 @@ export const type = 'ss-RNA'
 export const strcture = 'linear'
 export const definition = 'Severe acute respiratory syndrome coronavirus 2 isolate Wuhan-Hu-1,complete genome.'
 // export const source = 'Severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2)'
-export const source = 'Single stranded RNA plus (+) sequence of Coronavirus COVID-19'
+export const source = 'Audio and visual analyses of the Coronavirus COVID-19 RNA sequence'
 export const organism = ['Viruses', 'Riboviria', 'Nidovirales', 'Cornidovirineae', 'Coronaviridae', 'Orthocoronavirinae', 'Betacoronavirus', 'Sarbecovirus']
 export const authors = 'Wu,F., Zhao,S., Yu,B., Chen,Y.M., Wang,W., Song,Z.G., Hu,Y., Tao,Z.W., Tian,J.H., Pei,Y.Y., Yuan,M.L., Zhang,Y.L., Dai,F.H., Liu,Y., Wang,Q.M., Zheng,J.J., Xu,L., Holmes,E.C. and Zhang,Y.Z.'
 export const title = 'A new coronavirus associated with human respiratory disease in China'
@@ -25,138 +25,162 @@ export const collection_date = 'Dec-2019'
 export const trs_json = [
   {
   button_label: '5`',
-  end: 1,
   start: 1,
-  trs_seq: '',
+  end: 1,
+  trs_seq: null,
+  text: 'text',
   },
   {
   button_label: '-',
-  end: 2,
-  start: 63,
-  trs_seq: '',
+  start: 2,
+  end: 63,
+  trs_seq: null,
+  text: 'text',
   },
   {
   button_label: 'TRS1',
-  end: 64,
-  start: 78,
+  start: 64,
+  end: 78,
   trs_seq: 'CUCUAAACGAACUU',
+  text: 'text',
   },
   {
   button_label: '-',
-  end: 79,
-  start: 21549,
-  trs_seq: '',
+  start: 79,
+  end: 21549,
+  trs_seq: null,
+  text: 'text',
   },
   {
   button_label: 'TRS2',
-  end: 21550,
-  start: 21564,
+  start: 21550,
+  end: 21564,
   trs_seq: 'AACUAAACGAACAAUG',
+  text: 'text',
   },
   {
   button_label: '-',
-  end: 21565,
-  start: 25378,
-  trs_seq: '',
+  start: 21565,
+  end: 25378,
+  trs_seq: null,
+  text: 'text',
   },  {
   button_label: 'TRS3',
-  end: 25379,
-  start: 25396,
+  start: 25379,
+  end: 25396,
   trs_seq: 'ACAUAAACGAACUUAUG',
+  text: 'text',
   },
   {
   button_label: '-',
-  end: 25397,
-  start: 26230,
-  trs_seq: '',
+  start: 25397,
+  end: 26230,
+  trs_seq: null,
+  text: 'text',
   },
   {
   button_label: 'TRS4',
-  end: 26231,
-  start: 26248,
+  start: 26231,
+  end: 26248,
   trs_seq: 'AUGAGUACGAACUUAUG',
+  text: 'text',
   },
   {
   button_label: '-',
-  end: 26249,
-  start: 26466,
-  trs_seq: '',
+  start: 26249,
+  end: 26466,
+  trs_seq: null,
+  text: 'text',
   },
   {
   button_label: 'TRS5',
-  end: 26467,
-  start: 26481,
+  start: 26467,
+  end: 26481,
   trs_seq: 'GUCUAAACGAACUA',
+  text: 'text',
   },
   {
   button_label: '-',
-  end: 26482,
-  start: 27034,
-  trs_seq: '',
+  start: 26482,
+  end: 27034,
+  trs_seq: null,
+  text: 'text',
   },
   {
   button_label: 'TRS6',
-  end: 27035,
-  start: 27049,
+  start: 27035,
+  end: 27049,
   trs_seq: 'UACAUCACGAACGC',
+  text: 'text',
   },
   {
   button_label: '-',
-  end: 27050,
-  start: 27381,
-  trs_seq: '',
+  start: 27050,
+  end: 27381,
+  trs_seq: null,
+  text: 'text',
   },  {
   button_label: 'TRS7',
-  end: 27382,
-  start: 27397,
+  start: 27382,
+  end: 27397,
   trs_seq: 'GAUUAAACGAACAUG',
+  text: 'text',
   },
   {
   button_label: '-',
-  end: 27398,
-  start: 27881,
-  trs_seq: '',
+  start: 27398,
+  end: 27881,
+  trs_seq: null,
+  text: 'text',
   },
   {
   button_label: 'TRS8',
-  end: 27882,
-  start: 27897,
+  start: 27882,
+  end: 27897,
   trs_seq: 'GCCUAAACGAACAUG',
+  text: 'text',
   },
   {
   button_label: '-',
-  end: 27898,
-  start: 28253,
-  trs_seq: '',
+  start: 27898,
+  end: 28253,
+  trs_seq: null,
+  text: 'text',
   },
   {
   button_label: 'TRS9',
-  end: 28254,
-  start: 28268,
-  trs_seq: 'AUCUAAACGAACAA'
+  start: 28254,
+  end: 28268,
+  trs_seq: 'AUCUAAACGAACAA',
+  text: 'text',
   },
   {
   button_label: '-',
-  end: 28269,
-  start: 29527,
-  trs_seq: '',
-  },  {
+  start: 28269,
+  end: 29527,
+  trs_seq: null,
+  text: 'text',
+  },
+  {
   button_label: 'TRS10',
-  end: 29528,
-  start: 29542,
+  start: 29528,
+  end: 29542,
   trs_seq: 'GCCUAAACUCAUGC',
+  text: 'text',
   },
   {
   button_label: '-',
-  end: 29543,
-  start: 29902,
-  trs_seq: '',
+  start: 29543,
+  end: 29902,
+  trs_seq: null,
+  text: 'text',
   },
   {
   button_label: '3`',
-  end: 29903,
   start: 29903,
-  trs_seq: '',
+  end: 29903,
+  trs_seq: null,
+  text: 'text',
   },
 ]
 
@@ -168,6 +192,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "5`",
   type: 'u',
+  text: 'text',
   },
   {start: 2,
   end: 265,
@@ -176,6 +201,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
+  text: 'text',
   },
   {
   start: 266,
@@ -187,16 +213,8 @@ export const geneBank_json = [
   protein_id: 'QHD43415.1',
   button_label: "ab1",
   type: 'p',
+  text: 'text',
   },
-  // {
-  //   start: 13465, //added by me, 3 nt in frame with frag 2
-  //   end: 13467,
-  //   gene: 'frameshift',
-  //   product: 'frameshift',
-  //   protein_id: 'frameshift',
-  //   button_label: "fs",
-  //   type: 'p',
-  //   },
   {
   start: 13468,
   end: 21555,
@@ -205,6 +223,7 @@ export const geneBank_json = [
   protein_id: 'QHD43415.1',
   button_label: "ab2",
   type: 'p',
+  text: 'text',
   },
   {
   start: 21556,
@@ -214,6 +233,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
+  text: 'text',
   },
   {
   start: 21563,
@@ -221,9 +241,10 @@ export const geneBank_json = [
   gene: 'Spike structural protein (S)',
   product: 'Surface glycoprotein',
   protein_id: 'QHD43416.1',
-  button_label: " S ",
+  button_label: "S protein",
   type: 'p',
- },
+  text: 'text',
+  },
   {
   start: 25385,
   end: 25392,
@@ -232,6 +253,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
+  text: 'text',
   },
   {
   start: 25393,
@@ -239,8 +261,9 @@ export const geneBank_json = [
   gene: 'ORF3a',
   product: 'Protein ORF3a',
   protein_id: 'QHD43417.1',
-  button_label: "ORF",
+  button_label: "ORF3a",
   type: 'p',
+  text: 'text',
   },
   {
   start: 26221,
@@ -250,6 +273,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
+  text: 'text',
   },
   {
   start: 26245,
@@ -257,8 +281,9 @@ export const geneBank_json = [
   gene: 'Envelope structural protein (E)',
   product: 'Envelope protein',
   protein_id: 'QHD43418.1',
-  button_label: " E ",
+  button_label: "E protein",
   type: 'p',
+  text: 'text',
   },
   {
   start: 26473,
@@ -268,6 +293,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
+  text: 'text',
   },
   {
   start: 26523,
@@ -275,8 +301,9 @@ export const geneBank_json = [
   gene: 'Membrane structural protein (M)',
   product: 'Membrane glycoprotein',
   protein_id: 'QHD43419.1',
-  button_label: " M ",
+  button_label: "M protein",
   type: 'p',
+  text: 'text',
   },
   {
   start: 27192,
@@ -286,6 +313,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
+  text: 'text',
   },
   {
   start: 27202,
@@ -293,8 +321,9 @@ export const geneBank_json = [
   gene: 'ORF6',
   product: 'Protein ORF6',
   protein_id: 'QHD43420.1',
-  button_label: "ORF",
+  button_label: "ORF6",
   type: 'p',
+  text: 'text',
   },
   {
   start: 27388,
@@ -304,6 +333,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
+  text: 'text',
   },
   {
   start: 27394,
@@ -311,8 +341,9 @@ export const geneBank_json = [
   gene: 'ORF7a',
   product: 'Protein ORF7a',
   protein_id: 'QHD43421.1',
-  button_label: "ORF",
+  button_label: "ORF7a",
   type: 'p',
+  text: 'text',
   },
   {
   start: 27760,
@@ -322,6 +353,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
+  text: 'text',
   },
   {
   start: 27894,
@@ -329,8 +361,9 @@ export const geneBank_json = [
   gene: 'ORF8',
   product: 'Protein ORF8',
   protein_id: 'QHD43422.1',
-  button_label: "ORF",
+  button_label: "ORF8",
   type: 'p',
+  text: 'text',
   },
   {
   start: 28260,
@@ -340,6 +373,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
+  text: 'text',
   },
   {
   start: 28274,
@@ -347,8 +381,9 @@ export const geneBank_json = [
   gene: 'Nucleocapsid structural protein (N)',
   product: 'Nucleocapsid phosphoprotein',
   protein_id: 'QHD43423.2',
-  button_label: " N ",
+  button_label: "N protein",
   type: 'p',
+  text: 'text',
   },
   {
   start: 29534,
@@ -358,6 +393,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "UTR",
   type: 'u',
+  text: 'text',
   },
   {
   start: 29558,
@@ -365,8 +401,9 @@ export const geneBank_json = [
   gene: 'ORF10',
   product: 'protein ORF10',
   protein_id: 'QHI42199.1',
-  button_label: "ORF",
+  button_label: "ORF10",
   type: 'p',
+  text: 'text',
   },
   {
   start: 29675,
@@ -376,6 +413,7 @@ export const geneBank_json = [
   protein_id: 'No protein',
   button_label: "3`U",
   type: 'u',
+  text: 'text',
   },
   {
   start: 29903,
@@ -385,6 +423,7 @@ export const geneBank_json = [
   protein_id: 'End of Sequence',
   button_label: "3`end",
   type: 'u',
+  text: 'text',
   },
 ]
 
@@ -395,13 +434,15 @@ export const nsp_json = [
   end: 1,
   aa_res: null,
   cleavage: false,
+  text: 'text',
   },
   {
-  button_label: '-',
+  button_label: 'UTR',
   start: 2,
   end: 265,
   aa_res: null,
   cleavage: false,
+  text: 'text',
   },
   {
   button_label: 'NSP1',
@@ -409,7 +450,8 @@ export const nsp_json = [
   end: 803,
   aa_res: '180 residues',
   cleavage: false,
-  SW_true: true,
+  text: 'text',
+    SW_true: true,
   },
   {
   button_label: 'C',
@@ -417,6 +459,7 @@ export const nsp_json = [
   end: 805,
   aa_res: 'AA cleavage site',
   cleavage: true,
+  text: 'text',
   },
   {
   button_label: 'NSP2',
@@ -424,7 +467,8 @@ export const nsp_json = [
   end: 2717,
   aa_res: '638 residues',
   cleavage: false,
-  SW_true: true,
+  text: 'text',
+    SW_true: true,
   },
   {
   button_label: 'C',
@@ -432,6 +476,7 @@ export const nsp_json = [
   end: 2719,
   aa_res: 'AA cleavage site',
   cleavage: true,
+  text: 'text',
   },
   {
   button_label: 'NSP3',
@@ -439,7 +484,8 @@ export const nsp_json = [
   end: 8552,
   aa_res: '1945 residues',
   cleavage: false,
-  SW_true: true,
+  text: 'text',
+    SW_true: true,
   },
   {
   button_label: 'C',
@@ -447,6 +493,7 @@ export const nsp_json = [
   end: 8554,
   aa_res: 'AA cleavage site',
   cleavage: true,
+  text: 'text',
   },
   {
   button_label: 'NSP4',
@@ -454,7 +501,8 @@ export const nsp_json = [
   end: 10052,
   aa_res: '500 residues',
   cleavage: false,
-  SW_true: true,
+  text: 'text',
+    SW_true: true,
   },
   {
   button_label: 'C',
@@ -462,6 +510,7 @@ export const nsp_json = [
   end: 10054,
   aa_res: 'AA cleavage site',
   cleavage: true,
+  text: 'text',
   },
   {
   button_label: 'NSP5',
@@ -469,7 +518,8 @@ export const nsp_json = [
   end: 10970,
   aa_res: '306 residues',
   cleavage: false,
-  SW_true: true,
+  text: 'text',
+    SW_true: true,
   },
   {
   button_label: 'C',
@@ -477,6 +527,7 @@ export const nsp_json = [
   end: 10972,
   aa_res: 'AA cleavage site',
   cleavage: true,
+  text: 'text',
   },
   {
   button_label: 'NSP6',
@@ -484,7 +535,8 @@ export const nsp_json = [
   end: 11840,
   aa_res: '290 residues',
   cleavage: false,
-  SW_true: true,
+  text: 'text',
+    SW_true: true,
   },
   {
   button_label: 'C',
@@ -492,6 +544,7 @@ export const nsp_json = [
   end: 11842,
   aa_res: 'AA cleavage site',
   cleavage: true,
+  text: 'text',
   },
   {
   button_label: 'NSP7',
@@ -499,7 +552,8 @@ export const nsp_json = [
   end: 12089,
   aa_res: '83 residues',
   cleavage: false,
-  SW_true: true,
+  text: 'text',
+    SW_true: true,
   },
   {
   button_label: 'C',
@@ -507,6 +561,7 @@ export const nsp_json = [
   end: 12091,
   aa_res: 'AA cleavage site',
   cleavage: true,
+  text: 'text',
   },
   {
   button_label: 'NSP8',
@@ -514,7 +569,8 @@ export const nsp_json = [
   end: 12683,
   aa_res: '198 residues',
   cleavage: false,
-  SW_true: true,
+  text: 'text',
+    SW_true: true,
   },
   {
   button_label: 'C',
@@ -522,6 +578,7 @@ export const nsp_json = [
   end: 12685,
   aa_res: 'AA cleavage site',
   cleavage: true,
+  text: 'text',
   },
   {
   button_label: 'NSP9',
@@ -529,7 +586,8 @@ export const nsp_json = [
   end: 13022,
   aa_res: '113 residues',
   cleavage: false,
-  SW_true: true,
+  text: 'text',
+    SW_true: true,
   },
   {
   button_label: 'C',
@@ -537,6 +595,7 @@ export const nsp_json = [
   end: 13024,
   aa_res: 'AA cleavage site',
   cleavage: true,
+  text: 'text',
   },
   {
   button_label: 'NSP10',
@@ -544,7 +603,8 @@ export const nsp_json = [
   end: 13439,
   aa_res: '139 residues',
   cleavage: false,
-  SW_true: true,
+  text: 'text',
+    SW_true: true,
   },
   {
   button_label: 'C',
@@ -552,6 +612,7 @@ export const nsp_json = [
   end: 13443,
   aa_res: 'AA cleavage site',
   cleavage: true,
+  text: 'text',
   },
   {
   button_label: 'NSP11',
@@ -559,7 +620,8 @@ export const nsp_json = [
   end: 13480,
   aa_res: '13 residues',
   cleavage: false,
-  SW_true: true,
+  text: 'text',
+    SW_true: true,
   },
   {
   button_label: 'NSP12',
@@ -567,7 +629,8 @@ export const nsp_json = [
   end: 16234,
   aa_res: '931 residues',
   cleavage: false,
-  SW_true: true,
+  text: 'text',
+    SW_true: true,
   },
   {
   button_label: 'C',
@@ -575,6 +638,7 @@ export const nsp_json = [
   end: 16236,
   aa_res: 'AA cleavage site',
   cleavage: true,
+  text: 'text',
   },
   {
   button_label: 'NSP13',
@@ -582,7 +646,8 @@ export const nsp_json = [
   end: 18037,
   aa_res: '601 residues',
   cleavage: false,
-  SW_true: true,
+  text: 'text',
+    SW_true: true,
   },
   {
   button_label: 'C',
@@ -590,6 +655,7 @@ export const nsp_json = [
   end: 18039,
   aa_res: 'AA cleavage site',
   cleavage: true,
+  text: 'text',
   },
   {
   button_label: 'NSP14',
@@ -597,7 +663,8 @@ export const nsp_json = [
   end: 19618,
   aa_res: '527 residues',
   cleavage: false,
-  SW_true: true,
+  text: 'text',
+    SW_true: true,
   },
   {
   button_label: 'C',
@@ -605,6 +672,7 @@ export const nsp_json = [
   end: 19620,
   aa_res: 'AA cleavage site',
   cleavage: true,
+  text: 'text',
   },
   {
   button_label: 'NSP15',
@@ -612,7 +680,8 @@ export const nsp_json = [
   end: 20656,
   aa_res: '346 residues',
   cleavage: false,
-  SW_true: true,
+  text: 'text',
+    SW_true: true,
   },
   {
   button_label: 'C',
@@ -620,6 +689,7 @@ export const nsp_json = [
   end: 20658,
   aa_res: 'AA cleavage site',
   cleavage: true,
+  text: 'text',
   },
   {
   button_label: 'NSP16',
@@ -627,7 +697,8 @@ export const nsp_json = [
   end: 21550,
   aa_res: '298 residues',
   cleavage: false,
-  SW_true: true,
+  text: 'text',
+    SW_true: true,
   },
   {
   button_label: '-',
@@ -635,6 +706,7 @@ export const nsp_json = [
   end: 29902,
   aa_res: null,
   cleavage: false,
+  text: 'text',
   },
   {
   button_label: '3`',
@@ -642,6 +714,7 @@ export const nsp_json = [
   end: 29903,
   aa_res: null,
   cleavage: false,
+  text: 'text',
   },
   ]
 
