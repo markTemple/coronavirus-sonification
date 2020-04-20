@@ -65,6 +65,23 @@ export function PlayGenome() {
   const trs_Item = MAPS.trs_json
     .find(feature => index >= feature.start && index <= feature.end)
 
+  let synthType = 'synth'
+  let synthEffect = 'feedbackDelay'
+  if(gb_Item.type === 'u') {
+    synthType = 'fmSynth'
+    synthEffect = 'distortion'
+  } else if(gb_Item.type === 'p') {
+    synthType = 'synth'
+    synthEffect = 'feedbackDelay'
+  }
+  if(nsp_Item.cleavage === true) {
+    synthType = 'fmSynth'
+    synthEffect = 'distortion'
+  } else if(nsp_Item.cleavage === false) {
+    synthType = 'synth'
+    synthEffect = 'feedbackDelay'
+  }
+
     //-1frameshift hack
   //-1 AT 13468 THIS WORKS due to 123123 numbering
   //end 21550 to allow last stop codon to take effect then read
@@ -527,10 +544,17 @@ export function PlayGenome() {
               {/* <p> GCAU score (GC=+1, AT=-1) {GAUCcount.current}</p> */}
             </div>
             <div className='column txt'>
+
             <h3>Description of the RNA regions being sonified. </h3>
-              <p> Genomic Region: {gb_Item.product}<br />{gb_Item.text} </p>
-              <p> Cleavage products of the ab1/2 Polyprotein: {nsp_Item.button_label}<br />{nsp_Item.text} </p>
-              <p> Transcription Regulatory Regions: {trs_Item.button_label} <br />{trs_Item.text} </p>
+
+              <p><span className='txt'><b>Genomic Region:</b></span> {gb_Item.product}<br />
+              {gb_Item.text} </p>
+
+              <p><span className='txt'><b>Cleavage products of the ab1/2 Polyprotein:</b></span>  {nsp_Item.button_label}<br />{
+              nsp_Item.text} </p>
+
+              <p><span className='txt'><b>Transcription Regulatory Regions:</b></span>  {trs_Item.button_label} <br />
+              {trs_Item.text} </p>
 
             </div>
           </div>
@@ -538,39 +562,46 @@ export function PlayGenome() {
       </div>
 
       <Song bpm={bpm} >
+
         <Track volume={-7} pan={-0.3} >
           <Instrument type={'synth'} notes={baseNotes} />
         </Track>
-        <Track volume={-7} pan={-0.3} >
-          <Instrument type={'synth'} notes={sameBaseNotes} />
-          <Effect type="feedbackDelay" wet={0.5} feedback={0.4} />
-        </Track>
         <Track volume={-7} pan={0.3} >
           <Instrument type={'synth'} notes={twobaseNotes} />
-          <Effect type='feedbackDelay' wet={0.2} />
         </Track>
-        <Track volume={-5} pan={-0.9} >
+
+        <Track volume={-7} pan={-0.3} >
+          <Instrument type={'fmSynth'} notes={sameBaseNotes} />
+          <Effect type='feedbackDelay' wet={0.5} feedback={0.4} />
+        </Track>
+
+        <Track volume={-4} pan={-0.9} >
           <Instrument type={'fmSynth'} oscillator={{ type: 'sine' }} notes={codonF1Notes} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>
-        <Track volume={-5} pan={0} >
+        <Track volume={-4} pan={0} >
           <Instrument type={'fmSynth'} oscillator={{ type: 'square' }} notes={codonF2Notes} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>
-        <Track volume={-5} pan={0.9} >
-          <Instrument type={'fmSynth'} oscillator={{ type: 'triangle' }} notes={codonF3Notes} /></Track>
-        <Track volume={-4} pan={-0.6} >
+        <Track volume={-4} pan={0.9} >
+          <Instrument type={'fmSynth'} oscillator={{ type: 'triangle' }} notes={codonF3Notes} />
+          <Effect type='feedbackDelay' wet={0.2} />
+        </Track>
+
+        <Track volume={-8} pan={-0.6} >
           <Instrument type={'amSynth'} notes={tenGCnote} />
-          <Effect type='feedbackDelay' wet={0.4} /> </Track>
-        <Track volume={-4} pan={0.6} >
+          <Effect type='feedbackDelay' wet={0.3} />
+        </Track>
+        <Track volume={-8} pan={0.6} >
           <Instrument type={'amSynth'} notes={tentensGCnote} />
-          <Effect type='feedbackDelay' wet={0.4} /></Track>
+          <Effect type='feedbackDelay' wet={0.3} />
+        </Track>
+
         <Track volume={-1} pan={0.8} >
           <Instrument type={'amSynth'} notes={getTRSnote} />
         </Track>
         <Track volume={0} pan={0.8} >
           <Instrument type={'amSynth'} notes={nspNote} />
-          <Effect type='feedbackDelay' wet={0.6} />
         </Track>
       </Song>
     </>

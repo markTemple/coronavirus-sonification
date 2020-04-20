@@ -45,11 +45,11 @@ export const trs_json = [
   text: 'Transcription Regulatory Sequence (TRS) 1',
   },
   {
-  button_label: 'seq',
+  button_label: 'Seq',
   start: 79,
   end: 21549,
   trs_seq: null,
-  text: 'text',
+  text: 'RNA sequence between TRS sequences, these regions are each joined to TRS1 to form subgenomic RNA species',
   },
   {
   button_label: 'T2',
@@ -59,11 +59,11 @@ export const trs_json = [
   text: 'Transcription Regulatory Sequence (TRS) 2',
   },
   {
-  button_label: 'seq',
+  button_label: 'Seq',
   start: 21565,
   end: 25378,
   trs_seq: null,
-  text: 'text',
+  text: 'RNA sequence between TRS sequences, these regions are each joined to TRS1 to form subgenomic RNA species',
   },  {
   button_label: 'T3',
   start: 25379,
@@ -72,11 +72,11 @@ export const trs_json = [
   text: 'Transcription Regulatory Sequence (TRS) 3',
   },
   {
-  button_label: 'seq',
+  button_label: 'Seq',
   start: 25397,
   end: 26230,
   trs_seq: null,
-  text: 'text',
+  text: 'RNA sequence between TRS sequences, these regions are each joined to TRS1 to form subgenomic RNA species',
   },
   {
   button_label: 'T4',
@@ -86,11 +86,11 @@ export const trs_json = [
   text: 'Transcription Regulatory Sequence (TRS) 4',
   },
   {
-  button_label: 'seq',
+  button_label: 'Seq',
   start: 26249,
   end: 26466,
   trs_seq: null,
-  text: 'text',
+  text: 'RNA sequence between TRS sequences, these regions are each joined to TRS1 to form subgenomic RNA species',
   },
   {
   button_label: 'T5',
@@ -100,11 +100,11 @@ export const trs_json = [
   text: 'Transcription Regulatory Sequence (TRS) 5',
   },
   {
-  button_label: 'seq',
+  button_label: 'Seq',
   start: 26482,
   end: 27034,
   trs_seq: null,
-  text: 'text',
+  text: 'RNA sequence between TRS sequences, these regions are each joined to TRS1 to form subgenomic RNA species',
   },
   {
   button_label: 'T6',
@@ -114,11 +114,11 @@ export const trs_json = [
   text: 'Transcription Regulatory Sequence (TRS) 6',
   },
   {
-  button_label: 'seq',
+  button_label: 'Seq',
   start: 27050,
   end: 27381,
   trs_seq: null,
-  text: 'text',
+  text: 'RNA sequence between TRS sequences, these regions are each joined to TRS1 to form subgenomic RNA species',
   },  {
   button_label: 'T7',
   start: 27382,
@@ -127,11 +127,11 @@ export const trs_json = [
   text: 'Transcription Regulatory Sequence (TRS) 7',
   },
   {
-  button_label: 'seq',
+  button_label: 'Seq',
   start: 27398,
   end: 27881,
   trs_seq: null,
-  text: 'text',
+  text: 'RNA sequence between TRS sequences, these regions are each joined to TRS1 to form subgenomic RNA species',
   },
   {
   button_label: 'T8',
@@ -141,11 +141,11 @@ export const trs_json = [
   text: 'Transcription Regulatory Sequence (TRS) 8',
   },
   {
-  button_label: 'seq',
+  button_label: 'Seq',
   start: 27898,
   end: 28253,
   trs_seq: null,
-  text: 'text',
+  text: 'RNA sequence between TRS sequences, these regions are each joined to TRS1 to form subgenomic RNA species',
   },
   {
   button_label: 'T9',
@@ -155,11 +155,11 @@ export const trs_json = [
   text: 'Transcription Regulatory Sequence (TRS) 9',
   },
   {
-  button_label: 'seq',
+  button_label: 'Seq',
   start: 28269,
   end: 29527,
   trs_seq: null,
-  text: 'text',
+  text: 'RNA sequence between TRS sequences, these regions are each joined to TRS1 to form subgenomic RNA species',
   },
   {
   button_label: 'T10',
@@ -442,7 +442,7 @@ export const nsp_json = [
   end: 265,
   aa_res: null,
   cleavage: false,
-  text: 'text',
+  text: '5` Untranslated region upstream of ab1/2 Polyprotein that is cleaved into the smaller NSP proteins',
   },
   {
   button_label: 'N1',

@@ -329,8 +329,14 @@ span:empty {
 .feature-button {
   margin: 0px 1px 0px 1px;
 }
-
 .feature-button p {
+  margin: 4px 2px 4px 2px;
+}
+
+.control-button {
+  margin: 0px 3px 0px 3px;
+}
+.control-button p {
   margin: 4px 2px 4px 2px;
 }
 

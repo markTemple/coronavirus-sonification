@@ -46,8 +46,8 @@ export const trlProps = {
     dur: '12n',
   },
   repeatBases:{
-    oct: 5,
-    scale: [3,9],// root and 3rd
+    oct: 4,
+    scale: [3, 9],// root and 3rd
     range: 8,
     key: 'C',
     dur: '8n',
@@ -101,8 +101,8 @@ export const tscProps = {
     dur: '8n',
   },
   repeatBases:{
-    oct: 6,
-    scale: [4, 6],// 1st and b2
+    oct: 5,
+    scale: [2, 2, 8],
     range: 8,
     key: 'A',
     dur: '4n',

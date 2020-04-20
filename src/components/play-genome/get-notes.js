@@ -15,9 +15,12 @@ export function playTwoBase(twoBase, audioProps) {
 }
 
 export function getSameBaseNotes(base, index, audioProps) {
+  const count = useRef(0)
   if ( (base === getBase(index - 1) ) && ( base === getBase(index +1) ) ){
+    if(count.current >= 2) count.current = 0
     const repeatBasesMap = MAPS.makeIntervals(MAPS[audioProps].repeatBases).map(number => MAPS.keyboard[number])
-    return [{name: repeatBasesMap[1], duration: MAPS[audioProps].repeatBases.dur}];
+    count.current++
+    return [{name: repeatBasesMap[count.current], duration: MAPS[audioProps].repeatBases.dur}];
   } else{
     return [{name: '', duration: '8n'}];
   }
