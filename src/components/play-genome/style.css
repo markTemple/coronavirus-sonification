@@ -172,11 +172,9 @@ div {
   left: 50px;
 }
 
-div.txt {
-  font-family: "Lucida Console", Monaco, monospace;
-  width: 1000px;
-  padding: 4px 0px;
-  left: 50px;
+.txt {
+  font: italic 1rem Georgia, Times, serif;
+  color: #611b21;
 }
 
 div.relative {
@@ -189,10 +187,6 @@ div.absolute {
   left: 0px;
 }
 
-.ul{
-  font: italic 1em Georgia, Times, serif;
-  color: #6c6b6b;
-}
 .pre {
   white-space: pre;
 }

@@ -39,14 +39,14 @@ const aeolian = [2, 1, 2, 2, 1, 2, 2]
 
 export const trlProps = {
   base:{
-    oct: 2,
+    oct: 1,
     scale: [12],//roots at octaves
     range: 4,
     key: 'C',
-    dur: '32n',
+    dur: '12n',
   },
   repeatBases:{
-    oct: 6,
+    oct: 5,
     scale: [3,9],// root and 3rd
     range: 8,
     key: 'C',
@@ -57,7 +57,7 @@ export const trlProps = {
     scale: [5, 2, 3, 2],// 1st 4th 5th 7th
     range: 16,
     key: 'C',
-    dur: '16n',
+    dur: '8n',
   },
   codon:{
     oct: 1,
@@ -73,12 +73,12 @@ export const trlProps = {
     key: 'C',
     dur: '1m',
   },
-  trs:{
-    oct: 5,
+  trsNote:{
+    oct: 4,
     scale: [3, 3, 1, 5],// 1st, 3rd, #4 and 5th?
     range: 8,
     key: 'C',
-    dur: '32n',
+    dur: '4n',// too short gives click/spike in audio
   },
   nsp:{
     oct: 2,
@@ -98,10 +98,10 @@ export const tscProps = {
     scale: [2, 2, 2, 6],//roots at octaves
     range: 4,
     key: 'A',
-    dur: '16n',
+    dur: '8n',
   },
   repeatBases:{
-    oct: 4,
+    oct: 6,
     scale: [4, 6],// 1st and b2
     range: 8,
     key: 'A',
@@ -128,12 +128,12 @@ export const tscProps = {
     key: 'A',
     dur: '1m',
   },
-  trs:{
-    oct: 6,
+  trsNote:{
+    oct: 3,
     scale: [ -1, -2, -2, -1, -2, -2, -2],// 1st, 3rd, #4 and 5th?
     range: 8,
     key: 'A',
-    dur: '16n',
+    dur: '4n',
   },
   nsp:{
     oct: 4,

@@ -18,6 +18,9 @@ import {
 } from '../../utilities/motifs';
 import { useSingleFramePrimitive } from '../../utilities/single-frame-primitive';
 
+import { getBaseNotes, playTwoBase, getSameBaseNotes, GCnote10Note,
+  GCnote100Note, makeTRSnotes, getNSPnotes, getCodonNotes} from './get-notes'
+
 export function PlayGenome() {
   const dispatch = useDispatch()
   const index = useSelector(getPlayhead)
@@ -51,6 +54,9 @@ export function PlayGenome() {
 
   const isSynthEnabled = useRef([false, false, false])
 
+  function setSynthStatus(frame, value) {
+    isSynthEnabled.current[frame] = value
+  }
   // get item from genebank
   const gb_Item = MAPS.geneBank_json
     .find(feature => index >= feature.start && index <= feature.end)
@@ -59,7 +65,7 @@ export function PlayGenome() {
   const trs_Item = MAPS.trs_json
     .find(feature => index >= feature.start && index <= feature.end)
 
-  //-1frameshift hack
+    //-1frameshift hack
   //-1 AT 13468 THIS WORKS due to 123123 numbering
   //end 21550 to allow last stop codon to take effect then read
   // rest of genome in F3 normal without frameshift
@@ -67,51 +73,22 @@ export function PlayGenome() {
   if ((index >= 13466) && (index < 21550)) {
     frameshift = index - 2
   }
+  const base = getBase(index)
+  const baseNotes = getBaseNotes(base, audioProps)
+  const twoBase = getDinucleotide(index)
+  const twobaseNotes = playTwoBase(twoBase, audioProps)
+  const sameBaseNotes = getSameBaseNotes(base, index, audioProps)
+  const GCnote10 = getBases10(index)
+  const GCnote10Numb = MAPS.newGCratio(GCnote10)
+  const tenGCnote = GCnote10Note(GCnote10, GCnote10Numb, audioProps)
+  const GCnote100 = getBases100(index)
+  const GCnote100Numb = MAPS.newGCratio(GCnote100)
+  const tentensGCnote = GCnote100Note(GCnote100, GCnote100Numb, audioProps)
+  const getTRSnote = makeTRSnotes(mode, trs_Item, index, audioProps)
+  const nspNote = getNSPnotes(nsp_Item, base, index, mode, audioProps)
 
   const codon = getCodon(index)
-
-  const base = getBase(index)
-  const baseNumb = MAPS.BASE_MAP[base]
-  const baseMap = MAPS.makeIntervals(MAPS[audioProps].base).map(number => MAPS.keyboard[number])
-
-  function getBaseNotes() {
-    return [{name: baseMap[baseNumb], duration: MAPS[audioProps].base.dur}];
-  }
-  const baseNotes = getBaseNotes();
-
-  let sameBaseNotes = ''
-
-  function getSameBaseNotes(repeatBasesNumb) {
-    const repeatBases = getBase(index)
-    // const repeatBasesNumb = MAPS.BASE_MAP[repeatBases]
-    const repeatBasesMap = MAPS.makeIntervals(MAPS[audioProps].repeatBases).map(number => MAPS.keyboard[number])
-    return [{name: repeatBasesMap[repeatBasesNumb], duration: MAPS[audioProps].repeatBases.dur}];
-  }
-  const baseCnt = useRef(0)
-
-  if ( (base === getBase(index - 1) ) && ( base === getBase(index +1) ) ){
-    sameBaseNotes = getSameBaseNotes(baseCnt.current);
-    baseCnt.current++
-    if(baseCnt.current === 3)baseCnt.current = 0
-  }
-
-  const GAUCcount = useRef(0)
-  if (base === 'C' || base === 'G') GAUCcount.current++;
-  if (base === 'A' || base === 'U') GAUCcount.current--;
-
-  const twoBase = getDinucleotide(index)
-  const twoBaseNumb = MAPS.TWOBASE_MAP[twoBase]
-  const twoBaseMap = MAPS.makeIntervals(MAPS[audioProps].twoBase).map(number => MAPS.keyboard[number])
-
-  function playTwoBase() {
-    // if (index % 2 === 0) {
-      return [{name: twoBaseMap[twoBaseNumb], duration: MAPS[audioProps].twoBase.dur}];
-    }
-  const twobaseNotes = playTwoBase();
-
-  function setSynthStatus(frame, value) {
-    isSynthEnabled.current[frame] = value
-  }
+  const codonNotes = getCodonNotes(codon, audioProps)
 
   const start = function() {
     if(codon === 'AUG') return true
@@ -127,7 +104,7 @@ export function PlayGenome() {
     if(stop() === true) setSynthStatus(frame012, false);
 
     if (frameshift) isSynthEnabled.current[1] = true
-}
+  }
   setSynthByCodonType()
 
 //start sliding window display AA residues on NSP start
@@ -136,13 +113,6 @@ export function PlayGenome() {
   }
   if( nsp_Item.start === index && nsp_Item.SW_true === true ) setSynthByNSPstart()
 
-
-  const codonNumb = MAPS.CODON_MAP[codon]?.Note
-  const codonMap = MAPS.makeIntervals(MAPS[audioProps].codon).map(number => MAPS.keyboard[number])
-  function getCodonNotes() {
-    return {name: codonMap[codonNumb], duration: MAPS[audioProps].codon.dur, motif:MAPS.CODON_MAP[codon]?.AA}
-  }
-// console.log(codonMap)
 
   const codonF1Notes = [];
   const codonF2Notes = [];
@@ -154,7 +124,7 @@ export function PlayGenome() {
 
   if (frame012 === 0) {
     if (isSynthEnabled.current[frame012]) {
-      codonF1Notes.push(getCodonNotes())
+      codonF1Notes.push(codonNotes)
       if (index === gb_Item.start) AA_Count1.current = 0
       AA_Count1.current++
     }
@@ -162,7 +132,7 @@ export function PlayGenome() {
 
   if (frame012 === 1) {
     if (isSynthEnabled.current[frame012]) {
-      codonF2Notes.push(getCodonNotes())
+      codonF2Notes.push(codonNotes)
       if (index === gb_Item.start) AA_Count2.current = 0
       AA_Count2.current++
     }
@@ -170,27 +140,12 @@ export function PlayGenome() {
 
   if (frame012 === 2) {
     if (isSynthEnabled.current[frame012]) {
-      codonF3Notes.push(getCodonNotes())
+      codonF3Notes.push(codonNotes)
       if (index === gb_Item.start) AA_Count3.current = 0
       AA_Count3.current++
     }
   }
 
-  const GCnote10 = getBases10(index)
-  const GCnote10Numb = MAPS.newGCratio(GCnote10)
-  const GCnote10Map = MAPS.makeIntervals(MAPS[audioProps].GCnote).map(number => MAPS.keyboard[number])
-  function GCnote10Note() {
-    return [{name: GCnote10Map[GCnote10Numb], duration: MAPS[audioProps].GCnote.dur}];
-  }
-  const tenGCnote = GCnote10Note();
-
-  const GCnote100 = getBases100(index)
-  const GCnote100Numb = MAPS.newGCratio(GCnote100)
-  const GCnote100Map = MAPS.makeIntervals(MAPS[audioProps].GCnote).map(number => MAPS.keyboard[number])
-  function GCnote100Note() {
-    return [{name: GCnote100Map[GCnote100Numb], duration: MAPS[audioProps].GCnote.dur}];
-  }
-  const tentensGCnote = GCnote100Note();
 
   let orf1 = useRef(null);
   let orf2 = useRef(null);
@@ -215,38 +170,6 @@ export function PlayGenome() {
     orf1.current = null
     orf2.current = null
     orf3.current = null
-  }
-
-  let trs_seqArray = useRef(null)
-
-  if (trs_Item.start === index && trs_Item.trs_seq) {
-    trs_seqArray.current = trs_Item.trs_seq.split('')
-  }
-  // if (trs_Item.trs_seq === null) trs_seqArray.current = null
-
-  function getTRSnotes() {
-    const trs = trs_seqArray.current?.shift()
-    const trsNumb = MAPS.BASE_MAP[trs]
-    const trsMap = MAPS.makeIntervals(MAPS[audioProps].trs).map(number => MAPS.keyboard[number])
-    return [{name: trsMap[trsNumb], duration: MAPS[audioProps].trs.dur}];
-  }
-
-  let getTRSnote = null
-  if (trs_seqArray.current) {
-  getTRSnote = getTRSnotes()
-  }
-
-  function getNSPnotes() {
-    const nsp = getBase(index)
-    const nspNumb = MAPS.BASE_MAP[nsp]
-    const nspMap = MAPS.makeIntervals(MAPS[audioProps].nsp).map(number => MAPS.keyboard[number])
-    return [{name: nspMap[nspNumb], duration: MAPS[audioProps].nsp.dur}]
-  }
-
-  let nspNote = null
-  if(nsp_Item.cleavage === true) {
-    nspNote = getNSPnotes();
-    bpm = 15
   }
 
   function colorCodon() {
@@ -315,7 +238,7 @@ export function PlayGenome() {
             setSynthStatus(0, false)
             setSynthStatus(1, false)
             setSynthStatus(2, false)
-            GAUCcount.current = 0
+            // GAUCcount.current = 0
             orf1.current = ''
             orf2.current = ''
             orf3.current = ''
@@ -326,7 +249,7 @@ export function PlayGenome() {
           style={style}
         >
           {/* there is no actual whitespace in button} */}
-          <p style={{ whiteSpace: 'pre' }}>{feature.button_label}</p>
+          <p style={{ fontSize: '0.9rem' }}>{feature.button_label}</p>
         </Button>
         {/* {feature.product} */}
       </Fragment>
@@ -431,8 +354,8 @@ export function PlayGenome() {
     },
     modeTitle:
     {
-      trl: ` ribosomal polypeptide synthesis 5'->3'`,
-      tsc: ` (-) replicase RNA strand synthesis 3'<- 5'`
+      trl: ` Translation of (+) strand RNA to make protein`,
+      tsc: ` Transcription of (+)strand RNA to make (-)strand copy`
     },
     printGeneB:
     {
@@ -441,13 +364,13 @@ export function PlayGenome() {
     },
     printNSP:
     {
-      trl: (nsp_Item.end - nsp_Item.start) + ' bp ' + (nsp_Item.end - index),
-      tsc: (nsp_Item.end - nsp_Item.start) + ' bp ' + (index - nsp_Item.start)
+      trl:  (nsp_Item.end - index)+ '/' +(nsp_Item.end - nsp_Item.start) ,
+      tsc:  (index - nsp_Item.start)+ '/' + (nsp_Item.end - nsp_Item.start)
     },
     printTRS:
     {
-      trl: (trs_Item.start - trs_Item.end) + ' ' + (trs_Item.start - index) + ' ' + (trs_Item.trs_seq),
-      tsc: (trs_Item.start - trs_Item.end) + ' ' + (index - trs_Item.end) + ' ' + (trs_Item.trs_seq)
+      trl:  (trs_Item.end - index)+ '/' +(trs_Item.end - trs_Item.start) ,
+      tsc:  (index - trs_Item.start)+ '/' + (trs_Item.end - trs_Item.start)
     },
 
 
@@ -579,40 +502,35 @@ export function PlayGenome() {
           <br />
           <br />
           <Button onClick={togglemode}><span className='pre'> Switch Mode </span></Button>
-          <span> {subHeadings.modeTitle[mode]}</span>
-          <br />
-          <br />
-          <p>Translation map of (+) RNA</p>
-          {MAPS.geneBank_json.map(Feature)}<br />
-          <ul className='ul'>
-            <li>Genomic RNA region <span className='six'> {gb_Item.button_label}:</span> {subHeadings.printGeneB[mode]} bp</li>
-            </ul>
-          <p>Map of NSP cleavage sites in the ab1/2 Polyprotein</p>
-          {MAPS.nsp_json.map(Feature)}<br />
-          <ul className='ul'>
-             <li> <span className='six'> {nsp_Item.button_label} </span> details <span className='six'> {nsp_Item.aa_res}: </span> {subHeadings.printNSP[mode]}</li>
-             </ul>
-          <p>Location of Transcription Regulatory Sequences</p>
+          <span className='txt'> {subHeadings.modeTitle[mode]}</span>
+
+          <p className='txt'> Translated RNA regions. {gb_Item.product}: {subHeadings.printGeneB[mode]} bp.
+          </p>
+          {MAPS.geneBank_json.map(Feature)}
+
+          <p className='txt'> Cleavage sites (C) and NSP proteins (N) in the ab1/2 Polyprotein. {nsp_Item.button_label} {nsp_Item.aa_res}: {subHeadings.printNSP[mode]} bp.
+          </p>
+          {MAPS.nsp_json.map(Feature)}
+
+          <p className='txt'>Transcription Regulatory Sequences. {trs_Item.button_label}: {subHeadings.printTRS[mode]} bp. {trs_Item.trs_seq}
+          </p>
           {MAPS.trs_json.map(Feature)}<br />
-          <ul className='ul'>
-             <li> TRS details <span className='six'> {trs_Item.button_label}: </span> {subHeadings.printTRS[mode]}</li>
-             </ul>
+
           <div className='row'>
             <div className='column txt'>
-              <p>Audio tracks derived from sonified (+) RNA </p>
-            <ul className='ul'>
-              <li> Nucleotide at Playhead: <span className='six'> {base} {baseNotes[0].name}</span></li>
-              <li> Di-Nucleotide at Playhead: <span className='six'> {twoBase} {twobaseNotes[0].name}</span></li>
-              <li> Codon <span className='six'> {codon}</span> and Amino Acid <span className='six'>{MAPS.CODON_MAP[codon]?.AA}</span> at Playhead: </li>
-              <li> GC Content over 10 base:<span className='six'> {GCnote10Numb/10} {tenGCnote[0].name} </span></li>
-              <li> GC Content over 100 base:<span className='six'> {GCnote100Numb/10} {tentensGCnote[0].name}</span></li>
-              <li>GCAU score (GC=+1, AT=-1) {GAUCcount.current}</li>
-            </ul>
+              <h3>Audio tracks derived from sonified (+) RNA. </h3>
+              <p> Nucleotide at Playhead: <span className='six'> {base} {baseNotes[0].name}</span></p>
+              <p> Di-Nucleotide at Playhead: <span className='six'> {twoBase} {twobaseNotes[0].name}</span></p>
+              <p> Codon <span className='six'> {codon}</span> and Amino Acid <span className='six'>{MAPS.CODON_MAP[codon]?.AA}</span> at Playhead: </p>
+              <p> GC Content over 10 base:<span className='six'> {GCnote10Numb/10} {tenGCnote[0].name} </span></p>
+              <p> GC Content over 100 base:<span className='six'> {GCnote100Numb/10} {tentensGCnote[0].name}</span></p>
+              {/* <p> GCAU score (GC=+1, AT=-1) {GAUCcount.current}</p> */}
             </div>
-            <div className='column'>
-              <p> {trs_Item.button_label} {trs_Item.text} </p>
-              <p> {gb_Item.button_label} {gb_Item.text} </p>
-              <p> {nsp_Item.button_label} {nsp_Item.text} </p>
+            <div className='column txt'>
+            <h3>Description of the RNA regions being sonified. </h3>
+              <p> Genomic Region: {gb_Item.product}<br />{gb_Item.text} </p>
+              <p> Cleavage products of the ab1/2 Polyprotein: {nsp_Item.button_label}<br />{nsp_Item.text} </p>
+              <p> Transcription Regulatory Regions: {trs_Item.button_label} <br />{trs_Item.text} </p>
 
             </div>
           </div>
@@ -624,39 +542,36 @@ export function PlayGenome() {
           <Instrument type={'synth'} notes={baseNotes} />
         </Track>
         <Track volume={-7} pan={-0.3} >
-          <Instrument type={'MembraneSynth'} notes={sameBaseNotes} />
-          <Effect type="feedbackDelay" wet={0.5} delayTime={0.2} feedback={0.5} />
+          <Instrument type={'synth'} notes={sameBaseNotes} />
+          <Effect type="feedbackDelay" wet={0.5} feedback={0.4} />
         </Track>
         <Track volume={-7} pan={0.3} >
           <Instrument type={'synth'} notes={twobaseNotes} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>
         <Track volume={-5} pan={-0.9} >
-          <Instrument type={'fmSynth'} oscillator={{ type: 'sine' }}
-            notes={codonF1Notes} />
+          <Instrument type={'fmSynth'} oscillator={{ type: 'sine' }} notes={codonF1Notes} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>
         <Track volume={-5} pan={0} >
-          <Instrument type={'fmSynth'} oscillator={{ type: 'square' }}
-            notes={codonF2Notes} />
+          <Instrument type={'fmSynth'} oscillator={{ type: 'square' }} notes={codonF2Notes} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>
         <Track volume={-5} pan={0.9} >
-          <Instrument type={'fmSynth'} oscillator={{ type: 'triangle' }}
-            notes={codonF3Notes} />
+          <Instrument type={'fmSynth'} oscillator={{ type: 'triangle' }} notes={codonF3Notes} /></Track>
         <Track volume={-4} pan={-0.6} >
           <Instrument type={'amSynth'} notes={tenGCnote} />
           <Effect type='feedbackDelay' wet={0.4} /> </Track>
         <Track volume={-4} pan={0.6} >
           <Instrument type={'amSynth'} notes={tentensGCnote} />
-          <Effect type='feedbackDelay' wet={0.4} /> </Track>
-        </Track>
+          <Effect type='feedbackDelay' wet={0.4} /></Track>
         <Track volume={-1} pan={0.8} >
           <Instrument type={'amSynth'} notes={getTRSnote} />
-          <Effect type='feedbackDelay' wet={0.5} /> </Track>
+        </Track>
         <Track volume={0} pan={0.8} >
           <Instrument type={'amSynth'} notes={nspNote} />
-          <Effect type='feedbackDelay' wet={0.6} /> </Track>
+          <Effect type='feedbackDelay' wet={0.6} />
+        </Track>
       </Song>
     </>
   );

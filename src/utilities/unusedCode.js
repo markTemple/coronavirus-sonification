@@ -67,3 +67,4 @@ export function calcMotif_GC (motif) {
     }
   }
 
+export const getReverse = (str) => [...str].reverse().join('');
