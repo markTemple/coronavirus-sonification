@@ -44,7 +44,7 @@ export function makeTRSnotes(mode, trs_Item, index, audioProps){
     if(trs_Item.end === index && trs_Item.trs_seq) trs_seqArray.current = trs_Item.trs_seq.split('').reverse()
   }
   const trs = trs_seqArray.current?.shift()
-  if(trs > 0){ //stop empty mode being made that throws a warning
+  if(trs !== undefined){ //stop empty mode being made that throws a warning
   const trsNumb = MAPS.BASE_MAP[trs]
   const trsMap = MAPS.makeIntervals(MAPS[audioProps].trsNote).map(number => MAPS.keyboard[number])
     if (trs_seqArray.current) {

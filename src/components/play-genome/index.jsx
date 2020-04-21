@@ -65,24 +65,22 @@ export function PlayGenome() {
   const trs_Item = MAPS.trs_json
     .find(feature => index >= feature.start && index <= feature.end)
 
-  let synthType = 'synth'
-  let synthEffect = 'feedbackDelay'
-  if(gb_Item.type === 'u') {
-    synthType = 'fmSynth'
-    synthEffect = 'distortion'
-  } else if(gb_Item.type === 'p') {
-    synthType = 'synth'
-    synthEffect = 'feedbackDelay'
-  }
-  if(nsp_Item.cleavage === true) {
-    synthType = 'fmSynth'
-    synthEffect = 'distortion'
-  } else if(nsp_Item.cleavage === false) {
-    synthType = 'synth'
-    synthEffect = 'feedbackDelay'
-  }
-
-    //-1frameshift hack
+  // let synthType = 'synth'
+  // let synthEffect = 'feedbackDelay'
+  // if(gb_Item.type === 'u') {
+  //   synthType = 'fmSynth'
+  //   synthEffect = 'distortion'
+  // } else if(gb_Item.type === 'p') {
+  //   synthType = 'synth'
+  //   synthEffect = 'feedbackDelay'
+  // }
+  // if(nsp_Item.cleavage === true) {
+  //   synthType = 'fmSynth'
+  //   synthEffect = 'distortion'
+  // } else if(nsp_Item.cleavage === false) {
+  //   synthType = 'synth'
+  //   synthEffect = 'feedbackDelay'
+  // }
   //-1 AT 13468 THIS WORKS due to 123123 numbering
   //end 21550 to allow last stop codon to take effect then read
   // rest of genome in F3 normal without frameshift
@@ -106,6 +104,8 @@ export function PlayGenome() {
 
   const codon = getCodon(index)
   const codonNotes = getCodonNotes(codon, audioProps)
+
+  // console.log(mode, trs_Item, index, audioProps)    //-1frameshift hack
 
   const start = function() {
     if(codon === 'AUG') return true
@@ -518,7 +518,7 @@ export function PlayGenome() {
           <Controls />
           <br />
           <br />
-          <Button onClick={togglemode}><span className='pre'> Switch Mode </span></Button>
+          <Button onClick={togglemode}><span className='txt control-button'> Switch Mode </span></Button>
           <span className='txt'> {subHeadings.modeTitle[mode]}</span>
 
           <p className='txt'> Translated RNA regions. {gb_Item.product}: {subHeadings.printGeneB[mode]} bp.
@@ -547,13 +547,15 @@ export function PlayGenome() {
 
             <h3>Description of the RNA regions being sonified. </h3>
 
-              <p><span className='txt'><b>Genomic Region:</b></span> {gb_Item.product}<br />
-              {gb_Item.text} </p>
+              <p><span className='txt'><b>Translated Region:</b></span> {gb_Item.start} - {gb_Item.end} bp<br />
+              {gb_Item.text} <br />
+              {gb_Item.protein_id} {gb_Item.GeneID}
+              </p>
 
-              <p><span className='txt'><b>Cleavage products of the ab1/2 Polyprotein:</b></span>  {nsp_Item.button_label}<br />{
+              <p><span className='txt'><b>Cleavage products of the ab1/2 Polyprotein:</b></span> {nsp_Item.start} - {nsp_Item.end} bp<br />{
               nsp_Item.text} </p>
 
-              <p><span className='txt'><b>Transcription Regulatory Regions:</b></span>  {trs_Item.button_label} <br />
+              <p><span className='txt'><b>Transcriptional Elements:</b></span> {trs_Item.start} - {trs_Item.end} bp<br />
               {trs_Item.text} </p>
 
             </div>
@@ -569,11 +571,10 @@ export function PlayGenome() {
         <Track volume={-7} pan={0.3} >
           <Instrument type={'synth'} notes={twobaseNotes} />
         </Track>
-
-        <Track volume={-7} pan={-0.3} >
-          <Instrument type={'fmSynth'} notes={sameBaseNotes} />
-          <Effect type='feedbackDelay' wet={0.5} feedback={0.4} />
+        <Track volume={-7} pan={0.3} >
+          <Instrument type={'synth'} notes={sameBaseNotes} />
         </Track>
+
 
         <Track volume={-4} pan={-0.9} >
           <Instrument type={'fmSynth'} oscillator={{ type: 'sine' }} notes={codonF1Notes} />
