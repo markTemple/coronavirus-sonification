@@ -32,7 +32,12 @@ module.exports = (env, { mode = 'production' }) => ({
     ]
   },
   plugins: [
-    new HTMLWebpackPlugin({ title })
+    new HTMLWebpackPlugin({
+      title,
+      meta: {
+        viewport: 'width=device-width, initial-scale=1.0'
+      }
+    })
   ],
   watch: mode !== 'production',
   resolve: {

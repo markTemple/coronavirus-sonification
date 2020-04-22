@@ -348,7 +348,6 @@ const AA_Count3 = codonFNotes.AA_count.aa3
 
   return (
     <>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
       <div className='relative'>
 
         <h2>{MAPS.source}</h2>
