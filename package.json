@@ -10,7 +10,7 @@
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
-    "reactronica": "^0.3.5",
+    "reactronica": "0.3.2",
     "tone": "^13.8.25"
   },
   "devDependencies": {
