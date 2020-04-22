@@ -230,7 +230,7 @@ end: 29903,
 trs_seq: null,
 text: '3` end of the RNA sequence where transcription begins to make either a full genomic copy of the viral genome or a shorter subgenomic copy determined by the TRS sequences',
 },
-                  ]
+]
 
 export const geneBank_json = [
   {start: 1,
