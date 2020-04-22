@@ -40,25 +40,17 @@ export const Controls = () => {
 
   return (
     <>
-      <Button onClick={play} className='txt control-button'>
-        <p style={
-          { fontSize: '1.2rem', margin: '5px', border: '3px' }
-        }>Play</p>
+      <Button onClick={play} className='button'>
+      Play
       </Button>
-      <Button onClick={pause} className='txt control-button'>
-      <p style={
-          { fontSize: '1.2rem', margin: '5px', border: '3px' }
-        }>Pause</p>
+      <Button onClick={pause} className='button'>
+      Pause
       </Button>
-      <Button onClick={increment} className='txt control-button'>
-      <p style={
-          { fontSize: '1.2rem', margin: '5px', border: '3px' }
-        }>Increment</p>
+      <Button onClick={increment} className='button'>
+      Increment
       </Button>
-      <Button onClick={decrement} className='txt control-button'>
-      <p style={
-          { fontSize: '1.2rem', margin: '5px', border: '3px' }
-        }>Decrement</p>
+      <Button onClick={decrement} className='button'>
+      Decrement
       </Button>
     </>
   )

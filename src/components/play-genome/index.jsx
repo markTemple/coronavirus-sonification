@@ -22,6 +22,9 @@ import { getBaseNotes, playTwoBase, getSameBaseNotes, GCnote10Note,
   GCnote100Note, makeTRSnotes, getNSPnotes, getCodonNotes,
   getCodonNotes_2, playAtIndex} from './get-notes'
 
+import { getCodonFNotes } from './process-codon-notes'
+
+
 export function PlayGenome() {
   const dispatch = useDispatch()
   const index = useSelector(getPlayhead)
@@ -88,14 +91,12 @@ export function PlayGenome() {
   const tentensGCnote = GCnote100Note(GCnote100, GCnote100Numb, audioProps)
   const getTRSnote = makeTRSnotes(mode, trs_Item, index, audioProps)
   const nspNote = getNSPnotes(nsp_Item, base, index, mode, audioProps)
+  const slNote = playAtIndex(index, trs_Item, 'button_label', 'SL', twoBase, audioProps, mode)
+  const utrNote = playAtIndex(index, gb_Item, 'gene', 'UTR', twoBase, audioProps, mode)
 
   const codon = getCodon(index)
   const codonNotes = getCodonNotes(codon, audioProps)
   const codonNotes_2 = getCodonNotes_2(codon, audioProps, frame012)
-
-  const slNote = playAtIndex(index, trs_Item, 'button_label', 'SL', twoBase, audioProps, mode)
-  const utrNote = playAtIndex(index, gb_Item, 'gene', 'UTR', twoBase, audioProps, mode)
-
 
 const start = function() {
     if(codon === 'AUG') return true
@@ -121,41 +122,18 @@ const start = function() {
   if( nsp_Item.start === index && nsp_Item.SW_true === true ) setSynthByNSPstart()
 
 
-  const codonF1Notes = [];
-  const codonF2Notes = [];
-  const codonF3Notes = [];
+const codonFNotes = getCodonFNotes(mode, frame012, isSynthEnabled, index, gb_Item, codonNotes, codonNotes_2)
 
-  const AA_Count1 = useRef(0)
-  const AA_Count2 = useRef(0)
-  const AA_Count3 = useRef(0)
+const codonF1Notes = codonFNotes.notes.f1
+const codonF2Notes = codonFNotes.notes.f2
+const codonF3Notes = codonFNotes.notes.f3
 
-  if(mode === 'trl') {
-    if (frame012 === 0) {
-      if (isSynthEnabled.current[frame012]) {
-        codonF1Notes.push(codonNotes)
-        if (index === gb_Item.start) AA_Count1.current = 0
-        AA_Count1.current++
-      }
-    }
+const AA_Count1 = codonFNotes.AA_count.aa1
+const AA_Count2 = codonFNotes.AA_count.aa2
+const AA_Count3 = codonFNotes.AA_count.aa3
 
-    if (frame012 === 1) {
-      if (isSynthEnabled.current[frame012]) {
-        codonF2Notes.push(codonNotes)
-        if (index === gb_Item.start) AA_Count2.current = 0
-        AA_Count2.current++
-      }
-    }
-
-    if (frame012 === 2) {
-      if (isSynthEnabled.current[frame012]) {
-        codonF3Notes.push(codonNotes)
-        if (index === gb_Item.start) AA_Count3.current = 0
-        AA_Count3.current++
-      }
-    }
-  }else if(mode === 'tsc') {
-    codonF2Notes.push(codonNotes_2)
-  }
+// console.log(codonF1Notes)
+// console.log(AA_Count1)
 
   let orf1 = useRef(null);
   let orf2 = useRef(null);
@@ -182,15 +160,6 @@ const start = function() {
     orf3.current = null
   }
 
-  function colorCodon() {
-    if (isSynthEnabled.current[frame012] === true) {
-      return <span className='stop'>{codon}</span>;
-    } else if (isSynthEnabled.current[frame012] === false) {
-      return <span className='start'>{codon}</span>;
-    } else {
-      return codon;
-    }
-  }
   function buttonSTART() {
     if(start() === true) {
       return <span className='buttonEffect start'>{}  </span>
@@ -202,24 +171,17 @@ const start = function() {
     }
   }
 
-  let codonF1 = null;
-  let codonF2 = null;
-  let codonF3 = null;
-
   let codonStatusF1 = {start: null, stop: null};
   let codonStatusF2 = {start: null, stop: null};
   let codonStatusF3 = {start: null, stop: null};
 
   if (frame012 === 0) {
-   codonF1 = colorCodon()
    codonStatusF1 = {start: buttonSTART(), stop: buttonSTOP()}
   }
   if (frame012 === 1) {
-   codonF2 = colorCodon()
    codonStatusF2 = {start: buttonSTART(), stop: buttonSTOP()}
   }
   if (frame012 === 2) {
-   codonF3 = colorCodon()
    codonStatusF3 = {start: buttonSTART(), stop: buttonSTOP()}
   }
 
@@ -241,7 +203,7 @@ const start = function() {
     return (
       <Fragment key={i}>
         <Button
-          className='feature-button'
+          className='button'
           onClick={() => {
             shouldReset.current = true
             dispatch(setPlayhead(feature[startEnd]))
@@ -390,24 +352,24 @@ const start = function() {
       <div className='relative'>
 
         <h2>{MAPS.source}</h2>
-        <p><span className='six'>{subHeadings.rnaRegion[mode]} </span>
+        <p><span>{subHeadings.rnaRegion[mode]} </span>
       extends from {subHeadings.rnaBegin[mode]} to {subHeadings.rnaEnd[mode]} bp
         ({subHeadings.rnaLength[mode]} bp in length)
       </p>
         <hr />
-        <p style={{ whiteSpace: 'pre' }}>{subHeadings.sonifySub[mode]} Audio time
-        <span className='six'> {subHeadings.sonifyTime[mode]}
+        <p>{subHeadings.sonifySub[mode]} Audio time
+        <span> {subHeadings.sonifyTime[mode]}
           </span> (m:s)
       </p>
         <br />
 
         { mode === 'tsc' ? '' :
-          <div >
+          <div>
             <div>
               <span>
                 Frame1
           <span className='pre'>
-                  <span className='six'> {String(AA_Count1.current).padStart(4, '0')}</span>
+                  <span> {String(AA_Count1.current).padStart(4, '0')}</span>
                 </span>|
         </span>
 
@@ -421,14 +383,14 @@ const start = function() {
                 orf1.current &&
                 <div className='triangle-left f1'></div>
               }
-              <span className='six orf'>{orf1.current}</span>
+              <span className='orf'>{orf1.current}</span>
             </div>
 
             <div>
               <span>
                 Frame2
           <span className='pre'>
-                  <span className='six'> {String(AA_Count2.current).padStart(4, '0')}</span>
+                  <span> {String(AA_Count2.current).padStart(4, '0')}</span>
                 </span>|
         </span>
               <SlidingStringWindow
@@ -441,14 +403,14 @@ const start = function() {
                 orf2.current &&
                 <div className='triangle-left f2'></div>
               }
-              <span className='six orf'>{orf2.current}</span>
+              <span className='orf'>{orf2.current}</span>
             </div>
 
             <div>
               <span>
                 Frame3
           <span className='pre'>
-                  <span className='six'> {String(AA_Count3.current).padStart(4, '0')}</span>
+                  <span> {String(AA_Count3.current).padStart(4, '0')}</span>
                 </span>|
         </span>
               <SlidingStringWindow
@@ -461,7 +423,7 @@ const start = function() {
                 orf3.current &&
                 <div className='triangle-left f3'></div>
               }
-              <span className='six orf'>{orf3.current}</span>
+              <span className='orf'>{orf3.current}</span>
             </div>
 
             <div className='ribosomeSmall'></div>
@@ -471,14 +433,14 @@ const start = function() {
 
           </div>
         }
-        <div className='dna'>
+        <div>
           <div>
             <p className='pre'>
               <span>Total 29903|5`                                      </span>
               <span>                                        3`</span>
             </p>
-          </div><span className='thr'> RNA +</span>
-          <span className='six'> {String(index).padStart(5, '0')}</span>|
+          </div><span> RNA +</span>
+          <span> {String(index).padStart(5, '0')}</span>|
         {
           isReversed
             ? <span className='pre'>{dotfill40 + genomeSub}</span>
@@ -496,40 +458,38 @@ const start = function() {
             <div className='replicase p5'></div>
             <div className='replicase p6'></div>
             <div className='replicase p7'></div>
-            <span className='thr'> RNA -</span>
-            <span className='six'> {String(genome.length - (index)).padStart(5, '0')}</span>|
+            <span> RNA -</span>
+            <span> {String(genome.length - (index)).padStart(5, '0')}</span>|
             <span className=' pre'>{DNAfill40 + genomeSubComplement}</span>
             <p className='pre'>            3`                                                                              5`</p>
           </div>
         }
         <br />
-
-        <br />
-        <div className='absolute'>
-          <hr />
+        <hr />
+        <div>
           <Controls />
           <br />
           <br />
-          <Button onClick={togglemode}><span className='txt control-button'> Switch Mode </span></Button>
-          <span className='txt'> {subHeadings.modeTitle[mode]}</span>
+          <Button onClick={togglemode}><span className='button'> Switch Mode </span></Button>
+          <span> {subHeadings.modeTitle[mode]}</span>
 
-          <p className='txt'> Translated RNA regions. {gb_Item.product}: {subHeadings.printGeneB[mode]} bp.
+          <p> Translated RNA regions. {gb_Item.product}: {subHeadings.printGeneB[mode]} bp.
           </p>
           {MAPS.geneBank_json.map(Feature)}
 
-          <p className='txt'> Cleavage sites (C) and NSP proteins (N) in the ab1/2 Polyprotein. {nsp_Item.button_label} {nsp_Item.aa_res}: {subHeadings.printNSP[mode]} bp.
+          <p> Cleavage sites (C) and NSP proteins (N) in the ab1/2 Polyprotein. {nsp_Item.button_label} {nsp_Item.aa_res}: {subHeadings.printNSP[mode]} bp.
           </p>
           {MAPS.nsp_json.map(Feature)}
 
-          <p className='txt'>Transcription Regulatory Sequences. {trs_Item.button_label}: {subHeadings.printTRS[mode]} bp. {trs_Item.trs_seq}
+          <p>Transcription Regulatory Sequences. {trs_Item.button_label}: {subHeadings.printTRS[mode]} bp. {trs_Item.trs_seq}
           </p>
           {MAPS.trs_json.map(Feature)}<br />
 
           <div className='row'>
-            <div className='column txt'>
+            <div className='column'>
               <h3>Audio tracks derived from sonified (+) RNA. </h3>
 
-              <table className="u-full-width">
+              <table>
                 <thead>
                   <tr>
                     <th>Audio</th>
@@ -574,19 +534,19 @@ const start = function() {
 
               {/* <p> GCAU score (GC=+1, AT=-1) {GAUCcount.current}</p> */}
             </div>
-            <div className='column txt'>
+            <div className='column'>
 
             <h3>Description of the RNA regions being sonified. </h3>
 
-              <p><span className='txt'><b>Translated Region:</b></span> {gb_Item.start} - {gb_Item.end} bp<br />
+              <p><span><b>Translated Region:</b></span> {gb_Item.start} - {gb_Item.end} bp<br />
               {gb_Item.text} <br />
               {gb_Item.protein_id} {gb_Item.GeneID}
               </p>
 
-              <p><span className='txt'><b>Cleavage products of the ab1/2 Polyprotein:</b></span> {nsp_Item.start} - {nsp_Item.end} bp<br />{
+              <p><span><b>Cleavage products of the ab1/2 Polyprotein:</b></span> {nsp_Item.start} - {nsp_Item.end} bp<br />{
               nsp_Item.text} </p>
 
-              <p><span className='txt'><b>Transcriptional Elements:</b></span> {trs_Item.start} - {trs_Item.end} bp<br />
+              <p><span><b>Transcriptional Elements:</b></span> {trs_Item.start} - {trs_Item.end} bp<br />
               {trs_Item.text} </p>
             </div>
           </div>
