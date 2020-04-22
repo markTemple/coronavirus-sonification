@@ -476,8 +476,7 @@ const AA_Count3 = codonFNotes.AA_count.aa3
           </p>
           {MAPS.geneBank_json.map(Feature)}
 
-          <p> Cleavage sites (C) and NSP proteins (N) in the ab1/2 Polyprotein. {nsp_Item.button_label} {nsp_Item.aa_res}: {subHeadings.printNSP[mode]} bp.
-          </p>
+          <p> Cleavage sites (C) and NSP proteins (N) in the ab1/2 Polyprotein. {nsp_Item.button_label} {nsp_Item.aa_res}: {subHeadings.printNSP[mode]} bp.</p>
           {MAPS.nsp_json.map(Feature)}
 
           <p>Transcription Regulatory Sequences. {trs_Item.button_label}: {subHeadings.printTRS[mode]} bp. {trs_Item.trs_seq}
@@ -552,52 +551,52 @@ const AA_Count3 = codonFNotes.AA_count.aa3
         </div>
       </div>
 
-      <Song bpm={bpm} >
+      <Song bpm={bpm}>
 
-        <Track volume={-7} pan={-0.3} >
+        <Track volume={-7} pan={-0.3}>
           <Instrument type={'synth'} notes={baseNotes} />
         </Track>
-        <Track volume={-7} pan={0.3} >
+        <Track volume={-7} pan={0.3}>
           <Instrument type={'synth'} notes={twobaseNotes} />
         </Track>
-        <Track volume={-7} pan={0.3} >
+        <Track volume={-7} pan={0.3}>
           <Instrument type={'synth'} notes={sameBaseNotes} />
         </Track>
 
 
-        <Track volume={-4} pan={-0.9} >
+        <Track volume={-4} pan={-0.9}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'sine' }} notes={codonF1Notes} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>
-        <Track volume={-4} pan={0} >
+        <Track volume={-4} pan={0}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'square' }} notes={codonF2Notes} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>
-        <Track volume={-4} pan={0.9} >
+        <Track volume={-4} pan={0.9}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'triangle' }} notes={codonF3Notes} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>
 
-        <Track volume={-8} pan={-0.6} >
+        <Track volume={-8} pan={-0.6}>
           <Instrument type={'amSynth'} notes={tenGCnote} />
           <Effect type='feedbackDelay' wet={0.3} />
         </Track>
-        <Track volume={-8} pan={0.6} >
+        <Track volume={-8} pan={0.6}>
           <Instrument type={'amSynth'} notes={tentensGCnote} />
           <Effect type='feedbackDelay' wet={0.3} />
         </Track>
 
-        <Track volume={-1} pan={0.8} >
+        <Track volume={-1} pan={0.8}>
           <Instrument type={'amSynth'} notes={getTRSnote} />
         </Track>
-        <Track volume={0} pan={0.8} >
+        <Track volume={0} pan={0.8}>
           <Instrument type={'amSynth'} notes={nspNote} />
         </Track>
 
-        <Track volume={0} pan={0.8} >
+        <Track volume={0} pan={0.8}>
           <Instrument type={'amSynth'} notes={slNote} />
         </Track>
-        <Track volume={0} pan={-0.8} >
+        <Track volume={0} pan={-0.8}>
           <Instrument type={'amSynth'} notes={utrNote} />
         </Track>
     </Song>
