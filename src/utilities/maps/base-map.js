@@ -14,6 +14,13 @@ export const BASE_MAP = {
   C: 3,
 }
 
+export const NSP_MAP = {
+  A: 2,
+  U: 3,
+  G: 0,
+  C: 1,
+}
+
 export const TWOBASE_MAP = {
   AA: 0,
   UU: 1,

@@ -16,7 +16,7 @@ export function playTwoBase(twoBase, audioProps) {
 
 export function getSameBaseNotes(base, index, audioProps) {
   const count = useRef(0)
-  if ( (base === getBase(index - 1) ) && ( base === getBase(index +1) ) ){
+  if ( (base === getBase(index + 1) ) && ( base === getBase(index + 2) ) ){
     if(count.current >= 2) count.current = 0
     const repeatBasesMap = MAPS.makeIntervals(MAPS[audioProps].repeatBases).map(number => MAPS.keyboard[number])
     count.current++
@@ -48,24 +48,30 @@ export function makeTRSnotes(mode, trs_Item, index, audioProps){
   const trsNumb = MAPS.BASE_MAP[trs]
   const trsMap = MAPS.makeIntervals(MAPS[audioProps].trsNote).map(number => MAPS.keyboard[number])
     if (trs_seqArray.current) {
-      return [{name: trsMap[trsNumb], duration: MAPS[audioProps].trsNote.dur}];
+    return [{name: trsMap[trsNumb], duration: MAPS[audioProps].trsNote.dur}];
     }
+  }else {
+  return [{name: '', duration: '2n'}]
   }
 }
 
 export function getNSPnotes(nsp_Item, base, index, mode, audioProps) {
   if(mode === 'trl') {
     if(index >= nsp_Item.start && index <= nsp_Item.end && nsp_Item.cleavage === true) {
-      const nspNumb = MAPS.BASE_MAP[base]
+      const nspNumb = MAPS.NSP_MAP[base]
       const nspMap = MAPS.makeIntervals(MAPS[audioProps].base).map(number => MAPS.keyboard[number])
       return [{name: nspMap[nspNumb], duration: MAPS[audioProps].nsp.dur}]
-    }
+    }else {
+      return [{name: '', duration: '2n'}]
+      }
   }else if(mode === 'tsc') {
     if(index <= nsp_Item.end && index >= nsp_Item.start && nsp_Item.cleavage === true) {
-      const nspNumb = MAPS.BASE_MAP[base]
+      const nspNumb = MAPS.NSP_MAP[base]
       const nspMap = MAPS.makeIntervals(MAPS[audioProps].base).map(number => MAPS.keyboard[number])
       return [{name: nspMap[nspNumb], duration: MAPS[audioProps].nsp.dur}]
-    }
+    }else {
+      return [{name: '', duration: '2n'}]
+      }
   }
 }
 

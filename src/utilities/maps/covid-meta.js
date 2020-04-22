@@ -5,7 +5,7 @@ export const type = 'ss-RNA'
 export const strcture = 'linear'
 export const definition = 'Severe acute respiratory syndrome coronavirus 2 isolate Wuhan-Hu-1,complete genome.'
 // export const source = 'Severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2)'
-export const source = 'Audiovisual analyses of COVID-19 RNA sequence'
+export const source = 'Real-time audio and visual analyses of the COVID-19 RNA genome'
 export const organism = ['Viruses', 'Riboviria', 'Nidovirales', 'Cornidovirineae', 'Coronaviridae', 'Orthocoronavirinae', 'Betacoronavirus', 'Sarbecovirus']
 export const authors = 'Wu,F., Zhao,S., Yu,B., Chen,Y.M., Wang,W., Song,Z.G., Hu,Y., Tao,Z.W., Tian,J.H., Pei,Y.Y., Yuan,M.L., Zhang,Y.L., Dai,F.H., Liu,Y., Wang,Q.M., Zheng,J.J., Xu,L., Holmes,E.C. and Zhang,Y.Z.'
 export const title = 'A new coronavirus associated with human respiratory disease in China'
@@ -247,7 +247,7 @@ export const geneBank_json = [
   end: 13467,
   gene: 'ORF1a',
   product: 'Polyprotein (ab fragment 1)',
-  button_label: "ab1",
+  button_label: "Poly-",
   type: 'p',
   text: 'Encoded nonstructural proteins (nsp1 to nsp11), essential for viral replication, viral assembly, immune response modulation, etc.',
   protein_id: 'YP_009724389.1',
@@ -258,7 +258,7 @@ export const geneBank_json = [
   end: 21555,
   gene: 'ORF1b, -1 ribosomal frameshift',
   product: 'Polyprotein (ab fragment 2)',
-  button_label: "ab2",
+  button_label: "-protein",
   type: 'p',
   text: 'Encoded nonstructural proteins (nsp12 to nsp16), essential for viral replication',
   protein_id: 'YP_009724389.1',
@@ -279,7 +279,7 @@ export const geneBank_json = [
   end: 25384,
   gene: 'Spike structural protein (S)',
   product: 'Surface glycoprotein',
-  button_label: "S protein",
+  button_label: "-S-",
   type: 'p',
   text: 'Spike protein, binding to cell receptor and mediate virus-cell fusion',
   protein_id: 'YP_009724390.1',
@@ -321,7 +321,7 @@ export const geneBank_json = [
   end: 26472,
   gene: 'Envelope structural protein (E)',
   product: 'Envelope protein',
-  button_label: "E protein",
+  button_label: "-E-",
   type: 'p',
   text: 'Envelope protein, virus assembly and morphogenesis',
   protein_id: 'YP_009724392.1',
@@ -342,7 +342,7 @@ export const geneBank_json = [
   end: 27191,
   gene: 'Membrane structural protein (M)',
   product: 'Membrane glycoprotein',
-  button_label: "M protein",
+  button_label: "-M-",
   type: 'p',
   text: 'Membrane protein, virus assembly',
   protein_id: 'YP_009724393.1',
@@ -437,7 +437,7 @@ export const geneBank_json = [
   end: 29533,
   gene: 'Nucleocapsid structural protein (N)',
   product: 'Nucleocapsid phosphoprotein',
-  button_label: "N protein",
+  button_label: "-N-",
   type: 'p',
   text: 'Nucleocapsid protein, forms complexes with genomic RNA, interact with M protein for viral assembly',
   protein_id: 'YP_009724397.2',
@@ -487,6 +487,7 @@ export const nsp_json = [
   },
   {
   button_label: 'N1',
+  nsp: 'NSP1',
   start: 266,
   end: 803,
   aa_res: '180 residues',
@@ -508,6 +509,7 @@ export const nsp_json = [
   },
   {
   button_label: 'N2',
+  nsp: 'NSP2',
   start: 806,
   end: 2717,
   aa_res: '638 residues',
@@ -529,6 +531,7 @@ export const nsp_json = [
   },
   {
   button_label: 'N3',
+  nsp: 'NSP3',
   start: 2720,
   end: 8552,
   aa_res: '1945 residues',
@@ -550,6 +553,7 @@ export const nsp_json = [
   },
   {
   button_label: 'N4',
+  nsp: 'NSP4',
   start: 8555,
   end: 10052,
   aa_res: '500 residues',
@@ -571,6 +575,7 @@ export const nsp_json = [
   },
   {
   button_label: 'N5',
+  nsp: 'NSP5',
   start: 10055,
   end: 10970,
   aa_res: '306 residues',
@@ -592,6 +597,7 @@ export const nsp_json = [
   },
   {
   button_label: 'N6',
+  nsp: 'NSP6',
   start: 10973,
   end: 11840,
   aa_res: '290 residues',
@@ -613,6 +619,7 @@ export const nsp_json = [
   },
   {
   button_label: 'N7',
+  nsp: 'NSP7',
   start: 11843,
   end: 12089,
   aa_res: '83 residues',
@@ -634,6 +641,7 @@ export const nsp_json = [
   },
   {
   button_label: 'N8',
+  nsp: 'NSP8',
   start: 12092,
   end: 12683,
   aa_res: '198 residues',
@@ -655,6 +663,7 @@ export const nsp_json = [
   },
   {
   button_label: 'N9',
+  nsp: 'NSP9',
   start: 12686,
   end: 13022,
   aa_res: '113 residues',
@@ -676,6 +685,7 @@ export const nsp_json = [
   },
   {
   button_label: 'N10',
+  nsp: 'NSP10',
   start: 13025,
   end: 13439,
   aa_res: '139 residues',
@@ -697,6 +707,7 @@ export const nsp_json = [
   },
   {
   button_label: 'N11',
+  nsp: 'NSP11',
   start: 13444,
   end: 13480,
   aa_res: '13 residues',
@@ -710,6 +721,7 @@ export const nsp_json = [
   },
   {
   button_label: 'N12',
+  nsp: 'NSP12',
   start: 13444,
   end: 16234,
   aa_res: '931 residues',
@@ -731,6 +743,7 @@ export const nsp_json = [
   },
   {
   button_label: 'N13',
+  nsp: 'NSP13',
   start: 16237,
   end: 18037,
   aa_res: '601 residues',
@@ -752,6 +765,7 @@ export const nsp_json = [
   },
   {
   button_label: 'N14',
+  nsp: 'NSP14',
   start: 18040,
   end: 19618,
   aa_res: '527 residues',
@@ -773,6 +787,7 @@ export const nsp_json = [
   },
   {
   button_label: 'N15',
+  nsp: 'NSP15',
   start: 19621,
   end: 20656,
   aa_res: '346 residues',
@@ -794,6 +809,7 @@ export const nsp_json = [
   },
   {
   button_label: 'N16',
+  nsp: 'NSP16',
   start: 20659,
   end: 21550,
   aa_res: '298 residues',
@@ -806,7 +822,7 @@ export const nsp_json = [
   calculated_mol_wt: 33324,
   },
   {
-  button_label: 'Not ab1/2',
+  button_label: 'Outside Poly-protein',
   start: 21551,
   end: 29903,
   aa_res: null,
