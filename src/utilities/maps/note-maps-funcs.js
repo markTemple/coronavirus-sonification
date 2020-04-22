@@ -60,7 +60,7 @@ export const trlProps = {
     dur: '8n',
   },
   codon:{
-    oct: 1,
+    oct: 2,
     scale: [2, 6, 2, 2],// 1st, 2rd, 6th, and 7th?
     range: 21,
     key: 'C',
@@ -76,7 +76,7 @@ export const trlProps = {
   trsNote:{
     oct: 4,
     scale: [3, 3, 1, 5],// 1st, 3rd, #4 and 5th?
-    range: 8,
+    range: 18,
     key: 'C',
     dur: '4n',// too short gives click/spike in audio
   },
@@ -84,6 +84,20 @@ export const trlProps = {
     oct: 2,
     scale: [0, 3, 0, 4, -2, -2, -3],// 1st, 1st, 3rd, 3rd, 5th, 4th
     range: 8,
+    key: 'C',
+    dur: '2n',
+  },
+  SL:{
+    oct: 6,
+    scale: [0, 3, 0, -3],// 1, 3, 5, 7.
+    range: 16,
+    key: 'C',
+    dur: '2n',
+  },
+  UTR:{
+    oct: 6,
+    scale: [0, -2, 0, 2, 3, 0, -3],
+    range: 16,
     key: 'C',
     dur: '2n',
   },
@@ -95,7 +109,7 @@ export const trlProps = {
 export const tscProps = {
   base:{
     oct: 2,
-    scale: [2, 2, 2, 6],//roots at octaves
+    scale: [2, 2, 2, 6],
     range: 4,
     key: 'A',
     dur: '8n',
@@ -109,15 +123,15 @@ export const tscProps = {
   },
   twoBase:{
     oct: 3,
-    scale: [0, 2, 2, 2, 6, 0, 6, 1, 4, 1, 0],// 1st 4th 5th 7th
+    scale: [0, 2, 2, 2, 6, 0, 6, 1, 4, 1, 0],
     range: 16,
     key: 'A',
     dur: '8n',
   },
-  codon:{ // change to 64 new track
+  codon:{
     oct: 1,
-    scale: [2, 2, 2, 1, 2, 2, 1],//chromatic
-    range: 21,
+    scale: [2, 1, 1, 1, 1, 2, 1, 1, 2], // almost chromatic
+    range: 64,
     key: 'A',
     dur: '2n',
   },
@@ -130,8 +144,8 @@ export const tscProps = {
   },
   trsNote:{
     oct: 3,
-    scale: [ -1, -2, -2, -1, -2, -2, -2],// 1st, 3rd, #4 and 5th?
-    range: 8,
+    scale: [ -1, -2, -2, -1, -2, -2, -2],
+    range: 18,
     key: 'A',
     dur: '4n',
   },
@@ -140,6 +154,20 @@ export const tscProps = {
     scale: [0, 6, -2, 7, 1],//
     range: 8,
     key: 'A',
+    dur: '2n',
+  },
+  SL:{
+    oct: 5,
+    scale: [0, 3, 0, -3],// 1, 3, 5, 7.
+    range: 16,
+    key: 'C',
+    dur: '2n',
+  },
+  UTR:{
+    oct: 5,
+    scale: [0, 6, 0, -6],
+    range: 16,
+    key: 'C',
     dur: '2n',
   },
 }

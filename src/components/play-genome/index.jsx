@@ -19,7 +19,8 @@ import {
 import { useSingleFramePrimitive } from '../../utilities/single-frame-primitive';
 
 import { getBaseNotes, playTwoBase, getSameBaseNotes, GCnote10Note,
-  GCnote100Note, makeTRSnotes, getNSPnotes, getCodonNotes} from './get-notes'
+  GCnote100Note, makeTRSnotes, getNSPnotes, getCodonNotes,
+  getCodonNotes_2, playAtIndex} from './get-notes'
 
 export function PlayGenome() {
   const dispatch = useDispatch()
@@ -65,22 +66,7 @@ export function PlayGenome() {
   const trs_Item = MAPS.trs_json
     .find(feature => index >= feature.start && index <= feature.end)
 
-  // let synthType = 'synth'
-  // let synthEffect = 'feedbackDelay'
-  // if(gb_Item.type === 'u') {
-  //   synthType = 'fmSynth'
-  //   synthEffect = 'distortion'
-  // } else if(gb_Item.type === 'p') {
-  //   synthType = 'synth'
-  //   synthEffect = 'feedbackDelay'
-  // }
-  // if(nsp_Item.cleavage === true) {
-  //   synthType = 'fmSynth'
-  //   synthEffect = 'distortion'
-  // } else if(nsp_Item.cleavage === false) {
-  //   synthType = 'synth'
-  //   synthEffect = 'feedbackDelay'
-  // }
+  //-1frameshift hack
   //-1 AT 13468 THIS WORKS due to 123123 numbering
   //end 21550 to allow last stop codon to take effect then read
   // rest of genome in F3 normal without frameshift
@@ -88,6 +74,7 @@ export function PlayGenome() {
   if ((index >= 13466) && (index < 21550)) {
     frameshift = index - 2
   }
+
   const base = getBase(index)
   const baseNotes = getBaseNotes(base, audioProps)
   const twoBase = getDinucleotide(index)
@@ -104,10 +91,13 @@ export function PlayGenome() {
 
   const codon = getCodon(index)
   const codonNotes = getCodonNotes(codon, audioProps)
+  const codonNotes_2 = getCodonNotes_2(codon, audioProps, frame012)
 
-  // console.log(mode, trs_Item, index, audioProps)    //-1frameshift hack
+  const slNote = playAtIndex(index, trs_Item, 'button_label', 'SL', twoBase, audioProps, mode)
+  const utrNote = playAtIndex(index, gb_Item, 'gene', 'UTR', twoBase, audioProps, mode)
 
-  const start = function() {
+
+const start = function() {
     if(codon === 'AUG') return true
     else return false
    }
@@ -139,30 +129,33 @@ export function PlayGenome() {
   const AA_Count2 = useRef(0)
   const AA_Count3 = useRef(0)
 
-  if (frame012 === 0) {
-    if (isSynthEnabled.current[frame012]) {
-      codonF1Notes.push(codonNotes)
-      if (index === gb_Item.start) AA_Count1.current = 0
-      AA_Count1.current++
+  if(mode === 'trl') {
+    if (frame012 === 0) {
+      if (isSynthEnabled.current[frame012]) {
+        codonF1Notes.push(codonNotes)
+        if (index === gb_Item.start) AA_Count1.current = 0
+        AA_Count1.current++
+      }
     }
-  }
 
-  if (frame012 === 1) {
-    if (isSynthEnabled.current[frame012]) {
-      codonF2Notes.push(codonNotes)
-      if (index === gb_Item.start) AA_Count2.current = 0
-      AA_Count2.current++
+    if (frame012 === 1) {
+      if (isSynthEnabled.current[frame012]) {
+        codonF2Notes.push(codonNotes)
+        if (index === gb_Item.start) AA_Count2.current = 0
+        AA_Count2.current++
+      }
     }
-  }
 
-  if (frame012 === 2) {
-    if (isSynthEnabled.current[frame012]) {
-      codonF3Notes.push(codonNotes)
-      if (index === gb_Item.start) AA_Count3.current = 0
-      AA_Count3.current++
+    if (frame012 === 2) {
+      if (isSynthEnabled.current[frame012]) {
+        codonF3Notes.push(codonNotes)
+        if (index === gb_Item.start) AA_Count3.current = 0
+        AA_Count3.current++
+      }
     }
+  }else if(mode === 'tsc') {
+    codonF2Notes.push(codonNotes_2)
   }
-
 
   let orf1 = useRef(null);
   let orf2 = useRef(null);
@@ -389,12 +382,11 @@ export function PlayGenome() {
       trl:  (trs_Item.end - index)+ '/' +(trs_Item.end - trs_Item.start) ,
       tsc:  (index - trs_Item.start)+ '/' + (trs_Item.end - trs_Item.start)
     },
-
-
   }
 
   return (
     <>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
       <div className='relative'>
 
         <h2>{MAPS.source}</h2>
@@ -410,7 +402,7 @@ export function PlayGenome() {
         <br />
 
         { mode === 'tsc' ? '' :
-          <div>
+          <div >
             <div>
               <span>
                 Frame1
@@ -536,11 +528,50 @@ export function PlayGenome() {
           <div className='row'>
             <div className='column txt'>
               <h3>Audio tracks derived from sonified (+) RNA. </h3>
-              <p> Nucleotide at Playhead: <span className='six'> {base} {baseNotes[0].name}</span></p>
-              <p> Di-Nucleotide at Playhead: <span className='six'> {twoBase} {twobaseNotes[0].name}</span></p>
-              <p> Codon <span className='six'> {codon}</span> and Amino Acid <span className='six'>{MAPS.CODON_MAP[codon]?.AA}</span> at Playhead: </p>
-              <p> GC Content over 10 base:<span className='six'> {GCnote10Numb/10} {tenGCnote[0].name} </span></p>
-              <p> GC Content over 100 base:<span className='six'> {GCnote100Numb/10} {tentensGCnote[0].name}</span></p>
+
+              <table className="u-full-width">
+                <thead>
+                  <tr>
+                    <th>Audio</th>
+                    <th>Feature</th>
+                    <th>Motif</th>
+                    <th>Note</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>box</td>
+                    <td>Nucleotide: </td>
+                    <td>{base}</td>
+                    <td>{baseNotes[0].name}</td>
+                  </tr>
+                  <tr>
+                    <td>box</td>
+                    <td>Di-Nucleotide: </td>
+                    <td>{twoBase} </td>
+                    <td>{twobaseNotes[0].name}</td>
+                  </tr>
+                  <tr>
+                    <td>box</td>
+                    <td>Codon</td>
+                    <td>{codon}</td>
+                    <td>{MAPS.CODON_MAP[codon]?.AA}</td>
+                  </tr>
+                  <tr>
+                    <td>box</td>
+                    <td>GC Content 10 bases:</td>
+                    <td>{GCnote10Numb/10}</td>
+                    <td>{tenGCnote[0].name}</td>
+                  </tr>
+                  <tr>
+                    <td>box</td>
+                    <td>GC Content 100 bases:</td>
+                    <td>{GCnote100Numb/10}</td>
+                    <td>{tentensGCnote[0].name}</td>
+                  </tr>
+                </tbody>
+              </table>
+
               {/* <p> GCAU score (GC=+1, AT=-1) {GAUCcount.current}</p> */}
             </div>
             <div className='column txt'>
@@ -557,7 +588,6 @@ export function PlayGenome() {
 
               <p><span className='txt'><b>Transcriptional Elements:</b></span> {trs_Item.start} - {trs_Item.end} bp<br />
               {trs_Item.text} </p>
-
             </div>
           </div>
         </div>
@@ -604,7 +634,14 @@ export function PlayGenome() {
         <Track volume={0} pan={0.8} >
           <Instrument type={'amSynth'} notes={nspNote} />
         </Track>
-      </Song>
+
+        <Track volume={0} pan={0.8} >
+          <Instrument type={'amSynth'} notes={slNote} />
+        </Track>
+        <Track volume={0} pan={-0.8} >
+          <Instrument type={'amSynth'} notes={utrNote} />
+        </Track>
+    </Song>
     </>
   );
 }

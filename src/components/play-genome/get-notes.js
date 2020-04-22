@@ -74,3 +74,36 @@ export function getCodonNotes(codon, audioProps) {
   const codonMap = MAPS.makeIntervals(MAPS[audioProps].codon).map(number => MAPS.keyboard[number])
     return {name: codonMap[codonNumb], duration: MAPS[audioProps].codon.dur, motif:MAPS.CODON_MAP[codon]?.AA}
   }
+
+  export function getCodonNotes_2(codon, audioProps, frame012) {
+    if(frame012 === 0){
+      const codonNumb = MAPS.CODON_MAP_2[codon]?.Note
+      const codonMap = MAPS.makeIntervals(MAPS[audioProps].codon).map(number => MAPS.keyboard[number])
+        return {name: codonMap[codonNumb], duration: MAPS[audioProps].codon.dur, motif:MAPS.CODON_MAP[codon]?.AA}
+    }else{
+      return {name: '', duration: '2n'}
+    }
+  }
+
+  export function playAtIndex (index, item, name, value, twoBase, audioProps, mode) {
+    // console.log(MAPS[audioProps][value].dur)
+    const numb = MAPS.TWOBASE_MAP[twoBase]
+    const numbMap = MAPS.makeIntervals(MAPS[audioProps][value]).map(number => MAPS.keyboard[number])
+    if(mode === 'trl') {
+      if(index >= item.start && index <= item.end && item[name] === value){
+        return [{name: numbMap[numb], duration: MAPS[audioProps][value].dur}];
+      }else{
+        return [{name: '', duration: '2n'}];
+      }
+    }else if(mode === 'tsc') {
+      if(index <= item.end && index >= item.start && item[name] === value) {
+        return [{name: numbMap[numb], duration: MAPS[audioProps][value].dur}];
+      }else{
+        return [{name: '', duration: '2n'}];
+      }
+    }
+  }
+
+
+
+

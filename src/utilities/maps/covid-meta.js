@@ -5,7 +5,7 @@ export const type = 'ss-RNA'
 export const strcture = 'linear'
 export const definition = 'Severe acute respiratory syndrome coronavirus 2 isolate Wuhan-Hu-1,complete genome.'
 // export const source = 'Severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2)'
-export const source = 'Audio and visual analyses of the Coronavirus COVID-19 RNA sequence'
+export const source = 'Audiovisual analyses of COVID-19 RNA sequence'
 export const organism = ['Viruses', 'Riboviria', 'Nidovirales', 'Cornidovirineae', 'Coronaviridae', 'Orthocoronavirinae', 'Betacoronavirus', 'Sarbecovirus']
 export const authors = 'Wu,F., Zhao,S., Yu,B., Chen,Y.M., Wang,W., Song,Z.G., Hu,Y., Tao,Z.W., Tian,J.H., Pei,Y.Y., Yuan,M.L., Zhang,Y.L., Dai,F.H., Liu,Y., Wang,Q.M., Zheng,J.J., Xu,L., Holmes,E.C. and Zhang,Y.Z.'
 export const title = 'A new coronavirus associated with human respiratory disease in China'
@@ -235,10 +235,10 @@ text: '3` end of the RNA sequence where transcription begins to make either a fu
 export const geneBank_json = [
   {start: 1,
   end: 265,
-  gene: "UTR",
+  gene: "5`UTR",
   product: 'Untranslated',
   protein_id: 'No protein',
-  button_label: "U",
+  button_label: "5`U",
   type: 'u',
   text: '5` Untranslated region of RNA sequence, may contain regions of RNA tertary structure that effects the function',
   },

@@ -63,12 +63,10 @@ span.frame1 {
   color: #c02e1d;
   background-color:#ebc844;
 }
-
 span.frame2 {
   color:  #0e5b78;
   background-color:#a3b96c;
 }
-
 span.frame3 {
   color:#0c3d55;
   background-color: #5da793;
@@ -167,33 +165,26 @@ h2 {
 
 div {
   font-family: "Lucida Console", Monaco, monospace;
-  width: 1000px;
+  width: 1021px;
   padding: 4px 0px;
   left: 50px;
-  background-color: #d5dac8;
 }
 
 .txt {
   font: italic 1rem Georgia, Times, serif;
-  color: #611b21;
+  color: #781a0f;
 }
 
 div.relative {
   position: relative;
 }
 
+
 div.absolute {
   position: absolute;
+  width: 100%;
   top: 400px;
   left: 0px;
-}
-
-.pre {
-  white-space: pre;
-}
-
-.drop {
-  margin-bottom: 6px;
 }
 
 .ribosomeSmall {
@@ -294,6 +285,16 @@ div.absolute {
   z-index: -7;
 }
 
+.pre {
+  white-space: pre;
+}
+
+.drop {
+  margin-bottom: 6px;
+}
+
+
+
 .column {
   float: left;
   width: 50%;
@@ -341,3 +342,25 @@ span:empty {
   margin: 4px 2px 4px 2px;
 }
 
+
+/* Mobile first queries */
+
+/* Larger than mobile */
+@media (min-width: 601px) {
+
+}
+
+
+/* Tables
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+th,
+td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid #5da793; }
+th:first-child,
+td:first-child {
+  padding-left: 0; }
+th:last-child,
+td:last-child {
+  padding-right: 0; }
