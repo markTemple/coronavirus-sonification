@@ -4,13 +4,19 @@
   margin: auto;
   padding: 20px;
   border: 0.5px solid #4a6a76;
-
+  background-color: rgb(249, 249, 235);
 }
 
 .player-container {
   font-family: "Lucida Console", Monaco, monospace;
   overflow-y: visible;
   overflow-x: auto;
+  background-color: rgb(228, 221, 191);
+  padding: 20px;
+
+  border: 20px;
+  opacity: 0.8;
+  z-index: -100;
 }
 
 .player {
@@ -77,12 +83,12 @@ in the RNA string in tsc mode (reverse) */
 span.antiC {
   position: absolute;
   left: 499px;
-  top: 176px;
+  top: 175px;
   padding: 4px 0px;
   color: #ebc844;
-  background-color:#165574;
+  background-color:#932c2c;
   z-index: 1;
-  opacity: 0.9;
+  opacity: 1;
 }
 
 .playhead {
@@ -92,7 +98,9 @@ span.antiC {
   border: 2px solid #f16c21;
   width: 29px;
   height: 172px;
-  opacity: 0.4;
+  background-color: #ccd2d5;
+  opacity: 0.2;
+  z-index: 1;
 }
 
 .triangle-left {
@@ -129,7 +137,7 @@ span.antiC {
 /* color and background to sliding AA residues
 ____________________________________________*/
 span.frame1 {
-  color: #c02e1d;
+  color: #b1574d;
   background-color:#ebc844;
 }
 span.frame2 {
@@ -144,6 +152,8 @@ span.frame3 {
 /* help to position text label to sliding window */
 .orf {
   margin-left: 60px;
+  position: absolute;
+  left: 540px;
 }
 
 .circle {
@@ -159,6 +169,10 @@ span.frame3 {
   margin-left: 7px;
 }
 
+.shadow {
+  box-shadow: 0 10px 8px -6px rgb(36, 28, 28);
+}
+
 .ribosomeSmall {
   position: absolute;
   top: 150px;
@@ -167,19 +181,19 @@ span.frame3 {
   border-radius: 50%;
   width: 200px;
   height: 80px;
-  opacity: 0.5;
+  opacity: 0.8;
   z-index: -10;
 }
 .ribosomeBig {
   position: absolute;
   top: 30px;
   left: 370px;
-  background: #0e5b78;
+  background: #1e6179;
   border-radius: 50%;
   width: 300px;
   height: 180px;
-  opacity: 0.4;
-  z-index: 1;
+  opacity: 0.7;
+  z-index: -2;
 }
 
 .replicase {
@@ -190,7 +204,7 @@ span.frame3 {
   border-radius: 50%;
   width: 150px;
   height: 100px;
-  opacity: 0.7;
+  opacity: 0.6;
   z-index: -9;
 }
 
@@ -200,8 +214,8 @@ span.frame3 {
   background: #1396ba;
   width: 80px;
   height: 80px;
-  opacity: 0.7;
-  z-index: -1;
+  opacity: 0.9;
+  z-index: 1;
 
 }
 
@@ -228,7 +242,7 @@ span.frame3 {
 .replicase.p4 {
   top: 110px;
   left: 385px;
-  background: #f16c21;
+  background: rgb(215, 149, 111);
   width: 50px;
   height: 60px;
   opacity: 0.6;
@@ -242,7 +256,7 @@ span.frame3 {
   width: 80px;
   height: 80px;
   opacity: 0.7;
-  z-index: -4;
+  z-index: -1;
 
 }
 .replicase.p6 {
@@ -256,28 +270,26 @@ span.frame3 {
 }
 
 /* stop start indicators */
-.buttonEffect {
-  background: #f16c21;
+/* _____________________ */
+.stopStartFlash {
+  background: #f14721;
   border-radius: 50%;
   width: 20px;
   height: 20px;
-  z-index: -1;
+  opacity: 1;
+  z-index: 1;
   white-space: pre;
 }
-.buttonEffect.start {
-  background: #9ebd50;
+.stopStartFlash.start {
+  background: #59bd50;
 }
-
+/* --------------------- */
 /*  three rows - lot of buttons!!! */
 /* affects spacing between buttons */
 .button {
-  margin: 4px 2px 4px 2px;
   font-size: 1rem;
-  margin: 0.1rem;
-}
-
-.button p {
-  margin: 4px 2px 4px 2px;
+  margin: 0.2rem;
+  background-color: rgb(196, 225, 240);
 }
 
 /* Mobile first queries */

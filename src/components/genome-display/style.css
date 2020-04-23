@@ -13,6 +13,7 @@
 
 .base {
   position: relative;
+  color: rgb(4, 75, 75);
   background: rgba(178, 223, 227, 0.3);
   z-index: -6;
 }

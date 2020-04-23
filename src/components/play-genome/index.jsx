@@ -151,13 +151,13 @@ const checkValUTR = useRef(true)
 
   if (gb_Item.type === 'p') {
     if (frame012 === 0 && gb_Item.start % 3 === 0) {
-      orf1.current = gb_Item.product + ' ' + nsp_Item.button_label
+      orf1.current = gb_Item.product
     }
     if (frame012 === 1 && gb_Item.start % 3 === 1) {
-      orf2.current = gb_Item.product + ' ' + nsp_Item.button_label
+      orf2.current = gb_Item.product
     }
     if (frame012 === 2 && gb_Item.start % 3 === 2) {
-      orf3.current = gb_Item.product + ' ' + nsp_Item.button_label
+      orf3.current = gb_Item.product
     }
   }
     // hack for frameshift to stop label of frag1
@@ -172,12 +172,12 @@ const checkValUTR = useRef(true)
 
   function buttonSTART() {
     if(start() === true) {
-      return <span className='buttonEffect start'>{}  </span>
+      return <span className='stopStartFlash start'>{}  </span>
     }
   }
   function buttonSTOP() {
     if(stop() === true) {
-      return <span className='buttonEffect'>  </span>
+      return <span className='stopStartFlash'>  </span>
     }
   }
 
@@ -200,13 +200,29 @@ const checkValUTR = useRef(true)
     const color = ['#f08b2c', '#5da793', '#1396ba']//color by frame ??
     const style = {}
     //add moer things to call here as const's
-    if(typeof feature.trs_seq !== 'undefined'){
-      if ((index >= feature.end) && ((index <= feature.start))) {
-        style.backgroundColor = color[frame012]
-      }
+    // if(typeof feature.trs_seq !== 'undefined'){
+    //   if ((index >= feature.end) && ((index <= feature.start))) {
+    //     // style.backgroundColor = color[frame012]
+    //     style.backgroundColor = 'blue'
+    //   }
+    // }
+    if (feature.type === 'p') {
+      // style.backgroundColor = color[frame012]
+      style.backgroundColor = '#f08b2c'
+    } else if (feature.button_label === 'C') {
+      style.backgroundColor = '#339fbd'
+    } else if (feature.isNSP === 'y') {
+      style.backgroundColor = '#f08b2c'
+    } else if (feature.button_label === 'Seq') {
+      style.backgroundColor = '#339fbd'
+    } else if (feature.button_label === 'SL') {
+      style.backgroundColor = '#f08b2c'
+    } else {
+      style.backgroundColor = '#5da793'
     }
-      if ((index >= feature.start) && ((index <= feature.end))) {
-        style.backgroundColor = color[frame012]
+    if ((index >= feature.start) && ((index <= feature.end))) {
+        // style.backgroundColor = color[frame012]
+        style.backgroundColor = '#b1574d'
       }
 
     // include a reset GC count on click
@@ -231,7 +247,7 @@ const checkValUTR = useRef(true)
           style={style}
         >
           {/* there is no actual whitespace in button} */}
-          <p style={{ fontSize: '0.9rem' }}>{feature.button_label}</p>
+          <p style={{ fontSize: '0.9rem'  }}>{feature.button_label}</p>
         </Button>
         {/* {feature.product} */}
       </Fragment>
@@ -306,7 +322,7 @@ const checkValUTR = useRef(true)
   let subHeadings = {
     rnaRegion:
     {
-      trl: gb_Item.gene,
+      trl: gb_Item.product,
       tsc: trs_Item.button_label
     },
     rnaBegin:
@@ -322,7 +338,7 @@ const checkValUTR = useRef(true)
     rnaLength:
     {
       trl: gb_Item.end - gb_Item.start,
-      tsc: trs_Item.start - trs_Item.end
+      tsc: trs_Item.end - trs_Item.start
     },
     sonifySub:
     {
@@ -426,10 +442,10 @@ const checkValUTR = useRef(true)
                 <span className='orf'>{orf3.current}</span>
               </div>
 
-              <div className='ribosomeSmall'></div>
-              <div className='ribosomeBig'></div>
-              <div className='playhead'></div>
-              <span className='antiC'>{antiCodon}</span>
+              <div className='ribosomeSmall shadow'></div>
+              <div className='ribosomeBig shadow'></div>
+              <div className='playhead shadow'></div>
+              <span className='antiC shadow'>{antiCodon}</span>
 
             </div>
           )}
@@ -448,22 +464,21 @@ const checkValUTR = useRef(true)
           </div>
           { mode === 'tsc' && (
             <div>
-              <div className='playrev'></div>
-              <div className='replicase'></div>
-              <div className='replicase p1'></div>
-              <div className='replicase p2'></div>
-              <div className='replicase p3'></div>
-              <div className='replicase p4'></div>
-              <div className='replicase p5'></div>
-              <div className='replicase p6'></div>
-              <div className='replicase p7'></div>
+              <div className='playrev shadow'></div>
+              <div className='replicase shadow'></div>
+              <div className='replicase p1 shadow'></div>
+              <div className='replicase p2 shadow'></div>
+              <div className='replicase p3 shadow'></div>
+              <div className='replicase p4 shadow'></div>
+              <div className='replicase p5 shadow'></div>
+              <div className='replicase p6 shadow'></div>
+              <div className='replicase p7 shadow'></div>
               <span> RNA -</span>
               <span> {String(genome.length - (index)).padStart(5, '0')}</span>|
               <span className=' pre'>{DNAfill40 + genomeSubComplement}</span>
               <p className='pre'>            3`                                                                              5`</p>
             </div>
           )}
-          <br />
         </div>
       </div>
         <hr />
@@ -471,23 +486,25 @@ const checkValUTR = useRef(true)
           <Controls />
           <br />
           <br />
-          <Button onClick={togglemode}><span className='button'> Switch Mode </span></Button>
+          <Button onClick={togglemode} className='button'>Switch Direction</Button>
           <span> {subHeadings.modeTitle[mode]}</span>
-
-          <p> Translated RNA regions. {gb_Item.product}: {subHeadings.printGeneB[mode]} bp.
+        <hr></hr>
+          <p><h3>RNA map: Translated RNA regions.</h3> {gb_Item.product}: {subHeadings.printGeneB[mode]} bp.
           </p>
           {MAPS.geneBank_json.map(Feature)}
           <p><small>U - Untranslated regions, Polyprotein - Very large protein that is cleaved
             into smaller NSP proteins, S, E, M, N - are common proteins found in all coronavirus,
             ORF's - individual proteins (open reading frames) that are translated from shorter subgenomic RNA sequences.</small>
           </p>
-          <p> Cleavage sites (C) and NSP proteins (N) in the ab1/2 Polyprotein. {nsp_Item.nsp} {nsp_Item.aa_res}: {subHeadings.printNSP[mode]} bp.</p>
+          <hr></hr>
+          <p><h3>RNA map: Cleavage sites (C) and NSP proteins (N) made from the ab1/2 Polyprotein.</h3> {nsp_Item.nsp} {nsp_Item.aa_res}: {subHeadings.printNSP[mode]} bp.</p>
           {MAPS.nsp_json.map(Feature)}
           <p><small>N1 to N16 - Small NSP proteins made by cleavage of the virally encoded polyprotein,
             C - The cleavage points within the polyprotein, Outside Poly-protein - represents the remaining region
             where all other genes are located (such as the S, E, M and N proteins and ORF's).</small>
           </p>
-          <p>Transcription Regulatory Sequences. {trs_Item.button_label}: {subHeadings.printTRS[mode]} bp. {trs_Item.trs_seq}
+          <hr></hr>
+          <p><h3>RNA map: Transcription Regulatory Sequences.</h3> {trs_Item.button_label}: {subHeadings.printTRS[mode]} bp. {trs_Item.trs_seq}
           </p>
           {MAPS.trs_json.map(Feature)}<br />
           <p><small>T1 to T10 represent the Transcription Regulatory Sequence (TRS) where RNA structural elements occur which
@@ -495,6 +512,7 @@ const checkValUTR = useRef(true)
             SL - represent regions where stem and loop structural elements occur, Seq - represent intervening units of RNA
             sequence (genelike) that are included in the subgenomic RNA's).</small>
           </p>
+          <hr></hr>
           <div className='row'>
             <div className='column'>
               <h3>Audio details and control. </h3>
