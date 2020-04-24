@@ -9,9 +9,13 @@ export function getBaseNotes (base, audioProps) {
 }
 
 export function playTwoBase(twoBase, audioProps) {
+  if(twoBase){
   const twoBaseNumb = MAPS.TWOBASE_MAP[twoBase]
   const twoBaseMap = MAPS.makeIntervals(MAPS[audioProps].twoBase).map(number => MAPS.keyboard[number])
   return [{name: twoBaseMap[twoBaseNumb], duration: MAPS[audioProps].twoBase.dur}];
+  } else{
+    return [{name: '', duration: '8n'}];
+  }
 }
 
 export function getSameBaseNotes(base, index, audioProps) {

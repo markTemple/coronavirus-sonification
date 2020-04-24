@@ -57,6 +57,8 @@ export function PlayGenome() {
     startEnd = 'start'
   }
 
+
+
   const isSynthEnabled = useRef([false, false, false])
 
   function setSynthStatus(frame, value) {
@@ -81,8 +83,24 @@ export function PlayGenome() {
 
   const base = getBase(index)
   const baseNotes = getBaseNotes(base, audioProps)
+
+
+
   const twoBase = getDinucleotide(index)
-  const twobaseNotes = playTwoBase(twoBase, audioProps)
+
+  function getDinucleotide_2(twoBase){
+      if(index % 2) return twoBase
+      else return false
+    }
+    const twoBase_2 = getDinucleotide_2(twoBase)
+
+
+   const twobaseNotes = playTwoBase(twoBase_2, audioProps)
+
+
+
+
+
   const sameBaseNotes = getSameBaseNotes(base, index, audioProps)
   const GCnote10 = getBases10(index)
   const GCnote10Numb = MAPS.newGCratio(GCnote10)
@@ -97,6 +115,13 @@ export function PlayGenome() {
 
   const codon = getCodon(index)
   const codonNotes = getCodonNotes(codon, audioProps)
+
+  function getCodon_2(){
+    if(frame012 === 0) return codon
+    else return false
+  }
+  const codon_2 = getCodon_2(codon)
+
   const codonNotes_2 = getCodonNotes_2(codon, audioProps, frame012)
 
 const start = function() {
@@ -222,7 +247,7 @@ const checkValUTR = useRef(true)
     }
     if ((index >= feature.start) && ((index <= feature.end))) {
         // style.backgroundColor = color[frame012]
-        style.backgroundColor = '#b1574d'
+        style.backgroundColor = 'rgb(240, 87, 87)'
       }
 
     // include a reset GC count on click
@@ -342,18 +367,23 @@ const checkValUTR = useRef(true)
     },
     sonifySub:
     {
-      trl: 'Sonification of translation of plus RNA strand to make proteins. ',
-      tsc: 'Sonification of transcription of RNA to make the minus strand RNA. '
+      trl: 'Translation of plus (+) RNA strand to make proteins. ',
+      tsc: 'Transcription of plus (+)RNA to make the (-)RNA. '
     },
     sonifyTime:
     {
       trl: convertBPtoTime(trl_time),
       tsc: convertBPtoTime(tsc_time)
     },
+    buttonTitle:
+    {
+      trl: 'Transcription',
+      tsc: 'Translation'
+    },
     modeTitle:
     {
-      trl: ` Translation of (+) strand RNA to make protein`,
-      tsc: ` Transcription of (+)strand RNA to make (-)strand copy`
+      trl: ` Current mode: Translation`,
+      tsc: ` Current mode: Transcription`
     },
     printGeneB:
     {
@@ -486,25 +516,27 @@ const checkValUTR = useRef(true)
           <Controls />
           <br />
           <br />
-          <Button onClick={togglemode} className='button'>Switch Direction</Button>
+          <Button onClick={togglemode} className='button mode'>
+            {subHeadings.buttonTitle[mode]}
+          </Button>
           <span> {subHeadings.modeTitle[mode]}</span>
         <hr></hr>
-          <p><h3>RNA map: Translated RNA regions.</h3> {gb_Item.product}: {subHeadings.printGeneB[mode]} bp.
-          </p>
+          <h3>RNA map: Translated RNA regions.</h3><p>{gb_Item.product}: {subHeadings.printGeneB[mode]} bp.</p>
+
           {MAPS.geneBank_json.map(Feature)}
           <p><small>U - Untranslated regions, Polyprotein - Very large protein that is cleaved
             into smaller NSP proteins, S, E, M, N - are common proteins found in all coronavirus,
             ORF's - individual proteins (open reading frames) that are translated from shorter subgenomic RNA sequences.</small>
           </p>
           <hr></hr>
-          <p><h3>RNA map: Cleavage sites (C) and NSP proteins (N) made from the ab1/2 Polyprotein.</h3> {nsp_Item.nsp} {nsp_Item.aa_res}: {subHeadings.printNSP[mode]} bp.</p>
+          <h3>RNA map: Cleavage sites (C) and NSP proteins (N) made from the ab1/2 Polyprotein.</h3> <p>{nsp_Item.nsp} {nsp_Item.aa_res}: {subHeadings.printNSP[mode]} bp.</p>
           {MAPS.nsp_json.map(Feature)}
           <p><small>N1 to N16 - Small NSP proteins made by cleavage of the virally encoded polyprotein,
             C - The cleavage points within the polyprotein, Outside Poly-protein - represents the remaining region
             where all other genes are located (such as the S, E, M and N proteins and ORF's).</small>
           </p>
           <hr></hr>
-          <p><h3>RNA map: Transcription Regulatory Sequences.</h3> {trs_Item.button_label}: {subHeadings.printTRS[mode]} bp. {trs_Item.trs_seq}
+          <h3>RNA map: Transcription Regulatory Sequences.</h3><p> {trs_Item.button_label}: {subHeadings.printTRS[mode]} bp. {trs_Item.trs_seq}
           </p>
           {MAPS.trs_json.map(Feature)}<br />
           <p><small>T1 to T10 represent the Transcription Regulatory Sequence (TRS) where RNA structural elements occur which
@@ -519,7 +551,7 @@ const checkValUTR = useRef(true)
               <table className="fullwidth">
                 <thead>
                   <tr>
-                    <th>Audio</th>
+                    <th>Mute</th>
                     <th>Feature</th>
                     <th>Motif</th>
                     <th>Note</th>
@@ -545,10 +577,11 @@ const checkValUTR = useRef(true)
                       />
                     </td>
                     <td>Di-Nucleotide: </td>
-                    <td>{ twoBase} </td>
+                    <td>{ twoBase_2} </td>
                     <td>{ twobaseNotes[0].name }</td>
                   </tr>
-                  <tr>
+
+                  {isReversed ? <tr>
                   <td>
                       <Checkbox
                         default={checkValCodon.current}
@@ -556,9 +589,23 @@ const checkValUTR = useRef(true)
                       />
                     </td>
                     <td>Codon</td>
-                    <td>{ codon }</td>
-                    <td>({ MAPS.CODON_MAP[codon]?.AA })</td>
+                    <td>{ codon_2 }</td>
+                    <td>{ codonNotes_2.name }</td>
                   </tr>
+                    :
+                  <tr>
+                  <td>
+                      <Checkbox
+                        default={checkValCodon.current}
+                        onClick={(value) => checkValCodon.current = value}
+                      />
+                    </td>
+                    <td>Amino Acid Frame 1<br></br>Amino Acid Frame 2<br></br>Amino Acid Frame 2</td>
+                    <td>{ codonF1Notes[0]?.motif }<br></br>{ codonF2Notes[0]?.motif } <br></br>{ codonF3Notes[0]?.motif }</td>
+                    <td>{ codonF1Notes[0]?.name }<br></br>{ codonF2Notes[0]?.name } <br></br>{ codonF3Notes[0]?.name }</td>
+                  </tr>
+                  }
+
                   <tr>
                   <td>
                       <Checkbox
@@ -648,26 +695,24 @@ const checkValUTR = useRef(true)
                 <tbody>
                   <tr>
                     <td><span><b>Translated Region: </b></span>
-                    {gb_Item.start} - {gb_Item.end} bp</td>
+                    {gb_Item.start} - {gb_Item.end} bp <br />
+                    {gb_Item.product}, {gb_Item.text} <br />
+                    {gb_Item.protein_id} {gb_Item.GeneID}
+                    </td>
                   </tr>
                   <tr>
-                    <td>{gb_Item.text} <br />
-                    {gb_Item.protein_id} {gb_Item.GeneID}</td>
-                  </tr>
-                  <tr>
-                    <td><span><b>Cleavage products of the ab1/2 Polyprotein: </b></span>
-                    {nsp_Item.start} - {nsp_Item.end} bp
-                  </td>
-                  </tr>
-                  <tr>
-                    <td>{nsp_Item.text}</td>
+                    <td><span><b>Polyprotein cleavage product: </b></span>
+                    {nsp_Item.start} - {nsp_Item.end} bp <br />
+                    {nsp_Item.text} <br />
+                    {nsp_Item.note}
+                    </td>
                   </tr>
                   <tr>
                     <td><span><b>Transcriptional Elements: </b></span>
-                    {trs_Item.start} - {trs_Item.end} bp</td>
-                  </tr>
-                  <tr>
-                    <td>{trs_Item.text}</td>
+                    {trs_Item.start} - {trs_Item.end} bp <br />
+                    {trs_Item.text} <br />
+                    {trs_Item.trs_seq}
+                    </td>
                   </tr>
                 </tbody>
               </table>

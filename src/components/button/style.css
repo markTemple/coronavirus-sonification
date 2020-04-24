@@ -1,16 +1,38 @@
 button {
   font-family: "Lucida Console", Monaco, monospace;
   color: #0e5b78;
-  padding: 1px;
+  padding: 2px;
   border-width: 1px;
-  border-radius: 3px;
+  border-radius: 4px;
   transition: all 0.5s cubic-bezier(0.21, 0.8, 0.45, 1);
-  box-shadow: 0 6px 6px rgba(0,0,0,0.38);
+  box-shadow: 0 6px 6px rgba(103, 2, 2, 0.38);
+  font-size: 1rem;
+  margin: 0.2rem;
+  background-color: rgb(196, 225, 240);
 }
 
 /* Aidan how to apply style to Play button */
 button.play {
-  padding: 85px;
+  padding: 10px;
+  background-color: rgb(87, 189, 240);
+
+}
+button.pause {
+  padding: 10px;
+  background-color: rgb(240, 87, 87);
+}
+
+button.ffrr {
+  padding: 10px;
+  background-color: rgb(182, 216, 242);
+  border-radius: 50%;
+
+}
+
+button.mode {
+  padding: 10px;
+  background-color: rgb(112, 210, 167);
+
 }
 
 button:hover {

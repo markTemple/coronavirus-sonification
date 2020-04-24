@@ -2,8 +2,8 @@
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   max-width: 1080px;
   margin: auto;
-  padding: 20px;
-  border: 0.5px solid #4a6a76;
+  padding: 26px;
+  border: 4px solid #c2d6de;
   background-color: rgb(249, 249, 235);
 }
 
@@ -12,9 +12,8 @@
   overflow-y: visible;
   overflow-x: auto;
   background-color: rgb(228, 221, 191);
-  padding: 20px;
-
-  border: 20px;
+  padding: 10px;
+  border: 10px solid rgb(220, 216, 204);
   opacity: 0.8;
   z-index: -100;
 }
@@ -55,8 +54,13 @@ p {
   color:  #0e5b78;
 }
 
-span, small {
-  color: #a03327;
+span {
+  color: #c41b08;
+}
+
+small {
+font-style: italic;
+color: #a03327;
 }
 
 hr {
@@ -67,6 +71,7 @@ hr {
 h1, h2, h3 {
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   color: #0b3b4d;
+  margin: 1rem 0 0.5rem 0;
 }
 
 /* very important to print spaces to screen
@@ -113,6 +118,8 @@ span.antiC {
   border-top: 10px solid transparent;
   border-right: 20px solid #c02e1d;
   border-bottom: 10px solid transparent;
+  box-shadow: 10px 0 8px -6px rgb(36, 28, 28);
+
 }
 
 .triangle-left.f2 {
@@ -137,16 +144,16 @@ span.antiC {
 /* color and background to sliding AA residues
 ____________________________________________*/
 span.frame1 {
-  color: #b1574d;
-  background-color:#ebc844;
+  color: #ae736c;
+  background-color:#ebc12b;
 }
 span.frame2 {
-  color:  #0e5b78;
-  background-color:#a3b96c;
+  color:  #2b6378;
+  background-color:#9cba50;
 }
 span.frame3 {
-  color:#0c3d55;
-  background-color: #5da793;
+  color:#22495c;
+  background-color: #47a78e;
 }
 
 /* help to position text label to sliding window */
@@ -160,14 +167,16 @@ span.frame3 {
   padding: 4px 0px 4px 0px;
   border-radius: 50%;
   background: #f16c21;
+  box-shadow: 10px 10px 8px -6px rgb(36, 28, 28);
+  border-width: 5px;
 }
 
-.circle2 {
+/* .circle2 {
   padding: 4px 0px 4px 0px;
   border-radius: 50%;
   background: #f16c21;
   margin-left: 7px;
-}
+} */
 
 .shadow {
   box-shadow: 0 10px 8px -6px rgb(36, 28, 28);
@@ -177,14 +186,15 @@ span.frame3 {
   position: absolute;
   top: 150px;
   left: 425px;
-  background: #f16c21;
+  background: #ff2600;
   border-radius: 50%;
   width: 200px;
   height: 80px;
-  opacity: 0.8;
+  opacity: 0.9;
   z-index: -10;
 }
 .ribosomeBig {
+  box-shadow: 0 20px 8px -6px rgb(36, 28, 28);
   position: absolute;
   top: 30px;
   left: 370px;
@@ -192,7 +202,7 @@ span.frame3 {
   border-radius: 50%;
   width: 300px;
   height: 180px;
-  opacity: 0.7;
+  opacity: 0.6;
   z-index: -2;
 }
 
@@ -273,24 +283,22 @@ span.frame3 {
 /* _____________________ */
 .stopStartFlash {
   background: #f14721;
+  border: crimson;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
+  box-shadow: 10px 10px 12px -6px rgb(36, 28, 28);
   opacity: 1;
-  z-index: 1;
+  z-index: 10;
   white-space: pre;
 }
 .stopStartFlash.start {
-  background: #59bd50;
+  background: #59d54e;
 }
 /* --------------------- */
 /*  three rows - lot of buttons!!! */
 /* affects spacing between buttons */
-.button {
-  font-size: 1rem;
-  margin: 0.2rem;
-  background-color: rgb(196, 225, 240);
-}
+
 
 /* Mobile first queries */
 /* Larger than mobile */

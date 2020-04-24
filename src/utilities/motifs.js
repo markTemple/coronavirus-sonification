@@ -8,5 +8,3 @@ export const getDinucleotide = (index) => motif(index, 2)
 export const getCodon = (index) => motif(index, 3)
 export const getBases10 = (index) => motif(index, 10)
 export const getBases100 = (index) => motif(index, 100)
-
-

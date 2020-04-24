@@ -89,7 +89,8 @@ export function SlidingStringWindow ({ initial, insert, replace, reset = false }
         <span
           key={index}
           {...element.props}
-          style={{ whiteSpace: 'pre', ...element.props?.style }}
+          // style={{ whiteSpace: 'pre', ...element.props?.style }}
+          style={{...element.props?.style }}
         >
           {element.content}
         </span>

@@ -40,18 +40,19 @@ export const Controls = () => {
 
   return (
     <>
-      <Button onClick={play} className='button'>
-      Play
+      <Button onClick={play} className='button play'>
+      Play &#9658;
       </Button>
-      <Button onClick={pause} className='button'>
-      Pause
+      <Button onClick={pause} className='button pause'>
+      Pause  &#9612;&#9612;
       </Button>
-      <Button onClick={increment} className='button'>
-      Increment
+      <Button onClick={decrement} className='button ffrr'>
+      &#x25c0;&#x25c0;
       </Button>
-      <Button onClick={decrement} className='button'>
-      Decrement
+      <Button onClick={increment} className='button ffrr'>
+      &#x25ba;&#x25ba;
       </Button>
+
     </>
   )
 }
