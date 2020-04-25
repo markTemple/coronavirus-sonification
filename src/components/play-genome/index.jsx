@@ -6,7 +6,7 @@ import { Button } from '../button';
 import { SlidingStringWindow } from '../sliding-string-window'
 import { GenomeDisplay } from '../genome-display';
 
-import './style.css';
+// import './style.css';
 import { useDispatch, useSelector } from '../../state/store';
 import { Controls } from '../controls';
 import { genome } from '../../genome'

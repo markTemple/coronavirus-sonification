@@ -82,7 +82,7 @@ export function getNSPnotes(nsp_Item, base, index, mode, audioProps) {
 export function getCodonNotes(codon, audioProps) {
   const codonNumb = MAPS.CODON_MAP[codon]?.Note
   const codonMap = MAPS.makeIntervals(MAPS[audioProps].codon).map(number => MAPS.keyboard[number])
-    return {name: codonMap[codonNumb], duration: MAPS[audioProps].codon.dur, motif:MAPS.CODON_MAP[codon]?.AA}
+    return {name: codonMap[codonNumb], duration: MAPS[audioProps].codon.dur, motif:MAPS.CODON_MAP[codon]?.AA1}
   }
 
 // map codon to different notes here
