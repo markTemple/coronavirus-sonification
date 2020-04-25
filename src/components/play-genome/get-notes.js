@@ -85,11 +85,12 @@ export function getCodonNotes(codon, audioProps) {
     return {name: codonMap[codonNumb], duration: MAPS[audioProps].codon.dur, motif:MAPS.CODON_MAP[codon]?.AA}
   }
 
-  export function getCodonNotes_2(codon, audioProps, frame012) {
-    if(frame012 === 0){
+// map codon to different notes here
+  export function getCodonNotes_2(index, codon, audioProps, mode) {
+    if(index % 3 === 0 && mode === 'tsc'){
       const codonNumb = MAPS.CODON_MAP_2[codon]?.Note
       const codonMap = MAPS.makeIntervals(MAPS[audioProps].codon).map(number => MAPS.keyboard[number])
-        return {name: codonMap[codonNumb], duration: MAPS[audioProps].codon.dur, motif:MAPS.CODON_MAP[codon]?.AA}
+        return {name: codonMap[codonNumb], duration: MAPS[audioProps].codon.dur, codon: codon }
     }else{
       return {name: '', duration: '2n'}
     }

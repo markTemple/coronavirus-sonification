@@ -130,7 +130,7 @@ export const tscProps = {
   },
   codon:{
     oct: 1,
-    scale: [2, 1, 1, 1, 1, 2, 1, 1, 2], // almost chromatic
+    scale: [1], // almost chromatic
     range: 64,
     key: 'A',
     dur: '2n',

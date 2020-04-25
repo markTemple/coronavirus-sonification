@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-export function getCodonFNotes(mode, frame012, isSynthEnabled, index, gb_Item, codonNotes, codonNotes_2) {
+export function getCodonFNotes(mode, frame012, isSynthEnabled, index, gb_Item, codonNotes) {
 
   const codonF1Notes = [];
   const codonF2Notes = [];
@@ -11,31 +11,34 @@ export function getCodonFNotes(mode, frame012, isSynthEnabled, index, gb_Item, c
   const AA_Count3 = useRef(0)
 
   if(mode === 'trl') {
-    if (frame012 === 0) {
+    if (index === gb_Item.start) {
+      AA_Count1.current = 0
+      AA_Count2.current = 0
+      AA_Count3.current = 0
+    }
+    switch (frame012) {
+    case 0:
       if (isSynthEnabled.current[frame012]) {
         codonF1Notes.push(codonNotes)
-        if (index === gb_Item.start) AA_Count1.current = 0
         AA_Count1.current++
       }
-    }
-
-    if (frame012 === 1) {
+    break;
+    case 1:
       if (isSynthEnabled.current[frame012]) {
         codonF2Notes.push(codonNotes)
-        if (index === gb_Item.start) AA_Count2.current = 0
         AA_Count2.current++
-      }
-    }
-
-    if (frame012 === 2) {
+       }
+      break;
+    case 2:
       if (isSynthEnabled.current[frame012]) {
         codonF3Notes.push(codonNotes)
-        if (index === gb_Item.start) AA_Count3.current = 0
         AA_Count3.current++
-      }
+        }
+      break;
+    default:
+      console.log('error')
+    break;
     }
-  }else if(mode === 'tsc') {
-    codonF2Notes.push(codonNotes_2)
   }
 
   return {

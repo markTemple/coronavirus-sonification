@@ -43,21 +43,23 @@ export function PlayGenome() {
   let bpm = null
   let audioProps = null
   let startEnd = null
-  if (mode === 'tsc') {
-    dispatch(controlsSetDirection(true))
-    bpm = 60
-    audioProps = 'tscProps'
-    startEnd = 'end'
+  switch (mode) {
+    case 'trl':
+      dispatch(controlsSetDirection(false))
+      bpm = 80
+      audioProps = 'trlProps'
+      startEnd = 'start'
+      break;
+    case 'tsc':
+      dispatch(controlsSetDirection(true))
+      bpm = 60
+      audioProps = 'tscProps'
+      startEnd = 'end'
+      break;
+    default:
+      console.trace('error')
+    break;
   }
-
-  if (mode === 'trl') {
-    dispatch(controlsSetDirection(false))
-    bpm = 80
-    audioProps = 'trlProps'
-    startEnd = 'start'
-  }
-
-
 
   const isSynthEnabled = useRef([false, false, false])
 
@@ -83,23 +85,14 @@ export function PlayGenome() {
 
   const base = getBase(index)
   const baseNotes = getBaseNotes(base, audioProps)
-
-
-
   const twoBase = getDinucleotide(index)
 
-  function getDinucleotide_2(twoBase){
-      if(index % 2) return twoBase
+  function getDinucleotide_2(index){
+      if(index % 2) return getDinucleotide(index)
       else return false
     }
-    const twoBase_2 = getDinucleotide_2(twoBase)
-
-
-   const twobaseNotes = playTwoBase(twoBase_2, audioProps)
-
-
-
-
+  const twoBase_2 = getDinucleotide_2(index)
+  const twobaseNotes = playTwoBase(twoBase_2, audioProps)
 
   const sameBaseNotes = getSameBaseNotes(base, index, audioProps)
   const GCnote10 = getBases10(index)
@@ -114,41 +107,83 @@ export function PlayGenome() {
   const utrNote = playAtIndex(index, gb_Item, 'gene', 'UTR', twoBase, audioProps, mode)
 
   const codon = getCodon(index)
+
   const codonNotes = getCodonNotes(codon, audioProps)
+  const codonFNotes = getCodonFNotes(mode, frame012, isSynthEnabled, index, gb_Item, codonNotes)
 
-  function getCodon_2(){
-    if(frame012 === 0) return codon
-    else return false
+
+  let codonNotes_2 = ''
+
+  let codonStatusF1 = {start: null, stop: null};
+  let codonStatusF2 = {start: null, stop: null};
+  let codonStatusF3 = {start: null, stop: null};
+
+
+  // don't run everything for trl when in tsc
+  // and vis versa
+  switch (mode) {
+    case 'trl':
+      const start = function() {
+        if(codon === 'AUG') return true
+        else return false
+       }
+      const stop = function() {
+        if(codon === 'UGA' || codon === 'UAG' || codon === 'UAA') return true
+        else return false
+      }
+
+      function setSynthByCodonType() {
+        if(start() === true) setSynthStatus(frame012, true);
+        if(stop() === true) setSynthStatus(frame012, false);
+
+        if (frameshift) isSynthEnabled.current[1] = true
+      }
+      setSynthByCodonType()
+
+      function buttonSTART() {
+        if(start() === true) {
+          return <span className='stopStartFlash start'>{}  </span>
+        }
+      }
+      function buttonSTOP() {
+        if(stop() === true) {
+          return <span className='stopStartFlash'>  </span>
+        }
+      }
+
+      switch (frame012) {
+        case 0:
+          codonStatusF1 = {start: buttonSTART(), stop: buttonSTOP()}
+        break;
+        case 1:
+          codonStatusF2 = {start: buttonSTART(), stop: buttonSTOP()}
+        break;
+        case 2:
+          codonStatusF3 = {start: buttonSTART(), stop: buttonSTOP()}
+        break;
+        default:
+          console.trace('error')
+        break;
+      }
+      //start sliding window display AA residues on NSP start
+      function setSynthByNSPstart() {
+        setSynthStatus(frame012, true)
+      }
+      if( nsp_Item.start === index && nsp_Item.SW_true === true ) setSynthByNSPstart()
+
+
+    break;
+    case 'tsc':
+      codonNotes_2 = getCodonNotes_2(index, codon, audioProps, mode)
+      console.log(codonNotes_2)
+      break;
+    default:
+      console.trace('tsc')
+    break;
   }
-  const codon_2 = getCodon_2(codon)
-
-  const codonNotes_2 = getCodonNotes_2(codon, audioProps, frame012)
-
-const start = function() {
-    if(codon === 'AUG') return true
-    else return false
-   }
-  const stop = function() {
-    if(codon === 'UGA' || codon === 'UAG' || codon === 'UAA') return true
-    else return false
-  }
-
-  function setSynthByCodonType() {
-    if(start() === true) setSynthStatus(frame012, true);
-    if(stop() === true) setSynthStatus(frame012, false);
-
-    if (frameshift) isSynthEnabled.current[1] = true
-  }
-  setSynthByCodonType()
-
-//start sliding window display AA residues on NSP start
-  function setSynthByNSPstart() {
-    setSynthStatus(frame012, true)
-  }
-  if( nsp_Item.start === index && nsp_Item.SW_true === true ) setSynthByNSPstart()
 
 
-const codonFNotes = getCodonFNotes(mode, frame012, isSynthEnabled, index, gb_Item, codonNotes, codonNotes_2)
+
 
 const codonF1Notes = codonFNotes.notes.f1
 const codonF2Notes = codonFNotes.notes.f2
@@ -175,14 +210,25 @@ const checkValUTR = useRef(true)
   let orf3 = useRef(null);
 
   if (gb_Item.type === 'p') {
-    if (frame012 === 0 && gb_Item.start % 3 === 0) {
-      orf1.current = gb_Item.product
-    }
-    if (frame012 === 1 && gb_Item.start % 3 === 1) {
-      orf2.current = gb_Item.product
-    }
-    if (frame012 === 2 && gb_Item.start % 3 === 2) {
-      orf3.current = gb_Item.product
+    switch (frame012) {
+      case 0:
+        if (gb_Item.start % 3 === 0) {
+          orf1.current = gb_Item.product
+        }
+          break;
+      case 1:
+        if (gb_Item.start % 3 === 1) {
+          orf2.current = gb_Item.product
+        }
+          break;
+      case 2:
+        if (gb_Item.start % 3 === 2) {
+          orf3.current = gb_Item.product
+        }
+          break;
+      default:
+        console.log('error')
+      break;
     }
   }
     // hack for frameshift to stop label of frag1
@@ -195,44 +241,11 @@ const checkValUTR = useRef(true)
     orf3.current = null
   }
 
-  function buttonSTART() {
-    if(start() === true) {
-      return <span className='stopStartFlash start'>{}  </span>
-    }
-  }
-  function buttonSTOP() {
-    if(stop() === true) {
-      return <span className='stopStartFlash'>  </span>
-    }
-  }
-
-  let codonStatusF1 = {start: null, stop: null};
-  let codonStatusF2 = {start: null, stop: null};
-  let codonStatusF3 = {start: null, stop: null};
-
-  if (frame012 === 0) {
-   codonStatusF1 = {start: buttonSTART(), stop: buttonSTOP()}
-  }
-  if (frame012 === 1) {
-   codonStatusF2 = {start: buttonSTART(), stop: buttonSTOP()}
-  }
-  if (frame012 === 2) {
-   codonStatusF3 = {start: buttonSTART(), stop: buttonSTOP()}
-  }
-
 
   function Feature(feature, i) {
-    const color = ['#f08b2c', '#5da793', '#1396ba']//color by frame ??
+    // const color = ['#f08b2c', '#5da793', '#1396ba']//color by frame ??
     const style = {}
-    //add moer things to call here as const's
-    // if(typeof feature.trs_seq !== 'undefined'){
-    //   if ((index >= feature.end) && ((index <= feature.start))) {
-    //     // style.backgroundColor = color[frame012]
-    //     style.backgroundColor = 'blue'
-    //   }
-    // }
     if (feature.type === 'p') {
-      // style.backgroundColor = color[frame012]
       style.backgroundColor = '#f08b2c'
     } else if (feature.button_label === 'C') {
       style.backgroundColor = '#339fbd'
@@ -246,11 +259,8 @@ const checkValUTR = useRef(true)
       style.backgroundColor = '#5da793'
     }
     if ((index >= feature.start) && ((index <= feature.end))) {
-        // style.backgroundColor = color[frame012]
         style.backgroundColor = 'rgb(240, 87, 87)'
       }
-
-    // include a reset GC count on click
     return (
       <Fragment key={i}>
         <Button
@@ -404,6 +414,7 @@ const checkValUTR = useRef(true)
 
   return (
     <>
+
         <h2>{MAPS.source}</h2>
       <p>
         <span>{subHeadings.rnaRegion[mode]}</span> extends from {subHeadings.rnaBegin[mode]} to {subHeadings.rnaEnd[mode]} bp ({subHeadings.rnaLength[mode]} bp in length)
@@ -588,8 +599,8 @@ const checkValUTR = useRef(true)
                         onClick={(value) => checkValCodon.current = value}
                       />
                     </td>
-                    <td>Codon</td>
-                    <td>{ codon_2 }</td>
+                    <td>codon</td>
+                    <td>{ codonNotes_2.codon}</td>
                     <td>{ codonNotes_2.name }</td>
                   </tr>
                     :
@@ -721,10 +732,10 @@ const checkValUTR = useRef(true)
         </div>
 
       <Song bpm={bpm}>
-        {checkValBase.current && <Track volume={-7} pan={-0.3}>
+        {checkValBase.current && <Track volume={-7} pan={-0.1}>
           <Instrument type={'synth'} notes={baseNotes} />
         </Track>}
-        {checkVal2base.current && <Track volume={-7} pan={0.3}>
+        {checkVal2base.current && <Track volume={-7} pan={0.4}>
           <Instrument type={'synth'} notes={twobaseNotes} />
         </Track>}
         {checkValRepeat.current && <Track volume={-7} pan={0.3}>
