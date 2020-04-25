@@ -108,6 +108,28 @@ export function PlayGenome() {
 
   const codon = getCodon(index)
 
+  const start = function() {
+    if(codon === 'AUG') return true
+    else return false
+   }
+  const stop = function() {
+    if(codon === 'UGA' || codon === 'UAG' || codon === 'UAA') return true
+    else return false
+  }
+
+  function setSynthByCodonType() {
+    if(start() === true) setSynthStatus(frame012, true);
+    if(stop() === true) setSynthStatus(frame012, false);
+
+    if (frameshift) isSynthEnabled.current[1] = true
+  }
+  setSynthByCodonType()
+
+
+
+
+
+
   const codonNotes = getCodonNotes(codon, audioProps)
   const codonFNotes = getCodonFNotes(mode, frame012, isSynthEnabled, index, gb_Item, codonNotes)
 
@@ -118,27 +140,10 @@ export function PlayGenome() {
   let codonStatusF2 = {start: null, stop: null};
   let codonStatusF3 = {start: null, stop: null};
 
-
   // don't run everything for trl when in tsc
   // and vis versa
   switch (mode) {
     case 'trl':
-      const start = function() {
-        if(codon === 'AUG') return true
-        else return false
-       }
-      const stop = function() {
-        if(codon === 'UGA' || codon === 'UAG' || codon === 'UAA') return true
-        else return false
-      }
-
-      function setSynthByCodonType() {
-        if(start() === true) setSynthStatus(frame012, true);
-        if(stop() === true) setSynthStatus(frame012, false);
-
-        if (frameshift) isSynthEnabled.current[1] = true
-      }
-      setSynthByCodonType()
 
       function buttonSTART() {
         if(start() === true) {
