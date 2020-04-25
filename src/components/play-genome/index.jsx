@@ -175,7 +175,6 @@ export function PlayGenome() {
     break;
     case 'tsc':
       codonNotes_2 = getCodonNotes_2(index, codon, audioProps, mode)
-      console.log(codonNotes_2)
       break;
     default:
       console.trace('tsc')
@@ -186,7 +185,8 @@ export function PlayGenome() {
 
 
 const codonF1Notes = codonFNotes.notes.f1
-const codonF2Notes = codonFNotes.notes.f2
+// so it can be reassigned to tsc codon later
+let codonF2Notes = codonFNotes.notes.f2
 const codonF3Notes = codonFNotes.notes.f3
 
 const AA_Count1 = codonFNotes.AA_count.aa1
@@ -411,6 +411,11 @@ const checkValUTR = useRef(true)
       tsc:  (index - trs_Item.start)+ '/' + (trs_Item.end - trs_Item.start)
     },
   }
+
+// hack to use track to play alt notes in tsc mode rather than
+// having to create new track and switch on/off in diff modes
+  if(mode === 'tsc') codonF2Notes = [codonNotes_2]
+
 
   return (
     <>
