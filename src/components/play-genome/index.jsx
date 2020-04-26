@@ -617,54 +617,47 @@ const checkValUTR = useRef(true)
         {console.log(utrNote[0].name)}
 
       <Song bpm={bpm}>
-        { baseNotes && <Track volume={-7} pan={-0.6}>
+        <Track volume={-7} pan={-0.6}>
           <Instrument type={'synth'} notes={baseNotes} />
-        </Track>}
-        { twobaseNotes && <Track volume={-7} pan={0.6}>
+        </Track>
+        <Track volume={-7} pan={0.6}>
           <Instrument type={'synth'} notes={twobaseNotes} />
-        </Track>}
-
-
-        { codonF1Notes && <Track volume={-4} pan={-0.9}>
+        </Track>
+        <Track volume={-4} pan={-0.9}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'sine' }} notes={codonF1Notes} />
           <Effect type='feedbackDelay' wet={0.2} />
-        </Track>}
-        { codonF2Notes && <Track volume={-4} pan={0}>
+        </Track>
+        <Track volume={-4} pan={0}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'square' }} notes={codonF2Notes} />
           <Effect type='feedbackDelay' wet={0.2} />
-        </Track>}
-        { codonF3Notes && <Track volume={-4} pan={0.9}>
+        </Track>
+        <Track volume={-4} pan={0.9}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'triangle' }} notes={codonF3Notes} />
           <Effect type='feedbackDelay' wet={0.2} />
-        </Track>}
-
-        { tenGCnote && <Track volume={-8} pan={-0.7}>
+        </Track>
+        <Track volume={-8} pan={-0.7}>
           <Instrument type={'amSynth'} notes={tenGCnote} />
           <Effect type='feedbackDelay' wet={0.3} />
-        </Track>}
-        { tentensGCnote && <Track volume={-8} pan={0.7}>
+        </Track>
+        <Track volume={-8} pan={0.7}>
           <Instrument type={'amSynth'} notes={tentensGCnote} />
           <Effect type='feedbackDelay' wet={0.3} />
-        </Track>}
-
-        { sameBaseNotes && <Track volume={-7} pan={0.3}>
+        </Track>
+        <Track volume={-7} pan={0.3}>
           <Instrument type={'synth'} notes={sameBaseNotes} />
-        </Track>}
-
-        { getTRSnote && <Track volume={-1} pan={0.8}>
+        </Track>
+        <Track volume={-1} pan={0.8}>
           <Instrument type={'amSynth'} notes={getTRSnote} />
-        </Track>}
-        { nspNote && <Track volume={0} pan={0.8}>
+        </Track>
+        <Track volume={0} pan={0.8}>
           <Instrument type={'amSynth'} notes={nspNote} />
-        </Track>}
-
-        { slNote && <Track volume={-10} pan={0.8}>
+        </Track>
+        <Track volume={-10} pan={0.8}>
           <Instrument type={'amSynth'} notes={slNote} />
-        </Track>}
-
-        { utrNote && <Track volume={-8} pan={-0.8}>
+        </Track>
+        <Track volume={-8} pan={-0.8}>
           <Instrument type={'amSynth'} notes={utrNote} />
-        </Track>}
+        </Track>
     </Song>
     </>
   );
