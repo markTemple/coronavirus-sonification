@@ -6,12 +6,12 @@ import { Button } from '../button';
 import { SlidingStringWindow } from '../sliding-string-window'
 import { GenomeDisplay } from '../genome-display';
 
-// import './style.css';
+import './style.css';
 import { useDispatch, useSelector } from '../../state/store';
 import { Controls } from '../controls';
 import { genome } from '../../genome'
 import { getPlayhead, setPlayhead } from '../../state/playhead';
-import { controlsReverse, getReversed, controlsSetDirection } from '../../state/controls';
+import { controlsReverse, getReversed, getMode } from '../../state/controls';
 import {
   getBase, getDinucleotide, getCodon,
   getBases10, getBases100
@@ -27,17 +27,14 @@ import { Checkbox } from '../checkbox';
 
 
 export function PlayGenome() {
+
   const dispatch = useDispatch()
   const index = useSelector(getPlayhead)
   const isReversed = useSelector(getReversed)
+  const mode = useSelector(getMode)
 
   const shouldReset = useSingleFramePrimitive(false)
 
-  const [mode, setmode] = useState('trl')
-  const togglemode = () => {
-    setmode(mode === 'trl' ? 'tsc' : 'trl')
-    // actions.set(mode === 'tsc' ? 0 : 29902)
-  }
   const frame012 = index % 3;
 
   let bpm = null
@@ -45,13 +42,11 @@ export function PlayGenome() {
   let startEnd = null
   switch (mode) {
     case 'trl':
-      dispatch(controlsSetDirection(false))
       bpm = 80
       audioProps = 'trlProps'
       startEnd = 'start'
       break;
     case 'tsc':
-      dispatch(controlsSetDirection(true))
       bpm = 60
       audioProps = 'tscProps'
       startEnd = 'end'
@@ -66,6 +61,7 @@ export function PlayGenome() {
   function setSynthStatus(frame, value) {
     isSynthEnabled.current[frame] = value
   }
+
   // get item from genebank
   const gb_Item = MAPS.geneBank_json
     .find(feature => index >= feature.start && index <= feature.end)
@@ -82,7 +78,6 @@ export function PlayGenome() {
   if ((index >= 13466) && (index < 21550)) {
     frameshift = index - 2
   }
-
   const base = getBase(index)
   const baseNotes = getBaseNotes(base, audioProps)
   const twoBase = getDinucleotide(index)
@@ -103,7 +98,7 @@ export function PlayGenome() {
   const tentensGCnote = GCnote100Note(GCnote100, GCnote100Numb, audioProps)
   const getTRSnote = makeTRSnotes(mode, trs_Item, index, audioProps)
   const nspNote = getNSPnotes(nsp_Item, base, index, mode, audioProps)
-  const slNote = playAtIndex(index, trs_Item, 'button_label', 'SL', twoBase, audioProps, mode)
+  const slNote = playAtIndex(index, trs_Item, 'tag', 'SL', twoBase, audioProps, mode)
   const utrNote = playAtIndex(index, gb_Item, 'gene', 'UTR', twoBase, audioProps, mode)
 
   const codon = getCodon(index)
@@ -125,16 +120,10 @@ export function PlayGenome() {
   }
   setSynthByCodonType()
 
-
-
-
-
-
   const codonNotes = getCodonNotes(codon, audioProps)
   const codonFNotes = getCodonFNotes(mode, frame012, isSynthEnabled, index, gb_Item, codonNotes)
 
-
-  let codonNotes_2 = ''
+let codonNotes_2 = ''
 
   let codonStatusF1 = {start: null, stop: null};
   let codonStatusF2 = {start: null, stop: null};
@@ -245,24 +234,9 @@ const checkValUTR = useRef(true)
     orf2.current = null
     orf3.current = null
   }
-
-
   function Feature(feature, i) {
-    // const color = ['#f08b2c', '#5da793', '#1396ba']//color by frame ??
     const style = {}
-    if (feature.type === 'p') {
-      style.backgroundColor = '#f08b2c'
-    } else if (feature.button_label === 'C') {
-      style.backgroundColor = '#339fbd'
-    } else if (feature.isNSP === 'y') {
-      style.backgroundColor = '#f08b2c'
-    } else if (feature.button_label === 'Seq') {
-      style.backgroundColor = '#339fbd'
-    } else if (feature.button_label === 'SL') {
-      style.backgroundColor = '#f08b2c'
-    } else {
-      style.backgroundColor = '#5da793'
-    }
+    style.backgroundColor = feature.col
     if ((index >= feature.start) && ((index <= feature.end))) {
         style.backgroundColor = 'rgb(240, 87, 87)'
       }
@@ -287,13 +261,12 @@ const checkValUTR = useRef(true)
           style={style}
         >
           {/* there is no actual whitespace in button} */}
-          <p style={{ fontSize: '0.9rem'  }}>{feature.button_label}</p>
+          <p style={{ fontSize: '0.9rem'  }}>{feature.tag}</p>
         </Button>
         {/* {feature.product} */}
       </Fragment>
     );
   }
-
   function makeComplementary(seq) {
     return seq.replace(/./g, (char) => MAPS.COMPLEMENUARY_MAP[char])
   }
@@ -342,7 +315,7 @@ const checkValUTR = useRef(true)
   // (bpm*4)/60
   let bpmFactor = (bpm * 4) / 60
   const trl_time = (gb_Item.end - gb_Item.start) / bpmFactor
-  const tsc_time = (trs_Item.start - trs_Item.end) / bpmFactor
+  const tsc_time = (trs_Item.end - trs_Item.start) / bpmFactor
 
   function convertBPtoTime(given_seconds) {
     // let hours = dateObj.getUTCHours();
@@ -363,7 +336,7 @@ const checkValUTR = useRef(true)
     rnaRegion:
     {
       trl: gb_Item.product,
-      tsc: trs_Item.button_label
+      tsc: trs_Item.tag
     },
     rnaBegin:
     {
@@ -385,35 +358,25 @@ const checkValUTR = useRef(true)
       trl: 'Translation of plus (+) RNA strand to make proteins. ',
       tsc: 'Transcription of plus (+)RNA to make the (-)RNA. '
     },
-    sonifyTime:
+    bpTime:
     {
-      trl: convertBPtoTime(trl_time),
-      tsc: convertBPtoTime(tsc_time)
-    },
-    buttonTitle:
-    {
-      trl: 'Transcription',
-      tsc: 'Translation'
-    },
-    modeTitle:
-    {
-      trl: ` Current mode: Translation`,
-      tsc: ` Current mode: Transcription`
+      trl:  convertBPtoTime((gb_Item.end - index) / bpmFactor)+ 'mm:ss ',
+      tsc:  convertBPtoTime((index - trs_Item.start) / bpmFactor)+ 'mm:ss '
     },
     printGeneB:
     {
-      trl:  (gb_Item.end - index)+ '/' +(gb_Item.end - gb_Item.start) ,
-      tsc:  (index - gb_Item.start)+ '/' + (gb_Item.end - gb_Item.start)
+      trl:  (gb_Item.end - gb_Item.start),
+      tsc:  (gb_Item.end - gb_Item.start)
     },
     printNSP:
     {
-      trl:  (nsp_Item.end - index)+ '/' +(nsp_Item.end - nsp_Item.start) ,
-      tsc:  (index - nsp_Item.start)+ '/' + (nsp_Item.end - nsp_Item.start)
+      trl:  (nsp_Item.end - nsp_Item.start),
+      tsc:  (nsp_Item.end - nsp_Item.start)
     },
     printTRS:
     {
-      trl:  (trs_Item.end - index)+ '/' +(trs_Item.end - trs_Item.start) ,
-      tsc:  (index - trs_Item.start)+ '/' + (trs_Item.end - trs_Item.start)
+      trl:  (trs_Item.end - trs_Item.start),
+      tsc:  (trs_Item.end - trs_Item.start)
     },
   }
 
@@ -427,11 +390,11 @@ const checkValUTR = useRef(true)
 
         <h2>{MAPS.source}</h2>
       <p>
-        <span>{subHeadings.rnaRegion[mode]}</span> extends from {subHeadings.rnaBegin[mode]} to {subHeadings.rnaEnd[mode]} bp ({subHeadings.rnaLength[mode]} bp in length)
+        <span>{subHeadings.rnaRegion[mode]}</span> extends from {subHeadings.rnaBegin[mode]} to {subHeadings.rnaEnd[mode]} bp ({subHeadings.rnaLength[mode]} bp in length). Playtime = {subHeadings.bpTime[mode]}
       </p>
         <hr />
       <p>
-        {subHeadings.sonifySub[mode]} Audio time <span>{subHeadings.sonifyTime[mode]}</span> (m:s)
+        {subHeadings.sonifySub[mode]}
       </p>
         <br />
       <div className='player-container'>
@@ -535,12 +498,6 @@ const checkValUTR = useRef(true)
         <hr />
         <div>
           <Controls />
-          <br />
-          <br />
-          <Button onClick={togglemode} className='button mode'>
-            {subHeadings.buttonTitle[mode]}
-          </Button>
-          <span> {subHeadings.modeTitle[mode]}</span>
         <hr></hr>
           <h3>RNA map: Translated RNA regions.</h3><p>{gb_Item.product}: {subHeadings.printGeneB[mode]} bp.</p>
 
@@ -557,7 +514,7 @@ const checkValUTR = useRef(true)
             where all other genes are located (such as the S, E, M and N proteins and ORF's).</small>
           </p>
           <hr></hr>
-          <h3>RNA map: Transcription Regulatory Sequences.</h3><p> {trs_Item.button_label}: {subHeadings.printTRS[mode]} bp. {trs_Item.trs_seq}
+          <h3>RNA map: Transcription Regulatory Sequences.</h3><p> {trs_Item.tag}: {subHeadings.printTRS[mode]} bp. {trs_Item.trs_seq}
           </p>
           {MAPS.trs_json.map(Feature)}<br />
           <p><small>T1 to T10 represent the Transcription Regulatory Sequence (TRS) where RNA structural elements occur which
@@ -566,6 +523,7 @@ const checkValUTR = useRef(true)
             sequence (genelike) that are included in the subgenomic RNA's).</small>
           </p>
           <hr></hr>
+
           <div className='row'>
             <div className='column'>
               <h3>Audio details and control. </h3>
@@ -740,16 +698,12 @@ const checkValUTR = useRef(true)
             </div>
           </div>
         </div>
-
       <Song bpm={bpm}>
-        {checkValBase.current && <Track volume={-7} pan={-0.1}>
+        {checkValBase.current && <Track volume={-7} pan={-0.6}>
           <Instrument type={'synth'} notes={baseNotes} />
         </Track>}
-        {checkVal2base.current && <Track volume={-7} pan={0.4}>
+        {checkVal2base.current && <Track volume={-7} pan={0.6}>
           <Instrument type={'synth'} notes={twobaseNotes} />
-        </Track>}
-        {checkValRepeat.current && <Track volume={-7} pan={0.3}>
-          <Instrument type={'synth'} notes={sameBaseNotes} />
         </Track>}
 
 
@@ -766,13 +720,17 @@ const checkValUTR = useRef(true)
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>}
 
-        {checkVal10B.current && <Track volume={-8} pan={-0.6}>
+        {checkVal10B.current && <Track volume={-8} pan={-0.7}>
           <Instrument type={'amSynth'} notes={tenGCnote} />
           <Effect type='feedbackDelay' wet={0.3} />
         </Track>}
-        {checkVal100B.current && <Track volume={-8} pan={0.6}>
+        {checkVal100B.current && <Track volume={-8} pan={0.7}>
           <Instrument type={'amSynth'} notes={tentensGCnote} />
           <Effect type='feedbackDelay' wet={0.3} />
+        </Track>}
+
+        {checkValRepeat.current && <Track volume={-7} pan={0.3}>
+          <Instrument type={'synth'} notes={sameBaseNotes} />
         </Track>}
 
         {checkValTRS.current && <Track volume={-1} pan={0.8}>
@@ -782,10 +740,10 @@ const checkValUTR = useRef(true)
           <Instrument type={'amSynth'} notes={nspNote} />
         </Track>}
 
-        {checkValSL.current && <Track volume={0} pan={0.8}>
+        {checkValSL.current && <Track volume={-10} pan={0.8}>
           <Instrument type={'amSynth'} notes={slNote} />
         </Track>}
-        {checkValUTR.current && <Track volume={0} pan={-0.8}>
+        {checkValUTR.current && <Track volume={-8} pan={-0.8}>
           <Instrument type={'amSynth'} notes={utrNote} />
         </Track>}
     </Song>

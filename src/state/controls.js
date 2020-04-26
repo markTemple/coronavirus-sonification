@@ -34,3 +34,4 @@ export const controlsSetDirection = slice.actions.direction
 // selectors
 export const getIsPlaying = state => state.controls.isPlaying
 export const getReversed = state => state.controls.reversed
+export const getMode = state => state.controls.reversed ? 'tsc' : 'trl'
