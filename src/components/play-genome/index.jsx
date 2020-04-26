@@ -234,6 +234,7 @@ const checkValUTR = useRef(true)
     orf2.current = null
     orf3.current = null
   }
+
   function Feature(feature, i) {
     const style = {}
     style.backgroundColor = feature.col
@@ -333,26 +334,6 @@ const checkValUTR = useRef(true)
 
   //const arrays with translation then transcription values
   let subHeadings = {
-    rnaRegion:
-    {
-      trl: gb_Item.product,
-      tsc: trs_Item.tag
-    },
-    rnaBegin:
-    {
-      trl: gb_Item.start,
-      tsc: trs_Item.end
-    },
-    rnaEnd:
-    {
-      trl: gb_Item.end,
-      tsc: trs_Item.start
-    },
-    rnaLength:
-    {
-      trl: gb_Item.end - gb_Item.start,
-      tsc: trs_Item.end - trs_Item.start
-    },
     sonifySub:
     {
       trl: 'Translation of plus (+) RNA strand to make proteins. ',
@@ -361,7 +342,7 @@ const checkValUTR = useRef(true)
     bpTime:
     {
       trl:  convertBPtoTime((gb_Item.end - index) / bpmFactor)+ 'mm:ss ',
-      tsc:  convertBPtoTime((index - trs_Item.start) / bpmFactor)+ 'mm:ss '
+      tsc:  convertBPtoTime((index - gb_Item.start) / bpmFactor)+ 'mm:ss '
     },
     printGeneB:
     {
@@ -384,20 +365,20 @@ const checkValUTR = useRef(true)
 // having to create new track and switch on/off in diff modes
   if(mode === 'tsc') codonF2Notes = [codonNotes_2]
 
+  // if(index === 2) {
+  //   dispatch(setPlayhead(444))
+  // }
+  // store
 
   return (
     <>
-
         <h2>{MAPS.source}</h2>
       <p>
-        <span>{subHeadings.rnaRegion[mode]}</span> extends from {subHeadings.rnaBegin[mode]} to {subHeadings.rnaEnd[mode]} bp ({subHeadings.rnaLength[mode]} bp in length). Playtime = {subHeadings.bpTime[mode]}
+        <span>{gb_Item.product}</span> extends from {gb_Item.start} to {gb_Item.end} bp. Playtime = {subHeadings.bpTime[mode]}
       </p>
-        <hr />
-      <p>
-        {subHeadings.sonifySub[mode]}
-      </p>
-        <br />
       <div className='player-container'>
+      <span className='dark'>{subHeadings.sonifySub[mode]}</span>
+
         <div className='player'>
           {mode === 'trl' && (
             <div>
@@ -491,6 +472,7 @@ const checkValUTR = useRef(true)
               <span> {String(genome.length - (index)).padStart(5, '0')}</span>|
               <span className=' pre'>{DNAfill40 + genomeSubComplement}</span>
               <p className='pre'>            3`                                                                              5`</p>
+              <br></br>
             </div>
           )}
         </div>
@@ -499,7 +481,7 @@ const checkValUTR = useRef(true)
         <div>
           <Controls />
         <hr></hr>
-          <h3>RNA map: Translated RNA regions.</h3><p>{gb_Item.product}: {subHeadings.printGeneB[mode]} bp.</p>
+          <p>RNA map: Translated RNA regions. <span>{gb_Item.product}</span>: length: {subHeadings.printGeneB[mode]} bp.</p>
 
           {MAPS.geneBank_json.map(Feature)}
           <p><small>U - Untranslated regions, Polyprotein - Very large protein that is cleaved
@@ -507,14 +489,14 @@ const checkValUTR = useRef(true)
             ORF's - individual proteins (open reading frames) that are translated from shorter subgenomic RNA sequences.</small>
           </p>
           <hr></hr>
-          <h3>RNA map: Cleavage sites (C) and NSP proteins (N) made from the ab1/2 Polyprotein.</h3> <p>{nsp_Item.nsp} {nsp_Item.aa_res}: {subHeadings.printNSP[mode]} bp.</p>
+          <p>RNA map: NSP proteins (N) made from  Poly-protein. {nsp_Item.nsp} {nsp_Item.aa_res}: {subHeadings.printNSP[mode]} bp.</p>
           {MAPS.nsp_json.map(Feature)}
           <p><small>N1 to N16 - Small NSP proteins made by cleavage of the virally encoded polyprotein,
             C - The cleavage points within the polyprotein, Outside Poly-protein - represents the remaining region
             where all other genes are located (such as the S, E, M and N proteins and ORF's).</small>
           </p>
           <hr></hr>
-          <h3>RNA map: Transcription Regulatory Sequences.</h3><p> {trs_Item.tag}: {subHeadings.printTRS[mode]} bp. {trs_Item.trs_seq}
+          <p>RNA map: Transcription Regulatory Sequences. {trs_Item.tag}: {subHeadings.printTRS[mode]} bp. {trs_Item.trs_seq}
           </p>
           {MAPS.trs_json.map(Feature)}<br />
           <p><small>T1 to T10 represent the Transcription Regulatory Sequence (TRS) where RNA structural elements occur which
@@ -530,7 +512,6 @@ const checkValUTR = useRef(true)
               <table className="fullwidth">
                 <thead>
                   <tr>
-                    <th>Mute</th>
                     <th>Feature</th>
                     <th>Motif</th>
                     <th>Note</th>
@@ -538,47 +519,23 @@ const checkValUTR = useRef(true)
                 </thead>
                 <tbody>
                   <tr>
-                    <td>
-                      <Checkbox
-                        default={checkValBase.current}
-                        onClick={(value) => checkValBase.current = value}
-                      />
-                    </td>
                     <td>Nucleotide: </td>
                     <td>{ base }</td>
                     <td>{ baseNotes[0].name }</td>
                   </tr>
                   <tr>
-                  <td>
-                      <Checkbox
-                        default={checkVal2base.current}
-                        onClick={(value) => checkVal2base.current = value}
-                      />
-                    </td>
                     <td>Di-Nucleotide: </td>
                     <td>{ twoBase_2} </td>
                     <td>{ twobaseNotes[0].name }</td>
                   </tr>
 
                   {isReversed ? <tr>
-                  <td>
-                      <Checkbox
-                        default={checkValCodon.current}
-                        onClick={(value) => checkValCodon.current = value}
-                      />
-                    </td>
                     <td>codon</td>
                     <td>{ codonNotes_2.codon}</td>
                     <td>{ codonNotes_2.name }</td>
                   </tr>
                     :
                   <tr>
-                  <td>
-                      <Checkbox
-                        default={checkValCodon.current}
-                        onClick={(value) => checkValCodon.current = value}
-                      />
-                    </td>
                     <td>Amino Acid Frame 1<br></br>Amino Acid Frame 2<br></br>Amino Acid Frame 2</td>
                     <td>{ codonF1Notes[0]?.motif }<br></br>{ codonF2Notes[0]?.motif } <br></br>{ codonF3Notes[0]?.motif }</td>
                     <td>{ codonF1Notes[0]?.name }<br></br>{ codonF2Notes[0]?.name } <br></br>{ codonF3Notes[0]?.name }</td>
@@ -586,78 +543,36 @@ const checkValUTR = useRef(true)
                   }
 
                   <tr>
-                  <td>
-                      <Checkbox
-                        default={checkVal10B.current}
-                        onClick={(value) => checkVal10B.current = value}
-                      />
-                    </td>
                     <td>GC Content 10 bases:</td>
                     <td>{ GCnote10Numb/10 }</td>
                     <td>{ tenGCnote[0].name }</td>
                   </tr>
                   <tr>
-                  <td>
-                      <Checkbox
-                        default={checkVal100B.current}
-                        onClick={(value) => checkVal100B.current = value}
-                      />
-                    </td>
                     <td>GC Content 100 bases:</td>
                     <td>{ GCnote100Numb/10 }</td>
                     <td>{ tentensGCnote[0].name }</td>
                   </tr>
                   <tr>
-                  <td>
-                      <Checkbox
-                        default={checkValRepeat.current}
-                        onClick={(value) => checkValRepeat.current = value}
-                      />
-                    </td>
                     <td>Three base repeat:</td>
                     <td>{ (sameBaseNotes[0].name)? codon : '-' }</td>
                     <td>{ (sameBaseNotes[0].name)? sameBaseNotes[0].name : '-' }</td>
                   </tr>
                   <tr>
-                  <td>
-                      <Checkbox
-                        default={checkValTRS.current}
-                        onClick={(value) => checkValTRS.current = value}
-                      />
-                    </td>
                     <td> TRS {trs_Item.trs_seq}:</td>
                     <td>{ (trs_Item.trs_seq) ? base : '-' }</td>
                     <td>{ (trs_Item.trs_seq) ? getTRSnote[0].name : '-' }</td>
                   </tr>
                   <tr>
-                  <td>
-                      <Checkbox
-                        default={checkValNSP.current}
-                        onClick={(value) => checkValNSP.current = value}
-                      />
-                    </td>
                     <td>NSP cleavage:</td>
                     <td>{ (nspNote[0].name) ? base : '-' }</td>
                     <td>{ (nspNote[0].name) ? nspNote[0].name : '-' }</td>
                   </tr>
                   <tr>
-                  <td>
-                      <Checkbox
-                        default={checkValSL.current}
-                        onClick={(value) => checkValSL.current = value}
-                      />
-                    </td>
                     <td>Stem and Loop RNA:</td>
                     <td>{ (slNote[0].name) ? base : '-' }</td>
                     <td>{ (slNote[0].name) ? slNote[0].name : '-' }</td>
                   </tr>
                   <tr>
-                  <td>
-                      <Checkbox
-                        default={checkValUTR.current}
-                        onClick={(value) => checkValUTR.current = value}
-                      />
-                    </td>
                     <td>Highlight body UTR regions:</td>
                     <td>{ (utrNote[0].name) ? base : '-' }</td>
                     <td>{ (utrNote[0].name) ? utrNote[0].name : '-' }</td>
@@ -698,52 +613,56 @@ const checkValUTR = useRef(true)
             </div>
           </div>
         </div>
+
+        {console.log(utrNote[0].name)}
+
       <Song bpm={bpm}>
-        {checkValBase.current && <Track volume={-7} pan={-0.6}>
+        { baseNotes && <Track volume={-7} pan={-0.6}>
           <Instrument type={'synth'} notes={baseNotes} />
         </Track>}
-        {checkVal2base.current && <Track volume={-7} pan={0.6}>
+        { twobaseNotes && <Track volume={-7} pan={0.6}>
           <Instrument type={'synth'} notes={twobaseNotes} />
         </Track>}
 
 
-        {checkValCodon.current && <Track volume={-4} pan={-0.9}>
+        { codonF1Notes && <Track volume={-4} pan={-0.9}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'sine' }} notes={codonF1Notes} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>}
-        {checkValCodon.current && <Track volume={-4} pan={0}>
+        { codonF2Notes && <Track volume={-4} pan={0}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'square' }} notes={codonF2Notes} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>}
-        {checkValCodon.current && <Track volume={-4} pan={0.9}>
+        { codonF3Notes && <Track volume={-4} pan={0.9}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'triangle' }} notes={codonF3Notes} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>}
 
-        {checkVal10B.current && <Track volume={-8} pan={-0.7}>
+        { tenGCnote && <Track volume={-8} pan={-0.7}>
           <Instrument type={'amSynth'} notes={tenGCnote} />
           <Effect type='feedbackDelay' wet={0.3} />
         </Track>}
-        {checkVal100B.current && <Track volume={-8} pan={0.7}>
+        { tentensGCnote && <Track volume={-8} pan={0.7}>
           <Instrument type={'amSynth'} notes={tentensGCnote} />
           <Effect type='feedbackDelay' wet={0.3} />
         </Track>}
 
-        {checkValRepeat.current && <Track volume={-7} pan={0.3}>
+        { sameBaseNotes && <Track volume={-7} pan={0.3}>
           <Instrument type={'synth'} notes={sameBaseNotes} />
         </Track>}
 
-        {checkValTRS.current && <Track volume={-1} pan={0.8}>
+        { getTRSnote && <Track volume={-1} pan={0.8}>
           <Instrument type={'amSynth'} notes={getTRSnote} />
         </Track>}
-        {checkValNSP.current && <Track volume={0} pan={0.8}>
+        { nspNote && <Track volume={0} pan={0.8}>
           <Instrument type={'amSynth'} notes={nspNote} />
         </Track>}
 
-        {checkValSL.current && <Track volume={-10} pan={0.8}>
+        { slNote && <Track volume={-10} pan={0.8}>
           <Instrument type={'amSynth'} notes={slNote} />
         </Track>}
-        {checkValUTR.current && <Track volume={-8} pan={-0.8}>
+
+        { utrNote && <Track volume={-8} pan={-0.8}>
           <Instrument type={'amSynth'} notes={utrNote} />
         </Track>}
     </Song>

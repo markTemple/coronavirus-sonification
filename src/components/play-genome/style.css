@@ -58,6 +58,11 @@ span {
   color: #c41b08;
 }
 
+span.dark {
+  font-size: 1.2rem;
+  color: #093d50;
+}
+
 small {
 font-style: italic;
 color: #a03327;

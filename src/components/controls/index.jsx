@@ -59,7 +59,7 @@ export const Controls = () => {
   } else {
     buttonPlayOrPause = (
       <Button onClick={play} className='button play'>
-        Play &#9658;
+        Continue &#9658;
       </Button>
     )
   }
@@ -68,30 +68,40 @@ export const Controls = () => {
   if (isReversed) {
     buttonPlayTrsOrPlayTrl = (
       <Button onClick={playTranslation} className='button play'>
-        Play Translation &#9658;
+        Start Translation &#x25ba;&#x25ba;
       </Button>
     )
   } else {
     buttonPlayTrsOrPlayTrl = (
-      <Button onClick={playTranscription} className='button play'>
-        Play Transcription &#9658;
+      <Button onClick={playTranscription} className='button pause'>
+        &#x25c0;&#x25c0; Start Transcription
       </Button>
     )
   }
 
   return (
     <>
-      {buttonPlayOrPause}
-      <Button onClick={reverse} className='button mode'>
-        {isReversed ? 'Translation' : 'Transcription'}
+      {/* {buttonPlayTrsOrPlayTrl} */}
+      <Button onClick={playTranslation} className='button play'>
+        Start Translation &#x25ba;&#x25ba;
       </Button>
-      {buttonPlayTrsOrPlayTrl}
-      <Button onClick={decrement} className='button ffrr'>
+
+      {buttonPlayOrPause}
+
+      <Button onClick={reverse} className='button mode'>
+        {isReversed ? 'Switch' : 'Switch' }
+      </Button>
+
+      <Button onClick={playTranscription} className='button pause'>
+        &#x25c0;&#x25c0; Start Transcription
+      </Button>
+
+      {/* <Button onClick={decrement} className='button ffrr'>
       &#x25c0;&#x25c0;
       </Button>
       <Button onClick={increment} className='button ffrr'>
       &#x25ba;&#x25ba;
-      </Button>
+      </Button> */}
 
     </>
   )
