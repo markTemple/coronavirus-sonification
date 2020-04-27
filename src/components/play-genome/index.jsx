@@ -478,38 +478,35 @@ const checkValUTR = useRef(true)
           )}
         </div>
       </div>
-        <hr />
         <div>
           <Controls />
-        <hr></hr>
-          <p>RNA map: Translated RNA regions. <span>{gb_Item.product}</span>: length: {subHeadings.printGeneB[mode]} bp.</p>
+          <hr></hr>
+          <p><span className='highlight'>Interactive RNA map:</span> Translated regions. <span>{gb_Item.product}</span>: length: {subHeadings.printGeneB[mode]} bp.</p>
 
           {MAPS.geneBank_json.map(Feature)}
-          <p><small>U - Untranslated regions, Polyprotein - Very large protein that is cleaved
-            into smaller NSP proteins, S, E, M, N - are common proteins found in all coronavirus,
-            ORF's - individual proteins (open reading frames) that are translated from shorter subgenomic RNA sequences.</small>
-          </p>
-          <hr></hr>
-          <p>RNA map: NSP proteins (N) made from  Poly-protein. {nsp_Item.nsp} {nsp_Item.aa_res}: {subHeadings.printNSP[mode]} bp.</p>
+          <span><small><br></br>
+            <button class="button legend"></button>Untranslated regions
+            <button class="button legend3"></button>Viral proteins
+          </small></span>
+          <p><span className='highlight'>Interactive RNA map:</span> NSP proteins (N) made from  Poly-protein. {nsp_Item.nsp} {nsp_Item.aa_res}: {subHeadings.printNSP[mode]} bp.</p>
           {MAPS.nsp_json.map(Feature)}
-          <p><small>N1 to N16 - Small NSP proteins made by cleavage of the virally encoded polyprotein,
-            C - The cleavage points within the polyprotein, Outside Poly-protein - represents the remaining region
-            where all other genes are located (such as the S, E, M and N proteins and ORF's).</small>
+          <span><small><br></br>
+            <button class="button legend"></button>NSP proteins
+            <button class="button legend2"></button>Cleavage points
+          </small></span>
+          <p><span className='highlight'>Interactive RNA map: </span>Transcription Regulatory Sequences. {trs_Item.tag}: {subHeadings.printTRS[mode]} bp. {trs_Item.trs_seq}
           </p>
-          <hr></hr>
-          <p>RNA map: Transcription Regulatory Sequences. {trs_Item.tag}: {subHeadings.printTRS[mode]} bp. {trs_Item.trs_seq}
-          </p>
-          {MAPS.trs_json.map(Feature)}<br />
-          <p><small>T1 to T10 represent the Transcription Regulatory Sequence (TRS) where RNA structural elements occur which
-            lead to the fromation of smaller transcribed versions of the RNA genome (each including the 5'leader and 3`UTR regions,
-            SL - represent regions where stem and loop structural elements occur, Seq - represent intervening units of RNA
-            sequence (genelike) that are included in the subgenomic RNA's).</small>
-          </p>
+          {MAPS.trs_json.map(Feature)}
+          <span><small><br></br>
+            <button class="button legend2"></button>Transcription Regulatory Regions
+            <button class="button legend"></button>Interveining Sequences
+            <button class="button legend3"></button>Stem Loop regions
+          </small></span>
           <hr></hr>
 
           <div className='row'>
             <div className='column'>
-              <h3>Audio details and control. </h3>
+              <h3>Description of audio notes generated from RNA motifs. </h3>
               <table className="fullwidth">
                 <thead>
                   <tr>
@@ -656,21 +653,21 @@ const checkValUTR = useRef(true)
             <table className="fullwidth">
                 <tbody>
                   <tr>
-                    <td><span><b>Translated Region: </b></span>
+                    <td><span className='highlight'>Translated Region: </span>
                     {gb_Item.start} - {gb_Item.end} bp <br />
                     {gb_Item.product}, {gb_Item.text} <br />
                     {gb_Item.protein_id} {gb_Item.GeneID}
                     </td>
                   </tr>
                   <tr>
-                    <td><span><b>Polyprotein cleavage product: </b></span>
+                    <td><span className='highlight'>Polyprotein cleavage product: </span>
                     {nsp_Item.start} - {nsp_Item.end} bp <br />
                     {nsp_Item.text} <br />
                     {nsp_Item.note}
                     </td>
                   </tr>
                   <tr>
-                    <td><span><b>Transcriptional Elements: </b></span>
+                    <td><span className='highlight'>Transcriptional Elements: </span>
                     {trs_Item.start} - {trs_Item.end} bp <br />
                     {trs_Item.text} <br />
                     {trs_Item.trs_seq}
