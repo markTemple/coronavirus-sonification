@@ -103,30 +103,30 @@ export const trlProps = {
   },
 }
 
-// tsc     R 2  3  4  5  6  7  R
-// lydian = [2, 2, 2, 1, 2, 2, 1]
-
+// tsc     R  2  3  4  5  6  7  R
+//         A  B  C# D# E  F# G#
+//  lydian = [2, 2, 2, 1, 2, 2, 1]
 export const tscProps = {
   base:{
     oct: 2,
     scale: [2, 2, 2, 6],
     range: 4,
     key: 'A',
-    dur: '8n',
+    dur: '4n',
   },
   repeatBases:{
-    oct: 5,
+    oct: 3,
     scale: [2, 2, 8],
     range: 8,
     key: 'A',
-    dur: '4n',
+    dur: '2n',
   },
   twoBase:{
-    oct: 3,
+    oct: 2,
     scale: [0, 2, 2, 2, 6, 0, 6, 1, 4, 1, 0],
     range: 16,
     key: 'A',
-    dur: '8n',
+    dur: '4n',
   },
   codon:{
     oct: 1,
@@ -143,11 +143,11 @@ export const tscProps = {
     dur: '1m',
   },
   trsNote:{
-    oct: 3,
+    oct: 5,
     scale: [ -1, -2, -2, -1, -2, -2, -2],
     range: 18,
     key: 'A',
-    dur: '4n',
+    dur: '2n',
   },
   nsp:{
     oct: 4,
@@ -158,7 +158,7 @@ export const tscProps = {
   },
   SL:{
     oct: 5,
-    scale: [0, 3, 0, -3],// 1, 3, 5, 7.
+    scale: [0, 6, 1, 4, 1],// 1, 3, 5, 7.
     range: 16,
     key: 'C',
     dur: '2n',

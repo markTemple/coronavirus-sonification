@@ -47,7 +47,7 @@ export function PlayGenome() {
       startEnd = 'start'
       break;
     case 'tsc':
-      bpm = 60
+      bpm = 90
       audioProps = 'tscProps'
       startEnd = 'end'
       break;
@@ -120,19 +120,23 @@ export function PlayGenome() {
   }
   setSynthByCodonType()
 
+
   const codonNotes = getCodonNotes(codon, audioProps)
   const codonFNotes = getCodonFNotes(mode, frame012, isSynthEnabled, index, gb_Item, codonNotes)
 
-let codonNotes_2 = ''
-
+  // trs data used in swith statement
   let codonStatusF1 = {start: null, stop: null};
   let codonStatusF2 = {start: null, stop: null};
   let codonStatusF3 = {start: null, stop: null};
 
+  // tsc data used in swith statement
+  let codonNotes_2 = ''
+  let genomeSubComplement = ''
+
   // don't run everything for trl when in tsc
   // and vis versa
-  switch (mode) {
-    case 'trl':
+  switch (isReversed) {
+    case false:
 
       function buttonSTART() {
         if(start() === true) {
@@ -167,16 +171,15 @@ let codonNotes_2 = ''
 
 
     break;
-    case 'tsc':
+    case true:
       codonNotes_2 = getCodonNotes_2(index, codon, audioProps, mode)
+      genomeSubComplement = makeComplementary(genome.substring(index, index + 41))
+
       break;
     default:
       console.trace('tsc')
     break;
   }
-
-
-
 
 const codonF1Notes = codonFNotes.notes.f1
 // so it can be reassigned to tsc codon later
@@ -269,13 +272,11 @@ const checkValUTR = useRef(true)
       </Fragment>
     );
   }
+
   function makeComplementary(seq) {
     return seq.replace(/./g, (char) => MAPS.COMPLEMENUARY_MAP[char])
   }
   const genomeSub = genome.substring(index - 40, index + 41)
-
-  const genomeSubComplement = makeComplementary(genome.substring(index, index + 41))
-
   const antiCodon = makeComplementary(codon);
 
   let dotfill40 = `                                        `;
@@ -307,18 +308,15 @@ const checkValUTR = useRef(true)
       className: 'frame3 circle',
     }
   }
-  const SW_DNA_PropStyle = {
-    content: base,
-    props: {
-      className: 'frame3',
-    }
-  }
+  // const SW_DNA_PropStyle = {
+  //   content: base,
+  //   props: {
+  //     className: 'frame3',
+  //   }
+  // }
   // x nt per second eg 6 x 60 = 360/4 = 90 bpm
   // (bpm*4)/60
   let bpmFactor = (bpm * 4) / 60
-  const trl_time = (gb_Item.end - gb_Item.start) / bpmFactor
-  const tsc_time = (trs_Item.end - trs_Item.start) / bpmFactor
-
   function convertBPtoTime(given_seconds) {
     // let hours = dateObj.getUTCHours();
     const dateObj = new Date(given_seconds * 1000);
@@ -332,7 +330,6 @@ const checkValUTR = useRef(true)
       + ':' + seconds.toString().padStart(2, '0');
     return timeString;
   }
-
   //const arrays with translation then transcription values
   let subHeadings = {
     sonifySub:
@@ -375,7 +372,8 @@ const checkValUTR = useRef(true)
     <>
         <h2>{MAPS.source}</h2>
       <p>
-        <span>{gb_Item.product}</span> extends from {gb_Item.start} to {gb_Item.end} bp. Playtime = {subHeadings.bpTime[mode]}
+        <span>{gb_Item.product}</span> extends from {gb_Item.start} to {gb_Item.end} bp.
+        Playtime = {subHeadings.bpTime[mode]}
       </p>
       <div className='player-container'>
       <span className='dark'>{subHeadings.sonifySub[mode]}</span>
@@ -480,32 +478,51 @@ const checkValUTR = useRef(true)
       </div>
         <div>
           <Controls />
-          <hr></hr>
-          <p><span className='highlight'>Interactive RNA map:</span> Translated regions. <span>{gb_Item.product}</span>: length: {subHeadings.printGeneB[mode]} bp.</p>
+          <fieldset>
 
-          {MAPS.geneBank_json.map(Feature)}
-          <span><small><br></br>
-            <button class="button legend"></button>Untranslated regions
-            <button class="button legend3"></button>Viral proteins
-          </small></span>
-          <p><span className='highlight'>Interactive RNA map:</span> NSP proteins (N) made from  Poly-protein. {nsp_Item.nsp} {nsp_Item.aa_res}: {subHeadings.printNSP[mode]} bp.</p>
+          <p><span className='highlight'>Control buttons: </span>
+          Translated genes.
+          <span>{gb_Item.product} </span>
+          ({gb_Item.start}-{gb_Item.end}) bp<br></br>
+          <span><small>{gb_Item.text}</small></span>
+          </p>
+          <p>{MAPS.geneBank_json.map(Feature)}
+            <span><small><br></br>
+              <button className="button legend"></button>Untranslated regions
+              <button className="button legend2"></button>Viral proteins
+            </small></span>
+          </p>
+          <hr></hr>
+          <p><span className='highlight'>Control buttons: </span>
+          NSP proteins.
+          <span> {nsp_Item.text} </span>
+          ({nsp_Item.start}-{nsp_Item.end}) bp<br></br>
+          <span><small>{nsp_Item.note}</small></span>
+          </p>
           {MAPS.nsp_json.map(Feature)}
           <span><small><br></br>
-            <button class="button legend"></button>NSP proteins
-            <button class="button legend2"></button>Cleavage points
+            <button className="button legend2"></button>Cleavage points
+            <button className="button legend"></button>NSP proteins
           </small></span>
-          <p><span className='highlight'>Interactive RNA map: </span>Transcription Regulatory Sequences. {trs_Item.tag}: {subHeadings.printTRS[mode]} bp. {trs_Item.trs_seq}
+
+          <p><span className='highlight'>Control buttons: </span>
+          Transcription.
+          <span> {trs_Item.trs_name} </span>
+          ({trs_Item.start}-{trs_Item.end}) bp<br></br>
+          <span><small>{trs_Item.text} {trs_Item.trs_seq}</small></span>
           </p>
+
           {MAPS.trs_json.map(Feature)}
           <span><small><br></br>
-            <button class="button legend2"></button>Transcription Regulatory Regions
-            <button class="button legend"></button>Interveining Sequences
-            <button class="button legend3"></button>Stem Loop regions
+            <button className="button legend2"></button>Transcription Regulatory Regions
+            <button className="button legend"></button>Interveining Sequences
+            <button className="button legend3"></button>Stem Loop regions
           </small></span>
-          <hr></hr>
+          </fieldset>
 
           <div className='row'>
             <div className='column'>
+            <fieldset>
               <h3>Description of audio notes generated from RNA motifs. </h3>
               <table className="fullwidth">
                 <thead>
@@ -644,37 +661,7 @@ const checkValUTR = useRef(true)
                   </tr>
                 </tbody>
               </table>
-
-              {/* <p> GCAU score (GC=+1, AT=-1) {GAUCcount.current}</p> */}
-            </div>
-            <div className='column'>
-
-            <h3>Description of sonified RNA. </h3>
-            <table className="fullwidth">
-                <tbody>
-                  <tr>
-                    <td><span className='highlight'>Translated Region: </span>
-                    {gb_Item.start} - {gb_Item.end} bp <br />
-                    {gb_Item.product}, {gb_Item.text} <br />
-                    {gb_Item.protein_id} {gb_Item.GeneID}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><span className='highlight'>Polyprotein cleavage product: </span>
-                    {nsp_Item.start} - {nsp_Item.end} bp <br />
-                    {nsp_Item.text} <br />
-                    {nsp_Item.note}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><span className='highlight'>Transcriptional Elements: </span>
-                    {trs_Item.start} - {trs_Item.end} bp <br />
-                    {trs_Item.text} <br />
-                    {trs_Item.trs_seq}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              </fieldset>
             </div>
           </div>
         </div>

@@ -3,7 +3,8 @@
   max-width: 1080px;
   margin: auto;
   padding: 26px;
-  border: 4px solid #c2d6de;
+  border-radius: 8px;
+  border: 1px solid rgb(133, 133, 133);
   background-color: rgb(242, 242, 242);
 }
 
@@ -13,7 +14,9 @@
   overflow-x: auto;
   background-color: rgb(254, 254, 254);
   padding: 10px;
-  border: 5px solid rgb(133, 133, 133);
+  border: 1px solid rgb(133, 133, 133);
+  border-radius: 8px;
+
   opacity: 0.8;
   z-index: -100;
 }
@@ -23,6 +26,13 @@
   padding-bottom: 10px;
   position: relative;
   width: 900px;
+}
+
+fieldset {
+  border: 1px solid rgb(133, 133, 133);
+  border-radius: 8px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .row {
@@ -63,8 +73,7 @@ span {
 }
 
 .button.legend {
-  background-color: #b1b1b1
-;
+  background-color: #b1b1b1;
   padding: 8px 8px;
   display: inline-block;
 }
@@ -88,13 +97,14 @@ color: #a03327;
 
 hr {
   border: 0.5px solid;
-  color: #8fbed0;
+  color: rgb(133, 133, 133);
+
 }
 
 h1, h2, h3 {
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   color: #000000;
-  margin: 1rem 0 0.5rem 0;
+  margin: 0 0;
 }
 
 /* very important to print spaces to screen
@@ -191,7 +201,7 @@ span.frame3 {
   border-radius: 50%;
   background: #f16c21;
   box-shadow: 10px 10px 8px -6px rgb(36, 28, 28);
-  border-width: 5px;
+  /* border: 1px solid rgb(0, 0, 0); */
 }
 
 /* .circle2 {
@@ -306,8 +316,7 @@ span.frame3 {
 /* stop start indicators */
 /* _____________________ */
 .stopStartFlash {
-  background: #f14721;
-  border: crimson;
+  background: #7e1801;
   border-radius: 50%;
   width: 15px;
   height: 15px;
@@ -317,7 +326,7 @@ span.frame3 {
   white-space: pre;
 }
 .stopStartFlash.start {
-  background: #59d54e;
+  background: #0b7e01;
 }
 /* --------------------- */
 /*  three rows - lot of buttons!!! */
