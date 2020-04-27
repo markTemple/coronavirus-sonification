@@ -8,7 +8,7 @@ button {
   transition: all 0.5s cubic-bezier(0.21, 0.8, 0.45, 1);
   box-shadow: 0 5px 5px rgba(103, 2, 2, 0.38);
   font-size: 1rem;
-  margin: 0.2rem;
+  margin: 0.1rem;
 }
 
 /* Aidan how to apply style to Play button */

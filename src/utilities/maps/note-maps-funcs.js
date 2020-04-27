@@ -43,63 +43,63 @@ export const trlProps = {
     scale: [12],//roots at octaves
     range: 4,
     key: 'C',
-    dur: '12n',
+    dur: '8m',
   },
   repeatBases:{
     oct: 4,
     scale: [3, 9],// root and 3rd
     range: 8,
     key: 'C',
-    dur: '8n',
+    dur: '8m',
   },
   twoBase:{
     oct: 1,
     scale: [5, 2, 3, 2],// 1st 4th 5th 7th
     range: 16,
     key: 'C',
-    dur: '8n',
+    dur: '8m',
   },
   codon:{
     oct: 2,
     scale: [2, 6, 2, 2],// 1st, 2rd, 6th, and 7th?
     range: 21,
     key: 'C',
-    dur: '4n',
+    dur: '8m',
   },
   GCnote:{
     oct: 2,
     scale: [3, 5, 2, 2],// 1st, 3rd, 6th, and 7th?
     range: 10,
     key: 'C',
-    dur: '1m',
+    dur: '8m',
   },
   trsNote:{
     oct: 4,
     scale: [3, 0, 3, 0, 1, 0, 5],// 1st, 3rd, #4 and 5th?
     range: 20,
     key: 'C',
-    dur: '4n',// too short gives click/spike in audio
+    dur: '8m',// too short gives click/spike in audio
   },
   nsp:{
     oct: 2,
     scale: [3, 4, -2, -2, -3],// 1st, 1st, 3rd, 3rd, 5th, 4th
     range: 8,
     key: 'Eb',// force to 3rd in C
-    dur: '2n',
+    dur: '8m',
   },
   SL:{
     oct: 6,
     scale: [0, 3, 0, -3],// 1, 3, 5, 7.
     range: 16,
     key: 'C',
-    dur: '2n',
+    dur: '8m',
   },
   UTR:{
     oct: 6,
     scale: [0, -2, 0, 2, 3, 0, -3],
     range: 16,
     key: 'C',
-    dur: '2n',
+    dur: '8m',
   },
 }
 
@@ -112,63 +112,63 @@ export const tscProps = {
     scale: [2, 2, 2, 6],
     range: 4,
     key: 'A',
-    dur: '4n',
+    dur: '8m',
   },
   repeatBases:{
     oct: 3,
     scale: [2, 2, 8],
     range: 8,
     key: 'A',
-    dur: '2n',
+    dur: '8m',
   },
   twoBase:{
     oct: 2,
     scale: [0, 2, 2, 2, 6, 0, 6, 1, 4, 1, 0],
     range: 16,
     key: 'A',
-    dur: '4n',
+    dur: '8m',
   },
   codon:{
     oct: 1,
     scale: [1], // almost chromatic
     range: 64,
     key: 'A',
-    dur: '2n',
+    dur: '8m',
   },
   GCnote:{
     oct: 4,
     scale: [0, 4, 2, 1, 4, 1],//
     range: 10,
     key: 'A',
-    dur: '1m',
+    dur: '8m',
   },
   trsNote:{
     oct: 5,
     scale: [ -1, -2, -2, -1, -2, -2, -2],
     range: 18,
     key: 'A',
-    dur: '2n',
+    dur: '8m',
   },
   nsp:{
     oct: 4,
     scale: [0, 6, -2, 7, 1],//
     range: 8,
     key: 'A',
-    dur: '2n',
+    dur: '8m',
   },
   SL:{
     oct: 5,
     scale: [0, 6, 1, 4, 1],// 1, 3, 5, 7.
     range: 16,
     key: 'C',
-    dur: '2n',
+    dur: '8m',
   },
   UTR:{
     oct: 5,
     scale: [0, 6, 0, -6],
     range: 16,
     key: 'C',
-    dur: '2n',
+    dur: '8m',
   },
 }
 // do this once and access on each render cycle - don't remake???

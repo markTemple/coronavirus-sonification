@@ -42,12 +42,12 @@ export function PlayGenome() {
   let startEnd = null
   switch (mode) {
     case 'trl':
-      bpm = 80
+      bpm = 1280
       audioProps = 'trlProps'
       startEnd = 'start'
       break;
     case 'tsc':
-      bpm = 90
+      bpm = 1400
       audioProps = 'tscProps'
       startEnd = 'end'
       break;
@@ -316,7 +316,8 @@ const checkValUTR = useRef(true)
   // }
   // x nt per second eg 6 x 60 = 360/4 = 90 bpm
   // (bpm*4)/60
-  let bpmFactor = (bpm * 4) / 60
+  // let bpmFactor = (bpm * 5) / bpm
+  let bpmFactor = bpm /256
   function convertBPtoTime(given_seconds) {
     // let hours = dateObj.getUTCHours();
     const dateObj = new Date(given_seconds * 1000);
@@ -384,7 +385,7 @@ const checkValUTR = useRef(true)
               <div className='pre'>
                 <span>
                   Frame1
-                    <span> {String(AA_Count1.current).padStart(4, '0')}</span>
+                    <span className='highlight'> {String(AA_Count1.current).padStart(4, '0')}</span>
                     </span>|
 
                 <SlidingStringWindow
@@ -403,7 +404,7 @@ const checkValUTR = useRef(true)
               <div className='pre'>
                 <span>
                   Frame2
-                    <span> {String(AA_Count2.current).padStart(4, '0')}</span>
+                    <span className='highlight'> {String(AA_Count2.current).padStart(4, '0')}</span>
                   </span>|
                 <SlidingStringWindow
                   reset={shouldReset.current}
@@ -421,7 +422,7 @@ const checkValUTR = useRef(true)
               <div className='pre'>
                 <span>
                   Frame3
-                    <span> {String(AA_Count3.current).padStart(4, '0')}</span>
+                    <span className='highlight'> {String(AA_Count3.current).padStart(4, '0')}</span>
                   </span>|
                 <SlidingStringWindow
                   reset={shouldReset.current}
@@ -450,7 +451,7 @@ const checkValUTR = useRef(true)
                 <span>                                        3`</span>
               </p>
             </div><span> RNA +</span>
-            <span> {String(index).padStart(5, '0')}</span>|
+            <span className='highlight'> {String(index).padStart(5, '0')}</span>|
             {isReversed
               ? <span className='pre'>{dotfill40 + genomeSub}</span>
               : <GenomeDisplay className='pre'>{dotfill40 + genomeSub}</GenomeDisplay>

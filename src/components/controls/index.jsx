@@ -24,9 +24,9 @@ Tone.Transport.scheduleRepeat(() => {
   const action = isReversed
     ? decrementPlayhead
     : incrementPlayhead
-
+//16n
   store.dispatch(action())
-}, '16n')
+}, '1m')
 
 export const Controls = () => {
   const dispatch = useDispatch()

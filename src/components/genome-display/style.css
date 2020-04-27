@@ -1,13 +1,13 @@
 .stop {
   position: relative;
-  background-color:#f29d6c;
-  z-index: -6;
+  background-color:#ff5d5d;
+  z-index: 1;
 }
 
 .start {
   position: relative;
-  background-color: #a4bf5f;
-  z-index: -6;
+  background-color: #57d065;
+  z-index: 1;
 
 }
 
@@ -15,6 +15,6 @@
   position: relative;
   color: rgb(4, 75, 75);
   background: rgba(178, 223, 227, 0.3);
-  z-index: -6;
+  z-index: 1;
 }
 
