@@ -24,6 +24,7 @@ import { getBaseNotes, playTwoBase, getSameBaseNotes, GCnote10Note,
 
 import { getCodonFNotes } from './process-codon-notes'
 import { Checkbox } from '../checkbox';
+import { jumper } from './jumper';
 
 
 export function PlayGenome() {
@@ -358,6 +359,12 @@ const checkValUTR = useRef(true)
       trl:  (trs_Item.end - trs_Item.start),
       tsc:  (trs_Item.end - trs_Item.start)
     },
+    checkbox:
+    {
+      trl: 'Translate Subgenomic RNA (skip Poly-protein)',
+      tsc: 'Transcribe Subgenomic RNA (discontinuous between TRSs)'
+    },
+
   }
 
 // hack to use track to play alt notes in tsc mode rather than
@@ -368,16 +375,44 @@ const checkValUTR = useRef(true)
   //   dispatch(setPlayhead(444))
   // }
   // store
+  // TRS1 CUCUAAACGAACUU 76= CUCUAAACGAA
+  // TRS1 GCCUAAACUCAUGC 29538=         UGC
+  // if(subGenome.current === true && index === 76) dispatch(setPlayhead(29538))
+  const subGenome = useRef(false)
+
+
+  if(mode === 'trl'){
+    jumper.map(doJump)
+
+    function doJump(jumper){
+      if(index === jumper.end5 && subGenome.current === true) {
+        dispatch(setPlayhead(jumper.end3))
+      }
+    }
+  }
+  if(mode === 'tsc'){
+    jumper.map(doJump)
+
+    function doJump(jumper){
+      if(index === jumper.end3 && subGenome.current === true) {
+        dispatch(setPlayhead(jumper.end5))
+      }
+    }
+  }
 
   return (
     <>
-        <h2>{MAPS.source}</h2>
+      <h2>{MAPS.source}</h2>
       <p>
         <span>{gb_Item.product}</span> extends from {gb_Item.start} to {gb_Item.end} bp.
         Playtime = {subHeadings.bpTime[mode]}
       </p>
       <div className='player-container'>
-      <span className='dark'>{subHeadings.sonifySub[mode]}</span>
+      {/* <span className='playCont_text'>{subHeadings.sonifySub[mode]}</span> */}
+      <Checkbox
+        default={subGenome.current}
+        onClick={(value) => subGenome.current = value}
+      /><span> {subHeadings.checkbox[mode]}</span>
 
         <div className='player'>
           {mode === 'trl' && (
@@ -480,7 +515,6 @@ const checkValUTR = useRef(true)
         <div>
           <Controls />
           <fieldset>
-
           <p><span className='highlight'>Control buttons: </span>
           Translated genes.
           <span>{gb_Item.product} </span>
@@ -577,8 +611,8 @@ const checkValUTR = useRef(true)
                         onClick={(value) => checkValCodon.current = value}
                       />
                     </td>
-                    <td>Amino Acid Frame 1<br></br>Amino Acid Frame 2<br></br>Amino Acid Frame 2</td>
-                    <td>{ codonF1Notes[0]?.motif }<br></br>{ codonF2Notes[0]?.motif } <br></br>{ codonF3Notes[0]?.motif }</td>
+                    <td>Amino Acid Frame 1<br></br>Amino Acid Frame 2<br></br>Amino Acid Frame 3</td>
+                    <td>{ codonF1Notes[0]?.motif2 }<br></br>{ codonF2Notes[0]?.motif2 } <br></br>{ codonF3Notes[0]?.motif2 }</td>
                     <td>{ codonF1Notes[0]?.name }<br></br>{ codonF2Notes[0]?.name } <br></br>{ codonF3Notes[0]?.name }</td>
                   </tr>
                   }

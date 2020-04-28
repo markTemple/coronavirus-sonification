@@ -42,42 +42,42 @@ export const trlProps = {
     oct: 1,
     scale: [12],//roots at octaves
     range: 4,
-    key: 'C',
+    key: 'Bb',
     dur: '8m',
   },
   repeatBases:{
     oct: 4,
     scale: [3, 9],// root and 3rd
     range: 8,
-    key: 'C',
+    key: 'Bb',
     dur: '8m',
   },
   twoBase:{
     oct: 1,
     scale: [5, 2, 3, 2],// 1st 4th 5th 7th
     range: 16,
-    key: 'C',
+    key: 'Bb',
     dur: '8m',
   },
   codon:{
     oct: 2,
     scale: [2, 6, 2, 2],// 1st, 2rd, 6th, and 7th?
     range: 21,
-    key: 'C',
+    key: 'Bb',
     dur: '8m',
   },
   GCnote:{
     oct: 2,
     scale: [3, 5, 2, 2],// 1st, 3rd, 6th, and 7th?
     range: 10,
-    key: 'C',
+    key: 'Bb',
     dur: '8m',
   },
   trsNote:{
     oct: 4,
     scale: [3, 0, 3, 0, 1, 0, 5],// 1st, 3rd, #4 and 5th?
     range: 20,
-    key: 'C',
+    key: 'Bb',
     dur: '8m',// too short gives click/spike in audio
   },
   nsp:{
@@ -91,14 +91,14 @@ export const trlProps = {
     oct: 6,
     scale: [0, 3, 0, -3],// 1, 3, 5, 7.
     range: 16,
-    key: 'C',
+    key: 'Bb',
     dur: '8m',
   },
   UTR:{
     oct: 6,
     scale: [0, -2, 0, 2, 3, 0, -3],
     range: 16,
-    key: 'C',
+    key: 'Bb',
     dur: '8m',
   },
 }
@@ -160,14 +160,14 @@ export const tscProps = {
     oct: 5,
     scale: [0, 6, 1, 4, 1],// 1, 3, 5, 7.
     range: 16,
-    key: 'C',
+    key: 'A',
     dur: '8m',
   },
   UTR:{
     oct: 5,
     scale: [0, 6, 0, -6],
     range: 16,
-    key: 'C',
+    key: 'A',
     dur: '8m',
   },
 }

@@ -96,10 +96,10 @@ export const Controls = () => {
         &#x25c0;&#x25c0; Start Transcription
       </Button>
 
-      {/* <Button onClick={decrement} className='button ffrr'>
+      <Button onClick={decrement} className='button ffrr'>
       &#x25c0;&#x25c0;
       </Button>
-      <Button onClick={increment} className='button ffrr'>
+     {/*  <Button onClick={increment} className='button ffrr'>
       &#x25ba;&#x25ba;
       </Button> */}
 
