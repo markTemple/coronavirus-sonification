@@ -128,7 +128,6 @@ export function PlayGenome() {
   }
   setSynthByCodonType()
 
-
   const codonNotes = getCodonNotes(codon, audioProps)
   const codonFNotes = getCodonFNotes(mode, frame012, isSynthEnabled, index, gb_Item, codonNotes)
 
@@ -546,7 +545,7 @@ const checkValUTR = useRef(true)
           </small></span>
 
           <p>
-          Transcription Regulatory Sesuences.
+          Transcription Regulatory Sequences.
           <span> {trs_Item.trs_name} </span>
           ({trs_Item.start}-{trs_Item.end}) bp. {subHeadings.printTRS[mode]} bp<br></br>
           <span><small>{trs_Item.text} {trs_Item.trs_seq}</small></span>
@@ -581,7 +580,7 @@ const checkValUTR = useRef(true)
                         onClick={(value) => checkValBase.current = value}
                       />
                     </td>
-                    <td>Nucleotide: </td>
+                    <td>Nucleotide (single base)</td>
                     <td>{ base }</td>
                     <td>{ baseNotes[0].name }</td>
                   </tr>
@@ -592,9 +591,31 @@ const checkValUTR = useRef(true)
                         onClick={(value) => checkVal2base.current = value}
                       />
                     </td>
-                    <td>Di-Nucleotide: </td>
+                    <td>Di-Nucleotide (pair of bases) </td>
                     <td>{ twoBase_2} </td>
                     <td>{ twobaseNotes[0].name }</td>
+                  </tr>
+                  <tr>
+                  <td>
+                      <Checkbox
+                        default={checkVal10B.current}
+                        onClick={(value) => checkVal10B.current = value}
+                      />
+                    </td>
+                    <td>GC Content over ten base pairs</td>
+                    <td>{ GCnote10Numb/10 }</td>
+                    <td>{ tenGCnote[0].name }</td>
+                  </tr>
+                  <tr>
+                  <td>
+                      <Checkbox
+                        default={checkVal100B.current}
+                        onClick={(value) => checkVal100B.current = value}
+                      />
+                    </td>
+                    <td>GC Content over 100 base pairs</td>
+                    <td>{ GCnote100Numb/10 }</td>
+                    <td>{ tentensGCnote[0].name }</td>
                   </tr>
 
                   {isReversed ? <tr>
@@ -604,7 +625,7 @@ const checkValUTR = useRef(true)
                         onClick={(value) => checkValCodon.current = value}
                       />
                     </td>
-                    <td>codon</td>
+                    <td>Codons (3 bases) mapped to 64 notes (Transcription mode only)</td>
                     <td>{ codonNotes_2.codon}</td>
                     <td>{ codonNotes_2.name }</td>
                   </tr>
@@ -616,7 +637,7 @@ const checkValUTR = useRef(true)
                         onClick={(value) => checkValCodon.current = value}
                       />
                     </td>
-                    <td>Amino Acid Frame 1<br></br>Amino Acid Frame 2<br></br>Amino Acid Frame 3</td>
+                    <td>Protein Sequences Frame 1 (Translation mode only)<br></br>Protein Sequences Frame 2 (Translation mode only)<br></br>Protein Sequences Frame 3 (Translation mode only)</td>
                     <td>{ codonF1Notes[0]?.motif2 }<br></br>{ codonF2Notes[0]?.motif2 } <br></br>{ codonF3Notes[0]?.motif2 }</td>
                     <td>{ codonF1Notes[0]?.name }<br></br>{ codonF2Notes[0]?.name } <br></br>{ codonF3Notes[0]?.name }</td>
                   </tr>
@@ -625,25 +646,51 @@ const checkValUTR = useRef(true)
                   <tr>
                   <td>
                       <Checkbox
-                        default={checkVal10B.current}
-                        onClick={(value) => checkVal10B.current = value}
+                        default={checkValUTR.current}
+                        onClick={(value) => checkValUTR.current = value}
                       />
                     </td>
-                    <td>GC Content 10 bases:</td>
-                    <td>{ GCnote10Numb/10 }</td>
-                    <td>{ tenGCnote[0].name }</td>
+                    <td>U: UTR regions (excluding 5` and 3` ends):</td>
+                    <td>{ (utrNote[0].name) ? base : '-' }</td>
+                    <td>{ (utrNote[0].name) ? utrNote[0].name : '-' }</td>
                   </tr>
+
                   <tr>
                   <td>
                       <Checkbox
-                        default={checkVal100B.current}
-                        onClick={(value) => checkVal100B.current = value}
+                        default={checkValNSP.current}
+                        onClick={(value) => checkValNSP.current = value}
                       />
                     </td>
-                    <td>GC Content 100 bases:</td>
-                    <td>{ GCnote100Numb/10 }</td>
-                    <td>{ tentensGCnote[0].name }</td>
+                    <td>C: Cleavage sites between N1 to N16 </td>
+                    <td>{ (nspNote[0].name) ? base : '-' }</td>
+                    <td>{ (nspNote[0].name) ? nspNote[0].name : '-' }</td>
                   </tr>
+
+                  <tr>
+                  <td>
+                      <Checkbox
+                        default={checkValTRS.current}
+                        onClick={(value) => checkValTRS.current = value}
+                      />
+                    </td>
+                    <td> T1 to T10: Transcription Regulatory Sequences {trs_Item.trs_seq}:</td>
+                    <td>{ (trs_Item.trs_seq) ? base : '-' }</td>
+                    <td>{ (trs_Item.trs_seq) ? getTRSnote[0].name : '-' }</td>
+                  </tr>
+
+                  <tr>
+                  <td>
+                      <Checkbox
+                        default={checkValSL.current}
+                        onClick={(value) => checkValSL.current = value}
+                      />
+                    </td>
+                    <td>SL: Stem and Loop RNA</td>
+                    <td>{ (slNote[0].name) ? base : '-' }</td>
+                    <td>{ (slNote[0].name) ? slNote[0].name : '-' }</td>
+                  </tr>
+
                   <tr>
                   <td>
                       <Checkbox
@@ -655,50 +702,7 @@ const checkValUTR = useRef(true)
                     <td>{ (sameBaseNotes[0].name)? codon : '-' }</td>
                     <td>{ (sameBaseNotes[0].name)? sameBaseNotes[0].name : '-' }</td>
                   </tr>
-                  <tr>
-                  <td>
-                      <Checkbox
-                        default={checkValTRS.current}
-                        onClick={(value) => checkValTRS.current = value}
-                      />
-                    </td>
-                    <td> TRS {trs_Item.trs_seq}:</td>
-                    <td>{ (trs_Item.trs_seq) ? base : '-' }</td>
-                    <td>{ (trs_Item.trs_seq) ? getTRSnote[0].name : '-' }</td>
-                  </tr>
-                  <tr>
-                  <td>
-                      <Checkbox
-                        default={checkValNSP.current}
-                        onClick={(value) => checkValNSP.current = value}
-                      />
-                    </td>
-                    <td>NSP cleavage:</td>
-                    <td>{ (nspNote[0].name) ? base : '-' }</td>
-                    <td>{ (nspNote[0].name) ? nspNote[0].name : '-' }</td>
-                  </tr>
-                  <tr>
-                  <td>
-                      <Checkbox
-                        default={checkValSL.current}
-                        onClick={(value) => checkValSL.current = value}
-                      />
-                    </td>
-                    <td>Stem and Loop RNA:</td>
-                    <td>{ (slNote[0].name) ? base : '-' }</td>
-                    <td>{ (slNote[0].name) ? slNote[0].name : '-' }</td>
-                  </tr>
-                  <tr>
-                  <td>
-                      <Checkbox
-                        default={checkValUTR.current}
-                        onClick={(value) => checkValUTR.current = value}
-                      />
-                    </td>
-                    <td>Highlight body UTR regions:</td>
-                    <td>{ (utrNote[0].name) ? base : '-' }</td>
-                    <td>{ (utrNote[0].name) ? utrNote[0].name : '-' }</td>
-                  </tr>
+
                 </tbody>
               </table>
               </fieldset>
@@ -740,11 +744,12 @@ const checkValUTR = useRef(true)
           <Instrument type={'synth'} notes={sameBaseNotes} />
         </Track>}
 
-        {checkValTRS.current && <Track volume={-2} pan={0.8}>
+        {checkValTRS.current && <Track volume={0} pan={0.8}>
           <Instrument type={'amSynth'} notes={getTRSnote} />
         </Track>}
         {checkValNSP.current && <Track volume={-1} pan={0.8}>
           <Instrument type={'amSynth'} notes={nspNote} />
+          <Effect type='distortion' wet={0.5} />
         </Track>}
 
         {checkValSL.current && <Track volume={-9} pan={0.8}>
