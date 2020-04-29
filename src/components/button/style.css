@@ -1,6 +1,6 @@
 button {
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  color: #000000;
+  /* color: #000000; */
   padding: 2px;
   border-width: 1px;
   border-color: black;
@@ -40,7 +40,7 @@ button.pausecont {
 
 button:hover {
   box-shadow: 0 1px 1px rgba(0,0,0,0.24);
-
+  border-color: rgb(213, 213, 213);
 }
 
 button:active {

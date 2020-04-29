@@ -1,7 +1,9 @@
 :root {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  max-width: 1080px;
+  max-width: 950px;
   margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
   padding: 26px;
   border-radius: 8px;
   border: 1px solid rgb(133, 133, 133);
@@ -18,6 +20,7 @@
   border-radius: 8px;
   opacity: 0.8;
   z-index: -100;
+  min-height: 270px;
 }
 
 .player {
@@ -129,20 +132,20 @@ span.antiC {
   padding: 4px 0px;
   color: #ebc844;
   background-color:#932c2c;
-  z-index: 1;
+  z-index: 3;
   opacity: 1;
 }
 
 .playhead {
   position: absolute;
-  top: 47px;
-  left: 497px;
-  border: 2px solid #f16c21;
-  width: 29px;
+  top: 48px;
+  left: 496px;
+  border: 2px solid #000000;
+  width: 31px;
   height: 172px;
-  background-color: #ccd2d5;
-  opacity: 0.2;
-  z-index: 1;
+  background-color: #ffffff;
+  opacity: 0.6;
+  z-index: -2;
 }
 
 .triangle-left {
@@ -156,7 +159,7 @@ span.antiC {
   border-right: 20px solid #c02e1d;
   border-bottom: 10px solid transparent;
   box-shadow: 10px 0 8px -6px rgb(36, 28, 28);
-
+  z-index: 3;
 }
 
 .triangle-left.f2 {
@@ -169,11 +172,12 @@ span.antiC {
 
 .playrev {
   position: absolute;
-  top: 91px;
+  top: 95px;
   left: 496px;
-  border: 2px solid #c02e1d;
-  width: 11px;
-  height: 50px;
+  border: 2px solid #000000;
+  background-color: #606060;
+  width: 12px;
+  height: 42px;
   opacity: 0.4;
   z-index: -1;
 }
@@ -195,9 +199,10 @@ span.frame3 {
 
 /* help to position text label to sliding window */
 .orf {
-  margin-left: 60px;
+  /* margin-left: 60px; */
   position: absolute;
-  left: 540px;
+  left: 600px;
+  z-index: 3;
 }
 
 .circle {
@@ -219,41 +224,47 @@ span.frame3 {
   box-shadow: 0 10px 8px -6px rgb(36, 28, 28);
 }
 
-.ribosomeSmall {
+.ribosome {
+  text-align: right;
   position: absolute;
-  top: 150px;
-  left: 425px;
-  background: #ff2600;
-  border-radius: 50%;
-  width: 200px;
-  height: 80px;
-  opacity: 0.9;
-  z-index: -10;
-}
-.ribosomeBig {
-  box-shadow: 0 20px 8px -6px rgb(36, 28, 28);
-  position: absolute;
-  top: 30px;
   left: 370px;
-  background: #1e6179;
   border-radius: 50%;
   width: 300px;
-  height: 180px;
   opacity: 0.6;
-  z-index: -2;
+  /* border-style: solid;
+  border-width: 1px;
+  border-color: black; */
+  font-size: 0.8rem;
+}
+
+.ribosome.Big {
+  top: 30px;
+  background: #1396ba;
+  height: 180px;
+  color: #323131;
+  z-index: -1;
+
+}
+
+.ribosome.Small {
+  top: 150px;
+  background: #d94e1f;
+  height: 80px;
+  z-index: -3;
 }
 
 .replicase {
   position: absolute;
   top: 70px;
   left: 455px;
-  background: #b1b1b1
-;
+  background: #1396ba;
   border-radius: 50%;
-  width: 150px;
-  height: 100px;
-  opacity: 0.6;
-  z-index: -9;
+  width: 170px;
+  height: 120px;
+  opacity: 0.8;
+  z-index: -3;
+  text-align: right;
+  font-size: 0.8rem;
 }
 
 .replicase.p1 {
@@ -262,49 +273,42 @@ span.frame3 {
   background: #1396ba;
   width: 80px;
   height: 80px;
-  opacity: 0.9;
   z-index: 1;
-
 }
 
 .replicase.p2 {
-  top: 100px;
-  left: 375px;
-  background: #117899;
-  width: 80px;
-  height: 100px;
-  opacity: 0.7;
-  z-index: -3;
-
+  top: 120px;
+  left: 395px;
+  background: #1396ba;
+  width: 90px;
+  height: 120px;
+  z-index: 1;
 }
 .replicase.p3 {
-  top: 130px;
-  left: 410px;
-  background: #0e5b78;
-  width: 70px;
-  height: 50px;
-  opacity: 0.7;
-  z-index: -4;
+  top: 142px;
+  left: 450px;
+  background: #d94e1f;
+  width: 90px;
+  height: 70px;
+  z-index: -1;
 }
 
 .replicase.p4 {
-  top: 110px;
-  left: 385px;
-  background: rgb(215, 149, 111);
-  width: 50px;
-  height: 60px;
-  opacity: 0.6;
-  z-index: -5;
+  top: 100px;
+  left: 425px;
+  background: #d94e1f;
+  width: 70px;
+  height: 80px;
+  z-index: -2;
 }
 
 .replicase.p5 {
-  top: 100px;
-  left: 415px;
+  top: 135px;
+  left: 540px;
   background: #d94e1f;
-  width: 80px;
-  height: 80px;
-  opacity: 0.7;
-  z-index: -1;
+  width: 120px;
+  height: 90px;
+  z-index: -4;
 
 }
 .replicase.p6 {
@@ -313,24 +317,26 @@ span.frame3 {
   background: #d94e1f;
   width: 70px;
   height: 50px;
-  opacity: 0.7;
   z-index: -7;
 }
 
 /* stop start indicators */
 /* _____________________ */
 .stopStartFlash {
-  background: #7e1801;
+  background: rgb(240, 87, 87);
   border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  box-shadow: 10px 10px 12px -6px rgb(36, 28, 28);
-  opacity: 1;
+  margin-left: -23px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  width: 18px;
+  height: 18px;
+  display: inline-block;
   z-index: 10;
-  white-space: pre;
 }
 .stopStartFlash.start {
-  background: #0b7e01;
+  background: #5da793;
+  ;
+  ;
 }
 /* --------------------- */
 /*  three rows - lot of buttons!!! */

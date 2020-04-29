@@ -37,6 +37,10 @@ export function PlayGenome() {
   const shouldReset = useSingleFramePrimitive(false)
 
   const frame012 = index % 3;
+  // console.log(1 % 3) = 1 shown as 2 should be 1
+  // console.log(2 % 3) = 2 shown as 3 should be 2
+  // console.log(3 % 3) = 0 shown as 1 should be 3
+
 
   let bpm = null
   let audioProps = null
@@ -117,7 +121,10 @@ export function PlayGenome() {
     if(start() === true) setSynthStatus(frame012, true);
     if(stop() === true) setSynthStatus(frame012, false);
 
-    if (frameshift) isSynthEnabled.current[1] = true
+    if (frameshift) {
+      isSynthEnabled.current[1] = true
+      isSynthEnabled.current[0] = false
+    }
   }
   setSynthByCodonType()
 
@@ -141,7 +148,7 @@ export function PlayGenome() {
 
       function buttonSTART() {
         if(start() === true) {
-          return <span className='stopStartFlash start'>{}  </span>
+          return <span className='stopStartFlash start'> </span>
         }
       }
       function buttonSTOP() {
@@ -151,13 +158,13 @@ export function PlayGenome() {
       }
 
       switch (frame012) {
-        case 0:
+        case 1:
           codonStatusF1 = {start: buttonSTART(), stop: buttonSTOP()}
         break;
-        case 1:
+        case 2:
           codonStatusF2 = {start: buttonSTART(), stop: buttonSTOP()}
         break;
-        case 2:
+        case 0:
           codonStatusF3 = {start: buttonSTART(), stop: buttonSTOP()}
         break;
         default:
@@ -209,19 +216,19 @@ const checkValUTR = useRef(true)
 
   if (gb_Item.type === 'p') {
     switch (frame012) {
-      case 0:
-        if (gb_Item.start % 3 === 0) {
-          orf1.current = gb_Item.product
-        }
-          break;
       case 1:
         if (gb_Item.start % 3 === 1) {
-          orf2.current = gb_Item.product
-
+          orf1.current = gb_Item.product
         }
           break;
       case 2:
         if (gb_Item.start % 3 === 2) {
+          orf2.current = gb_Item.product
+
+        }
+          break;
+      case 0:
+        if (gb_Item.start % 3 === 0) {
           orf3.current = gb_Item.product
         }
           break;
@@ -346,23 +353,23 @@ const checkValUTR = useRef(true)
     },
     printGeneB:
     {
-      trl:  (gb_Item.end - gb_Item.start),
-      tsc:  (gb_Item.end - gb_Item.start)
+      trl:  (gb_Item.end+1 - index),
+      tsc:  (index - gb_Item.start+1)
     },
     printNSP:
     {
-      trl:  (nsp_Item.end - nsp_Item.start),
-      tsc:  (nsp_Item.end - nsp_Item.start)
+      trl:  (nsp_Item.end+1 - index),
+      tsc:  (index - nsp_Item.start+1)
     },
     printTRS:
     {
-      trl:  (trs_Item.end - trs_Item.start),
-      tsc:  (trs_Item.end - trs_Item.start)
+      trl:  (trs_Item.end+1 - index),
+      tsc:  (index - trs_Item.start+1)
     },
     checkbox:
     {
-      trl: 'Translate Subgenomic RNA (skip Poly-protein)',
-      tsc: 'Transcribe Subgenomic RNA (discontinuous between TRSs)'
+      trl: 'Translate as subgenomic RNA (skip Poly-protein  and jump from TRS1 to TRS2)',
+      tsc: 'Allow discontinous transcription (jump from any TRS to TRS1)'
     },
 
   }
@@ -378,21 +385,19 @@ const checkValUTR = useRef(true)
   // TRS1 CUCUAAACGAACUU 76= CUCUAAACGAA
   // TRS1 GCCUAAACUCAUGC 29538=         UGC
   // if(subGenome.current === true && index === 76) dispatch(setPlayhead(29538))
-  const subGenome = useRef(false)
-
+  const subGenome = useRef(true)
 
   if(mode === 'trl'){
     jumper.map(doJump)
-
     function doJump(jumper){
       if(index === jumper.end5 && subGenome.current === true) {
         dispatch(setPlayhead(jumper.end3))
       }
     }
+    if(subGenome.current === false && index === 21554) Tone.Transport.stop()
   }
   if(mode === 'tsc'){
     jumper.map(doJump)
-
     function doJump(jumper){
       if(index === jumper.end3 && subGenome.current === true) {
         dispatch(setPlayhead(jumper.end5))
@@ -412,8 +417,8 @@ const checkValUTR = useRef(true)
       <Checkbox
         default={subGenome.current}
         onClick={(value) => subGenome.current = value}
-      /><span> {subHeadings.checkbox[mode]}</span>
-
+      />
+      <span className='playCont_text'> {subHeadings.checkbox[mode]}</span>
         <div className='player'>
           {mode === 'trl' && (
             <div>
@@ -472,8 +477,8 @@ const checkValUTR = useRef(true)
                 <span className='orf'>{orf3.current}</span>
               </div>
 
-              <div className='ribosomeSmall shadow'></div>
-              <div className='ribosomeBig shadow'></div>
+              <div className='ribosome Small shadow'><br></br><br></br>ribosome small</div>
+              <div className='ribosome Big shadow'><br></br>ribosome large</div>
               <div className='playhead shadow'></div>
               <span className='antiC shadow'>{antiCodon}</span>
 
@@ -495,9 +500,9 @@ const checkValUTR = useRef(true)
           { mode === 'tsc' && (
             <div>
               <div className='playrev shadow'></div>
-              <div className='replicase shadow'></div>
-              <div className='replicase p1 shadow'></div>
-              <div className='replicase p2 shadow'></div>
+              <div className='replicase shadow'>NSP proteins</div>
+              <div className='replicase p1 shadow'>helicase</div>
+              <div className='replicase p2 shadow'><br></br><br></br>RNA-dependent RNA polymerase</div>
               <div className='replicase p3 shadow'></div>
               <div className='replicase p4 shadow'></div>
               <div className='replicase p5 shadow'></div>
@@ -515,43 +520,43 @@ const checkValUTR = useRef(true)
         <div>
           <Controls />
           <fieldset>
-          <p><span className='highlight'>Control buttons: </span>
-          Translated genes.
-          <span>{gb_Item.product} </span>
-          ({gb_Item.start}-{gb_Item.end}) bp<br></br>
+          <p>
+          Genes.
+          <span> {gb_Item.product} </span>
+          ({gb_Item.start}-{gb_Item.end}) bp. {subHeadings.printGeneB[mode]} bp<br></br>
           <span><small>{gb_Item.text}</small></span>
           </p>
           <p>{MAPS.geneBank_json.map(Feature)}
             <span><small><br></br>
-              <button className="button legend"></button>Untranslated regions
-              <button className="button legend2"></button>Viral proteins
+              <button className="button legend"></button> Untranslated regions
+              <button className="button legend2"></button> Viral proteins
             </small></span>
           </p>
           <hr></hr>
-          <p><span className='highlight'>Control buttons: </span>
+          <p>
           NSP proteins.
           <span> {nsp_Item.text} </span>
-          ({nsp_Item.start}-{nsp_Item.end}) bp<br></br>
+          ({nsp_Item.start}-{nsp_Item.end}) bp. {subHeadings.printNSP[mode]} bp<br></br>
           <span><small>{nsp_Item.note}</small></span>
           </p>
           {MAPS.nsp_json.map(Feature)}
           <span><small><br></br>
-            <button className="button legend2"></button>Cleavage points
-            <button className="button legend"></button>NSP proteins
+            <button className="button legend2"></button> Cleavage points
+            <button className="button legend"></button> NSP proteins
           </small></span>
 
-          <p><span className='highlight'>Control buttons: </span>
-          Transcription.
+          <p>
+          Transcription Regulatory Sesuences.
           <span> {trs_Item.trs_name} </span>
-          ({trs_Item.start}-{trs_Item.end}) bp<br></br>
+          ({trs_Item.start}-{trs_Item.end}) bp. {subHeadings.printTRS[mode]} bp<br></br>
           <span><small>{trs_Item.text} {trs_Item.trs_seq}</small></span>
           </p>
 
           {MAPS.trs_json.map(Feature)}
           <span><small><br></br>
-            <button className="button legend2"></button>Transcription Regulatory Regions
-            <button className="button legend"></button>Interveining Sequences
-            <button className="button legend3"></button>Stem Loop regions
+            <button className="button legend2"></button> Transcription Regulatory Regions
+            <button className="button legend"></button> Interveining Sequences
+            <button className="button legend3"></button> Stem Loop regions
           </small></span>
           </fieldset>
 
@@ -701,52 +706,53 @@ const checkValUTR = useRef(true)
           </div>
         </div>
       <Song bpm={bpm}>
-        {checkValBase.current && <Track volume={-7} pan={-0.6}>
+        {checkValBase.current && <Track volume={-6} pan={-0.6}>
           <Instrument type={'synth'} notes={baseNotes} />
         </Track>}
-        {checkVal2base.current && <Track volume={-7} pan={0.6}>
+        {checkVal2base.current && <Track volume={-6} pan={0.6}>
           <Instrument type={'synth'} notes={twobaseNotes} />
         </Track>}
 
 
-        {checkValCodon.current && <Track volume={-4} pan={-0.9}>
+        {checkValCodon.current && <Track volume={-5} pan={-0.9}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'sine' }} notes={codonF1Notes} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>}
-        {checkValCodon.current && <Track volume={-4} pan={0}>
+        {checkValCodon.current && <Track volume={-5} pan={0}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'square' }} notes={codonF2Notes} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>}
-        {checkValCodon.current && <Track volume={-4} pan={0.9}>
+        {checkValCodon.current && <Track volume={-5} pan={0.9}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'triangle' }} notes={codonF3Notes} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>}
 
-        {checkVal10B.current && <Track volume={-8} pan={-0.7}>
+        {checkVal10B.current && <Track volume={-9} pan={-0.7}>
           <Instrument type={'amSynth'} notes={tenGCnote} />
           <Effect type='feedbackDelay' wet={0.3} />
         </Track>}
-        {checkVal100B.current && <Track volume={-8} pan={0.7}>
+        {checkVal100B.current && <Track volume={-9} pan={0.7}>
           <Instrument type={'amSynth'} notes={tentensGCnote} />
           <Effect type='feedbackDelay' wet={0.3} />
         </Track>}
 
-        {checkValRepeat.current && <Track volume={-7} pan={0.3}>
+        {checkValRepeat.current && <Track volume={-12} pan={0.3}>
           <Instrument type={'synth'} notes={sameBaseNotes} />
         </Track>}
 
-        {checkValTRS.current && <Track volume={-1} pan={0.8}>
+        {checkValTRS.current && <Track volume={-2} pan={0.8}>
           <Instrument type={'amSynth'} notes={getTRSnote} />
         </Track>}
-        {checkValNSP.current && <Track volume={0} pan={0.8}>
+        {checkValNSP.current && <Track volume={-1} pan={0.8}>
           <Instrument type={'amSynth'} notes={nspNote} />
         </Track>}
 
-        {checkValSL.current && <Track volume={-10} pan={0.8}>
+        {checkValSL.current && <Track volume={-9} pan={0.8}>
           <Instrument type={'amSynth'} notes={slNote} />
         </Track>}
-        {checkValUTR.current && <Track volume={-8} pan={-0.8}>
+        {checkValUTR.current && <Track volume={-9} pan={-0.8}>
           <Instrument type={'amSynth'} notes={utrNote} />
+          <Effect type='distortion' wet={0.2} />
         </Track>}
     </Song>
     </>

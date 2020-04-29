@@ -17,19 +17,19 @@ export function getCodonFNotes(mode, frame012, isSynthEnabled, index, gb_Item, c
       AA_Count3.current = 0
     }
     switch (frame012) {
-    case 0:
+    case 1:
       if (isSynthEnabled.current[frame012]) {
         codonF1Notes.push(codonNotes)
         AA_Count1.current++
       }
     break;
-    case 1:
+    case 2:
       if (isSynthEnabled.current[frame012]) {
         codonF2Notes.push(codonNotes)
         AA_Count2.current++
        }
       break;
-    case 2:
+    case 0:
       if (isSynthEnabled.current[frame012]) {
         codonF3Notes.push(codonNotes)
         AA_Count3.current++

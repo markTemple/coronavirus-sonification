@@ -130,7 +130,7 @@ export const tscProps = {
   },
   codon:{
     oct: 1,
-    scale: [1], // almost chromatic
+    scale: [1], // chromatic
     range: 64,
     key: 'A',
     dur: '8m',
@@ -157,15 +157,15 @@ export const tscProps = {
     dur: '8m',
   },
   SL:{
-    oct: 5,
+    oct: 4,
     scale: [0, 6, 1, 4, 1],// 1, 3, 5, 7.
     range: 16,
     key: 'A',
     dur: '8m',
   },
   UTR:{
-    oct: 5,
-    scale: [0, 6, 0, -6],
+    oct: 3,
+    scale: [0, -1, -2, -2, -3, 8],
     range: 16,
     key: 'A',
     dur: '8m',

@@ -87,7 +87,7 @@ export function getCodonNotes(codon, audioProps) {
 
 // map codon to different notes here
   export function getCodonNotes_2(index, codon, audioProps, mode) {
-    if(index % 3 === 0 && mode === 'tsc'){
+    if(index % 3 === 1 && mode === 'tsc'){
       const codonNumb = MAPS.CODON_MAP_2[codon]?.Note
       const codonMap = MAPS.makeIntervals(MAPS[audioProps].codon).map(number => MAPS.keyboard[number])
         return {name: codonMap[codonNumb], duration: MAPS[audioProps].codon.dur, codon: codon }

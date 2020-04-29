@@ -39,12 +39,16 @@ export const Controls = () => {
   const playTranscription = () => {
     dispatch(setPlayhead(+Infinity))
     if (!isReversed) reverse()
-    if (!isPlaying) play()
+    // if (!isPlaying) play()
   }
   const playTranslation = () => {
     dispatch(setPlayhead(-Infinity))
     if (isReversed) reverse()
-    if (!isPlaying) play()
+    // if (!isPlaying) play()
+    // dispatch(setSynthStatus(0, false))
+    // dispatch(setSynthStatus(1, false))
+    // dispatch(setSynthStatus(2, false))
+
   }
   const increment = () => dispatch(incrementPlayhead())
   const decrement = () => dispatch(decrementPlayhead())
@@ -59,7 +63,7 @@ export const Controls = () => {
   } else {
     buttonPlayOrPause = (
       <Button onClick={play} className='button pausecont'>
-        Continue &#x25c0;&#9658;
+        Play &#x25c0;&#9658;
       </Button>
     )
   }
@@ -83,7 +87,7 @@ export const Controls = () => {
     <>
       {/* {buttonPlayTrsOrPlayTrl} */}
       <Button onClick={playTranslation} className='button trl'>
-        Start Translation &#x25ba;&#x25ba;
+        1 Translation &#x25ba;&#x25ba;
       </Button>
 
       {buttonPlayOrPause}
@@ -93,13 +97,13 @@ export const Controls = () => {
       </Button>
 
       <Button onClick={playTranscription} className='button tsc'>
-        &#x25c0;&#x25c0; Start Transcription
+        &#x25c0;&#x25c0; 29903 Transcription
       </Button>
 
-      <Button onClick={decrement} className='button ffrr'>
+      {/*  <Button onClick={decrement} className='button ffrr'>
       &#x25c0;&#x25c0;
       </Button>
-     {/*  <Button onClick={increment} className='button ffrr'>
+     <Button onClick={increment} className='button ffrr'>
       &#x25ba;&#x25ba;
       </Button> */}
 
