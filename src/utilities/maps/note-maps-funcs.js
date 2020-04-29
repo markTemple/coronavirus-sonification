@@ -74,15 +74,15 @@ export const trlProps = {
     dur: '8m',
   },
   trsNote:{
-    oct: 4,
+    oct: 6,
     scale: [3, 0, 3, 0, 1, 0, 5],// 1st, 3rd, #4 and 5th?
     range: 20,
     key: 'Bb',
     dur: '8m',// too short gives click/spike in audio
   },
   nsp:{
-    oct: 2,
-    scale: [3, 4, -2, -2, -3],// 1st, 1st, 3rd, 3rd, 5th, 4th
+    oct: 5,
+    scale: [-2, -2, -1],
     range: 8,
     key: 'Eb',// force to 3rd in C
     dur: '8m',
@@ -150,8 +150,8 @@ export const tscProps = {
     dur: '8m',
   },
   nsp:{
-    oct: 4,
-    scale: [0, 6, -2, 7, 1],//
+    oct: 7,
+    scale: [2],
     range: 8,
     key: 'A',
     dur: '8m',
