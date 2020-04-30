@@ -108,7 +108,10 @@ export function PlayGenome() {
 
   const codon = getCodon(index)
 
-  const start = function() {
+  //  switch (isReversed) {
+  //   case false:
+
+ const start = function() {
     if(codon === 'AUG') return true
     else return false
    }
@@ -137,14 +140,9 @@ export function PlayGenome() {
   let codonStatusF3 = {start: null, stop: null};
 
   // tsc data used in swith statement
-  let codonNotes_2 = ''
-  let genomeSubComplement = ''
 
   // don't run everything for trl when in tsc
   // and vis versa
-  switch (isReversed) {
-    case false:
-
       function buttonSTART() {
         if(start() === true) {
           return <span className='stopStartFlash start'> </span>
@@ -176,18 +174,6 @@ export function PlayGenome() {
       }
       if( nsp_Item.start === index && nsp_Item.SW_true === true ) setSynthByNSPstart()
 
-
-    break;
-    case true:
-      codonNotes_2 = getCodonNotes_2(index, codon, audioProps, mode)
-      genomeSubComplement = makeComplementary(genome.substring(index, index + 41))
-
-      break;
-    default:
-      console.trace('tsc')
-    break;
-  }
-
 const codonF1Notes = codonFNotes.notes.f1
 // so it can be reassigned to tsc codon later
 let codonF2Notes = codonFNotes.notes.f2
@@ -196,6 +182,19 @@ const codonF3Notes = codonFNotes.notes.f3
 const AA_Count1 = codonFNotes.AA_count.aa1
 const AA_Count2 = codonFNotes.AA_count.aa2
 const AA_Count3 = codonFNotes.AA_count.aa3
+
+    // break;
+    // case true:
+    let codonNotes_2 = ''
+
+      codonNotes_2 = getCodonNotes_2(index, codon, audioProps, mode)
+
+  //     break;
+  //   default:
+  //     console.trace('tsc')
+  //   break;
+  // }
+
 
 const checkValBase = useRef(true)
 const checkVal2base = useRef(true)
@@ -283,13 +282,16 @@ const checkValUTR = useRef(true)
   function makeComplementary(seq) {
     return seq.replace(/./g, (char) => MAPS.COMPLEMENUARY_MAP[char])
   }
-  const genomeSub = genome.substring(index - 40, index + 41)
+
+  const genomeSub = genome.substring(index - 30, index + 30)
+  const genomeSubComplement = makeComplementary(genome.substring(index, index + 30))
+
   const antiCodon = makeComplementary(codon);
 
-  let dotfill40 = `                                        `;
-  let DNAfill40 = `                                        `;
+  let dotfill40 = `                              `;
+  let DNAfill40 = `                              `;
   function moveDot() {
-    if (index <= 40) {
+    if (index <= 30) {
       dotfill40 = dotfill40.slice(index);
     } else {
       dotfill40 = '';
@@ -411,6 +413,111 @@ const checkValUTR = useRef(true)
         <span>{gb_Item.product}</span> extends from {gb_Item.start} to {gb_Item.end} bp.
         Playtime = {subHeadings.bpTime[mode]}
       </p>
+      <div className='player-container'>
+      {/* <span className='playCont_text'>{subHeadings.sonifySub[mode]}</span> */}
+      <Checkbox
+        default={subGenome.current}
+        onClick={(value) => subGenome.current = value}
+      />
+      <span className='playCont_text'> {subHeadings.checkbox[mode]}</span>
+        <div className='player'>
+          {mode === 'trl' && (
+            <div>
+              <div className='pre'>
+                <span>
+                  Frame1
+                    <span className='highlight'> {String(AA_Count1.current).padStart(4, '0')}</span>
+                    </span>|
+
+                <SlidingStringWindow
+                  reset={shouldReset.current}
+                  initial='                                 '
+                  insert=' '
+                  replace={SW1_PropStyle}
+                />{codonStatusF1.start}{codonStatusF1.stop}
+                {
+                  orf1.current &&
+                  <div className='triangle-left f1'></div>
+                }
+                <span className='orf'>{orf1.current}</span>
+              </div>
+
+              <div className='pre'>
+                <span>
+                  Frame2
+                    <span className='highlight'> {String(AA_Count2.current).padStart(4, '0')}</span>
+                  </span>|
+                <SlidingStringWindow
+                  reset={shouldReset.current}
+                  initial='                                 '
+                  insert=' '
+                  replace={SW2_PropStyle}
+                />{codonStatusF2.start}{codonStatusF2.stop}
+                {
+                  orf2.current &&
+                  <div className='triangle-left f2'></div>
+                }
+                <span className='orf'>{orf2.current}</span>
+              </div>
+
+              <div className='pre'>
+                <span>
+                  Frame3
+                    <span className='highlight'> {String(AA_Count3.current).padStart(4, '0')}</span>
+                  </span>|
+                <SlidingStringWindow
+                  reset={shouldReset.current}
+                  initial='                                 '
+                  insert=' '
+                  replace={SW3_PropStyle}
+                />{codonStatusF3.start}{codonStatusF3.stop}
+                {
+                  orf3.current &&
+                  <div className='triangle-left f3'></div>
+                }
+                <span className='orf'>{orf3.current}</span>
+              </div>
+
+              <div className='ribosome Small shadow'><br></br><br></br>ribosome small</div>
+              <div className='ribosome Big shadow'><br></br>ribosome large</div>
+              <div className='playhead shadow'></div>
+              <span className='antiC shadow'>{antiCodon}</span>
+
+            </div>
+          )}
+          <div>
+            <div>
+              <p className='pre'>
+                <span>Total 29903|5`                            </span>
+                <span>                             3`</span>
+              </p>
+            </div><span> RNA +</span>
+            <span className='highlight'> {String(index).padStart(5, '0')}</span>|
+            {isReversed
+              ? <span className='pre'>{dotfill40 + genomeSub}</span>
+              : <GenomeDisplay className='pre'>{dotfill40 + genomeSub}</GenomeDisplay>
+          }
+          </div>
+          { mode === 'tsc' && (
+            <div>
+              <div className='playrev shadow'></div>
+              <div className='replicase shadow'>NSP proteins</div>
+              <div className='replicase p1 shadow'>helicase</div>
+              <div className='replicase p2 shadow'><br></br><br></br>RNA-dependent RNA polymerase</div>
+              <div className='replicase p3 shadow'></div>
+              <div className='replicase p4 shadow'></div>
+              <div className='replicase p5 shadow'></div>
+              <div className='replicase p6 shadow'></div>
+              <div className='replicase p7 shadow'></div>
+              <span> RNA -</span>
+              <span> {String(genome.length - (index)).padStart(5, '0')}</span>|
+              <span className=' pre'>{DNAfill40 + genomeSubComplement}</span>
+              <p className='pre'>            3`                                                         5`</p>
+              <br></br>
+            </div>
+          )}
+        </div>
+      </div>
         <div>
           <Controls />
           <fieldset>
@@ -605,15 +712,15 @@ const checkValUTR = useRef(true)
           </div>
         </div>
       <Song bpm={bpm}>
-        {checkValBase.current && <Track volume={-6} pan={-0.6}>
+        {/* {checkValBase.current && <Track volume={-6} pan={-0.6}>
           <Instrument type={'synth'} notes={baseNotes} />
-        </Track>}
+        </Track>} */}
         {checkVal2base.current && <Track volume={-6} pan={0.6}>
           <Instrument type={'synth'} notes={twobaseNotes} />
         </Track>}
+        {console.log(baseNotes[0].name)}
 
-
-        {checkValCodon.current && <Track volume={-5} pan={-0.9}>
+        {/* {checkValCodon.current && <Track volume={-5} pan={-0.9}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'sine' }} notes={codonF1Notes} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>}
@@ -653,7 +760,7 @@ const checkValUTR = useRef(true)
         {checkValUTR.current && <Track volume={-9} pan={-0.8}>
           <Instrument type={'amSynth'} notes={utrNote} />
           <Effect type='distortion' wet={0.2} />
-        </Track>}
+        </Track>} */}
     </Song>
     </>
   );

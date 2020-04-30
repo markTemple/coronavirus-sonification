@@ -16,6 +16,7 @@
   overflow-x: auto;
   background-color: rgb(254, 254, 254);
   padding: 10px;
+  padding-left: 40px;
   border: 1px solid rgb(133, 133, 133);
   border-radius: 8px;
   opacity: 0.8;
@@ -127,7 +128,7 @@ in the RNA string in tsc mode (reverse) */
 
 span.antiC {
   position: absolute;
-  left: 499px;
+  left: 403px;
   top: 175px;
   padding: 4px 0px;
   color: #ebc844;
@@ -139,7 +140,7 @@ span.antiC {
 .playhead {
   position: absolute;
   top: 48px;
-  left: 496px;
+  left: 400px;
   border: 2px solid #000000;
   width: 31px;
   height: 172px;
@@ -152,7 +153,7 @@ span.antiC {
   position: absolute;
   padding: 0px 0px;
   top: 65px;
-  left: 570px;
+  left: 474px;
   width: 0;
   height: 0;
   border-top: 10px solid transparent;
@@ -173,7 +174,7 @@ span.antiC {
 .playrev {
   position: absolute;
   top: 95px;
-  left: 496px;
+  left: 400px;
   border: 2px solid #000000;
   background-color: #606060;
   width: 12px;
@@ -199,9 +200,9 @@ span.frame3 {
 
 /* help to position text label to sliding window */
 .orf {
-  /* margin-left: 60px; */
+  /* margin-left: -36px; */
   position: absolute;
-  left: 600px;
+  left: 504px;
   z-index: 3;
 }
 
@@ -217,7 +218,7 @@ span.frame3 {
   padding: 4px 0px 4px 0px;
   border-radius: 50%;
   background: #f16c21;
-  margin-left: 7px;
+  margin-left: -89px;
 } */
 
 .shadow {
@@ -227,7 +228,7 @@ span.frame3 {
 .ribosome {
   text-align: right;
   position: absolute;
-  left: 370px;
+  left: 274px;
   border-radius: 50%;
   width: 300px;
   opacity: 0.6;
@@ -256,7 +257,7 @@ span.frame3 {
 .replicase {
   position: absolute;
   top: 70px;
-  left: 455px;
+  left: 359px;
   background: #1396ba;
   border-radius: 50%;
   width: 170px;
@@ -269,7 +270,7 @@ span.frame3 {
 
 .replicase.p1 {
   top: 40px;
-  left: 415px;
+  left: 319px;
   background: #1396ba;
   width: 80px;
   height: 80px;
@@ -278,7 +279,7 @@ span.frame3 {
 
 .replicase.p2 {
   top: 120px;
-  left: 395px;
+  left: 299px;
   background: #1396ba;
   width: 90px;
   height: 120px;
@@ -286,7 +287,7 @@ span.frame3 {
 }
 .replicase.p3 {
   top: 142px;
-  left: 450px;
+  left: 354px;
   background: #d94e1f;
   width: 90px;
   height: 70px;
@@ -295,7 +296,7 @@ span.frame3 {
 
 .replicase.p4 {
   top: 100px;
-  left: 425px;
+  left: 329px;
   background: #d94e1f;
   width: 70px;
   height: 80px;
@@ -304,7 +305,7 @@ span.frame3 {
 
 .replicase.p5 {
   top: 135px;
-  left: 540px;
+  left: 444px;
   background: #d94e1f;
   width: 120px;
   height: 90px;
@@ -313,7 +314,7 @@ span.frame3 {
 }
 .replicase.p6 {
   top: 40px;
-  left: 380px;
+  left: 284px;
   background: #d94e1f;
   width: 70px;
   height: 50px;
