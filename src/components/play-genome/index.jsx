@@ -42,7 +42,7 @@ export function PlayGenome() {
   // console.log(3 % 3) = 0 shown as 1 should be 3
 
 
-  let bpm = null
+  let bpm = 1280
   let audioProps = null
   let startEnd = null
   switch (mode) {
@@ -518,7 +518,7 @@ const checkValUTR = useRef(true)
       </div>
         <div>
           <Controls />
-          <fieldset>
+          {/* <fieldset>
           <p>
           Genes.
           <span> {gb_Item.product} </span>
@@ -557,7 +557,7 @@ const checkValUTR = useRef(true)
             <button className="button legend"></button> Interveining Sequences
             <button className="button legend3"></button> Stem Loop regions
           </small></span>
-          </fieldset>
+          </fieldset> */}
 
           <div className='row'>
             <div className='column'>
@@ -744,10 +744,10 @@ const checkValUTR = useRef(true)
           <Instrument type={'synth'} notes={sameBaseNotes} />
         </Track>}
 
-        {checkValTRS.current && <Track volume={0} pan={0.8}>
+        {checkValTRS.current && <Track volume={-12} pan={0.8}>
           <Instrument type={'amSynth'} notes={getTRSnote} />
         </Track>}
-        {checkValNSP.current && <Track volume={-1} pan={0.8}>
+        {checkValNSP.current && <Track volume={-6} pan={0.8}>
           <Instrument type={'amSynth'} notes={nspNote} />
           <Effect type='distortion' wet={0.5} />
         </Track>}
