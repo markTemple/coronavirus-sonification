@@ -411,114 +411,9 @@ const checkValUTR = useRef(true)
         <span>{gb_Item.product}</span> extends from {gb_Item.start} to {gb_Item.end} bp.
         Playtime = {subHeadings.bpTime[mode]}
       </p>
-      <div className='player-container'>
-      {/* <span className='playCont_text'>{subHeadings.sonifySub[mode]}</span> */}
-      <Checkbox
-        default={subGenome.current}
-        onClick={(value) => subGenome.current = value}
-      />
-      <span className='playCont_text'> {subHeadings.checkbox[mode]}</span>
-        <div className='player'>
-          {mode === 'trl' && (
-            <div>
-              <div className='pre'>
-                <span>
-                  Frame1
-                    <span className='highlight'> {String(AA_Count1.current).padStart(4, '0')}</span>
-                    </span>|
-
-                <SlidingStringWindow
-                  reset={shouldReset.current}
-                  initial='                                           '
-                  insert=' '
-                  replace={SW1_PropStyle}
-                />{codonStatusF1.start}{codonStatusF1.stop}
-                {
-                  orf1.current &&
-                  <div className='triangle-left f1'></div>
-                }
-                <span className='orf'>{orf1.current}</span>
-              </div>
-
-              <div className='pre'>
-                <span>
-                  Frame2
-                    <span className='highlight'> {String(AA_Count2.current).padStart(4, '0')}</span>
-                  </span>|
-                <SlidingStringWindow
-                  reset={shouldReset.current}
-                  initial='                                           '
-                  insert=' '
-                  replace={SW2_PropStyle}
-                />{codonStatusF2.start}{codonStatusF2.stop}
-                {
-                  orf2.current &&
-                  <div className='triangle-left f2'></div>
-                }
-                <span className='orf'>{orf2.current}</span>
-              </div>
-
-              <div className='pre'>
-                <span>
-                  Frame3
-                    <span className='highlight'> {String(AA_Count3.current).padStart(4, '0')}</span>
-                  </span>|
-                <SlidingStringWindow
-                  reset={shouldReset.current}
-                  initial='                                           '
-                  insert=' '
-                  replace={SW3_PropStyle}
-                />{codonStatusF3.start}{codonStatusF3.stop}
-                {
-                  orf3.current &&
-                  <div className='triangle-left f3'></div>
-                }
-                <span className='orf'>{orf3.current}</span>
-              </div>
-
-              <div className='ribosome Small shadow'><br></br><br></br>ribosome small</div>
-              <div className='ribosome Big shadow'><br></br>ribosome large</div>
-              <div className='playhead shadow'></div>
-              <span className='antiC shadow'>{antiCodon}</span>
-
-            </div>
-          )}
-          <div>
-            <div>
-              <p className='pre'>
-                <span>Total 29903|5`                                      </span>
-                <span>                                        3`</span>
-              </p>
-            </div><span> RNA +</span>
-            <span className='highlight'> {String(index).padStart(5, '0')}</span>|
-            {isReversed
-              ? <span className='pre'>{dotfill40 + genomeSub}</span>
-              : <GenomeDisplay className='pre'>{dotfill40 + genomeSub}</GenomeDisplay>
-          }
-          </div>
-          { mode === 'tsc' && (
-            <div>
-              <div className='playrev shadow'></div>
-              <div className='replicase shadow'>NSP proteins</div>
-              <div className='replicase p1 shadow'>helicase</div>
-              <div className='replicase p2 shadow'><br></br><br></br>RNA-dependent RNA polymerase</div>
-              <div className='replicase p3 shadow'></div>
-              <div className='replicase p4 shadow'></div>
-              <div className='replicase p5 shadow'></div>
-              <div className='replicase p6 shadow'></div>
-              <div className='replicase p7 shadow'></div>
-              <span> RNA -</span>
-              <span> {String(genome.length - (index)).padStart(5, '0')}</span>|
-              <span className=' pre'>{DNAfill40 + genomeSubComplement}</span>
-              <p className='pre'>            3`                                                                              5`</p>
-              <br></br>
-            </div>
-          )}
-        </div>
-      </div>
         <div>
           <Controls />
-          {/* <fieldset>
+          <fieldset>
           <p>
           Genes.
           <span> {gb_Item.product} </span>
@@ -557,7 +452,7 @@ const checkValUTR = useRef(true)
             <button className="button legend"></button> Interveining Sequences
             <button className="button legend3"></button> Stem Loop regions
           </small></span>
-          </fieldset> */}
+          </fieldset>
 
           <div className='row'>
             <div className='column'>
