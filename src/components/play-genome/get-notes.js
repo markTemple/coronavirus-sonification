@@ -53,9 +53,9 @@ export function makeTRSnotes(mode, trs_Item, index, audioProps){
   if(trs !== undefined){ //stop empty mode being made that throws a warning
     const trsNumb = MAPS.BASE_MAP[trs]
     const trsMap = MAPS.makeIntervals(MAPS[audioProps].trsNote).map(number => MAPS.keyboard[number])
-      // if (trs_seqArray.current) {
+      if (trs_seqArray.current) {
       return [{name: trsMap[trsNumb], duration: MAPS[audioProps].trsNote.dur}];
-      // }
+      }
     }else {
     return [{name: ''}]
     }
@@ -65,7 +65,9 @@ export function getNSPnotes(nsp_Item, base, index, mode, audioProps) {
   if(mode === 'trl') {
     if(index >= nsp_Item.start && index <= nsp_Item.end && nsp_Item.cleavage === true) {
       const nspNumb = MAPS.NSP_MAP[base]
-      const nspMap = MAPS.makeIntervals(MAPS[audioProps].base).map(number => MAPS.keyboard[number])
+      const nspMap = MAPS.makeIntervals(MAPS[audioProps].nsp).map(number => MAPS.keyboard[number])
+      console.log(nspMap)
+
       return [{name: nspMap[nspNumb], duration: MAPS[audioProps].nsp.dur}]
     }else {
       return [{name: ''}]
@@ -73,7 +75,7 @@ export function getNSPnotes(nsp_Item, base, index, mode, audioProps) {
   }else if(mode === 'tsc') {
     if(index <= nsp_Item.end && index >= nsp_Item.start && nsp_Item.cleavage === true) {
       const nspNumb = MAPS.NSP_MAP[base]
-      const nspMap = MAPS.makeIntervals(MAPS[audioProps].base).map(number => MAPS.keyboard[number])
+      const nspMap = MAPS.makeIntervals(MAPS[audioProps].nsp).map(number => MAPS.keyboard[number])
       return [{name: nspMap[nspNumb], duration: MAPS[audioProps].nsp.dur}]
     }else {
       return [{name: ''}]
