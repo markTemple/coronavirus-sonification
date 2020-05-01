@@ -22,7 +22,7 @@ import { getBaseNotes, playTwoBase, getSameBaseNotes, GCnote10Note,
   GCnote100Note, makeTRSnotes, getNSPnotes, getCodonNotes,
   getCodonNotes_2, playAtIndex} from './get-notes'
 
-import { getCodonFNotes } from './process-codon-notes'
+import { getAA_Data } from './process-codon-notes'
 import { Checkbox } from '../checkbox';
 import { jumper } from './jumper';
 
@@ -75,6 +75,7 @@ export function PlayGenome() {
   const trs_Item = MAPS.trs_json
     .find(feature => index >= feature.start && index <= feature.end)
 
+
   //-1frameshift hack
   //-1 AT 13468 THIS WORKS due to 123123 numbering
   //end 21550 to allow last stop codon to take effect then read
@@ -83,17 +84,11 @@ export function PlayGenome() {
   if ((index >= 13466) && (index < 21550)) {
     frameshift = index - 2
   }
+
   const base = getBase(index)
   const baseNotes = getBaseNotes(base, audioProps)
   const twoBase = getDinucleotide(index)
-
-  function getDinucleotide_2(index){
-      if(index % 2) return getDinucleotide(index)
-      else return false
-    }
-  const twoBase_2 = getDinucleotide_2(index)
-  const twobaseNotes = playTwoBase(twoBase_2, audioProps)
-
+  const twobaseNotes = playTwoBase(index, twoBase, audioProps)
   const sameBaseNotes = getSameBaseNotes(base, index, audioProps)
   const GCnote10 = getBases10(index)
   const GCnote10Numb = MAPS.newGCratio(GCnote10)
@@ -107,14 +102,14 @@ export function PlayGenome() {
   const utrNote = playAtIndex(index, gb_Item, 'gene', 'UTR', twoBase, audioProps, mode)
 
   const codon = getCodon(index)
+  const gotcodonNotes_2 = getCodonNotes_2(index, codon, audioProps, mode)
+  const codonNotes_2 = [gotcodonNotes_2.notes]
+  const codon_2 = [gotcodonNotes_2.codon]
 
-  //  switch (isReversed) {
-  //   case false:
-
- const start = function() {
+  const start = function() {
     if(codon === 'AUG') return true
     else return false
-   }
+  }
   const stop = function() {
     if(codon === 'UGA' || codon === 'UAG' || codon === 'UAA') return true
     else return false
@@ -132,68 +127,55 @@ export function PlayGenome() {
   setSynthByCodonType()
 
   const codonNotes = getCodonNotes(codon, audioProps)
-  const codonFNotes = getCodonFNotes(mode, frame012, isSynthEnabled, index, gb_Item, codonNotes)
+  const AA_Data = getAA_Data(mode, frame012, isSynthEnabled, index, gb_Item, codonNotes)
 
   // trs data used in swith statement
-  let codonStatusF1 = {start: null, stop: null};
-  let codonStatusF2 = {start: null, stop: null};
-  let codonStatusF3 = {start: null, stop: null};
+  let AA_indicatorF1 = {start: null, stop: null};
+  let AA_indicatorF2 = {start: null, stop: null};
+  let AA_indicatorF3 = {start: null, stop: null};
 
-  // tsc data used in swith statement
-
-  // don't run everything for trl when in tsc
-  // and vis versa
-      function buttonSTART() {
-        if(start() === true) {
-          return <span className='stopStartFlash start'> </span>
-        }
+    function buttonSTART() {
+      if(start() === true) {
+        return <span className='stopStartFlash start'> </span>
       }
-      function buttonSTOP() {
-        if(stop() === true) {
-          return <span className='stopStartFlash'>  </span>
-        }
+    }
+    function buttonSTOP() {
+      if(stop() === true) {
+        return <span className='stopStartFlash'>  </span>
       }
+    }
 
-      switch (frame012) {
-        case 1:
-          codonStatusF1 = {start: buttonSTART(), stop: buttonSTOP()}
-        break;
-        case 2:
-          codonStatusF2 = {start: buttonSTART(), stop: buttonSTOP()}
-        break;
-        case 0:
-          codonStatusF3 = {start: buttonSTART(), stop: buttonSTOP()}
-        break;
-        default:
-          console.trace('error')
-        break;
-      }
-      //start sliding window display AA residues on NSP start
-      function setSynthByNSPstart() {
-        setSynthStatus(frame012, true)
-      }
-      if( nsp_Item.start === index && nsp_Item.SW_true === true ) setSynthByNSPstart()
+    switch (frame012) {
+      case 1:
+        AA_indicatorF1 = {start: buttonSTART(), stop: buttonSTOP()}
+      break;
+      case 2:
+        AA_indicatorF2 = {start: buttonSTART(), stop: buttonSTOP()}
+      break;
+      case 0:
+        AA_indicatorF3 = {start: buttonSTART(), stop: buttonSTOP()}
+      break;
+      default:
+        console.trace('error')
+      break;
+    }
+    //start sliding window display AA residues on NSP start
+    function setSynthByNSPstart() {
+      setSynthStatus(frame012, true)
+    }
+    if( nsp_Item.start === index && nsp_Item.SW_true === true ) setSynthByNSPstart()
 
-const codonF1Notes = codonFNotes.notes.f1
-// so it can be reassigned to tsc codon later
-let codonF2Notes = codonFNotes.notes.f2
-const codonF3Notes = codonFNotes.notes.f3
+    const AAf1Note = AA_Data.notes.f1
+    const AAf2Note = AA_Data.notes.f2
+    const AAf3Note = AA_Data.notes.f3
 
-const AA_Count1 = codonFNotes.AA_count.aa1
-const AA_Count2 = codonFNotes.AA_count.aa2
-const AA_Count3 = codonFNotes.AA_count.aa3
+    const AAf1Motif = AA_Data.motifs.f1
+    const AAf2Motif = AA_Data.motifs.f2
+    const AAf3Motif = AA_Data.motifs.f3
 
-    // break;
-    // case true:
-    let codonNotes_2 = ''
-
-      codonNotes_2 = getCodonNotes_2(index, codon, audioProps, mode)
-
-  //     break;
-  //   default:
-  //     console.trace('tsc')
-  //   break;
-  // }
+    const AA_Count1 = AA_Data.AA_count.aa1
+    const AA_Count2 = AA_Data.AA_count.aa2
+    const AA_Count3 = AA_Data.AA_count.aa3
 
 
 const checkValBase = useRef(true)
@@ -272,7 +254,7 @@ const checkValUTR = useRef(true)
           style={style}
         >
           {/* there is no actual whitespace in button} */}
-          <p style={{ fontSize: '0.9rem'  }}>{feature.tag}</p>
+          <p style={{ fontSize: '0.9rem' }}>{feature.tag}</p>
         </Button>
         {/* {feature.product} */}
       </Fragment>
@@ -282,10 +264,8 @@ const checkValUTR = useRef(true)
   function makeComplementary(seq) {
     return seq.replace(/./g, (char) => MAPS.COMPLEMENUARY_MAP[char])
   }
-
   const genomeSub = genome.substring(index - 30, index + 30)
   const genomeSubComplement = makeComplementary(genome.substring(index, index + 30))
-
   const antiCodon = makeComplementary(codon);
 
   let dotfill40 = `                              `;
@@ -300,19 +280,19 @@ const checkValUTR = useRef(true)
   moveDot();
 
   const SW1_PropStyle = {
-    content: codonF1Notes[0]?.motif,
+    content: AAf1Motif[0]?.motif,
     props: {
       className: 'frame1 circle',
     }
   }
   const SW2_PropStyle = {
-    content: codonF2Notes[0]?.motif,
+    content: AAf2Motif[0]?.motif,
     props: {
       className: 'frame2 circle',
     }
   }
   const SW3_PropStyle = {
-    content: codonF3Notes[0]?.motif,
+    content: AAf3Motif[0]?.motif,
     props: {
       className: 'frame3 circle',
     }
@@ -341,7 +321,7 @@ const checkValUTR = useRef(true)
     return timeString;
   }
   //const arrays with translation then transcription values
-  let subHeadings = {
+  const subHeadings = {
     sonifySub:
     {
       trl: 'Translation of plus (+) RNA strand to make proteins. ',
@@ -375,17 +355,6 @@ const checkValUTR = useRef(true)
 
   }
 
-// hack to use track to play alt notes in tsc mode rather than
-// having to create new track and switch on/off in diff modes
-  if(mode === 'tsc') codonF2Notes = [codonNotes_2]
-
-  // if(index === 2) {
-  //   dispatch(setPlayhead(444))
-  // }
-  // store
-  // TRS1 CUCUAAACGAACUU 76= CUCUAAACGAA
-  // TRS1 GCCUAAACUCAUGC 29538=         UGC
-  // if(subGenome.current === true && index === 76) dispatch(setPlayhead(29538))
   const subGenome = useRef(true)
 
   if(mode === 'trl'){
@@ -434,7 +403,7 @@ const checkValUTR = useRef(true)
                   initial='                                 '
                   insert=' '
                   replace={SW1_PropStyle}
-                />{codonStatusF1.start}{codonStatusF1.stop}
+                />{AA_indicatorF1.start}{AA_indicatorF1.stop}
                 {
                   orf1.current &&
                   <div className='triangle-left f1'></div>
@@ -452,7 +421,7 @@ const checkValUTR = useRef(true)
                   initial='                                 '
                   insert=' '
                   replace={SW2_PropStyle}
-                />{codonStatusF2.start}{codonStatusF2.stop}
+                />{AA_indicatorF2.start}{AA_indicatorF2.stop}
                 {
                   orf2.current &&
                   <div className='triangle-left f2'></div>
@@ -470,7 +439,7 @@ const checkValUTR = useRef(true)
                   initial='                                 '
                   insert=' '
                   replace={SW3_PropStyle}
-                />{codonStatusF3.start}{codonStatusF3.stop}
+                />{AA_indicatorF3.start}{AA_indicatorF3.stop}
                 {
                   orf3.current &&
                   <div className='triangle-left f3'></div>
@@ -594,7 +563,7 @@ const checkValUTR = useRef(true)
                       />
                     </td>
                     <td>Di-Nucleotide (pair of bases) </td>
-                    <td>{ twoBase_2} </td>
+                    <td>{ twoBase} </td>
                     <td>{ twobaseNotes[0].name }</td>
                   </tr>
                   <tr>
@@ -628,8 +597,8 @@ const checkValUTR = useRef(true)
                       />
                     </td>
                     <td>Codons (3 bases) mapped to 64 notes (Transcription mode only)</td>
-                    <td>{ codonNotes_2.codon}</td>
-                    <td>{ codonNotes_2.name }</td>
+                    <td>{ codon_2[0]?.codon}</td>
+                    <td>{ codonNotes_2[0]?.name }</td>
                   </tr>
                     :
                   <tr>
@@ -639,9 +608,9 @@ const checkValUTR = useRef(true)
                         onClick={(value) => checkValCodon.current = value}
                       />
                     </td>
-                    <td>Protein Sequences Frame 1 (Translation mode only)<br></br>Protein Sequences Frame 2 (Translation mode only)<br></br>Protein Sequences Frame 3 (Translation mode only)</td>
-                    <td>{ codonF1Notes[0]?.motif2 }<br></br>{ codonF2Notes[0]?.motif2 } <br></br>{ codonF3Notes[0]?.motif2 }</td>
-                    <td>{ codonF1Notes[0]?.name }<br></br>{ codonF2Notes[0]?.name } <br></br>{ codonF3Notes[0]?.name }</td>
+                    <td>Peptide Frame 1 (Translation)<br></br>Peptide Frame 2 (Translation)<br></br>Peptide Frame 3 (Translation)</td>
+                    <td>{ AAf1Motif[0]?.motif2 }<br></br>{ AAf2Motif[0]?.motif2 } <br></br>{ AAf3Motif[0]?.motif2 }</td>
+                    <td>{ AAf1Note[0]?.name }<br></br>{ AAf2Note[0]?.name } <br></br>{ AAf3Note[0]?.name }</td>
                   </tr>
                   }
 
@@ -711,25 +680,35 @@ const checkValUTR = useRef(true)
             </div>
           </div>
         </div>
-      <Song bpm={bpm}>
-        {/* {checkValBase.current && <Track volume={-6} pan={-0.6}>
-          <Instrument type={'synth'} notes={baseNotes} />
-        </Track>} */}
-        {checkVal2base.current && <Track volume={-6} pan={0.6}>
-          <Instrument type={'synth'} notes={twobaseNotes} />
-        </Track>}
-        {console.log(baseNotes[0].name)}
 
-        {/* {checkValCodon.current && <Track volume={-5} pan={-0.9}>
-          <Instrument type={'fmSynth'} oscillator={{ type: 'sine' }} notes={codonF1Notes} />
+      <Song bpm={bpm}>
+        {checkValBase.current && <Track volume={-6} pan={-0.6}>
+          <Instrument type={'synth'} notes={baseNotes} />
+        </Track>}
+
+          {checkVal2base.current && <Track volume={-6} pan={0.6}>
+            <Instrument type={'synth'} notes={twobaseNotes} />
+          </Track>}
+
+        { mode === 'trl' &&
+        checkValCodon.current && <Track volume={-5} pan={-0.9}>
+          <Instrument type={'fmSynth'} oscillator={{ type: 'sine' }} notes={AAf1Note} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>}
-        {checkValCodon.current && <Track volume={-5} pan={0}>
-          <Instrument type={'fmSynth'} oscillator={{ type: 'square' }} notes={codonF2Notes} />
+        { mode === 'trl' &&
+        checkValCodon.current && <Track volume={-5} pan={0}>
+          <Instrument type={'fmSynth'} oscillator={{ type: 'square' }} notes={AAf2Note} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>}
-        {checkValCodon.current && <Track volume={-5} pan={0.9}>
-          <Instrument type={'fmSynth'} oscillator={{ type: 'triangle' }} notes={codonF3Notes} />
+        { mode === 'trl' &&
+        checkValCodon.current && <Track volume={-5} pan={0.9}>
+          <Instrument type={'fmSynth'} oscillator={{ type: 'triangle' }} notes={AAf3Note} />
+          <Effect type='feedbackDelay' wet={0.2} />
+        </Track>}
+
+        { mode === 'tsc' &&
+        checkValCodon.current && <Track volume={-5} pan={0}>
+          <Instrument type={'fmSynth'} oscillator={{ type: 'square' }} notes={codonNotes_2} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>}
 
@@ -760,7 +739,7 @@ const checkValUTR = useRef(true)
         {checkValUTR.current && <Track volume={-9} pan={-0.8}>
           <Instrument type={'amSynth'} notes={utrNote} />
           <Effect type='distortion' wet={0.2} />
-        </Track>} */}
+        </Track>}
     </Song>
     </>
   );

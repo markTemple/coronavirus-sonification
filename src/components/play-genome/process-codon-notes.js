@@ -1,10 +1,14 @@
 import React, { useRef } from 'react';
 
-export function getCodonFNotes(mode, frame012, isSynthEnabled, index, gb_Item, codonNotes) {
+export function getAA_Data(mode, frame012, isSynthEnabled, index, gb_Item, codonNotes) {
 
   const codonF1Notes = [];
   const codonF2Notes = [];
   const codonF3Notes = [];
+
+  const codonF1Motifs = [];
+  const codonF2Motifs = [];
+  const codonF3Motifs = [];
 
   const AA_Count1 = useRef(0)
   const AA_Count2 = useRef(0)
@@ -19,19 +23,22 @@ export function getCodonFNotes(mode, frame012, isSynthEnabled, index, gb_Item, c
     switch (frame012) {
     case 1:
       if (isSynthEnabled.current[frame012]) {
-        codonF1Notes.push(codonNotes)
+        codonF1Notes.push(codonNotes.notes)
+        codonF1Motifs.push(codonNotes.motif)
         AA_Count1.current++
       }
     break;
     case 2:
       if (isSynthEnabled.current[frame012]) {
-        codonF2Notes.push(codonNotes)
+        codonF2Notes.push(codonNotes.notes)
+        codonF2Motifs.push(codonNotes.motif)
         AA_Count2.current++
        }
       break;
     case 0:
       if (isSynthEnabled.current[frame012]) {
-        codonF3Notes.push(codonNotes)
+        codonF3Notes.push(codonNotes.notes)
+        codonF3Motifs.push(codonNotes.motif)
         AA_Count3.current++
         }
       break;
@@ -43,7 +50,8 @@ export function getCodonFNotes(mode, frame012, isSynthEnabled, index, gb_Item, c
 
   return {
     notes:{ f1: codonF1Notes, f2: codonF2Notes, f3: codonF3Notes },
-    AA_count:{ aa1: AA_Count1, aa2: AA_Count2, aa3: AA_Count3 }
+    motifs:{ f1: codonF1Motifs, f2: codonF2Motifs, f3: codonF3Motifs },
+    AA_count:{ aa1: AA_Count1, aa2: AA_Count2, aa3: AA_Count3 },
   }
 }
 

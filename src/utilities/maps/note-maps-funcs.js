@@ -74,7 +74,7 @@ export const trlProps = {
     dur: '8m',
   },
   trsNote:{
-    oct: 6,
+    oct: 5,
     scale: [3, 0, 3, 0, 1, 0, 5],// 1st, 3rd, #4 and 5th?
     range: 20,
     key: 'Bb',
@@ -143,8 +143,8 @@ export const tscProps = {
     dur: '8m',
   },
   trsNote:{
-    oct: 5,
-    scale: [ -1, -2, -2, -1, -2, -2, -2],
+    oct: 3,
+    scale: [2, 2, 2, 1, 2, 2, 1],
     range: 18,
     key: 'A',
     dur: '8m',
