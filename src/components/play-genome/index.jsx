@@ -52,7 +52,7 @@ export function PlayGenome() {
       startEnd = 'start'
       break;
     case 'tsc':
-      bpm = 1400
+      bpm = 1000
       audioProps = 'tscProps'
       startEnd = 'end'
       break;
@@ -98,7 +98,10 @@ export function PlayGenome() {
   const tentensGCnote = GCnote100Note(GCnote100, GCnote100Numb, audioProps)
   const getTRSnote = makeTRSnotes(mode, trs_Item, index, audioProps)
   const nspNote = getNSPnotes(nsp_Item, base, index, mode, audioProps)
+
+
   const slNote = playAtIndex(index, trs_Item, 'tag', 'SL', twoBase, audioProps, mode)
+
   const utrNote = playAtIndex(index, gb_Item, 'gene', 'UTR', twoBase, audioProps, mode)
 
   const codon = getCodon(index)
@@ -218,7 +221,11 @@ const checkValUTR = useRef(true)
     }
   }
     // hack for frameshift to stop label of frag1
-    if (index >= 13468 && index < 21550) orf3.current = ''
+    // if (index >= 13468 && index < 21550) {
+    if (index >= 13481 && index < 21550) {
+      orf2.current = ''
+
+    }
 
 // when playing audio remove label as enter UTR from orf
   if (gb_Item.type === 'u') {
@@ -364,7 +371,7 @@ const checkValUTR = useRef(true)
         dispatch(setPlayhead(jumper.end3))
       }
     }
-    if(subGenome.current === false && index === 21554) Tone.Transport.stop()
+    if(subGenome.current === false && index === 21553) Tone.Transport.stop()
   }
   if(mode === 'tsc'){
     jumper.map(doJump)
@@ -487,7 +494,7 @@ const checkValUTR = useRef(true)
           )}
         </div>
       </div>
-        <div>
+        <div><br></br>
           <Controls />
           <fieldset>
           <p>
@@ -563,8 +570,8 @@ const checkValUTR = useRef(true)
                       />
                     </td>
                     <td>Di-Nucleotide (pair of bases) </td>
-                    <td>{ twoBase} </td>
-                    <td>{ twobaseNotes[0].name }</td>
+                    <td>{ (twobaseNotes[0].name) ? twoBase : '-'} </td>
+                    <td>{ (twobaseNotes[0].name) ? twobaseNotes[0].name : '-' }</td>
                   </tr>
                   <tr>
                   <td>
@@ -597,8 +604,8 @@ const checkValUTR = useRef(true)
                       />
                     </td>
                     <td>Codons (3 bases) mapped to 64 notes (Transcription mode only)</td>
-                    <td>{ codon_2[0]?.codon}</td>
-                    <td>{ codonNotes_2[0]?.name }</td>
+                    <td>{ (codon_2[0]?.codon) ? codon_2[0]?.codon : '-'}</td>
+                    <td>{ (codonNotes_2[0]?.name) ? codonNotes_2[0]?.name : '-' }</td>
                   </tr>
                     :
                   <tr>
@@ -609,8 +616,12 @@ const checkValUTR = useRef(true)
                       />
                     </td>
                     <td>Peptide Frame 1 (Translation)<br></br>Peptide Frame 2 (Translation)<br></br>Peptide Frame 3 (Translation)</td>
-                    <td>{ AAf1Motif[0]?.motif2 }<br></br>{ AAf2Motif[0]?.motif2 } <br></br>{ AAf3Motif[0]?.motif2 }</td>
-                    <td>{ AAf1Note[0]?.name }<br></br>{ AAf2Note[0]?.name } <br></br>{ AAf3Note[0]?.name }</td>
+                    <td>{ (AAf1Motif[0]?.motif2) ? AAf1Motif[0]?.motif2 : '-' }<br></br>
+                        { (AAf2Motif[0]?.motif2) ? AAf2Motif[0]?.motif2 : '-' }<br></br>
+                        { (AAf3Motif[0]?.motif2) ? AAf3Motif[0]?.motif2 : '-' }</td>
+                    <td>{ (AAf1Note[0]?.name) ? AAf1Note[0]?.name : '-'  }<br></br>
+                        { (AAf2Note[0]?.name) ? AAf2Note[0]?.name : '-'  } <br></br>
+                        { (AAf3Note[0]?.name) ? AAf3Note[0]?.name : '-' }</td>
                   </tr>
                   }
 
@@ -645,7 +656,7 @@ const checkValUTR = useRef(true)
                         onClick={(value) => checkValTRS.current = value}
                       />
                     </td>
-                    <td> T1 to T10: Transcription Regulatory Sequences {trs_Item.trs_seq}:</td>
+                    <td> T1-10: TRS {trs_Item.trs_seq}</td>
                     <td>{ (trs_Item.trs_seq) ? base : '-' }</td>
                     <td>{ (trs_Item.trs_seq) ? getTRSnote[0].name : '-' }</td>
                   </tr>
@@ -685,29 +696,29 @@ const checkValUTR = useRef(true)
         {checkValBase.current && <Track volume={-6} pan={-0.6}>
           <Instrument type={'synth'} notes={baseNotes} />
         </Track>}
-
           {checkVal2base.current && <Track volume={-6} pan={0.6}>
-            <Instrument type={'synth'} notes={twobaseNotes} />
-          </Track>}
+          <Instrument type={'synth'} notes={twobaseNotes} />
+        </Track>}
+
 
         { mode === 'trl' &&
-        checkValCodon.current && <Track volume={-5} pan={-0.9}>
+        checkValCodon.current && <Track volume={-4} pan={-0.9}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'sine' }} notes={AAf1Note} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>}
         { mode === 'trl' &&
-        checkValCodon.current && <Track volume={-5} pan={0}>
+        checkValCodon.current && <Track volume={-4} pan={0}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'square' }} notes={AAf2Note} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>}
         { mode === 'trl' &&
-        checkValCodon.current && <Track volume={-5} pan={0.9}>
+        checkValCodon.current && <Track volume={-4} pan={0.9}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'triangle' }} notes={AAf3Note} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>}
 
         { mode === 'tsc' &&
-        checkValCodon.current && <Track volume={-5} pan={0}>
+        checkValCodon.current && <Track volume={-8} pan={0}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'square' }} notes={codonNotes_2} />
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>}
@@ -728,18 +739,20 @@ const checkValUTR = useRef(true)
         {checkValTRS.current && <Track volume={-12} pan={0.8}>
           <Instrument type={'amSynth'} notes={getTRSnote} />
         </Track>}
+        {checkValUTR.current && <Track volume={-9} pan={-0.8}>
+          <Instrument type={'amSynth'} notes={utrNote} />
+          <Effect type='distortion' wet={0.2} />
+        </Track>}
+
         {checkValNSP.current && <Track volume={-6} pan={0.8}>
           <Instrument type={'amSynth'} notes={nspNote} />
           <Effect type='distortion' wet={0.5} />
         </Track>}
 
-        {checkValSL.current && <Track volume={-9} pan={0.8}>
+        {checkValSL.current && <Track volume={-7} pan={0.8}>
           <Instrument type={'amSynth'} notes={slNote} />
         </Track>}
-        {checkValUTR.current && <Track volume={-9} pan={-0.8}>
-          <Instrument type={'amSynth'} notes={utrNote} />
-          <Effect type='distortion' wet={0.2} />
-        </Track>}
+
     </Song>
     </>
   );
