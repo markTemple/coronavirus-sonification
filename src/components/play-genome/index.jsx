@@ -118,6 +118,8 @@ export function PlayGenome() {
     else return false
   }
 
+  const playstop = stop()
+
   function setSynthByCodonType() {
     if(start() === true) setSynthStatus(frame012, true);
     if(stop() === true) setSynthStatus(frame012, false);
@@ -130,7 +132,7 @@ export function PlayGenome() {
   setSynthByCodonType()
 
   const codonNotes = getCodonNotes(codon, audioProps)
-  const AA_Data = getAA_Data(mode, frame012, isSynthEnabled, index, gb_Item, codonNotes)
+  const AA_Data = getAA_Data(mode, frame012, isSynthEnabled, index, gb_Item, codonNotes, playstop)
 
   // trs data used in swith statement
   let AA_indicatorF1 = {start: null, stop: null};
@@ -494,7 +496,7 @@ const checkValUTR = useRef(true)
           )}
         </div>
       </div>
-        <div><br></br>
+        <div><hr></hr>
           <Controls />
           <fieldset>
           <p>
@@ -640,18 +642,6 @@ const checkValUTR = useRef(true)
                   <tr>
                   <td>
                       <Checkbox
-                        default={checkValNSP.current}
-                        onClick={(value) => checkValNSP.current = value}
-                      />
-                    </td>
-                    <td>C: Cleavage sites between N1 to N16 </td>
-                    <td>{ (nspNote[0].name) ? base : '-' }</td>
-                    <td>{ (nspNote[0].name) ? nspNote[0].name : '-' }</td>
-                  </tr>
-
-                  <tr>
-                  <td>
-                      <Checkbox
                         default={checkValTRS.current}
                         onClick={(value) => checkValTRS.current = value}
                       />
@@ -659,6 +649,18 @@ const checkValUTR = useRef(true)
                     <td> T1-10: TRS {trs_Item.trs_seq}</td>
                     <td>{ (trs_Item.trs_seq) ? base : '-' }</td>
                     <td>{ (trs_Item.trs_seq) ? getTRSnote[0].name : '-' }</td>
+                  </tr>
+
+                  <tr>
+                  <td>
+                      <Checkbox
+                        default={checkValNSP.current}
+                        onClick={(value) => checkValNSP.current = value}
+                      />
+                    </td>
+                    <td>C: Cleavage sites between N1 to N16 </td>
+                    <td>{ (nspNote[0].name) ? base : '-' }</td>
+                    <td>{ (nspNote[0].name) ? nspNote[0].name : '-' }</td>
                   </tr>
 
                   <tr>
@@ -704,23 +706,23 @@ const checkValUTR = useRef(true)
         { mode === 'trl' &&
         checkValCodon.current && <Track volume={-4} pan={-0.9}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'sine' }} notes={AAf1Note} />
-          <Effect type='feedbackDelay' wet={0.2} />
+          {/* <Effect type='feedbackDelay' wet={0.2} /> */}
         </Track>}
         { mode === 'trl' &&
         checkValCodon.current && <Track volume={-4} pan={0}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'square' }} notes={AAf2Note} />
-          <Effect type='feedbackDelay' wet={0.2} />
+          {/* <Effect type='feedbackDelay' wet={0.2} /> */}
         </Track>}
         { mode === 'trl' &&
         checkValCodon.current && <Track volume={-4} pan={0.9}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'triangle' }} notes={AAf3Note} />
-          <Effect type='feedbackDelay' wet={0.2} />
+          {/* <Effect type='feedbackDelay' wet={0.2} /> */}
         </Track>}
 
         { mode === 'tsc' &&
         checkValCodon.current && <Track volume={-8} pan={0}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'square' }} notes={codonNotes_2} />
-          <Effect type='feedbackDelay' wet={0.2} />
+          {/* <Effect type='feedbackDelay' wet={0.2} /> */}
         </Track>}
 
         {checkVal10B.current && <Track volume={-9} pan={-0.7}>
@@ -736,17 +738,17 @@ const checkValUTR = useRef(true)
           <Instrument type={'synth'} notes={sameBaseNotes} />
         </Track>}
 
-        {checkValTRS.current && <Track volume={-12} pan={0.8}>
+        {checkValTRS.current && <Track volume={-9} pan={0.8}>
           <Instrument type={'amSynth'} notes={getTRSnote} />
         </Track>}
         {checkValUTR.current && <Track volume={-9} pan={-0.8}>
           <Instrument type={'amSynth'} notes={utrNote} />
-          <Effect type='distortion' wet={0.2} />
+          {/* <Effect type='distortion' wet={0.2} /> */}
         </Track>}
 
-        {checkValNSP.current && <Track volume={-6} pan={0.8}>
+        {checkValNSP.current && <Track volume={-7} pan={0.8}>
           <Instrument type={'amSynth'} notes={nspNote} />
-          <Effect type='distortion' wet={0.5} />
+          {/* <Effect type='distortion' wet={0.2} /> */}
         </Track>}
 
         {checkValSL.current && <Track volume={-7} pan={0.8}>

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-export function getAA_Data(mode, frame012, isSynthEnabled, index, gb_Item, codonNotes) {
+export function getAA_Data(mode, frame012, isSynthEnabled, index, gb_Item, codonNotes, playstop) {
 
   const codonF1Notes = [];
   const codonF2Notes = [];
@@ -22,21 +22,21 @@ export function getAA_Data(mode, frame012, isSynthEnabled, index, gb_Item, codon
     }
     switch (frame012) {
     case 1:
-      if (isSynthEnabled.current[frame012]) {
+      if ( (isSynthEnabled.current[frame012] === true) || (playstop === true)) {
         codonF1Notes.push(codonNotes.notes)
         codonF1Motifs.push(codonNotes.motif)
         AA_Count1.current++
       }
     break;
     case 2:
-      if (isSynthEnabled.current[frame012]) {
+      if ( (isSynthEnabled.current[frame012] === true) || (playstop === true)) {
         codonF2Notes.push(codonNotes.notes)
         codonF2Motifs.push(codonNotes.motif)
         AA_Count2.current++
        }
       break;
     case 0:
-      if (isSynthEnabled.current[frame012]) {
+      if ( (isSynthEnabled.current[frame012] === true) || (playstop === true)) {
         codonF3Notes.push(codonNotes.notes)
         codonF3Motifs.push(codonNotes.motif)
         AA_Count3.current++

@@ -66,8 +66,6 @@ export function getNSPnotes(nsp_Item, base, index, mode, audioProps) {
     if(index >= nsp_Item.start && index <= nsp_Item.end && nsp_Item.cleavage === true) {
       const nspNumb = MAPS.NSP_MAP[base]
       const nspMap = MAPS.makeIntervals(MAPS[audioProps].nsp).map(number => MAPS.keyboard[number])
-      console.log(nspMap)
-
       return [{name: nspMap[nspNumb], duration: MAPS[audioProps].nsp.dur}]
     }else {
       return [{name: ''}]

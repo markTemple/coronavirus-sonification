@@ -33,14 +33,14 @@ export function makeIntervals(arr) {
 }
 
 // trl aeolian
-// "C3", "D3", "Eb3", "F3", "G3", "Ab3", "Bb4"
-const aeolian = [2, 1, 2, 2, 1, 2, 2]
+//              C3 D3 Eb3 F3 G3 Ab3 Bb4
+const aeolian = [0, 2, 1, 2, 2, 1, 2, 2]
 // emphasise the 3rd, 6th 7th
 
 export const trlProps = {
   base:{
-    oct: 1,
-    scale: [12],//roots at octaves
+    oct: 2,
+    scale: [3, 9, 3, 9],//roots and 3rd
     range: 4,
     key: 'Bb',
     dur: '8m',
@@ -53,15 +53,15 @@ export const trlProps = {
     dur: '8m',
   },
   twoBase:{
-    oct: 1,
-    scale: [5, 2, 3, 2],// 1st 4th 5th 7th
+    oct: 2,
+    scale: [5, 2, 5, 5, 2, 5, 0 -5, -2, -5, -5, -2, -5],// 1st 4th 5th 7th
     range: 16,
     key: 'Bb',
     dur: '8m',
   },
   codon:{
     oct: 2,
-    scale: [2, 6, 2, 2],// 1st, 2rd, 6th, and 7th?
+    scale: [3, 5, 2, 2],// 1st, 2rd, 6th, and 7th?
     range: 21,
     key: 'Bb',
     dur: '8m',
@@ -75,28 +75,28 @@ export const trlProps = {
   },
   trsNote:{
     oct: 5,
-    scale: [3, 0, 3, 0, 1, 0, 5],// 1st, 3rd, #4 and 5th?
+    scale: [2, 3, 2, 1, 4, -4, -1, -2, -3,-2],// 1st, 3rd, #4 and 5th?
     range: 20,
     key: 'Bb',
     dur: '8m',// too short gives click/spike in audio
   },
   nsp:{
-    oct: 5,
-    scale: [-2, -2, -1],
+    oct: 4,
+    scale: [8, 2, 2],
     range: 8,
-    key: 'Eb',// force to 3rd in C
+    key: 'Bb',// force to 3rd in C
     dur: '8m',
   },
   SL:{
-    oct: 6,
-    scale: [0, 3, 0, -3],// 1, 3, 5, 7.
+    oct: 5,
+    scale: [3, -3, 8, -8, 10, -10, 12, -12],// 1, 3, 5, 7.
     range: 16,
     key: 'Bb',
     dur: '8m',
   },
   UTR:{
-    oct: 6,
-    scale: [0, -2, 0, 2, 3, 0, -3],
+    oct: 5,
+    scale: [0, 2, 0, -2, 3, 0, -3],
     range: 16,
     key: 'Bb',
     dur: '8m',
@@ -109,65 +109,65 @@ export const trlProps = {
 export const tscProps = {
   base:{
     oct: 2,
-    scale: [2, 2, 2, 6],
+    scale: [7, 5, 7, 5],
     range: 4,
-    key: 'A',
+    key: 'C',
     dur: '8m',
   },
   repeatBases:{
-    oct: 3,
-    scale: [2, 2, 8],
+    oct: 5,
+    scale: [0, 6, 1, 5],
     range: 8,
-    key: 'A',
+    key: 'C',
     dur: '8m',
   },
   twoBase:{
     oct: 2,
-    scale: [0, 2, 2, 2, 6, 0, 6, 1, 4, 1, 0],
+    scale: [0, 4, 3, 5, 0, 4, 3, 5],
     range: 16,
-    key: 'A',
+    key: 'C',
     dur: '8m',
   },
   codon:{
-    oct: 1,
-    scale: [1], // chromatic
+    oct: 2,
+    scale: [2, 2, 2, 6, 2, 2, 2, 6, 2, 2, 2, 6, 2, 2, 2, 6, -6, -2, -2, -2, -6, -2, -2, -2, -6, -2, -2, -2, ], // chromatic
     range: 64,
-    key: 'A',
+    key: 'C',
     dur: '8m',
   },
   GCnote:{
     oct: 4,
-    scale: [0, 4, 2, 1, 4, 1],//
+    scale: [0, 4, 3, 4, 1],//
     range: 10,
-    key: 'A',
+    key: 'C',
     dur: '8m',
   },
   trsNote:{
-    oct: 3,
-    scale: [2, 2, 2, 1, 2, 2, 1],
+    oct: 6,
+    scale: [2, 2, 2, 1, 2, 2, 1, -1, -2, -2, -1, -2, -2, -2],
     range: 18,
-    key: 'A',
+    key: 'C',
     dur: '8m',
   },
   nsp:{
-    oct: 7,
-    scale: [2],
+    oct: 6,
+    scale: [2, 2, 2, -2, -2, -2],
     range: 8,
-    key: 'A',
+    key: 'C',
     dur: '8m',
   },
   SL:{
-    oct: 4,
-    scale: [0, 6, 1, 4, 1],// 1, 3, 5, 7.
+    oct: 5,
+    scale: [0, 6, 1, 4, 1, -1, -4, -1, -6, 0],// 1, 3, 5, 7.
     range: 16,
-    key: 'A',
+    key: 'C',
     dur: '8m',
   },
   UTR:{
     oct: 3,
-    scale: [0, -1, -2, -2, -3, 8],
+    scale: [0, 6, 3, 2, 1, -1, -2, -3, -6],
     range: 16,
-    key: 'A',
+    key: 'C',
     dur: '8m',
   },
 }
