@@ -15,29 +15,90 @@ export function GenomeDisplay ({ children: genome, ...props }) {
 
   let string = genome
   while (string.length) {
-    if (string.startsWith('AUG')) {
+    // else if (string.startsWith('UGA')) {
+    //   result.push(
+    //     <span className='stop'>UGA</span>
+    //   )
+    //   string = string.substring(3)
+    // }
+
+    // else if (string.startsWith('UAG')) {
+    //   result.push(
+    //     <span className='stop'>UAG</span>
+    //   )
+    //   string = string.substring(3)
+    // }
+
+    // else if (string.startsWith('UAA')) {
+    //   result.push(
+    //     <span className='stop'>UAA</span>
+    //   )
+    //   string = string.substring(3)
+    // }
+
+     if (string.startsWith('CUCUAAACGAACUU')) {
+      result.push(
+        <span className='stop'>CUCUAAACGAACUU</span>
+      )
+      string = string.substring(14)
+    }
+    else if (string.startsWith('AACUAAACGAACAAUG')) {
+      result.push(
+        <span className='stop'>AACUAAACGAACAAUG</span>
+      )
+      string = string.substring(16)
+    }
+    else if (string.startsWith('ACAUAAACGAACUUAUG')) {
+      result.push(
+        <span className='stop'>ACAUAAACGAACUUAUG</span>
+      )
+      string = string.substring(17)
+    }
+    else if (string.startsWith('AUGAGUACGAACUUAUG')) {
+      result.push(
+        <span className='stop'>AUGAGUACGAACUUAUG</span>
+      )
+      string = string.substring(17)
+    }
+    else if (string.startsWith('GUCUAAACGAACUA')) {
+      result.push(
+        <span className='stop'>GUCUAAACGAACUA</span>
+      )
+      string = string.substring(14)
+    }
+    else if (string.startsWith('UACAUCACGAACGC')) {
+      result.push(
+        <span className='stop'>UACAUCACGAACGC</span>
+      )
+      string = string.substring(14)
+    }
+    else if (string.startsWith('GAUUAAACGAACAUG')) {
+      result.push(
+        <span className='stop'>GAUUAAACGAACAUG</span>
+      )
+      string = string.substring(15)
+    }
+    else if (string.startsWith('GCCUAAACGAACAUG')) {
+      result.push(
+        <span className='stop'>GCCUAAACGAACAUG</span>
+      )
+      string = string.substring(15)
+    }
+    else if (string.startsWith('AUCUAAACGAACAA')) {
+      result.push(
+        <span className='stop'>AUCUAAACGAACAA</span>
+      )
+      string = string.substring(14)
+    }
+    else if (string.startsWith('GCCUAAACUCAUGC')) {
+      result.push(
+        <span className='stop'>GCCUAAACUCAUGC</span>
+      )
+      string = string.substring(14)
+    }
+    else if (string.startsWith('AUG')) {
       result.push(
         <span className='start'>AUG</span>
-      )
-      string = string.substring(3)
-    }
-    else if (string.startsWith('UGA')) {
-      result.push(
-        <span className='stop'>UGA</span>
-      )
-      string = string.substring(3)
-    }
-
-    else if (string.startsWith('UAG')) {
-      result.push(
-        <span className='stop'>UAG</span>
-      )
-      string = string.substring(3)
-    }
-
-    else if (string.startsWith('UAA')) {
-      result.push(
-        <span className='stop'>UAA</span>
       )
       string = string.substring(3)
     }
