@@ -1,6 +1,5 @@
 import { genome } from '../genome'
 
-
 const motif = (index, length = 1) => genome.substring(index, index + length)
 
 export const getBase = (index) => motif(index)

@@ -12,7 +12,7 @@
 
 .player-container {
   font-family: "Lucida Console", Monaco, monospace;
-  max-width: 750px;
+  /* max-width: 750px; */
   overflow-y: visible;
   overflow-x: auto;
   background-color: rgb(254, 254, 254);
@@ -38,21 +38,6 @@ fieldset {
   margin-bottom: 5px;
 }
 
-.row {
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  flex-direction: row;
-}
-
-.column {
-  float: left;
-  width: 100%;
-}
-
-.row:after {
-  clear: both;
-}
 
 @media (max-width: 900px) {
   .row {
@@ -72,22 +57,21 @@ span {
   color: #a00202;
 }
 
+/* small passive buttons */
 .button.legend {
   background-color: #b1b1b1;
   padding: 6px 6px;
-  display: inline-block;
+  /* display: inline-block; */
 }
-
 .button.legend2 {
   background-color: #5da793;
   padding: 6px 6px;
-  display: inline-block;
+  /* display: inline-block; */
 }
-
 .button.legend3 {
   background-color: #f08b2c;
   padding: 6px 6px;
-  display: inline-block;
+  /* display: inline-block; */
 }
 
 small {
@@ -137,12 +121,9 @@ span.antiC {
   position: absolute;
   top: 48px;
   left: 400px;
-  border: 2px solid #000000;
+  border: 2px solid #787777;
   width: 31px;
   height: 172px;
-  background-color: #ffffff;
-  opacity: 0.6;
-  z-index: -2;
 }
 
 .triangle-left {
@@ -155,8 +136,8 @@ span.antiC {
   border-top: 10px solid transparent;
   border-right: 20px solid #c02e1d;
   border-bottom: 10px solid transparent;
-  box-shadow: 10px 0 8px -6px rgb(36, 28, 28);
-  z-index: 3;
+  /* box-shadow: 10px 0 8px -6px rgb(36, 28, 28); */
+  /* z-index: 3; */
 }
 
 .triangle-left.f2 {
@@ -171,26 +152,23 @@ span.antiC {
   position: absolute;
   top: 95px;
   left: 400px;
-  border: 2px solid #000000;
-  background-color: #606060;
+  border: 2px solid #3e3d3d;
   width: 12px;
   height: 42px;
-  opacity: 0.4;
-  z-index: -1;
 }
 
 /* color and background to sliding AA residues
 ____________________________________________*/
 span.frame1 {
-  color: #000000;
+  /* color: #000000; */
   background-color:#f08b2c;
 }
 span.frame2 {
-  color:  #000000;
+  /* color:  #000000; */
   background-color:#5da793;
 }
 span.frame3 {
-  color:#000000;
+  /* color:#000000; */
   background-color: #b1b1b1;
 }
 
@@ -199,14 +177,14 @@ span.frame3 {
   /* margin-left: -36px; */
   position: absolute;
   left: 504px;
-  z-index: 3;
+  /* z-index: 3; */
 }
 
 .circle {
   padding: 4px 0px 4px 0px;
   border-radius: 50%;
-  background: #f16c21;
-  box-shadow: 10px 10px 8px -6px rgb(36, 28, 28);
+  /* background: #f16c21; */
+  /* box-shadow: 10px 10px 8px -6px rgb(36, 28, 28); */
   /* border: 1px solid rgb(0, 0, 0); */
 }
 
@@ -308,7 +286,7 @@ span.frame3 {
 
 /* stop start indicators */
 /* _____________________ */
-.stopStartFlash {
+/* .stopStartFlash {
   background: rgb(240, 87, 87);
   border-radius: 50%;
   margin-left: -23px;
@@ -323,7 +301,7 @@ span.frame3 {
   background: #5da793;
   ;
   ;
-}
+} */
 
 /* Mobile first queries */
 /* Larger than mobile */

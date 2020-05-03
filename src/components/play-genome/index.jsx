@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from '../../state/store';
 import { Controls } from '../controls';
 import { genome } from '../../genome'
 import { getPlayhead, setPlayhead } from '../../state/playhead';
-import { controlsReverse, getReversed, getMode } from '../../state/controls';
+import { controlsReverse, getReversed, getMode, getReset, controlsReset } from '../../state/controls';
 import {
   getBase, getDinucleotide, getCodon,
   getBases10, getBases100
@@ -28,13 +28,15 @@ import { jumper } from './jumper';
 
 
 export function PlayGenome() {
-
   const dispatch = useDispatch()
   const index = useSelector(getPlayhead)
   const isReversed = useSelector(getReversed)
   const mode = useSelector(getMode)
+  const shouldReset = useSelector(getReset)
 
-  const shouldReset = useSingleFramePrimitive(false)
+  useEffect(() => {
+    if (shouldReset) dispatch(controlsReset(false))
+  })
 
   const frame012 = index % 3;
   // console.log(1 % 3) = 1 shown as 2 should be 1
@@ -84,6 +86,7 @@ export function PlayGenome() {
   if ((index >= 13466) && (index < 21550)) {
     frameshift = index - 2
   }
+// 13444 start NSP11
 
   const base = getBase(index)
   const baseNotes = getBaseNotes(base, audioProps)
@@ -133,37 +136,36 @@ export function PlayGenome() {
 
   const codonNotes = getCodonNotes(codon, audioProps)
   const AA_Data = getAA_Data(mode, frame012, isSynthEnabled, index, gb_Item, codonNotes, playstop)
-
   // trs data used in swith statement
-  let AA_indicatorF1 = {start: null, stop: null};
-  let AA_indicatorF2 = {start: null, stop: null};
-  let AA_indicatorF3 = {start: null, stop: null};
+  // let AA_indicatorF1 = {start: null, stop: null};
+  // let AA_indicatorF2 = {start: null, stop: null};
+  // let AA_indicatorF3 = {start: null, stop: null};
 
-    function buttonSTART() {
-      if(start() === true) {
-        return <span className='stopStartFlash start'> </span>
-      }
-    }
-    function buttonSTOP() {
-      if(stop() === true) {
-        return <span className='stopStartFlash'>  </span>
-      }
-    }
+    // function buttonSTART() {
+    //   if(start() === true) {
+    //     return <span className='stopStartFlash start'> </span>
+    //   }
+    // }
+    // function buttonSTOP() {
+    //   if(stop() === true) {
+    //     return <span className='stopStartFlash'>  </span>
+    //   }
+    // }
 
-    switch (frame012) {
-      case 1:
-        AA_indicatorF1 = {start: buttonSTART(), stop: buttonSTOP()}
-      break;
-      case 2:
-        AA_indicatorF2 = {start: buttonSTART(), stop: buttonSTOP()}
-      break;
-      case 0:
-        AA_indicatorF3 = {start: buttonSTART(), stop: buttonSTOP()}
-      break;
-      default:
-        console.trace('error')
-      break;
-    }
+    // switch (frame012) {
+    //   case 1:
+    //     AA_indicatorF1 = {start: buttonSTART(), stop: buttonSTOP()}
+    //   break;
+    //   case 2:
+    //     AA_indicatorF2 = {start: buttonSTART(), stop: buttonSTOP()}
+    //   break;
+    //   case 0:
+    //     AA_indicatorF3 = {start: buttonSTART(), stop: buttonSTOP()}
+    //   break;
+    //   default:
+    //     console.trace('error')
+    //   break;
+    // }
     //start sliding window display AA residues on NSP start
     function setSynthByNSPstart() {
       setSynthStatus(frame012, true)
@@ -203,31 +205,39 @@ const checkValUTR = useRef(true)
     switch (frame012) {
       case 1:
         if (gb_Item.start % 3 === 1) {
-          orf1.current = gb_Item.product
+          orf1.current = gb_Item.product + ' ' + nsp_Item.nsp
         }
+
           break;
       case 2:
         if (gb_Item.start % 3 === 2) {
-          orf2.current = gb_Item.product
-
+          orf2.current = gb_Item.product + ' ' + nsp_Item.nsp
         }
+        if (frameshift >= 13466 && frameshift < 13480) {
+          orf1.current = gb_Item.product + ' ' + nsp_Item.nsp
+          orf2.current = ''
+        }
+
           break;
       case 0:
         if (gb_Item.start % 3 === 0) {
-          orf3.current = gb_Item.product
+          orf3.current = gb_Item.product + ' ' + nsp_Item.nsp
         }
+
+
           break;
       default:
         console.log('error')
       break;
     }
   }
-    // hack for frameshift to stop label of frag1
-    // if (index >= 13468 && index < 21550) {
-    if (index >= 13481 && index < 21550) {
-      orf2.current = ''
+  // switch display NSP 11/12 due to frameshift
 
-    }
+    // hack for frameshift to stop label of frame2
+    // if (index >= 13468 && index < 21550) {
+    // if (index >= 13466 && index < 21550) {
+    //   orf2.current = ''
+    // }
 
 // when playing audio remove label as enter UTR from orf
   if (gb_Item.type === 'u') {
@@ -247,7 +257,7 @@ const checkValUTR = useRef(true)
         <Button
           className='button'
           onClick={() => {
-            shouldReset.current = true
+            dispatch(controlsReset(true))
             dispatch(setPlayhead(feature[startEnd]))
             setSynthStatus(0, false)
             setSynthStatus(1, false)
@@ -408,11 +418,12 @@ const checkValUTR = useRef(true)
                     </span>|
 
                 <SlidingStringWindow
-                  reset={shouldReset.current}
+                  reset={shouldReset}
                   initial='                                 '
                   insert=' '
                   replace={SW1_PropStyle}
-                />{AA_indicatorF1.start}{AA_indicatorF1.stop}
+                />
+                {/* {AA_indicatorF1.start}{AA_indicatorF1.stop} */}
                 {
                   orf1.current &&
                   <div className='triangle-left f1'></div>
@@ -426,11 +437,12 @@ const checkValUTR = useRef(true)
                     <span className='highlight'> {String(AA_Count2.current).padStart(4, '0')}</span>
                   </span>|
                 <SlidingStringWindow
-                  reset={shouldReset.current}
+                  reset={shouldReset}
                   initial='                                 '
                   insert=' '
                   replace={SW2_PropStyle}
-                />{AA_indicatorF2.start}{AA_indicatorF2.stop}
+                />
+                {/* {AA_indicatorF2.start}{AA_indicatorF2.stop} */}
                 {
                   orf2.current &&
                   <div className='triangle-left f2'></div>
@@ -444,11 +456,12 @@ const checkValUTR = useRef(true)
                     <span className='highlight'> {String(AA_Count3.current).padStart(4, '0')}</span>
                   </span>|
                 <SlidingStringWindow
-                  reset={shouldReset.current}
+                  reset={shouldReset}
                   initial='                                 '
                   insert=' '
                   replace={SW3_PropStyle}
-                />{AA_indicatorF3.start}{AA_indicatorF3.stop}
+                />
+                {/* {AA_indicatorF3.start}{AA_indicatorF3.stop} */}
                 {
                   orf3.current &&
                   <div className='triangle-left f3'></div>
@@ -471,10 +484,7 @@ const checkValUTR = useRef(true)
               </p>
             </div><span> RNA +</span>
             <span className='highlight'> {String(index).padStart(5, '0')}</span>|
-            {isReversed
-              ? <span className='pre'>{dotfill40 + genomeSub}</span>
-              : <GenomeDisplay className='pre'>{dotfill40 + genomeSub}</GenomeDisplay>
-          }
+              <GenomeDisplay className='pre'>{dotfill40 + genomeSub}</GenomeDisplay>
           </div>
           { mode === 'tsc' && (
             <div>
@@ -539,8 +549,6 @@ const checkValUTR = useRef(true)
           </small></span>
           </fieldset>
 
-          <div className='row'>
-            <div className='column'>
             <fieldset>
               <h3>Description of audio notes generated from RNA motifs. </h3>
               <table className="fullwidth">
@@ -690,8 +698,6 @@ const checkValUTR = useRef(true)
                 </tbody>
               </table>
               </fieldset>
-            </div>
-          </div>
         </div>
 
       <Song bpm={bpm}>
@@ -738,10 +744,10 @@ const checkValUTR = useRef(true)
           <Instrument type={'synth'} notes={sameBaseNotes} />
         </Track>}
 
-        {checkValTRS.current && <Track volume={-9} pan={0.8}>
+        {checkValTRS.current && <Track volume={-7} pan={0.8}>
           <Instrument type={'amSynth'} notes={getTRSnote} />
         </Track>}
-        {checkValUTR.current && <Track volume={-9} pan={-0.8}>
+        {checkValUTR.current && <Track volume={-7} pan={-0.8}>
           <Instrument type={'amSynth'} notes={utrNote} />
           {/* <Effect type='distortion' wet={0.2} /> */}
         </Track>}

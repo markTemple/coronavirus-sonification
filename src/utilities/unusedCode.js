@@ -27,7 +27,6 @@ export const phrygian = [1, 2, 2, 2, 1, 2, 2]
 export const locrian = [1, 2, 2, 1, 2, 2, 2]
 // avoid 2nd and 6th?
 
-
 export const three_semitones = [3, 3, 3, 3]
 // this is only scale that can accomodate 64 note mapping
 export const semitone_chromatic = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]

@@ -6,6 +6,7 @@ const slice = createSlice({
   initialState: {
     isPlaying: false,
     reversed: false,
+    shouldReset: false,
   },
   reducers: {
     start (state) {
@@ -20,6 +21,9 @@ const slice = createSlice({
     direction (state, action) {
       return { ...state, reversed: action.payload }
     },
+    reset (state, action) {
+      return { ...state, shouldReset: action.payload ?? true }
+    }
   }
 })
 
@@ -30,8 +34,10 @@ export const controlsStart = slice.actions.start
 export const controlsStop = slice.actions.stop
 export const controlsReverse = slice.actions.reverse
 export const controlsSetDirection = slice.actions.direction
+export const controlsReset = slice.actions.reset
 
 // selectors
-export const getIsPlaying = state => state.controls.isPlaying
+export const getPlaying = state => state.controls.isPlaying
 export const getReversed = state => state.controls.reversed
 export const getMode = state => state.controls.reversed ? 'tsc' : 'trl'
+export const getReset = state => state.controls.shouldReset

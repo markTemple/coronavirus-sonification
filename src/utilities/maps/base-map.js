@@ -102,9 +102,9 @@ export const CODON_MAP =
   GGU: {AA: 'Gly', Note: 18, AA1: '-G-'},
   GGC: {AA: 'Gly', Note: 18, AA1: '-G-'},
   GGG: {AA: 'Gly', Note: 18, AA1: '-G-'},
-  UAA: {AA: 'ST*', Note: 19, AA1: '-s-'},
-  UAG: {AA: 'ST*', Note: 19, AA1: '-s-'},
-  UGA: {AA: 'ST*', Note: 19, AA1: '-s-'},
+  UAA: {AA: 'ST*', Note: 19, AA1: ' - '},
+  UAG: {AA: 'ST*', Note: 19, AA1: ' - '},
+  UGA: {AA: 'ST*', Note: 19, AA1: ' - '},
   AUG: {AA: 'Mt*', Note: 20, AA1: '-M-'},
 }
 
