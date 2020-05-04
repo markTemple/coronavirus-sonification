@@ -1,10 +1,10 @@
 :root {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  max-width: 950px;
+  max-width: 1000px;
   margin: auto;
   margin-top: 10px;
   margin-bottom: 10px;
-  padding: 26px;
+  padding: 25px;
   border-radius: 8px;
   border: 1px solid rgb(133, 133, 133);
   background-color: rgb(242, 242, 242);
@@ -12,12 +12,13 @@
 
 .player-container {
   font-family: "Lucida Console", Monaco, monospace;
-  /* max-width: 750px; */
+  max-width: 1000px;
+  min-width: 800px;
   overflow-y: visible;
   overflow-x: auto;
   background-color: rgb(254, 254, 254);
   padding: 10px;
-  padding-left: 40px;
+  padding-left: 25px;
   border: 1px solid rgb(133, 133, 133);
   border-radius: 8px;
   opacity: 0.8;
@@ -40,9 +41,9 @@ fieldset {
 
 
 @media (max-width: 900px) {
-  .row {
+  /* .row {
     flex-direction: column;
-  }
+  } */
 }
 
 p {
@@ -108,9 +109,9 @@ in the RNA string in tsc mode (reverse) */
 .message {
   font-family: Geneva, Verdana, sans-serif;
   font-size: 1rem;
-  position: absolute;
-  top: 170px;
-  left: 220px;
+  /* position: absolute; */
+  /* top: 170px; */
+  /* left: 220px; */
   color:#b12a2a;
   z-index: 3;
 }

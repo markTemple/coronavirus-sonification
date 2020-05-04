@@ -210,7 +210,7 @@ const checkValUTR = useRef(true)
 
   let message = ''
   if (nsp_Item.tag === 'C' && mode === 'trl') {
-    bpm = 200
+    bpm = 214
     message = 'Polyprotein cleavage site'
   }
 
@@ -377,310 +377,313 @@ const checkValUTR = useRef(true)
         Playtime = {subHeadings.bpTime[mode]}
       </p>
       <div className='player-container'>
-      {/* <span className='playCont_text'>{subHeadings.sonifySub[mode]}</span> */}
-      <Checkbox
-        default={subGenome.current}
-        onClick={(value) => subGenome.current = value}
-      />
-      <span className='playCont_text'> {subHeadings.checkbox[mode]}</span>
+        {/* <span className='playCont_text'>{subHeadings.sonifySub[mode]}</span> */}
+        <Checkbox
+          default={subGenome.current}
+          onClick={(value) => subGenome.current = value}
+        />
+        <span className='playCont_text'> {subHeadings.checkbox[mode]}</span>
 
-      <div className='message'>{message}</div>
+        <span className='message'> {message}</span>
 
         <div className='player'>
           {mode === 'trl' && (
-            <div>
-              <div className='pre'>
-                <span>
-                  Frame1
-                    <span className='highlight'> {String(AA_Count1.current).padStart(4, '0')}</span>
-                    </span>|
+          <div>
+            <div className='pre'>
+              <span>
+              Frame1
+              <span className='highlight'> {String(AA_Count1.current).padStart(4, '0')}</span>
+              </span>|
 
-                <SlidingStringWindow
-                  reset={shouldReset}
-                  initial='                                 '
-                  insert=' '
-                  replace={SW1_PropStyle}
-                />
-                {/* {AA_indicatorF1.start}{AA_indicatorF1.stop} */}
-                {
-                  orf1.current &&
-                  <div className='triangle-left f1'></div>
-                }
-                <span className='orf'>{orf1.current}</span>
-              </div>
-
-              <div className='pre'>
-                <span>
-                  Frame2
-                    <span className='highlight'> {String(AA_Count2.current).padStart(4, '0')}</span>
-                  </span>|
-                <SlidingStringWindow
-                  reset={shouldReset}
-                  initial='                                 '
-                  insert=' '
-                  replace={SW2_PropStyle}
-                />
-                {/* {AA_indicatorF2.start}{AA_indicatorF2.stop} */}
-                {
-                  orf2.current &&
-                  <div className='triangle-left f2'></div>
-                }
-                <span className='orf'>{orf2.current}</span>
-              </div>
-
-              <div className='pre'>
-                <span>
-                  Frame3
-                    <span className='highlight'> {String(AA_Count3.current).padStart(4, '0')}</span>
-                  </span>|
-                <SlidingStringWindow
-                  reset={shouldReset}
-                  initial='                                 '
-                  insert=' '
-                  replace={SW3_PropStyle}
-                />
-                {/* {AA_indicatorF3.start}{AA_indicatorF3.stop} */}
-                {
-                  orf3.current &&
-                  <div className='triangle-left f3'></div>
-                }
-                <span className='orf'>{orf3.current}</span>
-              </div>
-
-              <div className='ribosome Small shadow'><br></br><br></br>ribosome small</div>
-              <div className='ribosome Big shadow'><br></br>ribosome large</div>
-              <div className='playhead shadow'></div>
-              <span className='antiC shadow'>{antiCodon}</span>
-
+              <SlidingStringWindow
+              reset={shouldReset}
+              initial='                                 '
+              insert=' '
+              replace={SW1_PropStyle}
+              />
+              {/* {AA_indicatorF1.start}{AA_indicatorF1.stop} */}
+              {
+              orf1.current &&
+                <div className='triangle-left f1'></div>
+              }
+              <span className='orf'>{orf1.current}</span>
             </div>
+
+            <div className='pre'>
+              <span>
+              Frame2
+              <span className='highlight'> {String(AA_Count2.current).padStart(4, '0')}</span>
+              </span>|
+              <SlidingStringWindow
+              reset={shouldReset}
+              initial='                                 '
+              insert=' '
+              replace={SW2_PropStyle}
+              />
+              {/* {AA_indicatorF2.start}{AA_indicatorF2.stop} */}
+              {
+              orf2.current &&
+                <div className='triangle-left f2'></div>
+              }
+              <span className='orf'>{orf2.current}</span>
+            </div>
+
+            <div className='pre'>
+              <span>
+              Frame3
+              <span className='highlight'> {String(AA_Count3.current).padStart(4, '0')}</span>
+              </span>|
+              <SlidingStringWindow
+              reset={shouldReset}
+              initial='                                 '
+              insert=' '
+              replace={SW3_PropStyle}
+              />
+              {/* {AA_indicatorF3.start}{AA_indicatorF3.stop} */}
+              {
+              orf3.current &&
+                <div className='triangle-left f3'></div>
+              }
+              <span className='orf'>{orf3.current}</span>
+            </div>
+
+            <div className='ribosome Small shadow'><br></br><br></br>ribosome small</div>
+            <div className='ribosome Big shadow'><br></br>ribosome large</div>
+            <div className='playhead shadow'></div>
+            <span className='antiC shadow'>{antiCodon}</span>
+
+          </div>
           )}
           <div>
             <div>
               <p className='pre'>
-                <span>Total 29903|5`                            </span>
-                <span>                             3`</span>
+              <span>Total 29903|5`                            </span>
+              <span>                             3`</span>
               </p>
             </div><span> RNA +</span>
-            <span className='highlight'> {String(index).padStart(5, '0')}</span>|
-            {/* {nsp_Item.tag} */}
-              <GenomeDisplay
-                className='pre'
-              >{dotfill40 + genomeSub}</GenomeDisplay>
+              <span className='highlight'> {String(index).padStart(5, '0')}</span>|
+              {/* {nsp_Item.tag} */}
+              <GenomeDisplay className='pre'>{dotfill40 + genomeSub}</GenomeDisplay>
           </div>
+
+
           { mode === 'tsc' && (
-            <div>
-              <div className='playrev shadow'></div>
-              <div className='replicase shadow'>NSP proteins</div>
-              <div className='replicase p1 shadow'>helicase</div>
-              <div className='replicase p2 shadow'><br></br><br></br>RNA-dependent RNA polymerase</div>
-              <div className='replicase p3 shadow'></div>
-              <div className='replicase p4 shadow'></div>
-              <div className='replicase p5 shadow'></div>
-              <div className='replicase p6 shadow'></div>
-              <div className='replicase p7 shadow'></div>
-              <span> RNA -</span>
-              <span> {String(genome.length - (index)).padStart(5, '0')}</span>|
-              <span className=' pre'>{DNAfill40 + genomeSubComplement}</span>
-              <p className='pre'>            3`                                                         5`</p>
-              <br></br>
-            </div>
+          <div>
+            <div className='playrev shadow'></div>
+            <div className='replicase shadow'>NSP proteins</div>
+            <div className='replicase p1 shadow'>helicase</div>
+            <div className='replicase p2 shadow'><br></br><br></br>RNA-dependent RNA polymerase</div>
+            <div className='replicase p3 shadow'></div>
+            <div className='replicase p4 shadow'></div>
+            <div className='replicase p5 shadow'></div>
+            <div className='replicase p6 shadow'></div>
+            <div className='replicase p7 shadow'></div>
+            <span> RNA -</span>
+            <span> {String(genome.length - (index)).padStart(5, '0')}</span>|
+            <span className=' pre'>{DNAfill40 + genomeSubComplement}</span>
+            <p className='pre'>            3`                                                         5`</p>
+            <br></br>
+          </div>
           )}
+
         </div>
       </div>
-        <div><hr></hr>
+    <div>
+
+        <hr></hr>
         {/* {MAPS.startStop_json.map(Feature)} */}
-          <Controls />
-          <fieldset>
-          <p>
-          Genes.
-          <span> {gb_Item.product} </span>
-          ({gb_Item.start}-{gb_Item.end}) bp. {subHeadings.printGeneB[mode]} bp<br></br>
-          <span><small>{gb_Item.text}</small></span>
-          </p>
-          <p>{MAPS.geneBank_json.map(Feature)}
-            <span><small><br></br>
-              <button className="button legend"></button> Untranslated regions
-              <button className="button legend2"></button> Viral proteins
-            </small></span>
-          </p>
-          <hr></hr>
-          <p>
-          NSP proteins.
-          <span> {nsp_Item.text} </span>
-          ({nsp_Item.start}-{nsp_Item.end}) bp. {subHeadings.printNSP[mode]} bp<br></br>
-          <span><small>{nsp_Item.note}</small></span>
-          </p>
-          {MAPS.nsp_json.map(Feature)}
+        <Controls />
+        <fieldset>
+        <p>
+        Genes.
+        <span> {gb_Item.product} </span>
+        ({gb_Item.start}-{gb_Item.end}) bp. {subHeadings.printGeneB[mode]} bp<br></br>
+        <span><small>{gb_Item.text}</small></span>
+        </p>
+        <p>{MAPS.geneBank_json.map(Feature)}
           <span><small><br></br>
-            <button className="button legend2"></button> Cleavage points
-            <button className="button legend"></button> NSP proteins
+            <button className="button legend"></button> Untranslated regions
+            <button className="button legend2"></button> Viral proteins
           </small></span>
+        </p>
+        <hr></hr>
+        <p>
+        NSP proteins.
+        <span> {nsp_Item.text} </span>
+        ({nsp_Item.start}-{nsp_Item.end}) bp. {subHeadings.printNSP[mode]} bp<br></br>
+        <span><small>{nsp_Item.note}</small></span>
+        </p>
+        {MAPS.nsp_json.map(Feature)}
+        <span><small><br></br>
+          <button className="button legend2"></button> Cleavage points
+          <button className="button legend"></button> NSP proteins
+        </small></span>
 
-          <p>
-          Transcription Regulatory Sequences.
-          <span> {trs_Item.trs_name} </span>
-          ({trs_Item.start}-{trs_Item.end}) bp. {subHeadings.printTRS[mode]} bp<br></br>
-          <span><small>{trs_Item.text} {trs_Item.trs_seq}</small></span>
-          </p>
+        <p>
+        Transcription Regulatory Sequences.
+        <span> {trs_Item.trs_name} </span>
+        ({trs_Item.start}-{trs_Item.end}) bp. {subHeadings.printTRS[mode]} bp<br></br>
+        <span><small>{trs_Item.text} {trs_Item.trs_seq}</small></span>
+        </p>
 
-          {MAPS.trs_json.map(Feature)}
-          <span><small><br></br>
-            <button className="button legend2"></button> Transcription Regulatory Regions
-            <button className="button legend"></button> Interveining Sequences
-            <button className="button legend3"></button> Stem Loop regions
-          </small></span>
-          </fieldset>
+        {MAPS.trs_json.map(Feature)}
+        <span><small><br></br>
+          <button className="button legend2"></button> Transcription Regulatory Regions
+          <button className="button legend"></button> Interveining Sequences
+          <button className="button legend3"></button> Stem Loop regions
+        </small></span>
+        </fieldset>
 
-            <fieldset>
-              <h3>Description of audio notes generated from RNA motifs. </h3>
-              <table className="fullwidth">
-                <thead>
-                  <tr>
-                    <th>Mute</th>
-                    <th>Feature</th>
-                    <th>Motif</th>
-                    <th>Note</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <Checkbox
-                        default={checkValBase.current}
-                        onClick={(value) => checkValBase.current = value}
-                      />
-                    </td>
-                    <td>Nucleotide (single base)</td>
-                    <td>{ base }</td>
-                    <td>{ baseNotes[0].name }</td>
-                  </tr>
-                  <tr>
-                  <td>
-                      <Checkbox
-                        default={checkVal2base.current}
-                        onClick={(value) => checkVal2base.current = value}
-                      />
-                    </td>
-                    <td>Di-Nucleotide (pair of bases) </td>
-                    <td>{ (twobaseNotes[0].name) ? twoBase : '-'} </td>
-                    <td>{ (twobaseNotes[0].name) ? twobaseNotes[0].name : '-' }</td>
-                  </tr>
-                  <tr>
-                  <td>
-                      <Checkbox
-                        default={checkVal10B.current}
-                        onClick={(value) => checkVal10B.current = value}
-                      />
-                    </td>
-                    <td>GC Content over ten base pairs</td>
-                    <td>{ GCnote10Numb/10 }</td>
-                    <td>{ tenGCnote[0].name }</td>
-                  </tr>
-                  <tr>
-                  <td>
-                      <Checkbox
-                        default={checkVal100B.current}
-                        onClick={(value) => checkVal100B.current = value}
-                      />
-                    </td>
-                    <td>GC Content over 100 base pairs</td>
-                    <td>{ GCnote100Numb/10 }</td>
-                    <td>{ tentensGCnote[0].name }</td>
-                  </tr>
+        <fieldset>
+          <h3>Description of audio notes generated from RNA motifs. </h3>
+          <table className="fullwidth">
+            <thead>
+              <tr>
+                <th>Mute</th>
+                <th>Feature</th>
+                <th>Motif</th>
+                <th>Note</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <Checkbox
+                    default={checkValBase.current}
+                    onClick={(value) => checkValBase.current = value}
+                  />
+                </td>
+                <td>Nucleotide (single base)</td>
+                <td>{ base }</td>
+                <td>{ baseNotes[0].name }</td>
+              </tr>
+              <tr>
+              <td>
+                  <Checkbox
+                    default={checkVal2base.current}
+                    onClick={(value) => checkVal2base.current = value}
+                  />
+                </td>
+                <td>Di-Nucleotide (pair of bases) </td>
+                <td>{ (twobaseNotes[0].name) ? twoBase : '-'} </td>
+                <td>{ (twobaseNotes[0].name) ? twobaseNotes[0].name : '-' }</td>
+              </tr>
+              <tr>
+              <td>
+                  <Checkbox
+                    default={checkVal10B.current}
+                    onClick={(value) => checkVal10B.current = value}
+                  />
+                </td>
+                <td>GC Content over ten base pairs</td>
+                <td>{ GCnote10Numb/10 }</td>
+                <td>{ tenGCnote[0].name }</td>
+              </tr>
+              <tr>
+              <td>
+                  <Checkbox
+                    default={checkVal100B.current}
+                    onClick={(value) => checkVal100B.current = value}
+                  />
+                </td>
+                <td>GC Content over 100 base pairs</td>
+                <td>{ GCnote100Numb/10 }</td>
+                <td>{ tentensGCnote[0].name }</td>
+              </tr>
 
-                  {isReversed ? <tr>
-                  <td>
-                      <Checkbox
-                        default={checkValCodon.current}
-                        onClick={(value) => checkValCodon.current = value}
-                      />
-                    </td>
-                    <td>Codons (3 bases) mapped to 64 notes (Transcription mode only)</td>
-                    <td>{ (codon_2[0]?.codon) ? codon_2[0]?.codon : '-'}</td>
-                    <td>{ (codonNotes_2[0]?.name) ? codonNotes_2[0]?.name : '-' }</td>
-                  </tr>
-                    :
-                  <tr>
-                  <td>
-                      <Checkbox
-                        default={checkValCodon.current}
-                        onClick={(value) => checkValCodon.current = value}
-                      />
-                    </td>
-                    <td>Peptide Frame 1 (Translation)<br></br>Peptide Frame 2 (Translation)<br></br>Peptide Frame 3 (Translation)</td>
-                    <td>{ (AAf1Motif[0]?.motif2) ? AAf1Motif[0]?.motif2 : '-' }<br></br>
-                        { (AAf2Motif[0]?.motif2) ? AAf2Motif[0]?.motif2 : '-' }<br></br>
-                        { (AAf3Motif[0]?.motif2) ? AAf3Motif[0]?.motif2 : '-' }</td>
-                    <td>{ (AAf1Note[0]?.name) ? AAf1Note[0]?.name : '-'  }<br></br>
-                        { (AAf2Note[0]?.name) ? AAf2Note[0]?.name : '-'  } <br></br>
-                        { (AAf3Note[0]?.name) ? AAf3Note[0]?.name : '-' }</td>
-                  </tr>
-                  }
+              {isReversed ? <tr>
+              <td>
+                  <Checkbox
+                    default={checkValCodon.current}
+                    onClick={(value) => checkValCodon.current = value}
+                  />
+                </td>
+                <td>Codons (3 bases) mapped to 64 notes (Transcription mode only)</td>
+                <td>{ (codon_2[0]?.codon) ? codon_2[0]?.codon : '-'}</td>
+                <td>{ (codonNotes_2[0]?.name) ? codonNotes_2[0]?.name : '-' }</td>
+              </tr>
+                :
+              <tr>
+              <td>
+                  <Checkbox
+                    default={checkValCodon.current}
+                    onClick={(value) => checkValCodon.current = value}
+                  />
+                </td>
+                <td>Peptide Frame 1 (Translation)<br></br>Peptide Frame 2 (Translation)<br></br>Peptide Frame 3 (Translation)</td>
+                <td>{ (AAf1Motif[0]?.motif2) ? AAf1Motif[0]?.motif2 : '-' }<br></br>
+                    { (AAf2Motif[0]?.motif2) ? AAf2Motif[0]?.motif2 : '-' }<br></br>
+                    { (AAf3Motif[0]?.motif2) ? AAf3Motif[0]?.motif2 : '-' }</td>
+                <td>{ (AAf1Note[0]?.name) ? AAf1Note[0]?.name : '-'  }<br></br>
+                    { (AAf2Note[0]?.name) ? AAf2Note[0]?.name : '-'  } <br></br>
+                    { (AAf3Note[0]?.name) ? AAf3Note[0]?.name : '-' }</td>
+              </tr>
+              }
 
-                  <tr>
-                  <td>
-                      <Checkbox
-                        default={checkValUTR.current}
-                        onClick={(value) => checkValUTR.current = value}
-                      />
-                    </td>
-                    <td>U: UTR regions (excluding 5` and 3` ends):</td>
-                    <td>{ (utrNote[0].name) ? base : '-' }</td>
-                    <td>{ (utrNote[0].name) ? utrNote[0].name : '-' }</td>
-                  </tr>
+              <tr>
+              <td>
+                  <Checkbox
+                    default={checkValUTR.current}
+                    onClick={(value) => checkValUTR.current = value}
+                  />
+                </td>
+                <td>U: UTR regions (excluding 5` and 3` ends):</td>
+                <td>{ (utrNote[0].name) ? base : '-' }</td>
+                <td>{ (utrNote[0].name) ? utrNote[0].name : '-' }</td>
+              </tr>
 
-                  <tr>
-                  <td>
-                      <Checkbox
-                        default={checkValTRS.current}
-                        onClick={(value) => checkValTRS.current = value}
-                      />
-                    </td>
-                    <td> T1-10: TRS {trs_Item.trs_seq}</td>
-                    <td>{ (trs_Item.trs_seq) ? base : '-' }</td>
-                    <td>{ (trs_Item.trs_seq) ? getTRSnote[0].name : '-' }</td>
-                  </tr>
+              <tr>
+              <td>
+                  <Checkbox
+                    default={checkValTRS.current}
+                    onClick={(value) => checkValTRS.current = value}
+                  />
+                </td>
+                <td> T1-10: TRS {trs_Item.trs_seq}</td>
+                <td>{ (trs_Item.trs_seq) ? base : '-' }</td>
+                <td>{ (trs_Item.trs_seq) ? getTRSnote[0].name : '-' }</td>
+              </tr>
 
-                  <tr>
-                  <td>
-                      <Checkbox
-                        default={checkValNSP.current}
-                        onClick={(value) => checkValNSP.current = value}
-                      />
-                    </td>
-                    <td>C: Cleavage sites between N1 to N16 </td>
-                    <td>{ (nspNote[0].name) ? base : '-' }</td>
-                    <td>{ (nspNote[0].name) ? nspNote[0].name : '-' }</td>
-                  </tr>
+              <tr>
+              <td>
+                  <Checkbox
+                    default={checkValNSP.current}
+                    onClick={(value) => checkValNSP.current = value}
+                  />
+                </td>
+                <td>C: Cleavage sites between N1 to N16 </td>
+                <td>{ (nspNote[0].name) ? base : '-' }</td>
+                <td>{ (nspNote[0].name) ? nspNote[0].name : '-' }</td>
+              </tr>
 
-                  <tr>
-                  <td>
-                      <Checkbox
-                        default={checkValSL.current}
-                        onClick={(value) => checkValSL.current = value}
-                      />
-                    </td>
-                    <td>SL: Stem and Loop RNA</td>
-                    <td>{ (slNote[0].name) ? base : '-' }</td>
-                    <td>{ (slNote[0].name) ? slNote[0].name : '-' }</td>
-                  </tr>
+              <tr>
+              <td>
+                  <Checkbox
+                    default={checkValSL.current}
+                    onClick={(value) => checkValSL.current = value}
+                  />
+                </td>
+                <td>SL: Stem and Loop RNA</td>
+                <td>{ (slNote[0].name) ? base : '-' }</td>
+                <td>{ (slNote[0].name) ? slNote[0].name : '-' }</td>
+              </tr>
 
-                  <tr>
-                  <td>
-                      <Checkbox
-                        default={checkValRepeat.current}
-                        onClick={(value) => checkValRepeat.current = value}
-                      />
-                    </td>
-                    <td>Three base repeat:</td>
-                    <td>{ (sameBaseNotes[0].name)? codon : '-' }</td>
-                    <td>{ (sameBaseNotes[0].name)? sameBaseNotes[0].name : '-' }</td>
-                  </tr>
+              <tr>
+              <td>
+                  <Checkbox
+                    default={checkValRepeat.current}
+                    onClick={(value) => checkValRepeat.current = value}
+                  />
+                </td>
+                <td>Three base repeat:</td>
+                <td>{ (sameBaseNotes[0].name)? codon : '-' }</td>
+                <td>{ (sameBaseNotes[0].name)? sameBaseNotes[0].name : '-' }</td>
+              </tr>
 
-                </tbody>
-              </table>
-              </fieldset>
-        </div>
+            </tbody>
+          </table>
+        </fieldset>
+      </div>
 
       <Song bpm={bpm} volume={volume}>
         {checkValBase.current && <Track volume={-6} pan={-0.6}>
