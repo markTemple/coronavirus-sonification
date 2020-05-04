@@ -1,31 +1,24 @@
-import React, { useState, useEffect, useRef, Fragment } from 'react';
+import React, { Fragment, useEffect, useRef } from 'react';
+import { Effect, Instrument, Song, Track } from 'reactronica';
 import Tone from 'tone';
-import { Song, Track, Instrument, Effect } from 'reactronica';
-import * as MAPS from '../../utilities/maps';
-import { Button } from '../button';
-import { SlidingStringWindow } from '../sliding-string-window'
-import { GenomeDisplay } from '../genome-display';
-
-import './style.css';
-import { useDispatch, useSelector } from '../../state/store';
-import { Controls } from '../controls';
-import { genome } from '../../genome'
+import { genome } from '../../genome';
+import { controlsReset, getMode, getPlaying, getReset, getReversed } from '../../state/controls';
 import { getPlayhead, setPlayhead } from '../../state/playhead';
-import { controlsReverse, getReversed, getMode, getReset, controlsReset, getPlaying } from '../../state/controls';
-import {
-  getBase, getDinucleotide, getCodon,
-  getBases10, getBases100
-} from '../../utilities/motifs';
-import { useSingleFramePrimitive } from '../../utilities/single-frame-primitive';
-
-import { getBaseNotes, playTwoBase, getSameBaseNotes, GCnote10Note,
-  GCnote100Note, makeTRSnotes, getNSPnotes, getCodonNotes,
-  getCodonNotes_2, playAtIndex} from './get-notes'
-
-import { getAA_Data } from './process-codon-notes'
+import { useDispatch, useSelector } from '../../state/store';
+import { getSynthStatus, setSynthStatus } from '../../state/synth-status';
+import * as MAPS from '../../utilities/maps';
+import { getBase, getBases10, getBases100, getCodon, getDinucleotide } from '../../utilities/motifs';
+import { Button } from '../button';
 import { Checkbox } from '../checkbox';
+import { Controls } from '../controls';
+import { GenomeDisplay } from '../genome-display';
+import { SlidingStringWindow } from '../sliding-string-window';
+import { GCnote100Note, GCnote10Note, getBaseNotes, getCodonNotes, getCodonNotes_2, getNSPnotes, getSameBaseNotes, makeTRSnotes, playAtIndex, playTwoBase } from './get-notes';
 import { jumper } from './jumper';
-
+import { getAA_Data } from './process-codon-notes';
+import './style.css';
+import { getORF, setORF } from '../../state/open-reading-frame';
+import { setAA } from '../../state/amino-acid-count';
 
 export function PlayGenome() {
   const dispatch = useDispatch()
@@ -34,6 +27,14 @@ export function PlayGenome() {
   const mode = useSelector(getMode)
   const shouldReset = useSelector(getReset)
   const isPlaying = useSelector(getPlaying)
+  const isSynthEnabled = useSelector(getSynthStatus)
+  const orf = useSelector(getORF)
+
+  const updateORF = (i, value) => {
+    if (orf[i] !== value) {
+      dispatch(setORF(i, value))
+    }
+  }
 
   useEffect(() => {
     if (shouldReset) dispatch(controlsReset(false))
@@ -66,12 +67,6 @@ export function PlayGenome() {
     default:
       console.trace('error')
     break;
-  }
-
-  const isSynthEnabled = useRef([false, false, false])
-
-  function setSynthStatus(frame, value) {
-    isSynthEnabled.current[frame] = value
   }
 
   // get item from genebank
@@ -133,12 +128,16 @@ export function PlayGenome() {
   const playstop = stop()
 
   function setSynthByCodonType() {
-    if(start() === true) setSynthStatus(frame012, true);
-    if(stop() === true) setSynthStatus(frame012, false);
+    if (start() && !isSynthEnabled[frame012]) {
+      dispatch(setSynthStatus(frame012, true));
+    }
+    if (stop() && isSynthEnabled[frame012]) {
+      dispatch(setSynthStatus(frame012, false));
+    }
 
     if (frameshift) {
-      isSynthEnabled.current[1] = true
-      isSynthEnabled.current[0] = false
+      dispatch(setSynthStatus(1, true))
+      dispatch(setSynthStatus(0, false))
     }
   }
   setSynthByCodonType()
@@ -148,7 +147,7 @@ export function PlayGenome() {
 
     //start sliding window display AA residues on NSP start
     function setSynthByNSPstart() {
-      setSynthStatus(frame012, true)
+      dispatch(setSynthStatus(frame012, true))
     }
     if( nsp_Item.start === index && nsp_Item.SW_true === true ) setSynthByNSPstart()
 
@@ -177,29 +176,29 @@ const checkValSL = useRef(true)
 const checkValUTR = useRef(true)
 
 
-  let orf1 = useRef(null);
-  let orf2 = useRef(null);
-  let orf3 = useRef(null);
+  let orf1 = orf[0];
+  let orf2 = orf[1];
+  let orf3 = orf[2];
 
   if (gb_Item.type === 'p') {
     switch (frame012) {
       case 1:
         if (gb_Item.start % 3 === 1) {
-          orf1.current = gb_Item.product + ' ' + nsp_Item.nsp
+          updateORF(0, gb_Item.product + ' ' + nsp_Item.nsp)
         }
           break;
       case 2:
         if (gb_Item.start % 3 === 2) {
-          orf2.current = gb_Item.product + ' ' + nsp_Item.nsp
+          updateORF(1, gb_Item.product + ' ' + nsp_Item.nsp)
         }
         if (frameshift >= 13466 && frameshift < 13480) {
-          orf1.current = gb_Item.product + ' ' + nsp_Item.nsp
-          orf2.current = ''
+          updateORF(0, gb_Item.product + ' ' + nsp_Item.nsp)
+          updateORF(1, '')
         }
           break;
       case 0:
         if (gb_Item.start % 3 === 0) {
-          orf3.current = gb_Item.product + ' ' + nsp_Item.nsp
+          updateORF(2, gb_Item.product + ' ' + nsp_Item.nsp)
         }
           break;
       default:
@@ -216,9 +215,9 @@ const checkValUTR = useRef(true)
 
 // when playing audio remove label as enter UTR from orf
   if (gb_Item.type === 'u') {
-    orf1.current = null
-    orf2.current = null
-    orf3.current = null
+    updateORF(0, '')
+    updateORF(1, '')
+    updateORF(2, '')
   }
 
   function Feature(feature, i) {
@@ -234,16 +233,16 @@ const checkValUTR = useRef(true)
           onClick={() => {
             dispatch(controlsReset(true))
             dispatch(setPlayhead(feature[startEnd]))
-            setSynthStatus(0, false)
-            setSynthStatus(1, false)
-            setSynthStatus(2, false)
+            dispatch(setSynthStatus(0, false))
+            dispatch(setSynthStatus(1, false))
+            dispatch(setSynthStatus(2, false))
             // GAUCcount.current = 0
-            orf1.current = ''
-            orf2.current = ''
-            orf3.current = ''
-            AA_Count1.current = 0
-            AA_Count2.current = 0
-            AA_Count3.current = 0
+            updateORF(0, '')
+            updateORF(1, '')
+            updateORF(2, '')
+            dispatch(setAA(0, 0))
+            dispatch(setAA(1, 0))
+            dispatch(setAA(2, 0))
           }}
           style={style}
         >
@@ -392,7 +391,7 @@ const checkValUTR = useRef(true)
             <div className='pre'>
               <span>
               Frame1
-              <span className='highlight'> {String(AA_Count1.current).padStart(4, '0')}</span>
+              <span className='highlight'> {String(AA_Count1).padStart(4, '0')}</span>
               </span>|
 
               <SlidingStringWindow
@@ -403,16 +402,16 @@ const checkValUTR = useRef(true)
               />
               {/* {AA_indicatorF1.start}{AA_indicatorF1.stop} */}
               {
-              orf1.current &&
+              orf1 &&
                 <div className='triangle-left f1'></div>
               }
-              <span className='orf'>{orf1.current}</span>
+              <span className='orf'>{orf1}</span>
             </div>
 
             <div className='pre'>
               <span>
               Frame2
-              <span className='highlight'> {String(AA_Count2.current).padStart(4, '0')}</span>
+              <span className='highlight'> {String(AA_Count2).padStart(4, '0')}</span>
               </span>|
               <SlidingStringWindow
               reset={shouldReset}
@@ -422,16 +421,16 @@ const checkValUTR = useRef(true)
               />
               {/* {AA_indicatorF2.start}{AA_indicatorF2.stop} */}
               {
-              orf2.current &&
+              orf2 &&
                 <div className='triangle-left f2'></div>
               }
-              <span className='orf'>{orf2.current}</span>
+              <span className='orf'>{orf2}</span>
             </div>
 
             <div className='pre'>
               <span>
               Frame3
-              <span className='highlight'> {String(AA_Count3.current).padStart(4, '0')}</span>
+              <span className='highlight'> {String(AA_Count3).padStart(4, '0')}</span>
               </span>|
               <SlidingStringWindow
               reset={shouldReset}
@@ -441,10 +440,10 @@ const checkValUTR = useRef(true)
               />
               {/* {AA_indicatorF3.start}{AA_indicatorF3.stop} */}
               {
-              orf3.current &&
+              orf3 &&
                 <div className='triangle-left f3'></div>
               }
-              <span className='orf'>{orf3.current}</span>
+              <span className='orf'>{orf3}</span>
             </div>
 
             <div className='ribosome Small shadow'><br></br><br></br>ribosome small</div>

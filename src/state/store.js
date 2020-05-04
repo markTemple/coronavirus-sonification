@@ -9,12 +9,18 @@ import {
 
 import { playheadReducer } from './playhead'
 import { controlsReducer } from './controls'
+import { synthStatusReducer } from './synth-status'
+import { openReadingFrameReducer } from './open-reading-frame'
+import { aminoAcidCountReducer } from './amino-acid-count'
 
 const Context = React.createContext(null)
 export const store = configureStore({
   reducer: {
     playhead: playheadReducer,
     controls: controlsReducer,
+    'synth-status': synthStatusReducer,
+    'open-reading-frame': openReadingFrameReducer,
+    'amino-acid-count': aminoAcidCountReducer,
   }
 })
 

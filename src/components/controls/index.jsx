@@ -6,6 +6,8 @@ import { Button } from '../button'
 import { store, useDispatch, useSelector } from '../../state/store'
 import { getPlaying, controlsStart, controlsStop, controlsReverse, getReversed, controlsReset } from '../../state/controls'
 import { incrementPlayhead, decrementPlayhead, setPlayhead } from '../../state/playhead'
+import { setSynthStatus } from '../../state/synth-status'
+import { setORF } from '../../state/open-reading-frame'
 
 store.subscribe(() => {
   const isPlaying = getPlaying(store.getState())
@@ -43,6 +45,12 @@ export const Controls = () => {
   }
   const playTranslation = () => {
     dispatch(controlsReset(true))
+    dispatch(setSynthStatus(0, false))
+    dispatch(setSynthStatus(1, false))
+    dispatch(setSynthStatus(2, false))
+    dispatch(setORF(0, ''))
+    dispatch(setORF(1, ''))
+    dispatch(setORF(2, ''))
     dispatch(setPlayhead(-Infinity))
     if (isReversed) reverse()
     // if (!isPlaying) play()

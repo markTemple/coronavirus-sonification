@@ -1,4 +1,6 @@
 import React, { useRef } from 'react';
+import { getAA, incrementAA, setAA } from '../../state/amino-acid-count';
+import { useSelector, useDispatch } from '../../state/store'
 
 export function getAA_Data(mode, frame012, isSynthEnabled, index, gb_Item, codonNotes, playstop) {
 
@@ -10,36 +12,39 @@ export function getAA_Data(mode, frame012, isSynthEnabled, index, gb_Item, codon
   const codonF2Motifs = [];
   const codonF3Motifs = [];
 
-  const AA_Count1 = useRef(0)
-  const AA_Count2 = useRef(0)
-  const AA_Count3 = useRef(0)
+  const dispatch = useDispatch()
+  const AA_Count = useSelector(getAA)
+
+  const AA_Count1 = AA_Count[0]
+  const AA_Count2 = AA_Count[1]
+  const AA_Count3 = AA_Count[2]
 
   if(mode === 'trl') {
     if (index === gb_Item.start) {
-      AA_Count1.current = 0
-      AA_Count2.current = 0
-      AA_Count3.current = 0
+      if (AA_Count1) dispatch(setAA(0, 0))
+      if (AA_Count2) dispatch(setAA(1, 0))
+      if (AA_Count3) dispatch(setAA(2, 0))
     }
     switch (frame012) {
     case 1:
-      if ( (isSynthEnabled.current[frame012] === true) || (playstop === true)) {
+      if ( (isSynthEnabled[frame012] === true) || (playstop === true)) {
         codonF1Notes.push(codonNotes.notes)
         codonF1Motifs.push(codonNotes.motif)
-        if(playstop !== true) AA_Count1.current++
+        // if (playstop !== true) dispatch(incrementAA(0))
       }
     break;
     case 2:
-      if ( (isSynthEnabled.current[frame012] === true) || (playstop === true)) {
+      if ( (isSynthEnabled[frame012] === true) || (playstop === true)) {
         codonF2Notes.push(codonNotes.notes)
         codonF2Motifs.push(codonNotes.motif)
-        if(playstop !== true) AA_Count2.current++
+        // if (playstop !== true) dispatch(incrementAA(1))
        }
       break;
     case 0:
-      if ( (isSynthEnabled.current[frame012] === true) || (playstop === true)) {
+      if ( (isSynthEnabled[frame012] === true) || (playstop === true)) {
         codonF3Notes.push(codonNotes.notes)
         codonF3Motifs.push(codonNotes.motif)
-        if(playstop !== true) AA_Count3.current++
+        // if (playstop !== true) dispatch(incrementAA(2))
         }
       break;
     default:
