@@ -15,7 +15,7 @@ export function playTwoBase(index, twoBase, audioProps) {
     const twoBaseMap = MAPS.makeIntervals(MAPS[audioProps].twoBase).map(number => MAPS.keyboard[number])
     return [{name: twoBaseMap[twoBaseNumb], duration: MAPS[audioProps].twoBase.dur}];
   } else {
-    return [{name: ''}];
+    return [{name: null}];
   }
 }
 
@@ -28,7 +28,7 @@ export function getSameBaseNotes(base, index, audioProps) {
     count.current++
     return [{name: repeatBasesMap[count.current], duration: MAPS[audioProps].repeatBases.dur}];
   } else{
-    return [{name: ''}];
+    return [{name: null}];
   }
 }
 
@@ -57,7 +57,7 @@ export function makeTRSnotes(mode, trs_Item, index, audioProps){
       return [{name: trsMap[trsNumb], duration: MAPS[audioProps].trsNote.dur}];
       }
     }else {
-    return [{name: ''}]
+      return [{name: null}];
     }
 }
 
@@ -68,7 +68,7 @@ export function getNSPnotes(nsp_Item, base, index, mode, audioProps) {
       const nspMap = MAPS.makeIntervals(MAPS[audioProps].nsp).map(number => MAPS.keyboard[number])
       return [{name: nspMap[nspNumb], duration: MAPS[audioProps].nsp.dur}]
     }else {
-      return [{name: ''}]
+      return [{name: null}];
       }
   }else if(mode === 'tsc') {
     if(index <= nsp_Item.end && index >= nsp_Item.start && nsp_Item.cleavage === true) {
@@ -76,7 +76,7 @@ export function getNSPnotes(nsp_Item, base, index, mode, audioProps) {
       const nspMap = MAPS.makeIntervals(MAPS[audioProps].nsp).map(number => MAPS.keyboard[number])
       return [{name: nspMap[nspNumb], duration: MAPS[audioProps].nsp.dur}]
     }else {
-      return [{name: ''}]
+      return [{name: null}];
       }
   }
 }
@@ -100,7 +100,7 @@ export function getCodonNotes(codon, audioProps) {
         }
     }else{
       return {
-        notes:{ name: '' },
+        notes:{ name: null },
         codon:{ codon: '' }
         }
     }
@@ -114,13 +114,13 @@ export function getCodonNotes(codon, audioProps) {
       if(index >= item.start && index <= item.end && item[name] === value){
         return [{name: numbMap[numb], duration: MAPS[audioProps][value].dur}];
       }else{
-        return [{name: ''}];
+        return [{name: null}];
       }
     }else if(mode === 'tsc') {
       if(index <= item.end && index >= item.start && item[name] === value) {
         return [{name: numbMap[numb], duration: MAPS[audioProps][value].dur}];
       }else{
-        return [{name: ''}];
+        return [{name: null}];
       }
     }
   }

@@ -1,4 +1,13 @@
-export const source = 'Real-time audio and visual analyses of the COVID-19 RNA genome'
+export const source = 'Real-time audio and visual display of COVID-19 RNA genome function'
+
+export const startStop_json = [
+  {
+    start: 1,
+    end: 29903,
+    tag: '1 bp Translation',
+  }
+]
+
 
 export const geneBank_json = [
 {start: 1,
@@ -531,6 +540,7 @@ calculated_mol_wt: 14790,
 },
 {
 tag: 'C',
+nsp: 'Cleavage',
 note: 'Poly-protein cleavage site giving rise to NSP proteins',
 col: '#5da793',
 start: 13440,

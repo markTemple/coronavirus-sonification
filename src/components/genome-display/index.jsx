@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import './style.css'
 
 GenomeDisplay.propTypes = {
@@ -12,31 +11,30 @@ export function GenomeDisplay ({ children: genome, ...props }) {
   /*
     Loop through the genome string and extract all AUG and replace with span.
   */
-
   let string = genome
   while (string.length) {
     let counter = 0
     const unique = () => `key:${string.length}:${counter++}`
-    // else if (string.startsWith('UGA')) {
-    //   result.push(
-    //     <span className='stop'>UGA</span>
-    //   )
-    //   string = string.substring(3)
-    // }
 
-    // else if (string.startsWith('UAG')) {
-    //   result.push(
-    //     <span className='stop'>UAG</span>
-    //   )
-    //   string = string.substring(3)
-    // }
+    if (string.startsWith('UGA')) {
+      result.push(
+        <span key={unique()} className='stop'>UGA</span>
+      )
+      string = string.substring(3)
+    }
 
-    // else if (string.startsWith('UAA')) {
-    //   result.push(
-    //     <span className='stop'>UAA</span>
-    //   )
-    //   string = string.substring(3)
-    // }
+    else if (string.startsWith('UAG')) {
+      result.push(
+        <span key={unique()} className='stop'>UAG</span>
+      )
+      string = string.substring(3)
+    }
+    else if (string.startsWith('UAA')) {
+      result.push(
+        <span key={unique()} className='stop'>UAA</span>
+      )
+      string = string.substring(3)
+    }
     if (string.startsWith('AUG')) {
       result.push(
         <span key={unique()} className='start'>AUG</span>
@@ -44,57 +42,17 @@ export function GenomeDisplay ({ children: genome, ...props }) {
       string = string.substring(3)
     } else if (string.startsWith('ACGAAC')) {
       result.push(
-        <span key={unique()} className='stop'>ACGAAC</span>
+        <span key={unique()} className='trs'>ACGAAC</span>
       )
       string = string.substring(6)
-    } else if (string.startsWith('ACGAAC')) {
+    }  else if (string.startsWith('CUAAAC')) {
       result.push(
-        <span key={unique()} className='stop'>ACGAAC</span>
-      )
-      string = string.substring(6)
-    } else if (string.startsWith('ACGAAC')) {
-      result.push(
-        <span key={unique()} className='stop'>ACGAAC</span>
-      )
-      string = string.substring(6)
-    } else if (string.startsWith('ACGAAC')) {
-      result.push(
-        <span key={unique()} className='stop'>ACGAAC</span>
-      )
-      string = string.substring(6)
-    } else if (string.startsWith('ACGAAC')) {
-      result.push(
-        <span key={unique()} className='stop'>ACGAAC</span>
-      )
-      string = string.substring(6)
-    } else if (string.startsWith('ACGAAC')) {
-      result.push(
-        <span key={unique()} className='stop'>ACGAAC</span>
-      )
-      string = string.substring(6)
-    } else if (string.startsWith('ACGAAC')) {
-      result.push(
-        <span key={unique()} className='stop'>ACGAAC</span>
-      )
-      string = string.substring(6)
-    } else if (string.startsWith('ACGAAC')) {
-      result.push(
-        <span key={unique()} className='stop'>ACGAAC</span>
-      )
-      string = string.substring(6)
-    } else if (string.startsWith('ACGAAC')) {
-      result.push(
-        <span key={unique()} className='stop'>ACGAAC</span>
-      )
-      string = string.substring(6)
-    } else if (string.startsWith('CUAAAC')) {
-      result.push(
-        <span key={unique()} className='stop'>CUAAAC</span>
+        <span key={unique()} className='trs'>CUAAAC</span>
       )
       string = string.substring(6)
     } else {
       result.push(
-        <span key={unique()} className='base'>{string[0]}</span>
+        <span key={unique()}>{string[0]}</span>
       )
       string = string.substring(1)
     }

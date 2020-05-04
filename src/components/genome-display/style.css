@@ -10,6 +10,18 @@
   /* z-index: -2; */
 }
 
+.trs {
+  /* position: relative; */
+  background-color: #5d5da7;
+  /* z-index: -2; */
+}
+
+.cut {
+  /* position: relative; */
+  background-color: #bdb239;
+  /* z-index: -2; */
+}
+
 /* .base {
   position: relative;
   color: rgb(4, 75, 75);

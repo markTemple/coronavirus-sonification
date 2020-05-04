@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from '../../state/store';
 import { Controls } from '../controls';
 import { genome } from '../../genome'
 import { getPlayhead, setPlayhead } from '../../state/playhead';
-import { controlsReverse, getReversed, getMode, getReset, controlsReset } from '../../state/controls';
+import { controlsReverse, getReversed, getMode, getReset, controlsReset, getPlaying } from '../../state/controls';
 import {
   getBase, getDinucleotide, getCodon,
   getBases10, getBases100
@@ -33,6 +33,7 @@ export function PlayGenome() {
   const isReversed = useSelector(getReversed)
   const mode = useSelector(getMode)
   const shouldReset = useSelector(getReset)
+  const isPlaying = useSelector(getPlaying)
 
   useEffect(() => {
     if (shouldReset) dispatch(controlsReset(false))
@@ -43,6 +44,10 @@ export function PlayGenome() {
   // console.log(2 % 3) = 2 shown as 3 should be 2
   // console.log(3 % 3) = 0 shown as 1 should be 3
 
+  let volume = 0
+ // console.log(isPlaying)
+  if(!isPlaying) volume = -50
+//  console.log(volume)
 
   let bpm = 1280
   let audioProps = null
@@ -88,8 +93,14 @@ export function PlayGenome() {
   }
 // 13444 start NSP11
 
+
+  // const base = isPlaying ? getBase(index) : []
+
   const base = getBase(index)
+
   const baseNotes = getBaseNotes(base, audioProps)
+
+
   const twoBase = getDinucleotide(index)
   const twobaseNotes = playTwoBase(index, twoBase, audioProps)
   const sameBaseNotes = getSameBaseNotes(base, index, audioProps)
@@ -101,14 +112,12 @@ export function PlayGenome() {
   const tentensGCnote = GCnote100Note(GCnote100, GCnote100Numb, audioProps)
   const getTRSnote = makeTRSnotes(mode, trs_Item, index, audioProps)
   const nspNote = getNSPnotes(nsp_Item, base, index, mode, audioProps)
-
-
   const slNote = playAtIndex(index, trs_Item, 'tag', 'SL', twoBase, audioProps, mode)
-
   const utrNote = playAtIndex(index, gb_Item, 'gene', 'UTR', twoBase, audioProps, mode)
 
   const codon = getCodon(index)
   const gotcodonNotes_2 = getCodonNotes_2(index, codon, audioProps, mode)
+
   const codonNotes_2 = [gotcodonNotes_2.notes]
   const codon_2 = [gotcodonNotes_2.codon]
 
@@ -136,36 +145,7 @@ export function PlayGenome() {
 
   const codonNotes = getCodonNotes(codon, audioProps)
   const AA_Data = getAA_Data(mode, frame012, isSynthEnabled, index, gb_Item, codonNotes, playstop)
-  // trs data used in swith statement
-  // let AA_indicatorF1 = {start: null, stop: null};
-  // let AA_indicatorF2 = {start: null, stop: null};
-  // let AA_indicatorF3 = {start: null, stop: null};
 
-    // function buttonSTART() {
-    //   if(start() === true) {
-    //     return <span className='stopStartFlash start'> </span>
-    //   }
-    // }
-    // function buttonSTOP() {
-    //   if(stop() === true) {
-    //     return <span className='stopStartFlash'>  </span>
-    //   }
-    // }
-
-    // switch (frame012) {
-    //   case 1:
-    //     AA_indicatorF1 = {start: buttonSTART(), stop: buttonSTOP()}
-    //   break;
-    //   case 2:
-    //     AA_indicatorF2 = {start: buttonSTART(), stop: buttonSTOP()}
-    //   break;
-    //   case 0:
-    //     AA_indicatorF3 = {start: buttonSTART(), stop: buttonSTOP()}
-    //   break;
-    //   default:
-    //     console.trace('error')
-    //   break;
-    // }
     //start sliding window display AA residues on NSP start
     function setSynthByNSPstart() {
       setSynthStatus(frame012, true)
@@ -207,7 +187,6 @@ const checkValUTR = useRef(true)
         if (gb_Item.start % 3 === 1) {
           orf1.current = gb_Item.product + ' ' + nsp_Item.nsp
         }
-
           break;
       case 2:
         if (gb_Item.start % 3 === 2) {
@@ -217,27 +196,23 @@ const checkValUTR = useRef(true)
           orf1.current = gb_Item.product + ' ' + nsp_Item.nsp
           orf2.current = ''
         }
-
           break;
       case 0:
         if (gb_Item.start % 3 === 0) {
           orf3.current = gb_Item.product + ' ' + nsp_Item.nsp
         }
-
-
           break;
       default:
         console.log('error')
       break;
     }
   }
-  // switch display NSP 11/12 due to frameshift
 
-    // hack for frameshift to stop label of frame2
-    // if (index >= 13468 && index < 21550) {
-    // if (index >= 13466 && index < 21550) {
-    //   orf2.current = ''
-    // }
+  let message = ''
+  if (nsp_Item.tag === 'C' && mode === 'trl') {
+    bpm = 200
+    message = 'Polyprotein cleavage site'
+  }
 
 // when playing audio remove label as enter UTR from orf
   if (gb_Item.type === 'u') {
@@ -374,7 +349,7 @@ const checkValUTR = useRef(true)
 
   }
 
-  const subGenome = useRef(true)
+  const subGenome = useRef(false)
 
   if(mode === 'trl'){
     jumper.map(doJump)
@@ -408,6 +383,9 @@ const checkValUTR = useRef(true)
         onClick={(value) => subGenome.current = value}
       />
       <span className='playCont_text'> {subHeadings.checkbox[mode]}</span>
+
+      <div className='message'>{message}</div>
+
         <div className='player'>
           {mode === 'trl' && (
             <div>
@@ -484,7 +462,10 @@ const checkValUTR = useRef(true)
               </p>
             </div><span> RNA +</span>
             <span className='highlight'> {String(index).padStart(5, '0')}</span>|
-              <GenomeDisplay className='pre'>{dotfill40 + genomeSub}</GenomeDisplay>
+            {/* {nsp_Item.tag} */}
+              <GenomeDisplay
+                className='pre'
+              >{dotfill40 + genomeSub}</GenomeDisplay>
           </div>
           { mode === 'tsc' && (
             <div>
@@ -507,6 +488,7 @@ const checkValUTR = useRef(true)
         </div>
       </div>
         <div><hr></hr>
+        {/* {MAPS.startStop_json.map(Feature)} */}
           <Controls />
           <fieldset>
           <p>
@@ -700,65 +682,64 @@ const checkValUTR = useRef(true)
               </fieldset>
         </div>
 
-      <Song bpm={bpm}>
+      <Song bpm={bpm} volume={volume}>
         {checkValBase.current && <Track volume={-6} pan={-0.6}>
-          <Instrument type={'synth'} notes={baseNotes} />
+          <Instrument type={'synth'} notes={baseNotes[0].name && baseNotes} />
         </Track>}
           {checkVal2base.current && <Track volume={-6} pan={0.6}>
-          <Instrument type={'synth'} notes={twobaseNotes} />
+          <Instrument type={'synth'} notes={twobaseNotes[0].name && twobaseNotes} />
         </Track>}
-
 
         { mode === 'trl' &&
         checkValCodon.current && <Track volume={-4} pan={-0.9}>
-          <Instrument type={'fmSynth'} oscillator={{ type: 'sine' }} notes={AAf1Note} />
+          <Instrument type={'fmSynth'} oscillator={{ type: 'sine' }} notes={AAf1Note[0] && AAf1Note} />
           {/* <Effect type='feedbackDelay' wet={0.2} /> */}
         </Track>}
         { mode === 'trl' &&
         checkValCodon.current && <Track volume={-4} pan={0}>
-          <Instrument type={'fmSynth'} oscillator={{ type: 'square' }} notes={AAf2Note} />
+          <Instrument type={'fmSynth'} oscillator={{ type: 'square' }} notes={AAf2Note[0] && AAf2Note} />
           {/* <Effect type='feedbackDelay' wet={0.2} /> */}
         </Track>}
         { mode === 'trl' &&
         checkValCodon.current && <Track volume={-4} pan={0.9}>
-          <Instrument type={'fmSynth'} oscillator={{ type: 'triangle' }} notes={AAf3Note} />
+          <Instrument type={'fmSynth'} oscillator={{ type: 'triangle' }} notes={AAf3Note[0] && AAf3Note} />
           {/* <Effect type='feedbackDelay' wet={0.2} /> */}
         </Track>}
 
         { mode === 'tsc' &&
         checkValCodon.current && <Track volume={-8} pan={0}>
-          <Instrument type={'fmSynth'} oscillator={{ type: 'square' }} notes={codonNotes_2} />
+          <Instrument type={'fmSynth'} oscillator={{ type: 'square' }} notes={codonNotes_2[0].name && codonNotes_2} />
           {/* <Effect type='feedbackDelay' wet={0.2} /> */}
         </Track>}
 
-        {checkVal10B.current && <Track volume={-9} pan={-0.7}>
-          <Instrument type={'amSynth'} notes={tenGCnote} />
+        {checkVal10B.current && <Track volume={-7} pan={-0.7}>
+          <Instrument type={'amSynth'} notes={tenGCnote[0].name && tenGCnote} />
           <Effect type='feedbackDelay' wet={0.3} />
         </Track>}
-        {checkVal100B.current && <Track volume={-9} pan={0.7}>
-          <Instrument type={'amSynth'} notes={tentensGCnote} />
+        {checkVal100B.current && <Track volume={-7} pan={0.7}>
+          <Instrument type={'amSynth'} notes={tentensGCnote[0].name && tentensGCnote} />
           <Effect type='feedbackDelay' wet={0.3} />
         </Track>}
 
         {checkValRepeat.current && <Track volume={-12} pan={0.3}>
-          <Instrument type={'synth'} notes={sameBaseNotes} />
+          <Instrument type={'synth'} notes={sameBaseNotes[0].name && sameBaseNotes} />
         </Track>}
 
         {checkValTRS.current && <Track volume={-7} pan={0.8}>
-          <Instrument type={'amSynth'} notes={getTRSnote} />
+          <Instrument type={'amSynth'} notes={getTRSnote[0].name && getTRSnote} />
         </Track>}
         {checkValUTR.current && <Track volume={-7} pan={-0.8}>
-          <Instrument type={'amSynth'} notes={utrNote} />
+          <Instrument type={'amSynth'} notes={utrNote[0].name &&  utrNote} />
           {/* <Effect type='distortion' wet={0.2} /> */}
         </Track>}
 
-        {checkValNSP.current && <Track volume={-7} pan={0.8}>
-          <Instrument type={'amSynth'} notes={nspNote} />
-          {/* <Effect type='distortion' wet={0.2} /> */}
+        {checkValNSP.current && <Track volume={-5} pan={0.8}>
+          <Instrument type={'amSynth'} notes={nspNote[0].name && nspNote} />
+          <Effect type='distortion' wet={0.3} />
         </Track>}
 
         {checkValSL.current && <Track volume={-7} pan={0.8}>
-          <Instrument type={'amSynth'} notes={slNote} />
+          <Instrument type={'amSynth'} notes={slNote[0].name && slNote} />
         </Track>}
 
     </Song>
