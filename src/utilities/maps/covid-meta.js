@@ -1,10 +1,10 @@
-export const source = 'Real-time audio and visual display of COVID-19 RNA genome function'
+export const source = 'Real-time audio and visual display of the COVID-19 genome'
 
 export const startStop_json = [
   {
     start: 1,
     end: 29903,
-    tag: '1 bp Translation',
+    tag: 'reset',
   }
 ]
 

@@ -6,7 +6,7 @@ module.exports = (env, { mode = 'production' }) => ({
   mode,
   output: {
     path: path.join(__dirname, 'docs'),
-    publicPath: '/coronavirus-sonification/'
+    publicPath: mode !== 'production' ? '/' : '/coronavirus-sonification/'
   },
   module: {
     rules: [

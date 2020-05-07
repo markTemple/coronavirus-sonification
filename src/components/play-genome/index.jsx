@@ -73,6 +73,14 @@ export function PlayGenome() {
   function setSynthStatus(frame, value) {
     isSynthEnabled.current[frame] = value
   }
+  if(index === 1 ){
+    setSynthStatus(0, false)
+    setSynthStatus(1, false)
+    setSynthStatus(2, false)
+  }
+  // console.log(AAf1Motif[0]?.motif)
+  // console.log(AAf2Motif[0]?.motif)
+  // console.log(AAf3Motif[0]?.motif)
 
   // get item from genebank
   const gb_Item = MAPS.geneBank_json
@@ -116,7 +124,15 @@ export function PlayGenome() {
   const utrNote = playAtIndex(index, gb_Item, 'gene', 'UTR', twoBase, audioProps, mode)
 
   const codon = getCodon(index)
-  const gotcodonNotes_2 = getCodonNotes_2(index, codon, audioProps, mode)
+
+  function codonsTSC() {
+    if(mode === 'tsc'){
+      return getCodonNotes_2(index, codon, audioProps, mode)
+    }else {
+      return []
+    }
+  }
+  const gotcodonNotes_2 = codonsTSC()
 
   const codonNotes_2 = [gotcodonNotes_2.notes]
   const codon_2 = [gotcodonNotes_2.codon]
@@ -221,6 +237,7 @@ const checkValUTR = useRef(true)
     orf3.current = null
   }
 
+
   function Feature(feature, i) {
     const style = {}
     style.backgroundColor = feature.col
@@ -254,7 +271,6 @@ const checkValUTR = useRef(true)
       </Fragment>
     );
   }
-
   function makeComplementary(seq) {
     return seq.replace(/./g, (char) => MAPS.COMPLEMENUARY_MAP[char])
   }
@@ -343,8 +359,8 @@ const checkValUTR = useRef(true)
     },
     checkbox:
     {
-      trl: 'Translate as subgenomic RNA (skip Poly-protein  and jump from TRS1 to TRS2)',
-      tsc: 'Allow discontinous transcription (jump from any TRS to TRS1)'
+      trl: 'Translate as subgenomic RNA (skip Poly-protein and jump from TRS1 to TRS2)',
+      tsc: 'Allow discontinous transcription (jump from each TRS to TRS1)'
     },
 
   }
@@ -525,7 +541,6 @@ const checkValUTR = useRef(true)
         ({trs_Item.start}-{trs_Item.end}) bp. {subHeadings.printTRS[mode]} bp<br></br>
         <span><small>{trs_Item.text} {trs_Item.trs_seq}</small></span>
         </p>
-
         {MAPS.trs_json.map(Feature)}
         <span><small><br></br>
           <button className="button legend2"></button> Transcription Regulatory Regions

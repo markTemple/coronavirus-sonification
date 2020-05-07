@@ -115,7 +115,7 @@ export const tscProps = {
     dur: '2m',
   },
   repeatBases:{
-    oct: 5,
+    oct: 6,
     scale: [0, 6, 1, 5],
     range: 8,
     key: 'C',

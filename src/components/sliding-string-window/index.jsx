@@ -1,6 +1,8 @@
 // @ts-check
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import PropTypes, { element } from 'prop-types'
+import { getPlayhead } from '../../state/playhead'
+import { useSelector } from '../../state/store'
 
 const value = PropTypes.oneOfType([
   PropTypes.string,
@@ -21,67 +23,63 @@ SlidingStringWindow.propTypes = {
   reset: PropTypes.bool,
 }
 
-const getLength = (strings) => {
-  let length = 0
-  for (const string of strings) length += string.length
-  return length
-}
-
 const convertToObject = (value) => {
   if (typeof value === 'object') return value
   return { content: value }
 }
 
 export function SlidingStringWindow ({ initial, insert, replace, reset = false }) {
+  const playhead = useSelector(getPlayhead)
   initial = convertToObject(initial)
   insert = convertToObject(insert)
   replace = convertToObject(replace)
 
   const elements = useRef([initial])
-  const length = getLength(elements.current)
 
-  if (reset) {
-    elements.current.length = 0
-    elements.current.push(initial)
-  }
-
-  if (insert.content) {
-    let remainder = insert.content.length
-
-    while (remainder) {
-      const index = 0
-      const string = elements.current[index].content
-
-      if (string.length <= remainder) {
-        elements.current.splice(index, 1)
-        remainder -= string.length
-      } else {
-        elements.current[index].content = string.substring(remainder)
-        remainder = 0
-      }
+  useEffect(() => {
+    if (reset) {
+      elements.current.length = 0
+      elements.current.push(initial)
     }
 
-    elements.current.push(insert)
-  }
+    if (insert.content) {
+      let remainder = insert.content.length
 
-  if (replace.content) {
-    let remainder = replace.content.length
+      while (remainder) {
+        const index = 0
+        const string = elements.current[index].content
 
-    while (remainder) {
-      const index = elements.current.length - 1
-      const string = elements.current[index].content
-
-      if (string.length <= remainder) {
-        elements.current.splice(index, 1)
-        remainder -= string.length
-      } else {
-        elements.current[index].content = string.substring(0, string.length - remainder)
-        remainder = 0
+        if (string.length <= remainder) {
+          elements.current.splice(index, 1)
+          remainder -= string.length
+        } else {
+          elements.current[index].content = string.substring(remainder)
+          remainder = 0
+        }
       }
+
+      elements.current.push(insert)
     }
 
-    elements.current.push(replace)
-  }
+    if (replace.content) {
+      let remainder = replace.content.length
+
+      while (remainder) {
+        const index = elements.current.length - 1
+        const string = elements.current[index].content
+
+        if (string.length <= remainder) {
+          elements.current.splice(index, 1)
+          remainder -= string.length
+        } else {
+          elements.current[index].content = string.substring(0, string.length - remainder)
+          remainder = 0
+        }
+      }
+
+      elements.current.push(replace)
+    }
+  }, [playhead])
 
   return (
     <>

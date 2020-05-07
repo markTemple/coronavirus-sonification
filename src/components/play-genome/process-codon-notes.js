@@ -23,23 +23,23 @@ export function getAA_Data(mode, frame012, isSynthEnabled, index, gb_Item, codon
     switch (frame012) {
     case 1:
       if ( (isSynthEnabled.current[frame012] === true) || (playstop === true)) {
+        if(playstop !== true) AA_Count1.current++
         codonF1Notes.push(codonNotes.notes)
         codonF1Motifs.push(codonNotes.motif)
-        if(playstop !== true) AA_Count1.current++
       }
     break;
     case 2:
       if ( (isSynthEnabled.current[frame012] === true) || (playstop === true)) {
+        if(playstop !== true) AA_Count2.current++
         codonF2Notes.push(codonNotes.notes)
         codonF2Motifs.push(codonNotes.motif)
-        if(playstop !== true) AA_Count2.current++
        }
       break;
     case 0:
       if ( (isSynthEnabled.current[frame012] === true) || (playstop === true)) {
+        if(playstop !== true) AA_Count3.current++
         codonF3Notes.push(codonNotes.notes)
         codonF3Motifs.push(codonNotes.motif)
-        if(playstop !== true) AA_Count3.current++
         }
       break;
     default:
