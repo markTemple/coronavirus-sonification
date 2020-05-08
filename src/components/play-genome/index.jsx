@@ -20,7 +20,7 @@ import { useSingleFramePrimitive } from '../../utilities/single-frame-primitive'
 
 import { getBaseNotes, playTwoBase, getSameBaseNotes, GCnote10Note,
   GCnote100Note, makeTRSnotes, getNSPnotes, getCodonNotes,
-  getCodonNotes_2, playAtIndex} from './get-notes'
+  getCodonNotes_2, playAtIndex, getCodonNotes_3} from './get-notes'
 
 import { getAA_Data } from './process-codon-notes'
 import { Checkbox } from '../checkbox';
@@ -44,7 +44,7 @@ export function PlayGenome() {
   // console.log(2 % 3) = 2 shown as 3 should be 2
   // console.log(3 % 3) = 0 shown as 1 should be 3
 
-  let volume = 0
+  let volume = -2
  // console.log(isPlaying)
   if(!isPlaying) volume = -50
 //  console.log(volume)
@@ -124,10 +124,12 @@ export function PlayGenome() {
   const utrNote = playAtIndex(index, gb_Item, 'gene', 'UTR', twoBase, audioProps, mode)
 
   const codon = getCodon(index)
+  const codon1_3 = (getBase(index) + getBase(index + 2))
+  const codon1_3Print = (getBase(index) + 'x' + getBase(index + 2))
 
   function codonsTSC() {
     if(mode === 'tsc'){
-      return getCodonNotes_2(index, codon, audioProps, mode)
+      return getCodonNotes_3(index, codon1_3, audioProps, codon1_3Print)
     }else {
       return []
     }
@@ -725,7 +727,7 @@ const checkValUTR = useRef(true)
         </Track>}
 
         { mode === 'tsc' &&
-        checkValCodon.current && <Track volume={-8} pan={0}>
+        checkValCodon.current && <Track volume={-8} pan={-0.4}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'square' }} notes={codonNotes_2[0].name && codonNotes_2} />
           {/* <Effect type='feedbackDelay' wet={0.2} /> */}
         </Track>}

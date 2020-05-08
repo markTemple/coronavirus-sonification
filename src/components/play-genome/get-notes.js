@@ -91,7 +91,8 @@ export function getCodonNotes(codon, audioProps) {
 
 // map codon to different notes here
   export function getCodonNotes_2(index, codon, audioProps, mode) {
-    if(index % 3 === 1 && mode === 'tsc'){
+    // if(index % 3 === 1 && mode === 'tsc'){
+    if(index % 3 === 1){
       const codonNumb = MAPS.CODON_MAP_2[codon]?.Note
       const codonMap = MAPS.makeIntervals(MAPS[audioProps].codon).map(number => MAPS.keyboard[number])
         return {
@@ -104,6 +105,22 @@ export function getCodonNotes(codon, audioProps) {
         codon:{ codon: '' }
         }
     }
+  }
+
+  export function getCodonNotes_3(index, codon1_3, audioProps, codon1_3Print) {
+      const base2numb = MAPS.CODONENDS_MAP[codon1_3]
+      const codonEndsMap = MAPS.makeIntervals(MAPS[audioProps].codonEnds).map(number => MAPS.keyboard[number])
+      if(index % 3 ===1 && codon1_3.length === 2 ){
+        return {
+        notes:{ name: codonEndsMap[base2numb], duration: MAPS[audioProps].codonEnds.dur},
+        codon:{ codon: codon1_3Print }
+        }
+      }else{
+        return {
+          notes:{ name: null },
+          codon:{ codon: '' }
+        }
+      }
   }
 
   export function playAtIndex (index, item, name, value, twoBase, audioProps, mode) {

@@ -40,6 +40,25 @@ export const TWOBASE_MAP = {
   GG: 15,
 }
 
+export const CODONENDS_MAP = {
+  AA: 0,
+  UU: 1,
+  AU: 2,
+  UA: 3,
+  UG: 4,
+  CA: 5,
+  CU: 6,
+  AG: 7,
+  UC: 8,
+  GA: 9,
+  GU: 10,
+  AC: 11,
+  CG: 12,
+  GC: 13,
+  CC: 14,
+  GG: 15,
+}
+
 export const CODON_MAP =
 {
   AUA: {AA: 'Ile', Note: 0, AA1: '-I-'},

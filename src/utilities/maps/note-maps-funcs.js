@@ -128,6 +128,13 @@ export const tscProps = {
     key: 'C',
     dur: '2m',
   },
+  codonEnds:{
+    oct: 3,
+    scale: [4, 2, 1, 4, 1],
+    range: 16,
+    key: 'C',
+    dur: '2m',
+  },
   codon:{
     oct: 2,
     scale: [2, 2, 2, 6, 2, 2, 2, 6, 2, 2, 2, 6, 2, 2, 2, 6, -6, -2, -2, -2, -6, -2, -2, -2, -6, -2, -2, -2, ], // chromatic
