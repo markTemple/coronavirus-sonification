@@ -92,6 +92,9 @@ h1, h2, h3 {
   margin: 0 0;
 }
 
+.block {
+  display: inline-block;
+}
 .playCont_text{
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }

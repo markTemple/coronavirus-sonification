@@ -364,6 +364,11 @@ const checkValUTR = useRef(true)
       trl: 'Translate as subgenomic RNA (skip Poly-protein and jump from TRS1 to TRS2)',
       tsc: 'Allow discontinous transcription (jump from each TRS to TRS1)'
     },
+    process:
+    {
+      trl: 'Translation',
+      tsc: 'Transcription'
+    },
 
   }
 
@@ -510,7 +515,7 @@ const checkValUTR = useRef(true)
 
         <hr></hr>
         {/* {MAPS.startStop_json.map(Feature)} */}
-        <Controls />
+        <Controls /> Biological Proces - <h3 className='block'> {subHeadings.process[mode]}</h3>
         <fieldset>
         <p>
         Genes.
@@ -552,7 +557,7 @@ const checkValUTR = useRef(true)
         </fieldset>
 
         <fieldset>
-          <h3>Description of audio notes generated from RNA motifs. </h3>
+          <h3>Real-time display of audio notes generated from Coronavirus genome. </h3>
           <table className="fullwidth">
             <thead>
               <tr>
@@ -702,7 +707,7 @@ const checkValUTR = useRef(true)
         </fieldset>
       </div>
 
-      <Song bpm={bpm} volume={volume}>
+      <Song bpm={bpm} volume={volume} >
         {checkValBase.current && <Track volume={-6} pan={-0.6}>
           <Instrument type={'synth'} notes={baseNotes[0].name && baseNotes} />
         </Track>}
@@ -711,28 +716,28 @@ const checkValUTR = useRef(true)
         </Track>}
 
         { mode === 'trl' &&
-        checkValCodon.current && <Track volume={-4} pan={-0.9}>
+        checkValCodon.current && <Track volume={-5} pan={-0.9}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'sine' }} notes={AAf1Note[0] && AAf1Note} />
           {/* <Effect type='feedbackDelay' wet={0.2} /> */}
         </Track>}
         { mode === 'trl' &&
-        checkValCodon.current && <Track volume={-4} pan={0}>
+        checkValCodon.current && <Track volume={-5} pan={0}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'square' }} notes={AAf2Note[0] && AAf2Note} />
           {/* <Effect type='feedbackDelay' wet={0.2} /> */}
         </Track>}
         { mode === 'trl' &&
-        checkValCodon.current && <Track volume={-4} pan={0.9}>
+        checkValCodon.current && <Track volume={-5} pan={0.9}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'triangle' }} notes={AAf3Note[0] && AAf3Note} />
           {/* <Effect type='feedbackDelay' wet={0.2} /> */}
         </Track>}
 
         { mode === 'tsc' &&
-        checkValCodon.current && <Track volume={-8} pan={-0.4}>
+        checkValCodon.current && <Track volume={-7} pan={-0.4}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'square' }} notes={codonNotes_2[0].name && codonNotes_2} />
-          {/* <Effect type='feedbackDelay' wet={0.2} /> */}
+          <Effect type='feedbackDelay' wet={0.1} />
         </Track>}
 
-        {checkVal10B.current && <Track volume={-7} pan={-0.7}>
+        {checkVal10B.current && <Track volume={-6} pan={-0.7}>
           <Instrument type={'amSynth'} notes={tenGCnote[0].name && tenGCnote} />
           <Effect type='feedbackDelay' wet={0.3} />
         </Track>}
@@ -741,8 +746,9 @@ const checkValUTR = useRef(true)
           <Effect type='feedbackDelay' wet={0.3} />
         </Track>}
 
-        {checkValRepeat.current && <Track volume={-12} pan={0.3}>
+        {checkValRepeat.current && <Track volume={-11} pan={0.3}>
           <Instrument type={'synth'} notes={sameBaseNotes[0].name && sameBaseNotes} />
+          <Effect type='feedbackDelay' wet={0.2} />
         </Track>}
 
         {checkValTRS.current && <Track volume={-7} pan={0.8}>
@@ -753,7 +759,7 @@ const checkValUTR = useRef(true)
           {/* <Effect type='distortion' wet={0.2} /> */}
         </Track>}
 
-        {checkValNSP.current && <Track volume={-5} pan={0.8}>
+        {checkValNSP.current && <Track volume={-5} pan={-0.8}>
           <Instrument type={'amSynth'} notes={nspNote[0].name && nspNote} />
           <Effect type='distortion' wet={0.3} />
         </Track>}

@@ -39,7 +39,7 @@ export function GCnote10Note(GCnote10, GCnote10Numb, audioProps) {
 
 export function GCnote100Note(GCnote100, GCnote100Numb, audioProps) {
   const GCnote100Map = MAPS.makeIntervals(MAPS[audioProps].GCnote).map(number => MAPS.keyboard[number])
-  return [{name: GCnote100Map[GCnote100Numb], duration: MAPS[audioProps].GCnote.dur}];
+  return [{name: GCnote100Map[GCnote100Numb], duration: MAPS[audioProps].GCnote100.dur}];
 }
 
 export function makeTRSnotes(mode, trs_Item, index, audioProps){
