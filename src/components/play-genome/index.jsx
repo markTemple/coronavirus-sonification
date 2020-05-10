@@ -575,7 +575,7 @@ const checkValUTR = useRef(true)
                     onClick={(value) => checkValBase.current = value}
                   />
                 </td>
-                <td>Nucleotide (single base)</td>
+                <td>Nucleotide</td>
                 <td>{ base }</td>
                 <td>{ baseNotes[0].name }</td>
               </tr>
@@ -586,7 +586,7 @@ const checkValUTR = useRef(true)
                     onClick={(value) => checkVal2base.current = value}
                   />
                 </td>
-                <td>Di-Nucleotide (pair of bases) </td>
+                <td>Di-Nucleotide</td>
                 <td>{ (twobaseNotes[0].name) ? twoBase : '-'} </td>
                 <td>{ (twobaseNotes[0].name) ? twobaseNotes[0].name : '-' }</td>
               </tr>
@@ -597,7 +597,7 @@ const checkValUTR = useRef(true)
                     onClick={(value) => checkVal10B.current = value}
                   />
                 </td>
-                <td>GC Content over ten base pairs</td>
+                <td>GC Content over 10 bp</td>
                 <td>{ GCnote10Numb/10 }</td>
                 <td>{ tenGCnote[0].name }</td>
               </tr>
@@ -608,7 +608,7 @@ const checkValUTR = useRef(true)
                     onClick={(value) => checkVal100B.current = value}
                   />
                 </td>
-                <td>GC Content over 100 base pairs</td>
+                <td>GC Content over 100 bp</td>
                 <td>{ GCnote100Numb/10 }</td>
                 <td>{ tentensGCnote[0].name }</td>
               </tr>
@@ -620,7 +620,7 @@ const checkValUTR = useRef(true)
                     onClick={(value) => checkValCodon.current = value}
                   />
                 </td>
-                <td>Codons (3 bases) mapped to 64 notes (Transcription mode only)</td>
+                <td>Tri-Nucleotide</td>
                 <td>{ (codon_2[0]?.codon) ? codon_2[0]?.codon : '-'}</td>
                 <td>{ (codonNotes_2[0]?.name) ? codonNotes_2[0]?.name : '-' }</td>
               </tr>
@@ -632,7 +632,7 @@ const checkValUTR = useRef(true)
                     onClick={(value) => checkValCodon.current = value}
                   />
                 </td>
-                <td>Peptide Frame 1 (Translation)<br></br>Peptide Frame 2 (Translation)<br></br>Peptide Frame 3 (Translation)</td>
+                <td>Peptide Frame 1<br></br>Peptide Frame 2<br></br>Peptide Frame 3</td>
                 <td>{ (AAf1Motif[0]?.motif2) ? AAf1Motif[0]?.motif2 : '-' }<br></br>
                     { (AAf2Motif[0]?.motif2) ? AAf2Motif[0]?.motif2 : '-' }<br></br>
                     { (AAf3Motif[0]?.motif2) ? AAf3Motif[0]?.motif2 : '-' }</td>
@@ -649,7 +649,7 @@ const checkValUTR = useRef(true)
                     onClick={(value) => checkValUTR.current = value}
                   />
                 </td>
-                <td>U: UTR regions (excluding 5` and 3` ends):</td>
+                <td>U: Untranslated region:</td>
                 <td>{ (utrNote[0].name) ? base : '-' }</td>
                 <td>{ (utrNote[0].name) ? utrNote[0].name : '-' }</td>
               </tr>
@@ -661,7 +661,7 @@ const checkValUTR = useRef(true)
                     onClick={(value) => checkValTRS.current = value}
                   />
                 </td>
-                <td> T1-10: TRS {trs_Item.trs_seq}</td>
+                <td> T1-10: Transcription RS {trs_Item.trs_seq}</td>
                 <td>{ (trs_Item.trs_seq) ? base : '-' }</td>
                 <td>{ (trs_Item.trs_seq) ? getTRSnote[0].name : '-' }</td>
               </tr>
@@ -673,7 +673,7 @@ const checkValUTR = useRef(true)
                     onClick={(value) => checkValNSP.current = value}
                   />
                 </td>
-                <td>C: Cleavage sites between N1 to N16 </td>
+                <td>C: Cleavage site</td>
                 <td>{ (nspNote[0].name) ? base : '-' }</td>
                 <td>{ (nspNote[0].name) ? nspNote[0].name : '-' }</td>
               </tr>
@@ -685,7 +685,7 @@ const checkValUTR = useRef(true)
                     onClick={(value) => checkValSL.current = value}
                   />
                 </td>
-                <td>SL: Stem and Loop RNA</td>
+                <td>SL: Stem and Loop</td>
                 <td>{ (slNote[0].name) ? base : '-' }</td>
                 <td>{ (slNote[0].name) ? slNote[0].name : '-' }</td>
               </tr>
