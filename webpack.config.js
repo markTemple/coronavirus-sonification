@@ -5,8 +5,7 @@ const path = require('path')
 module.exports = (env, { mode = 'production' }) => ({
   mode,
   output: {
-    path: path.join(__dirname, 'docs'),
-    publicPath: mode !== 'production' ? '/' : '/coronavirus-sonification/'
+    path: path.join(__dirname, 'docs')
   },
   module: {
     rules: [
