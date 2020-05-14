@@ -361,8 +361,8 @@ const checkValUTR = useRef(true)
     },
     checkbox:
     {
-      trl: 'Translate as subgenomic RNA (skip Poly-protein and jump from TRS1 to TRS2)',
-      tsc: 'Allow discontinous transcription (jump from each TRS to TRS1)'
+      trl: 'Translate as subgenomic RNA',
+      tsc: 'Transcribe to subgenomic RNA'
     },
     process:
     {
