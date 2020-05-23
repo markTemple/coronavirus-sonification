@@ -27,6 +27,6 @@
     "webpack-dev-server": "^3.10.3"
   },
   "config": {
-    "title": "CoV10 Display"
+    "title": "CoV19 Display"
   }
 }
