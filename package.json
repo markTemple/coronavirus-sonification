@@ -27,6 +27,6 @@
     "webpack-dev-server": "^3.10.3"
   },
   "config": {
-    "title": "React App"
+    "title": "CoV10 Display"
   }
 }

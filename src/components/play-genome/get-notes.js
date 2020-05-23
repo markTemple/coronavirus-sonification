@@ -33,11 +33,13 @@ export function getSameBaseNotes(base, index, audioProps) {
 }
 
 export function GCnote10Note(GCnote10, GCnote10Numb, audioProps) {
+
     const GCnote10Map = MAPS.makeIntervals(MAPS[audioProps].GCnote).map(number => MAPS.keyboard[number])
     return [{name: GCnote10Map[GCnote10Numb], duration: MAPS[audioProps].GCnote.dur}]
 }
 
 export function GCnote100Note(GCnote100, GCnote100Numb, audioProps) {
+  console.log(GCnote100Numb)
   const GCnote100Map = MAPS.makeIntervals(MAPS[audioProps].GCnote).map(number => MAPS.keyboard[number])
   return [{name: GCnote100Map[GCnote100Numb], duration: MAPS[audioProps].GCnote100.dur}];
 }
