@@ -228,7 +228,7 @@ const checkValUTR = useRef(true)
 
   let message = ''
   if (nsp_Item.tag === 'C' && mode === 'trl') {
-    bpm = 214
+    bpm = 128
     message = 'Polyprotein cleavage site'
   }
 
@@ -716,19 +716,19 @@ const checkValUTR = useRef(true)
         </Track>}
 
         { mode === 'trl' &&
-        checkValCodon.current && <Track volume={-5} pan={-0.9}>
+        checkValCodon.current && <Track volume={-2} pan={-0.9}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'sine' }} notes={AAf1Note[0] && AAf1Note} />
-          {/* <Effect type='feedbackDelay' wet={0.2} /> */}
+          <Effect type='distortion' wet={0.4} />
         </Track>}
         { mode === 'trl' &&
-        checkValCodon.current && <Track volume={-5} pan={0}>
+        checkValCodon.current && <Track volume={-3} pan={0}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'square' }} notes={AAf2Note[0] && AAf2Note} />
-          {/* <Effect type='feedbackDelay' wet={0.2} /> */}
+          <Effect type='distortion' wet={0.4} />
         </Track>}
         { mode === 'trl' &&
-        checkValCodon.current && <Track volume={-5} pan={0.9}>
+        checkValCodon.current && <Track volume={-2} pan={0.9}>
           <Instrument type={'fmSynth'} oscillator={{ type: 'triangle' }} notes={AAf3Note[0] && AAf3Note} />
-          {/* <Effect type='feedbackDelay' wet={0.2} /> */}
+          <Effect type='distortion' wet={0.4} />
         </Track>}
 
         { mode === 'tsc' &&
