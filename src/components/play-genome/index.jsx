@@ -44,7 +44,7 @@ export function PlayGenome() {
   // console.log(2 % 3) = 2 shown as 3 should be 2
   // console.log(3 % 3) = 0 shown as 1 should be 3
 
-  let volume = -2
+  let volume = -4
  // console.log(isPlaying)
   if(!isPlaying) volume = -50
 //  console.log(volume)
@@ -230,6 +230,10 @@ const checkValUTR = useRef(true)
   if (nsp_Item.tag === 'C' && mode === 'trl') {
     bpm = 128
     message = 'Polyprotein cleavage site'
+  }
+
+  if (gb_Item.type === 'u' && mode === 'trl') {
+    bpm = 960
   }
 
 // when playing audio remove label as enter UTR from orf
@@ -751,12 +755,12 @@ const checkValUTR = useRef(true)
           <Effect type='feedbackDelay' wet={0.2} />
         </Track>}
 
-        {checkValTRS.current && <Track volume={-7} pan={0.8}>
+        {checkValTRS.current && <Track volume={-5} pan={0.8}>
           <Instrument type={'amSynth'} notes={getTRSnote[0].name && getTRSnote} />
+          <Effect type='distortion' wet={0.3} />
         </Track>}
         {checkValUTR.current && <Track volume={-7} pan={-0.8}>
           <Instrument type={'amSynth'} notes={utrNote[0].name &&  utrNote} />
-          {/* <Effect type='distortion' wet={0.2} /> */}
         </Track>}
 
         {checkValNSP.current && <Track volume={-5} pan={-0.8}>
@@ -766,6 +770,8 @@ const checkValUTR = useRef(true)
 
         {checkValSL.current && <Track volume={-7} pan={0.8}>
           <Instrument type={'amSynth'} notes={slNote[0].name && slNote} />
+          <Effect type='feedbackDelay' wet={0.8} />
+          <Effect type='distortion' wet={0.3} />
         </Track>}
 
     </Song>
