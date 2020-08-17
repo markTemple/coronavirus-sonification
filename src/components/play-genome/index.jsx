@@ -225,7 +225,6 @@ const checkValUTR = useRef(true)
       break;
     }
   }
- // 'B2','C2','Db2','D2','*Eb2','E2','F2','*F#2','G2','Ab2',
 
   let preGeneNote = [{name: null, duration: null}];
   if (gb_Item.type === 'u' && audioProps === 'trlProps') {
