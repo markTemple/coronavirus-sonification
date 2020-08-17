@@ -225,6 +225,36 @@ const checkValUTR = useRef(true)
       break;
     }
   }
+ // 'B2','C2','Db2','D2','*Eb2','E2','F2','*F#2','G2','Ab2',
+
+  let preGeneNote = [{name: null, duration: null}];
+  if (gb_Item.type === 'u' && audioProps === 'trlProps') {
+    if(index+7 === gb_Item.end){
+      preGeneNote = [{name: 'B5', duration: '2n'}];
+    }
+    if(index+6 === gb_Item.end){
+      preGeneNote = [{name: 'Db5', duration: '2n'}];
+    }
+    if(index+5 === gb_Item.end){
+      preGeneNote = [{name: 'F#5', duration: '2n'}];
+    }
+    if(index+4 === gb_Item.end){
+      preGeneNote = [{name: 'Eb5', duration: '2n'}];
+    }
+    if(index+3 === gb_Item.end){
+      preGeneNote = [{name: 'E5', duration: '2n'}];
+    }
+    if(index+2 === gb_Item.end){
+      preGeneNote = [{name: 'F#5', duration: '2n'}];
+    }
+    if(index+1 === gb_Item.end){
+      preGeneNote = [{name: 'Ab5', duration: '2n'}];
+    }
+    if(index === gb_Item.end){
+      preGeneNote = [{name: 'B6', duration: '2n'}];
+    }
+  }
+
 
   let message = ''
   if (nsp_Item.tag === 'C' && mode === 'trl') {
@@ -772,6 +802,12 @@ const checkValUTR = useRef(true)
           <Instrument type={'amSynth'} notes={slNote[0].name && slNote} />
           <Effect type='feedbackDelay' wet={0.8} />
           <Effect type='distortion' wet={0.3} />
+        </Track>}
+
+        {preGeneNote[0].name && <Track volume={-1} pan={0}>
+          <Instrument type={'fmSynth'} notes={preGeneNote[0].name && preGeneNote} />
+          <Effect type='feedbackDelay' wet={0.3} />
+          {/* <Effect type='distortion' wet={0.3} /> */}
         </Track>}
 
     </Song>
