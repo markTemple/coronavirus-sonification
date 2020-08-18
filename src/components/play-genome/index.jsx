@@ -694,7 +694,7 @@ const checkValUTR = useRef(true)
                     onClick={(value) => checkValTRS.current = value}
                   />
                 </td>
-                <td> T1-10: Transcription RS </td>
+                <td> T1-10: Transcription RS {trs_Item.trs_seq}</td>
                 <td>{ (trs_Item.trs_seq) ? base : '-' }</td>
                 <td>{ (trs_Item.trs_seq) ? getTRSnote[0].name : '-' }</td>
               </tr>
